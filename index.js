@@ -6,6 +6,8 @@ const html = fs.readFileSync(path.resolve("./views/index.html"));
 
 const app = express();
 
+app.use(express.static(path.resolve("./public")));
+
 app.get("*", (request, response) => {
 	response.end(html);
 });
