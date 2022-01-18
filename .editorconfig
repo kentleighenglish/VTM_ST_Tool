@@ -11,6 +11,3 @@ trim_trailing_whitespace = true
 [{*.json,*.yml}]
 indent_style = space
 indent_size = 2
-
-[*.js]
-insert_final_newline = false
