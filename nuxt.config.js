@@ -4,20 +4,28 @@ export default {
 
 	// Global page headers: https://go.nuxtjs.dev/config-head
 	head: {
-		title: 'vtm-st-tool',
-		htmlAttrs: {
-			lang: 'en'
-		},
-		meta: [
-			{ charset: 'utf-8' },
-			{ name: 'viewport', content: 'width=device-width, initial-scale=1' },
-			{ hid: 'description', name: 'description', content: '' },
-			{ name: 'format-detection', content: 'telephone=no' }
-		],
-		link: [
-			{ rel: 'icon', type: 'image/x-icon', href: '/favicon.ico' }
-		]
-	},
+      title: "VTM Storyteller Tool",
+      htmlAttrs: {
+        lang: "en",
+      },
+      meta: [
+        { charset: "utf-8" },
+        { name: "viewport", content: "width=device-width, initial-scale=1" },
+        { hid: "description", name: "description", content: "" },
+      ],
+      link: [
+        { rel: "icon", type: "image/x-icon", href: "/favicon.ico" },
+        {
+          rel: "stylesheet",
+          href: "https://fonts.googleapis.com/icon?family=Material+Icons",
+        },
+        {
+          rel: "stylesheet",
+          href:
+            "https://fonts.googleapis.com/css?family=Montserrat|Nunito|Open+Sans:400,700",
+        },
+      ],
+    },
 
 	// Global CSS: https://go.nuxtjs.dev/config-css
 	css: [
@@ -39,9 +47,17 @@ export default {
 	// Modules: https://go.nuxtjs.dev/config-modules
 	modules: [
 		// https://go.nuxtjs.dev/axios
-		'@nuxtjs/axios'
+		'@nuxtjs/axios',
+		// ["@/server/socket", { socketPath }],
+		"@nuxtjs/style-resources"
 	],
+	// Modules: https://go.nuxtjs.dev/config-modules
 
+	// Build Configuration: https://go.nuxtjs.dev/config-build
+	styleResources: {
+		scss: ["./scss/_global.scss"],
+	},
+	css: ["./scss/bootstrap.scss"],
 	// Axios module configuration: https://go.nuxtjs.dev/config-axios
 	axios: {
 		// Workaround to avoid enforcing hard-coded localhost:3000: https://github.com/nuxt-community/axios-module/issues/308
