@@ -19,6 +19,6 @@ module.exports = {
 		"no-tabs": "off",
 		"indent": ["error", "tab"],
 		"vue/html-indent": ["error", "tab"],
-		"quotes": ["error", "double"]
+		"quotes": ["error", "double"],
 	}
 }

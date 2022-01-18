@@ -1,5 +1,7 @@
 <template>
-	<DefaultLayout />
+	<LayoutDefault>
+		<p>Homepage</p>
+	</LayoutDefault>
 </template>
 
 <script>
