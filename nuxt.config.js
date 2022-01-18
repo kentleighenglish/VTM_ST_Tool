@@ -56,6 +56,7 @@ export default {
 	// Build Configuration: https://go.nuxtjs.dev/config-build
 	styleResources: {
 		scss: ["./scss/_global.scss"],
+		hoistUseStatements: true
 	},
 	css: ["./scss/bootstrap.scss"],
 	// Axios module configuration: https://go.nuxtjs.dev/config-axios
