@@ -11,3 +11,8 @@ export default {
 	name: "LayoutDefault"
 }
 </script>
+<style lang="scss">
+	.content {
+		padding: $gap ($gap * 2);
+	}
+</style>
