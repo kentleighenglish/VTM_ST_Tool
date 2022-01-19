@@ -1,6 +1,7 @@
 <template>
-	<div class="form__sectionColumn">
-		<p>Section Column</p>
+	<div class="formSectionColumn">
+		<h4 v-if="label" class="formSectionColumn__title">{{ label }}</h4>
+		<FormFields v-if="fields" :fields="fields" className="formSectionColumn__content" />
 	</div>
 </template>
 <script>

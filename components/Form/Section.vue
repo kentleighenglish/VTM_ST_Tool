@@ -1,8 +1,9 @@
 <template>
-	<div class="form__section">
-		<p>Section</p>
-		<div class="form__sectionContent">
-		</div>
+	<div class="formSection">
+		<h3 v-if="label" class="formSection__title">
+			{{ label }}
+		</h3>
+		<FormFields v-if="fields" :fields="fields" className="formSection__content" />
 	</div>
 </template>
 <script>
@@ -33,3 +34,18 @@ export default {
 	}
 }
 </script>
+<style lang="scss">
+	.formSection {
+		display: flex;
+		flex-direction: column;
+
+		&__title {
+			text-align: center;
+		}
+
+		&__content {
+			display: grid;
+			grid-template-areas: ". . .";
+		}
+	}
+</style>

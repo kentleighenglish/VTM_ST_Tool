@@ -28,17 +28,17 @@ export const details = {
 			fields: {
 				name: {
 					label: "Name",
-					type: "string",
+					type: "text",
 					default: null
 				},
 				player: {
 					label: "Player",
-					type: "string",
+					type: "text",
 					default: null
 				},
 				chronicle: {
 					label: "Chronicle",
-					type: "string",
+					type: "text",
 					default: null
 				}
 			}
@@ -61,7 +61,7 @@ export const details = {
 				},
 				concept: {
 					label: "Concept",
-					type: "string",
+					type: "text",
 					default: null
 				}
 			}
@@ -83,7 +83,7 @@ export const details = {
 				},
 				sire: {
 					label: "Sire",
-					type: "string",
+					type: "text",
 					default: null
 				}
 			}

@@ -20,3 +20,9 @@ export default {
 	})
 }
 </script>
+<style lang="scss">
+	.characterSheet {
+		max-width: 900px;
+		margin: 0 auto;
+	}
+</style>
