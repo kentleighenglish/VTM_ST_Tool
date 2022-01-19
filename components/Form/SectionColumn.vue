@@ -32,3 +32,8 @@ export default {
 	}
 }
 </script>
+<style lang="scss">
+	.formSectionColumn {
+		padding: 0 $gap;
+	}
+</style>
