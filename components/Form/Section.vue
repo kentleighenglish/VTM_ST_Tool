@@ -1,6 +1,8 @@
 <template>
 	<div class="form__section">
 		<p>Section</p>
+		<div class="form__sectionContent">
+		</div>
 	</div>
 </template>
 <script>

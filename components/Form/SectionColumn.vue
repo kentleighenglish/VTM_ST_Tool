@@ -1,6 +1,9 @@
+<template>
+	<div class="form__sectionColumn">
+		<p>Section Column</p>
+	</div>
+</template>
 <script>
-import { generateFields } from "./formGenerator.js";
-
 export default {
 	name: "FormSection",
 	props: {
@@ -25,16 +28,6 @@ export default {
 		handleChange: () => {
 
 		}
-	},
-	render: (h) => {
-		const content = [];
-		if (this.label) {
-			content.push(h("div", { attrs: { class: "form__sectionColumnLabel" } }));
-		}
-
-		content.push(h("div", { attrs: { class: "form__sectionColumnContent" } }, generateFields(h, this.fields || {})));
-
-		return h("div", { attrs: { class: "form__sectionColumn" } }, content);
 	}
 }
 </script>
