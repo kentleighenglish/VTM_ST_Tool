@@ -298,7 +298,10 @@ export const abilities = {
 }
 
 export const sheetSkeleton = {
-	details,
-	attributes,
-	abilities
+	type: "section",
+	fields: {
+		details,
+		attributes,
+		abilities
+	}
 }

@@ -1,6 +1,9 @@
+<template>
+	<div class="form__section">
+		<p>Section</p>
+	</div>
+</template>
 <script>
-import { generateFields } from "./formGenerator.js";
-
 export default {
 	name: "FormSection",
 	props: {
@@ -25,16 +28,6 @@ export default {
 		handleChange: () => {
 
 		}
-	},
-	render: (h) => {
-		const content = [];
-		if (this.label) {
-			content.push(h("div", { attrs: { class: "form__sectionLabel" } }));
-		}
-
-		content.push(h("div", { attrs: { class: "form__sectionContent" } }, generateFields(h, this.fields || {})));
-
-		return h("div", { attrs: { class: "form__section" } }, content);
 	}
 }
 </script>
