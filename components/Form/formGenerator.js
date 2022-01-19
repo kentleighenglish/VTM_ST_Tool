@@ -1,9 +1,17 @@
 import Section from "./Section";
 import SectionColumn from "./SectionColumn"
+import Input from "./Input"
 
 const types = {
 	section: Section,
-	sectionColumn: SectionColumn
+	sectionColumn: SectionColumn,
+	text: Input,
+	select: Input,
+	checkbox: Input,
+	password: Input,
+	date: Input,
+	radio: Input,
+	number: Input
 }
 
 export const generateFields = (h, fields) => {

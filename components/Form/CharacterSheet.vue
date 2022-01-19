@@ -4,6 +4,8 @@
 	</div>
 </template>
 <script>
+import { sheetSkeleton } from "../../data/chardata";
+
 export default {
 	name: "CharacterSheet",
 	props: {
@@ -11,6 +13,9 @@ export default {
 			type: Object,
 			default: () => ({})
 		}
-	}
+	},
+	data: () => ({
+		sheetSkeleton
+	})
 }
 </script>
