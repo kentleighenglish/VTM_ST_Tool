@@ -43,6 +43,7 @@ export default {
 	.formInput {
 		display: block;
 		width: 100%;
+		margin: math.div($gap, 2) 0;
 
 		label {
 			display: flex;
@@ -57,12 +58,15 @@ export default {
 		.formInput__field {
 			width: 100%;
 			max-width: 400px;
+			border-bottom: 1px solid $grey;
+			background: $grey-lighter;
 
 			input, select {
 				width: 100%;
 				background: none;
 				border: none;
-				border-bottom: 2px solid $grey-dark;
+				margin: 0;
+				padding: math.div($gap, 4);
 			}
 		}
 	}
