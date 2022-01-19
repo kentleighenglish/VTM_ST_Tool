@@ -29,12 +29,12 @@ export default {
 	render: (h) => {
 		const content = [];
 		if (this.label) {
-			content.push(h("div", { attrs: { class: "form__sectionLabel" } }));
+			content.push(h("div", { attrs: { class: "form__sectionColumnLabel" } }));
 		}
 
-		content.push(h("div", { attrs: { class: "form__sectionContent" } }, generateFields(h, this.fields || {})));
+		content.push(h("div", { attrs: { class: "form__sectionColumnContent" } }, generateFields(h, this.fields || {})));
 
-		return h("div", { attrs: { class: "form__section" } }, content);
+		return h("div", { attrs: { class: "form__sectionColumn" } }, content);
 	}
 }
 </script>

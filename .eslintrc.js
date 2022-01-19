@@ -16,6 +16,7 @@ module.exports = {
 	],
 	// add your custom rules here
 	rules: {
+		"semi": "warning",
 		"no-tabs": "off",
 		"indent": ["error", "tab"],
 		"vue/html-indent": ["error", "tab"],
