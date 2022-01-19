@@ -2,7 +2,15 @@
 	<div class="dotsInput">
 		<span class="dotsInput__label">{{ label }}</span>
 		<div class="dots">
-			<div v-for="i in 5" :key="i" class="dots__dot" />
+			<div
+				v-for="i in 5"
+				:key="i"
+				:class="{ 'dots__dot': true, 'dots__dot--filled': isDotFilled(i) }"
+				@mouseover="setDotHover(i)"
+				@mouseleave="clearDotHover()"
+			>
+				<div class="dots__dotInner" />
+			</div>
 		</div>
 	</div>
 </template>
@@ -16,8 +24,20 @@ export default {
 		}
 	},
 	data: () => ({
-		dotCount: 5
-	})
+		dotCount: 5,
+		hoverDot: null
+	}),
+	methods: {
+		isDotFilled (i) {
+			return (this.hoverDot > 0 ? this.hoverDot : null) >= (i + 1);
+		},
+		setDotHover (i) {
+			this.hoverDot = (i + 1);
+		},
+		clearDotHover () {
+			this.hoverDot = null;
+		}
+	}
 }
 </script>
 <style lang="scss">
@@ -36,9 +56,19 @@ export default {
 		max-width: 400px;
 
 		&__dot {
+			cursor: pointer;
+			padding: 4px;
+
+			&--filled {
+				.dots__dotInner {
+					background: $grey-dark;
+				}
+			}
+		}
+
+		&__dotInner {
 			width: 12px;
 			height: 12px;
-			margin: 0 4px;
 			border: 1px solid $grey-dark;
 
 			border-radius: 50%;
