@@ -1,7 +1,8 @@
 <template>
 	<div class="characterSheet">
 		<p>Character sheet</p>
-		<FormFields :fields="sheetSkeleton" />
+		{{ JSON.stringify(data) }}
+		<FormFields :fields="sheetSkeleton" :value="data" @input="updateForm" />
 	</div>
 </template>
 <script>
@@ -16,8 +17,17 @@ export default {
 		}
 	},
 	data: () => ({
-		sheetSkeleton
-	})
+		sheetSkeleton,
+		data: {}
+	}),
+	methods: {
+		updateForm ({ name, value }) {
+			this.data = {
+				...this.data,
+				[name]: value
+			};
+		}
+	}
 }
 </script>
 <style lang="scss">

@@ -3,9 +3,20 @@
 		<label :for="name">
 			<span class="formInput__label">{{ label }}</span>
 			<div class="formInput__field">
-				<input v-if="plainType" :type="type" />
-				<select v-if="type === 'select'">
-					<option v-for="o in options" :key="o" :value="e">{{ o }}</option>
+				<input
+					v-if="plainType"
+					v-model="model"
+					:type="type"
+					@input="updateValue($event.target.value)"
+					@change="handleChange($event)"
+				></input>
+				<select
+					v-if="type === 'select'"
+					v-model="model"
+					@input="updateValue($event.target.value)"
+					@change="handleChange($event)"
+				>
+					<option v-for="o in options" :key="o" :value="o">{{ o }}</option>
 				</select>
 			</div>
 		</label>
@@ -30,11 +41,37 @@ export default {
 		options: {
 			type: Array,
 			default: () => ([])
+		},
+		value: {
+			type: [Number, String],
+			default: null
 		}
 	},
+	data: () => ({
+		model: null,
+		passwordVisible: false
+	}),
 	computed: {
 		plainType () {
 			return !["select", "textarea"].includes(this.type);
+		}
+	},
+	created () {
+		this.model = this.value;
+	},
+	mounted () {
+		this.model = this.value;
+	},
+	methods: {
+		updateValue (value) {
+			if (this.type === "checkbox") {
+				this.$emit("input", !this.model);
+			} else {
+				this.$emit("input", value);
+			}
+		},
+		handleChange (e) {
+			this.$emit("change", e);
 		}
 	}
 }

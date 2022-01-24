@@ -5,6 +5,8 @@
 			v-for="field in parsedFields"
 			:key="field.data.name"
 			v-bind="field.data"
+			v-model="field.data.value"
+			@input="handleChange(field.data.name, $event)"
 		/>
 	</div>
 </template>
@@ -41,8 +43,19 @@ export default {
 		className: {
 			type: String,
 			default: "formFields"
+		},
+		onChange: {
+			type: Function,
+			default: () => {}
+		},
+		data: {
+			type: Object,
+			default: () => ({})
 		}
 	},
+	data: () => ({
+		model: {}
+	}),
 	computed: {
 		parsedFields () {
 			return Object.keys(this.fields)
@@ -51,9 +64,29 @@ export default {
 					component: types[this.fields[key].type],
 					data: {
 						name: key,
+						value: this.model ? this.model[key] : null,
 						...this.fields[key]
 					}
 				}));
+		}
+	},
+	created () {
+		this.model = this.value;
+	},
+	mounted () {
+		this.model = this.value;
+	},
+	methods: {
+		handleChange (name, value) {
+			this.model = {
+				...(this.model || {}),
+				[name]: value
+			};
+
+			this.$emit("input", {
+				name,
+				value
+			});
 		}
 	}
 }

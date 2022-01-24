@@ -1,7 +1,15 @@
 <template>
 	<div class="formSectionColumn">
-		<h4 v-if="label" class="formSectionColumn__title">{{ label }}</h4>
-		<FormFields v-if="fields" :fields="fields" className="formSectionColumn__content" />
+		<h4 v-if="label" class="formSectionColumn__title">
+			{{ label }}
+		</h4>
+		<FormFields
+			v-if="fields"
+			v-model="model"
+			:fields="fields"
+			class-name="formSectionColumn__content"
+			@input="handleChange"
+		/>
 	</div>
 </template>
 <script>
@@ -20,14 +28,22 @@ export default {
 			type: Object,
 			default: () => ({})
 		},
-		onChange: {
-			type: Function,
-			default: () => {}
+		value: {
+			type: Object,
+			default: () => ({})
 		}
 	},
+	data: () => ({
+		model: null
+	}),
 	methods: {
-		handleChange: () => {
+		handleChange ({ name, value }) {
+			this.model = {
+				...(this.value || {}),
+				[name]: value
+			}
 
+			this.$emit("input", this.model);
 		}
 	}
 }

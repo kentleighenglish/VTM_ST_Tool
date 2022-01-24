@@ -8,6 +8,7 @@
 				:class="{ 'dots__dot': true, 'dots__dot--filled': isDotFilled(i) }"
 				@mouseover="setDotHover(i)"
 				@mouseleave="clearDotHover()"
+				@click="updateValue($event, i)"
 			>
 				<div class="dots__dotInner" />
 			</div>
@@ -21,21 +22,38 @@ export default {
 		label: {
 			type: String,
 			default: null
+		},
+		value: {
+			type: Number,
+			default: null
 		}
 	},
 	data: () => ({
 		dotCount: 5,
-		hoverDot: null
+		hoverDot: null,
+		model: null
 	}),
+	created () {
+		this.model = this.value;
+	},
+	mounted () {
+		this.model = this.value;
+	},
 	methods: {
 		isDotFilled (i) {
-			return (this.hoverDot > 0 ? this.hoverDot : null) >= (i + 1);
+			console.log(this.hoverDot, this.model);
+			return (this.hoverDot >= this.model ? this.hoverDot : this.model) >= i;
 		},
 		setDotHover (i) {
-			this.hoverDot = (i + 1);
+			this.hoverDot = i;
 		},
 		clearDotHover () {
 			this.hoverDot = null;
+		},
+		updateValue (e, value) {
+			this.model = value;
+
+			this.$emit("input", this.model);
 		}
 	}
 }
