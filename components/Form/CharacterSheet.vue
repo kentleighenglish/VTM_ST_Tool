@@ -2,7 +2,7 @@
 	<div class="characterSheet">
 		<h1>Character sheet</h1>
 		{{ JSON.stringify(data) }}
-		<FormFields :fields="sheetSkeleton" :value="data" @input="updateForm" />
+		<FormFields :fields="sheetSkeleton" v-model="data" @input="updateForm" />
 	</div>
 </template>
 <script>
