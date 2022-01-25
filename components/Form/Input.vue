@@ -56,6 +56,11 @@ export default {
 			return !["select", "textarea"].includes(this.type);
 		}
 	},
+	watch: {
+		value (v) {
+			this.model = v;
+		}
+	},
 	created () {
 		this.model = this.value;
 	},

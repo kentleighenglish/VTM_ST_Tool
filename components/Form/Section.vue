@@ -8,7 +8,7 @@
 			v-model="model"
 			:fields="fields"
 			class-name="formSection__content"
-			@input="handleChange"
+			@input="handleChange($event)"
 		/>
 	</div>
 </template>
@@ -36,14 +36,23 @@ export default {
 	data: () => ({
 		model: null
 	}),
+	watch: {
+		value (v) {
+			this.model = v;
+		}
+	},
+	created () {
+		this.model = this.value;
+	},
+	mounted () {
+		this.model = this.value;
+	},
 	methods: {
-		handleChange ({ name, value }) {
-			this.model = {
-				...(this.value || {}),
-				[name]: value
-			}
-
-			this.$emit("input", this.model);
+		handleChange (value) {
+			this.$emit("input", {
+				...(this.model || {}),
+				...value
+			});
 		}
 	}
 }

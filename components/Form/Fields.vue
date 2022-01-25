@@ -5,7 +5,7 @@
 			v-for="field in parsedFields"
 			:key="field.data.name"
 			v-bind="field.data"
-			v-model="field.data.value"
+			v-model="field.value"
 			@input="handleChange(field.data.name, $event)"
 		/>
 	</div>
@@ -48,9 +48,9 @@ export default {
 			type: Function,
 			default: () => {}
 		},
-		data: {
-			type: Object,
-			default: () => ({})
+		value: {
+			type: [Object, Number, String],
+			default: null
 		}
 	},
 	data: () => ({
@@ -62,12 +62,17 @@ export default {
 				.filter(key => types[this.fields[key].type])
 				.map(key => ({
 					component: types[this.fields[key].type],
+					value: this.model ? this.model[key] : null,
 					data: {
 						name: key,
-						value: this.model ? this.model[key] : null,
 						...this.fields[key]
 					}
 				}));
+		}
+	},
+	watch: {
+		value (v) {
+			this.model = v;
 		}
 	},
 	created () {
@@ -78,14 +83,9 @@ export default {
 	},
 	methods: {
 		handleChange (name, value) {
-			this.model = {
+			this.$emit("input", {
 				...(this.model || {}),
 				[name]: value
-			};
-
-			this.$emit("input", {
-				name,
-				value
 			});
 		}
 	}

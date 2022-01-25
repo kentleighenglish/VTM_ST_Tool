@@ -33,6 +33,11 @@ export default {
 		hoverDot: null,
 		model: null
 	}),
+	watch: {
+		value (v) {
+			this.model = v;
+		}
+	},
 	created () {
 		this.model = this.value;
 	},
@@ -41,7 +46,6 @@ export default {
 	},
 	methods: {
 		isDotFilled (i) {
-			console.log(this.hoverDot, this.model);
 			return (this.hoverDot >= this.model ? this.hoverDot : this.model) >= i;
 		},
 		setDotHover (i) {
@@ -51,9 +55,7 @@ export default {
 			this.hoverDot = null;
 		},
 		updateValue (e, value) {
-			this.model = value;
-
-			this.$emit("input", this.model);
+			this.$emit("input", value);
 		}
 	}
 }
