@@ -1,8 +1,12 @@
 <template>
 	<div class="characterSheet">
 		<h1>Character sheet</h1>
-		{{ JSON.stringify(data) }}
-		<FormFields :fields="sheetSkeleton" v-model="data" @input="updateForm" />
+		<div class="characterSheet__fields">
+			<FormFields :fields="sheetSkeleton" v-model="data" @input="updateForm" />
+		</div>
+		<div class="characterSheet__meta">
+			META
+		</div>
 	</div>
 </template>
 <script>
@@ -32,7 +36,27 @@ export default {
 </script>
 <style lang="scss">
 	.characterSheet {
-		max-width: 900px;
-		margin: 0 auto;
+		display: grid;
+
+		grid-template-rows: auto auto;
+		grid-template-columns: 1fr 900px 1fr;
+		grid-template-areas:
+			". title ."
+			". fields meta";
+		// max-width: 900px;
+		// margin: 0 auto;
+
+		h1 {
+			grid-area: title;
+		}
+
+		&__fields {
+			grid-area: fields;
+		}
+
+		&__meta {
+			grid-area: meta;
+			padding: 0 $gap;
+		}
 	}
 </style>
