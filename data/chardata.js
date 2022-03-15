@@ -113,11 +113,23 @@ export const attributes = {
 				},
 				dexterity: {
 					label: "Dexterity",
-					type: "dots"
+					type: "dots",
+					_meta: {
+						_params: {
+							maxDots: calculateTraitRating
+						},
+						description: "raw physical strength"
+					}
 				},
 				stamina: {
 					label: "Stamina",
-					type: "dots"
+					type: "dots",
+					_meta: {
+						_params: {
+							maxDots: calculateTraitRating
+						},
+						description: "raw physical strength"
+					}
 				}
 			}
 		},
@@ -125,17 +137,35 @@ export const attributes = {
 			label: "Social",
 			type: "sectionColumn",
 			fields: {
-				strength: {
+				charisma: {
 					label: "Charisma",
-					type: "dots"
+					type: "dots",
+					_meta: {
+						_params: {
+							maxDots: calculateTraitRating
+						},
+						description: "raw physical strength"
+					}
 				},
-				dexterity: {
+				manipulation: {
 					label: "Manipulation",
-					type: "dots"
+					type: "dots",
+					_meta: {
+						_params: {
+							maxDots: calculateTraitRating
+						},
+						description: "raw physical strength"
+					}
 				},
-				stamina: {
+				appearance: {
 					label: "Appearance",
-					type: "dots"
+					type: "dots",
+					_meta: {
+						_params: {
+							maxDots: calculateTraitRating
+						},
+						description: "raw physical strength"
+					}
 				}
 			}
 		},
@@ -145,15 +175,33 @@ export const attributes = {
 			fields: {
 				perception: {
 					label: "Perception",
-					type: "dots"
+					type: "dots",
+					_meta: {
+						_params: {
+							maxDots: calculateTraitRating
+						},
+						description: "raw physical strength"
+					}
 				},
 				intelligence: {
 					label: "Intelligence",
-					type: "dots"
+					type: "dots",
+					_meta: {
+						_params: {
+							maxDots: calculateTraitRating
+						},
+						description: "raw physical strength"
+					}
 				},
 				wits: {
 					label: "Wits",
-					type: "dots"
+					type: "dots",
+					_meta: {
+						_params: {
+							maxDots: calculateTraitRating
+						},
+						description: "raw physical strength"
+					}
 				}
 			}
 		}
@@ -170,43 +218,103 @@ export const abilities = {
 			fields: {
 				alertness: {
 					label: "Alertness",
-					type: "dots"
+					type: "dots",
+					_meta: {
+						_params: {
+							maxDots: calculateTraitRating
+						},
+						description: "raw physical strength"
+					}
 				},
 				athletics: {
 					label: "Athletics",
-					type: "dots"
+					type: "dots",
+					_meta: {
+						_params: {
+							maxDots: calculateTraitRating
+						},
+						description: "raw physical strength"
+					}
 				},
 				awareness: {
 					label: "Awareness",
-					type: "dots"
+					type: "dots",
+					_meta: {
+						_params: {
+							maxDots: calculateTraitRating
+						},
+						description: "raw physical strength"
+					}
 				},
 				brawl: {
 					label: "Brawl",
-					type: "dots"
+					type: "dots",
+					_meta: {
+						_params: {
+							maxDots: calculateTraitRating
+						},
+						description: "raw physical strength"
+					}
 				},
 				empathy: {
 					label: "Empathy",
-					type: "dots"
+					type: "dots",
+					_meta: {
+						_params: {
+							maxDots: calculateTraitRating
+						},
+						description: "raw physical strength"
+					}
 				},
 				expression: {
 					label: "Expression",
-					type: "dots"
+					type: "dots",
+					_meta: {
+						_params: {
+							maxDots: calculateTraitRating
+						},
+						description: "raw physical strength"
+					}
 				},
 				intimidation: {
 					label: "Intimidation",
-					type: "dots"
+					type: "dots",
+					_meta: {
+						_params: {
+							maxDots: calculateTraitRating
+						},
+						description: "raw physical strength"
+					}
 				},
 				leadership: {
 					label: "Leadership",
-					type: "dots"
+					type: "dots",
+					_meta: {
+						_params: {
+							maxDots: calculateTraitRating
+						},
+						description: "raw physical strength"
+					}
 				},
 				streetwise: {
 					label: "Streetwise",
-					type: "dots"
+					type: "dots",
+					_meta: {
+						_params: {
+							maxDots: calculateTraitRating
+						},
+						description: "raw physical strength"
+					}
 				},
 				subterfuge: {
 					label: "Subterfuge",
-					type: "dots"
+					type: "dots",
+					_meta: {
+						_params: {
+							maxDots: calculateTraitRating
+						},
+						description: "raw physical strength"
+					}
 				}
 			}
 		},
@@ -216,43 +324,103 @@ export const abilities = {
 			fields: {
 				animalKen: {
 					label: "Animal Ken",
-					type: "dots"
+					type: "dots",
+					_meta: {
+						_params: {
+							maxDots: calculateTraitRating
+						},
+						description: "raw physical strength"
+					}
 				},
 				crafts: {
 					label: "Crafts",
-					type: "dots"
+					type: "dots",
+					_meta: {
+						_params: {
+							maxDots: calculateTraitRating
+						},
+						description: "raw physical strength"
+					}
 				},
 				drive: {
 					label: "Drive",
-					type: "dots"
+					type: "dots",
+					_meta: {
+						_params: {
+							maxDots: calculateTraitRating
+						},
+						description: "raw physical strength"
+					}
 				},
 				etiquette: {
 					label: "Etiquette",
-					type: "dots"
+					type: "dots",
+					_meta: {
+						_params: {
+							maxDots: calculateTraitRating
+						},
+						description: "raw physical strength"
+					}
 				},
 				firearms: {
 					label: "Firearms",
-					type: "dots"
+					type: "dots",
+					_meta: {
+						_params: {
+							maxDots: calculateTraitRating
+						},
+						description: "raw physical strength"
+					}
 				},
 				larceny: {
 					label: "Larceny",
-					type: "dots"
+					type: "dots",
+					_meta: {
+						_params: {
+							maxDots: calculateTraitRating
+						},
+						description: "raw physical strength"
+					}
 				},
 				melee: {
 					label: "Melee",
-					type: "dots"
+					type: "dots",
+					_meta: {
+						_params: {
+							maxDots: calculateTraitRating
+						},
+						description: "raw physical strength"
+					}
 				},
 				performance: {
 					label: "Performance",
-					type: "dots"
+					type: "dots",
+					_meta: {
+						_params: {
+							maxDots: calculateTraitRating
+						},
+						description: "raw physical strength"
+					}
 				},
 				stealth: {
 					label: "Stealth",
-					type: "dots"
+					type: "dots",
+					_meta: {
+						_params: {
+							maxDots: calculateTraitRating
+						},
+						description: "raw physical strength"
+					}
 				},
 				survival: {
 					label: "Survival",
-					type: "dots"
+					type: "dots",
+					_meta: {
+						_params: {
+							maxDots: calculateTraitRating
+						},
+						description: "raw physical strength"
+					}
 				}
 			}
 		},
@@ -262,43 +430,103 @@ export const abilities = {
 			fields: {
 				academics: {
 					label: "Academics",
-					type: "dots"
+					type: "dots",
+					_meta: {
+						_params: {
+							maxDots: calculateTraitRating
+						},
+						description: "raw physical strength"
+					}
 				},
 				computer: {
 					label: "Computer",
-					type: "dots"
+					type: "dots",
+					_meta: {
+						_params: {
+							maxDots: calculateTraitRating
+						},
+						description: "raw physical strength"
+					}
 				},
 				finance: {
 					label: "Finance",
-					type: "dots"
+					type: "dots",
+					_meta: {
+						_params: {
+							maxDots: calculateTraitRating
+						},
+						description: "raw physical strength"
+					}
 				},
 				investigation: {
 					label: "Investigation",
-					type: "dots"
+					type: "dots",
+					_meta: {
+						_params: {
+							maxDots: calculateTraitRating
+						},
+						description: "raw physical strength"
+					}
 				},
 				law: {
 					label: "Law",
-					type: "dots"
+					type: "dots",
+					_meta: {
+						_params: {
+							maxDots: calculateTraitRating
+						},
+						description: "raw physical strength"
+					}
 				},
 				medicine: {
 					label: "Medicine",
-					type: "dots"
+					type: "dots",
+					_meta: {
+						_params: {
+							maxDots: calculateTraitRating
+						},
+						description: "raw physical strength"
+					}
 				},
 				occult: {
 					label: "Occult",
-					type: "dots"
+					type: "dots",
+					_meta: {
+						_params: {
+							maxDots: calculateTraitRating
+						},
+						description: "raw physical strength"
+					}
 				},
 				politics: {
 					label: "Politice",
-					type: "dots"
+					type: "dots",
+					_meta: {
+						_params: {
+							maxDots: calculateTraitRating
+						},
+						description: "raw physical strength"
+					}
 				},
 				science: {
 					label: "Science",
-					type: "dots"
+					type: "dots",
+					_meta: {
+						_params: {
+							maxDots: calculateTraitRating
+						},
+						description: "raw physical strength"
+					}
 				},
 				technology: {
 					label: "Technology",
-					type: "dots"
+					type: "dots",
+					_meta: {
+						_params: {
+							maxDots: calculateTraitRating
+						},
+						description: "raw physical strength"
+					}
 				}
 			}
 		}
