@@ -1,9 +1,9 @@
 <template>
 	<div class="dotsInput">
 		<span class="dotsInput__label">{{ label }}</span>
-		<div class="dots">
+		<div v-if="maxDots" class="dots">
 			<div
-				v-for="i in 5"
+				v-for="i in maxDots"
 				:key="i"
 				:class="{ 'dots__dot': true, 'dots__dot--filled': isDotFilled(i) }"
 				@mouseover="setDotHover(i)"
@@ -19,6 +19,10 @@
 export default {
 	name: "FormDots",
 	props: {
+		_meta: {
+			type: Object,
+			default: () => ({})
+		},
 		label: {
 			type: String,
 			default: null
@@ -29,10 +33,15 @@ export default {
 		}
 	},
 	data: () => ({
-		dotCount: 5,
 		hoverDot: null,
 		model: null
 	}),
+	computed: {
+		maxDots () {
+			const { maxDots = 5 } = (this._meta?._params || {});
+			return maxDots;
+		}
+	},
 	watch: {
 		value (v) {
 			this.model = v;
