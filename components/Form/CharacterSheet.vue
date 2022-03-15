@@ -2,7 +2,7 @@
 	<div class="characterSheet">
 		<h1>Character sheet</h1>
 		<div class="characterSheet__fields">
-			<FormFields :fields="sheetSkeleton" v-model="data" @input="updateForm" />
+			<FormFields v-model="data" :fields="sheetData" @input="updateForm" />
 		</div>
 		<div class="characterSheet__meta">
 			META
@@ -21,15 +21,58 @@ export default {
 		}
 	},
 	data: () => ({
-		sheetSkeleton,
+		sheetData: {},
 		data: {}
 	}),
+	mounted () {
+		this.updateSheetData();
+	},
 	methods: {
 		updateForm (value) {
 			this.data = {
 				...(this.data || {}),
 				...(value || {})
 			};
+
+			this.updateSheetData();
+		},
+		updateSheetData () {
+			const updateParams = (params) => {
+				return Object.keys(params).reduce((acc, key) => ({
+					...acc,
+					[key]: params[key](this.data)
+				}), {});
+			}
+
+			const parseObject = (obj) => {
+				return Object.keys(obj).reduce((acc, key) => {
+					const prop = obj[key];
+
+					if (
+						(typeof prop !== "object" || Array.isArray(prop)) ||
+						(typeof prop === "object" && !prop)
+					) {
+						return {
+							...acc,
+							[key]: prop
+						}
+					}
+
+					if (key === "_params") {
+						return {
+							...acc,
+							[key]: updateParams(prop)
+						};
+					} else {
+						return {
+							...acc,
+							[key]: parseObject(prop)
+						};
+					}
+				}, {});
+			}
+
+			this.sheetData = parseObject(sheetSkeleton);
 		}
 	}
 }

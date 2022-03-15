@@ -1,3 +1,5 @@
+import { calculateTraitRating } from "./_utils";
+
 export const archetypes = [
 	"Soldier",
 	"Judge",
@@ -101,7 +103,13 @@ export const attributes = {
 			fields: {
 				strength: {
 					label: "Strength",
-					type: "dots"
+					type: "dots",
+					_meta: {
+						_params: {
+							maxDots: calculateTraitRating
+						},
+						description: "raw physical strength"
+					}
 				},
 				dexterity: {
 					label: "Dexterity",
