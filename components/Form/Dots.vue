@@ -16,6 +16,8 @@
 	</div>
 </template>
 <script>
+import { mapActions } from "vuex";
+
 export default {
 	name: "FormDots",
 	props: {
@@ -54,10 +56,18 @@ export default {
 		this.model = this.value;
 	},
 	methods: {
+		...mapActions({
+			updateMetaField: "sheets/updateMetaField"
+		}),
 		isDotFilled (i) {
 			return (this.hoverDot >= this.model ? this.hoverDot : this.model) >= i;
 		},
 		setDotHover (i) {
+			const { description } = this._meta;
+			if (description) {
+				this.updateMetaField({ text: description });
+			}
+
 			this.hoverDot = i;
 		},
 		clearDotHover () {

@@ -5,11 +5,12 @@
 			<FormFields v-model="data" :fields="sheetData" @input="updateForm" />
 		</div>
 		<div class="characterSheet__meta">
-			META
+			{{ metaText }}
 		</div>
 	</div>
 </template>
 <script>
+import { mapState } from "vuex";
 import { sheetSkeleton } from "../../data/chardata";
 
 export default {
@@ -24,6 +25,13 @@ export default {
 		sheetData: {},
 		data: {}
 	}),
+	computed: {
+		...mapState({
+			metaText ({ sheets }) {
+				return sheets.metaDisplay.text
+			}
+		})
+	},
 	mounted () {
 		this.updateSheetData();
 	},
