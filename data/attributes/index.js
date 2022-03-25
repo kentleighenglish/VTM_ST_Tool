@@ -1,4 +1,4 @@
-import { calculateTraitRating } from "./_utils";
+import { calculateTraitRating } from "@/data/_utils";
 
 export default {
 	label: "Attributes",
