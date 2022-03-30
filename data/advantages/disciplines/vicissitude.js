@@ -1,28 +1,7 @@
 
 export const label = "Vicissitude";
 
-export const description = `Vicissitude is the signature power of the Tzimisce,
-and is rarely shared outside the Clan (though it is
-known to some other Cainites of the Sabbat). Similar
-to Protean in some ways, Vicissitude allows vampires
-to shape and sculpt flesh and bone. When a Kindred
-uses Vicissitude to alter mortals, ghouls, and vampires
-of higher Generation, the effects of the power are permanent; vampires of equal or lower Generation can
-choose to heal the effects of Vicissitude as though they
-were aggravated wounds. A wielder of Vicissitude can
-always reshape her own flesh.
-The wielder must establish skin-to-skin contact and
-must often manually sculpt the desired result for these
-powers to take effect. This also applies to the use of the
-power on oneself. Tzimisce skilled in Vicissitude are
-often inhumanly beautiful; those less skilled are simply
-inhuman.
-There are rumors that Vicissitude is a disease rather
-than a “normal” Discipline, but only the Fiends know
-for sure, and they aren’t talking.
-Note: Nosferatu always “heal” Vicissitude alterations, at least the ones that make them better-looking.
-The ancient curse of the Clan may not be circumvented through Vicissitude. The same applies to physical
-deformities from the Gangrel Clan weakness.`;
+export const description = `Vicissitude is the signature power of the Tzimisce, and is rarely shared outside the Clan (though it is known to some other Cainites of the Sabbat). Similar to Protean in some ways, Vicissitude allows vampires to shape and sculpt flesh and bone. When a Kindred uses Vicissitude to alter mortals, ghouls, and vampires of higher Generation, the effects of the power are permanent; vampires of equal or lower Generation can choose to heal the effects of Vicissitude as though they were aggravated wounds. A wielder of Vicissitude can always reshape her own flesh. The wielder must establish skin-to-skin contact and must often manually sculpt the desired result for these powers to take effect. This also applies to the use of the power on oneself. Tzimisce skilled in Vicissitude are often inhumanly beautiful; those less skilled are simply inhuman. There are rumors that Vicissitude is a disease rather than a “normal” Discipline, but only the Fiends know for sure, and they aren’t talking. Note: Nosferatu always “heal” Vicissitude alterations, at least the ones that make them better-looking. The ancient curse of the Clan may not be circumvented through Vicissitude. The same applies to physical deformities from the Gangrel Clan weakness.`;
 
 export const powers = [
 	{
