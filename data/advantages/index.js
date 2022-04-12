@@ -13,8 +13,12 @@ export default {
 					type: "dynamicField",
 					_meta: {
 						_params: {
-							options: disciplines
 						},
+						keyOptions: Object.keys(disciplines).reduce((acc, key) => ({
+							...acc,
+							[key]: "a"
+						}), {}),
+						fieldType: "dots",
 						description: "raw physical strength"
 					}
 				}

@@ -14,6 +14,7 @@
 import Section from "./Section";
 import SectionColumn from "./SectionColumn"
 import Dots from "./Dots"
+import DynamicField from "./DynamicField"
 import Input from "./Input"
 
 const inputTypes = [
@@ -30,6 +31,7 @@ const types = {
 	section: Section,
 	sectionColumn: SectionColumn,
 	dots: Dots,
+	dynamicField: DynamicField,
 	...inputTypes.reduce((acc, k) => ({ ...acc, [k]: Input }), {})
 }
 

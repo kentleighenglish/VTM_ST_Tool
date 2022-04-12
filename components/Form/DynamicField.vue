@@ -1,23 +1,9 @@
 <template>
 	<div class="formInput">
 		<label :for="name">
-			<span class="formInput__label">{{ label }}</span>
+			<span class="formInput__label">label</span>
 			<div class="formInput__field">
-				<input
-					v-if="plainType"
-					v-model="model"
-					:type="type"
-					@input="updateValue($event.target.value)"
-					@change="handleChange($event)"
-				></input>
-				<select
-					v-if="type === 'select'"
-					v-model="model"
-					@input="updateValue($event.target.value)"
-					@change="handleChange($event)"
-				>
-					<option v-for="o in parsedOptions" :key="o.key" :value="o.key">{{ o.label }}</option>
-				</select>
+				field
 			</div>
 		</label>
 	</div>
@@ -30,36 +16,24 @@ export default {
 			type: String,
 			default: null
 		},
-		label: {
-			type: String,
-			default: null
-		},
-		type: {
-			type: String,
-			default: "text"
-		},
-		options: {
-			type: Object,
-			default: () => ({})
-		},
 		value: {
 			type: [Number, String],
 			default: null
+		},
+		_meta: {
+			type: Object,
+			default: () => ({})
 		}
 	},
 	data: () => ({
-		model: null,
-		passwordVisible: false
+		model: null
 	}),
 	computed: {
 		plainType () {
 			return !["select", "textarea"].includes(this.type);
 		},
-		parsedOptions () {
-			return Object.keys(this.options || {}).reduce((acc, key) => ([
-				...acc,
-				{ key, label: this.options[key] }
-			]), []);
+		fieldType () {
+			return this._meta.fieldType;
 		}
 	},
 	watch: {

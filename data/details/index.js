@@ -1,19 +1,19 @@
 
 import archetypes from "./archetypes";
 
-export const clans = [
-	"Ventrue",
-	"Nosferatu",
-	"Tremere",
-	"Brujah",
-	"Gangrel",
-	"Malkavian",
-	"Lasombra",
-	"Toreador",
-	"Banu Haqim",
-	"Ravnos",
-	"Hecata"
-]
+export const clans = {
+	ventrue: "Ventrue",
+	nosferatu: "Nosferatu",
+	tremere: "Tremere",
+	brujah: "Brujah",
+	gangrel: "Gangrel",
+	malkavian: "Malkavian",
+	lasombra: "Lasombra",
+	toreador: "Toreador",
+	banu: "Banu Haqim",
+	ravnos: "Ravnos",
+	hecata: "Hecata"
+};
 
 export default {
 	label: null,
@@ -48,13 +48,13 @@ export default {
 					label: "Nature",
 					type: "select",
 					default: null,
-					options: [...archetypes]
+					options: { ...archetypes }
 				},
 				demeanor: {
 					label: "Demeanor",
 					type: "select",
 					default: null,
-					options: [...archetypes]
+					options: { ...archetypes }
 				},
 				concept: {
 					label: "Concept",
@@ -71,7 +71,7 @@ export default {
 					label: "Clan",
 					type: "select",
 					default: null,
-					options: [...clans]
+					options: { ...clans }
 				},
 				generation: {
 					label: "Generation",
