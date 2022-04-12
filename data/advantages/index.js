@@ -1,3 +1,4 @@
+import * as clans from "../details/clans";
 import * as disciplines from "./disciplines";
 
 export default {
@@ -13,6 +14,15 @@ export default {
 					type: "dynamicField",
 					_meta: {
 						_params: {
+							defaultFields: (data = {}) => {
+								const clan = data?.details?.vampire?.clan;
+
+								if (clan) {
+									return Object.keys(clans[clan].disciplines || {});
+								}
+
+								return [];
+							}
 						},
 						keyOptions: Object.keys(disciplines).reduce((acc, key) => ({
 							...acc,

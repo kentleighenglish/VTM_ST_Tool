@@ -1,19 +1,6 @@
 
 import archetypes from "./archetypes";
-
-export const clans = {
-	ventrue: "Ventrue",
-	nosferatu: "Nosferatu",
-	tremere: "Tremere",
-	brujah: "Brujah",
-	gangrel: "Gangrel",
-	malkavian: "Malkavian",
-	lasombra: "Lasombra",
-	toreador: "Toreador",
-	banu: "Banu Haqim",
-	ravnos: "Ravnos",
-	hecata: "Hecata"
-};
+import * as clans from "./clans";
 
 export default {
 	label: null,
@@ -71,7 +58,10 @@ export default {
 					label: "Clan",
 					type: "select",
 					default: null,
-					options: { ...clans }
+					options: Object.keys(clans).reduce((acc, key) => ({
+						...acc,
+						[key]: clans[key].label
+					}), {})
 				},
 				generation: {
 					label: "Generation",

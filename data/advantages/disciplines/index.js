@@ -14,4 +14,5 @@ export * as protean from "./protean";
 export * as quietus from "./quietus";
 export * as serpentis from "./serpentis";
 export * as thaumaturgy from "./thaumaturgy";
+export * as valeren from "./valeren";
 export * as vicissitude from "./vicissitude";

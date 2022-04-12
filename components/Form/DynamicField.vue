@@ -3,7 +3,7 @@
 		<label :for="name">
 			<span class="formInput__label">label</span>
 			<div class="formInput__field">
-				field
+				{{ generatedFields }}
 			</div>
 		</label>
 	</div>
@@ -29,11 +29,12 @@ export default {
 		model: null
 	}),
 	computed: {
-		plainType () {
-			return !["select", "textarea"].includes(this.type);
-		},
 		fieldType () {
 			return this._meta.fieldType;
+		},
+		generatedFields () {
+			// const defaultFields = this._meta?._params?.defaultFields;
+			return [];
 		}
 	},
 	watch: {
