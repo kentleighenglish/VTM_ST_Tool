@@ -15,7 +15,12 @@
 				:type="keyOptions ? 'select' : 'text'"
 				:options="keyOptions"
 			/>
-			<button :disabled="!customAdd" @click="addCustom($event)">Add</button>
+			<FormButton
+				:disabled="!customAdd"
+				@click="addCustom($event)"
+			>
+				Add
+			</FormButton>
 		</div>
 	</div>
 </template>
@@ -31,6 +36,7 @@ export default {
 			type: Object,
 			default: null
 		},
+		// eslint-disable-next-line vue/prop-name-casing
 		_meta: {
 			type: Object,
 			default: () => ({})
@@ -128,5 +134,9 @@ export default {
 		display: block;
 		width: 100%;
 		margin: math.div($gap, 2) 0;
+
+		&__customAdd {
+			display: flex;
+		}
 	}
 </style>

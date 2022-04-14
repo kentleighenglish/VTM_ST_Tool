@@ -1,7 +1,7 @@
 <template>
 	<div class="formInput">
 		<label :for="name">
-			<span class="formInput__label">{{ label }}</span>
+			<span v-if="label" class="formInput__label">{{ label }}</span>
 			<div class="formInput__field">
 				<input
 					v-if="plainType"
