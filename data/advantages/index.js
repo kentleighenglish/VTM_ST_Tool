@@ -1,3 +1,4 @@
+import { calculateDisciplineRating } from "../_utils";
 import * as clans from "../details/clans";
 import * as disciplines from "./disciplines";
 
@@ -23,13 +24,23 @@ export default {
 										[key]: {
 											label: disciplines[key].label,
 											type: "dots",
-											default: null
+											default: null,
+											_meta: {
+												_params: {
+													maxDots: calculateDisciplineRating(data)
+												}
+											}
 										}
 									}), {});
 								}
 
 								return {};
-							}
+							},
+							_fieldsMeta: (data = {}) => ({
+								_params: {
+									maxDots: calculateDisciplineRating(data)
+								}
+							})
 						},
 						keyOptions: Object.keys(disciplines).reduce((acc, key) => ({
 							...acc,

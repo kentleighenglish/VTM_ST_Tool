@@ -50,6 +50,9 @@ export default {
 		fieldType () {
 			return this._meta.fieldType;
 		},
+		fieldsMeta () {
+			return this._meta?._params?._fieldsMeta || {};
+		},
 		keyOptions () {
 			const options = this._meta?.keyOptions;
 
@@ -63,14 +66,23 @@ export default {
 				}), {});
 		},
 		defaultFields () {
-			return this._meta?._params?.defaultFields;
+			return this._meta?._params?.defaultFields || {};
 		},
 		generatedFields () {
 			const { _custom = [] } = (this.model || {});
 			const options = this._meta?.keyOptions;
 
 			return {
-				...this.defaultFields,
+				...Object.keys(this.defaultFields).reduce((acc, key) => ({
+					...acc,
+					[key]: {
+						...this.defaultFields[key],
+						_meta: {
+							...this.defaultFields[key]._meta,
+							...this.fieldsMeta
+						}
+					}
+				}), {}),
 				..._custom.reduce((acc, key) => {
 					if (!this.defaultFields[key]) {
 						const label = options ? options[key] : key;
@@ -78,7 +90,10 @@ export default {
 						acc[key] = {
 							label,
 							type: this.fieldType,
-							default: null
+							default: null,
+							_meta: {
+								...this.fieldsMeta
+							}
 						}
 					}
 
