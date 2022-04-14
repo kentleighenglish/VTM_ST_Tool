@@ -6,5 +6,7 @@ export const calculateTraitRating = (data) => {
 		return 5;
 	}
 
-	return 5 + (8 - gen);
+	const calculated = (5 + (8 - gen));
+
+	return calculated > 10 ? 10 : calculated;
 }

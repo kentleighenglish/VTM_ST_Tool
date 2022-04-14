@@ -18,15 +18,22 @@ export default {
 								const clan = data?.details?.vampire?.clan;
 
 								if (clan) {
-									return Object.keys(clans[clan].disciplines || {});
+									return Object.keys(clans[clan].disciplines || {}).reduce((acc, key) => ({
+										...acc,
+										[key]: {
+											label: disciplines[key].label,
+											type: "dots",
+											default: null
+										}
+									}), {});
 								}
 
-								return [];
+								return {};
 							}
 						},
 						keyOptions: Object.keys(disciplines).reduce((acc, key) => ({
 							...acc,
-							[key]: "a"
+							[key]: disciplines[key].label
 						}), {}),
 						fieldType: "dots",
 						description: "raw physical strength"

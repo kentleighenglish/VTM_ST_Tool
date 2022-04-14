@@ -1,23 +1,34 @@
 <template>
-	<div class="formInput">
-		<label :for="name">
-			<span class="formInput__label">label</span>
-			<div class="formInput__field">
-				{{ generatedFields }}
-			</div>
-		</label>
+	<div class="dynamicField">
+		<FormFields
+			v-if="generatedFields"
+			v-model="model"
+			:fields="generatedFields"
+			class-name="dynamicField__fields"
+			@input="handleChange($event)"
+		/>
+		<div class="dynamicField__customAdd">
+			<FormInput
+				v-if="keyOptions"
+				v-model="customAdd"
+				name="dynamicFieldCustom"
+				:type="keyOptions ? 'select' : 'text'"
+				:options="keyOptions"
+			/>
+			<button :disabled="!customAdd" @click="addCustom($event)">Add</button>
+		</div>
 	</div>
 </template>
 <script>
 export default {
-	name: "FormInput",
+	name: "DynamicField",
 	props: {
 		name: {
 			type: String,
 			default: null
 		},
 		value: {
-			type: [Number, String],
+			type: Object,
 			default: null
 		},
 		_meta: {
@@ -26,20 +37,56 @@ export default {
 		}
 	},
 	data: () => ({
-		model: null
+		model: null,
+		customAdd: null
 	}),
 	computed: {
 		fieldType () {
 			return this._meta.fieldType;
 		},
+		keyOptions () {
+			const options = this._meta?.keyOptions;
+
+			return Object.keys(options)
+				.filter((key) => {
+					return (!this.defaultFields[key] && !(this.model?._custom || []).includes(key));
+				})
+				.reduce((acc, key) => ({
+					...acc,
+					[key]: options[key]
+				}), {});
+		},
+		defaultFields () {
+			return this._meta?._params?.defaultFields;
+		},
 		generatedFields () {
-			// const defaultFields = this._meta?._params?.defaultFields;
-			return [];
+			const { _custom = [] } = (this.model || {});
+			const options = this._meta?.keyOptions;
+
+			return {
+				...this.defaultFields,
+				..._custom.reduce((acc, key) => {
+					if (!this.defaultFields[key]) {
+						const label = options ? options[key] : key;
+
+						acc[key] = {
+							label,
+							type: this.fieldType,
+							default: null
+						}
+					}
+
+					return acc;
+				}, {})
+			}
 		}
 	},
 	watch: {
 		value (v) {
-			this.model = v;
+			this.model = {
+				...v,
+				_custom: (v._custom || [])
+			};
 		}
 	},
 	created () {
@@ -50,47 +97,36 @@ export default {
 	},
 	methods: {
 		updateValue (value) {
-			if (this.type === "checkbox") {
-				this.$emit("input", !this.model);
-			} else {
-				this.$emit("input", value);
-			}
+			this.$emit("input", {
+				...value,
+				_custom: (value._custom || [])
+			});
 		},
 		handleChange (e) {
 			this.$emit("change", e);
+		},
+		addCustom (e) {
+			if (this.customAdd) {
+				const _custom = [
+					...(this?.model?._custom || []),
+					this.customAdd
+				];
+
+				this.updateValue({
+					...this.model,
+					_custom
+				});
+
+				this.customAdd = null;
+			}
 		}
 	}
 }
 </script>
 <style lang="scss">
-	.formInput {
+	.dynamicField {
 		display: block;
 		width: 100%;
 		margin: math.div($gap, 2) 0;
-
-		label {
-			display: flex;
-			width: 100%;
-		}
-
-		.formInput__label {
-			display: flex;
-			width: 100%;
-		}
-
-		.formInput__field {
-			width: 100%;
-			max-width: 400px;
-			border-bottom: 1px solid $grey;
-			background: $grey-lighter;
-
-			input, select {
-				width: 100%;
-				background: none;
-				border: none;
-				margin: 0;
-				padding: math.div($gap, 4);
-			}
-		}
 	}
 </style>
