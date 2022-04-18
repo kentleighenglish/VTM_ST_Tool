@@ -1,6 +1,7 @@
 import { calculateDisciplineRating } from "../_utils";
 import * as clans from "../details/clans";
 import * as disciplines from "./disciplines";
+import * as backgrounds from "./backgrounds";
 
 export default {
 	label: "Advantages",
@@ -55,7 +56,27 @@ export default {
 		backgrounds: {
 			label: "Backgrounds",
 			type: "sectionColumn",
-			fields: {}
+			fields: {
+				list: {
+					label: null,
+					type: "dynamicField",
+					_meta: {
+						_params: {
+							_fieldsMeta: (data = {}) => ({
+								_params: {
+									maxDots: 5
+								}
+							})
+						},
+						keyOptions: Object.keys(backgrounds).reduce((acc, key) => ({
+							...acc,
+							[key]: backgrounds[key].label
+						}), {}),
+						fieldType: "dots",
+						description: "raw physical strength"
+					}
+				}
+			}
 		},
 		virtues: {
 			label: "Virtues",

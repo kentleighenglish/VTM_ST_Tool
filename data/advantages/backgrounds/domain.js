@@ -28,5 +28,5 @@ export const dots = [
 		dot: 5,
 		label: null,
 		description: "An entire neighborhood, an ethnic subdivision like “Chinatown” or “Little Italy,” or a whole suburb."
-	},
+	}
 ];

@@ -28,5 +28,5 @@ export const dots = [
 		dot: 5,
 		label: null,
 		description: "You’re a household word. People name their children after you."
-	},
+	}
 ];

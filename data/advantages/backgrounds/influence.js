@@ -28,5 +28,5 @@ export const dots = [
 		dot: 5,
 		label: null,
 		description: "Vastly influential; a factor in global politics"
-	},
+	}
 ];

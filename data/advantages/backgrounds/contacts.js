@@ -28,5 +28,5 @@ export const dots = [
 		dot: 5,
 		label: null,
 		description: "Five major contacts"
-	},
+	}
 ];

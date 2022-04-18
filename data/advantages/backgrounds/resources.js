@@ -28,5 +28,5 @@ export const dots = [
 		dot: 5,
 		label: null,
 		description: "Extremely Wealthy. You are the model to which others strive to achieve, at least in the popular mind. Television shows, magazine spreads, and gossip websites speculate about your clothing, the appointments of your numerous homes, and the luxury of your modes of transportation. You have vast and widely distributed assets, perhaps tied to the fates of nations, each with huge staffs and connections to every level of society through a region. You travel with a minimum of three-dot comforts, more with a little effort. Corporations and governments sometimes come to you to buy into stocks or bond programs."
-	},
+	}
 ];

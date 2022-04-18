@@ -28,5 +28,5 @@ export const dots = [
 		dot: 5,
 		label: null,
 		description: "You know all the auctoritas ritae and dozens of ignoblis ritae (your choice). You may create your own ignoblis ritae, given enough time (consult your Storyteller for development time and game effects). You are also familiar with the functions of almost all regional and pack-specific ignoblis ritae, even if you cannot perform them; if it’s been written down or passed around in lore, you’ve heard of it."
-	},
+	}
 ];

@@ -28,5 +28,5 @@ export const dots = [
 		dot: 5,
 		label: null,
 		description: "Eighth Generation: 15 blood pool, can spend 3 blood points per turn"
-	},
+	}
 ];
