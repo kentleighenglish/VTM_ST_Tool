@@ -48,13 +48,13 @@ export default {
 	}),
 	computed: {
 		fieldType () {
-			return this._meta.fieldType;
+			return this.meta.fieldType;
 		},
 		fieldsMeta () {
-			return this._meta?.params?.fieldsMeta || {};
+			return this.meta?.params?.fieldsMeta || {};
 		},
 		keyOptions () {
-			const options = this._meta?.keyOptions;
+			const options = this.meta?.keyOptions;
 
 			return Object.keys(options)
 				.filter((key) => {
@@ -66,11 +66,11 @@ export default {
 				}), {});
 		},
 		defaultFields () {
-			return this._meta?.params?.defaultFields || {};
+			return this.meta?.params?.defaultFields || {};
 		},
 		generatedFields () {
 			const { _custom = [] } = (this.model || {});
-			const options = this._meta?.keyOptions;
+			const options = this.meta?.keyOptions;
 
 			return {
 				...Object.keys(this.defaultFields).reduce((acc, key) => ({
@@ -79,7 +79,7 @@ export default {
 						...this.defaultFields[key],
 						name: key,
 						meta: {
-							...this.defaultFields[key]._meta,
+							...this.defaultFields[key].meta,
 							...this.fieldsMeta
 						}
 					}

@@ -44,7 +44,7 @@ export default {
 	}),
 	computed: {
 		maxDots () {
-			const { maxDots = 5 } = (this._meta?.params || {});
+			const { maxDots = 5 } = (this.meta?.params || {});
 			return maxDots;
 		}
 	},
@@ -67,7 +67,7 @@ export default {
 			return (this.hoverDot >= this.model ? this.hoverDot : this.model) >= i;
 		},
 		setDotHover (i) {
-			const { description } = this._meta;
+			const { description } = this.meta;
 			if (description) {
 				const text = typeof description === "function" ? description(this.name, i) : description;
 
