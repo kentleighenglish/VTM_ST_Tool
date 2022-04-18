@@ -37,7 +37,7 @@ export default {
 			default: null
 		},
 		// eslint-disable-next-line vue/prop-name-casing
-		_meta: {
+		meta: {
 			type: Object,
 			default: () => ({})
 		}
@@ -51,7 +51,7 @@ export default {
 			return this._meta.fieldType;
 		},
 		fieldsMeta () {
-			return this._meta?._params?._fieldsMeta || {};
+			return this._meta?.params?.fieldsMeta || {};
 		},
 		keyOptions () {
 			const options = this._meta?.keyOptions;
@@ -66,7 +66,7 @@ export default {
 				}), {});
 		},
 		defaultFields () {
-			return this._meta?._params?.defaultFields || {};
+			return this._meta?.params?.defaultFields || {};
 		},
 		generatedFields () {
 			const { _custom = [] } = (this.model || {});
@@ -77,7 +77,8 @@ export default {
 					...acc,
 					[key]: {
 						...this.defaultFields[key],
-						_meta: {
+						name: key,
+						meta: {
 							...this.defaultFields[key]._meta,
 							...this.fieldsMeta
 						}
@@ -88,10 +89,11 @@ export default {
 						const label = options ? options[key] : key;
 
 						acc[key] = {
+							name: key,
 							label,
 							type: this.fieldType,
 							default: null,
-							_meta: {
+							meta: {
 								...this.fieldsMeta
 							}
 						}

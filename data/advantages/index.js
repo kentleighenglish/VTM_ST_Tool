@@ -3,6 +3,33 @@ import * as clans from "../details/clans";
 import * as disciplines from "./disciplines";
 import * as backgrounds from "./backgrounds";
 
+const disiplinesDotMeta = data => ({
+	params: {
+		maxDots: calculateDisciplineRating(data)
+	},
+	description: (name, dotIndex) => {
+		let desc = null;
+		const discipline = disciplines[name];
+
+		if (discipline) {
+			desc = discipline.description;
+		}
+
+		if (dotIndex) {
+			const powerDesc = discipline.dots
+				.filter(d => d.dot === dotIndex)
+				.reduce((acc, dot) => ([
+					...acc,
+					`${dot.label}: ${dot.description}`
+				]), []).join("\n");
+
+			desc += `\n\n${powerDesc}`;
+		}
+
+		return desc;
+	}
+});
+
 export default {
 	label: "Advantages",
 	type: "section",
@@ -14,8 +41,8 @@ export default {
 				list: {
 					label: null,
 					type: "dynamicField",
-					_meta: {
-						_params: {
+					meta: {
+						params: {
 							defaultFields: (data = {}) => {
 								const clan = data?.details?.vampire?.clan;
 
@@ -26,29 +53,21 @@ export default {
 											label: disciplines[key].label,
 											type: "dots",
 											default: null,
-											_meta: {
-												_params: {
-													maxDots: calculateDisciplineRating(data)
-												}
-											}
+											meta: disiplinesDotMeta(data)
 										}
 									}), {});
 								}
 
 								return {};
 							},
-							_fieldsMeta: (data = {}) => ({
-								_params: {
-									maxDots: calculateDisciplineRating(data)
-								}
-							})
+							fieldsMeta: (data = {}) => disiplinesDotMeta(data)
 						},
 						keyOptions: Object.keys(disciplines).reduce((acc, key) => ({
 							...acc,
 							[key]: disciplines[key].label
 						}), {}),
 						fieldType: "dots",
-						description: "raw physical strength"
+						description: null
 					}
 				}
 			}
@@ -60,10 +79,10 @@ export default {
 				list: {
 					label: null,
 					type: "dynamicField",
-					_meta: {
-						_params: {
-							_fieldsMeta: (data = {}) => ({
-								_params: {
+					meta: {
+						params: {
+							fieldsMeta: (data = {}) => ({
+								params: {
 									maxDots: 5
 								}
 							})
@@ -73,7 +92,7 @@ export default {
 							[key]: backgrounds[key].label
 						}), {}),
 						fieldType: "dots",
-						description: "raw physical strength"
+						description: null
 					}
 				}
 			}

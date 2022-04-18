@@ -21,9 +21,13 @@ import { mapActions } from "vuex";
 export default {
 	name: "FormDots",
 	props: {
-		_meta: {
+		meta: {
 			type: Object,
 			default: () => ({})
+		},
+		name: {
+			type: String,
+			default: null
 		},
 		label: {
 			type: String,
@@ -40,7 +44,7 @@ export default {
 	}),
 	computed: {
 		maxDots () {
-			const { maxDots = 5 } = (this._meta?._params || {});
+			const { maxDots = 5 } = (this._meta?.params || {});
 			return maxDots;
 		}
 	},
@@ -65,7 +69,9 @@ export default {
 		setDotHover (i) {
 			const { description } = this._meta;
 			if (description) {
-				this.updateMetaField({ text: description });
+				const text = typeof description === "function" ? description(this.name, i) : description;
+
+				this.updateMetaField({ text });
 			}
 
 			this.hoverDot = i;

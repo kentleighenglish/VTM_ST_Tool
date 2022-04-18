@@ -66,7 +66,7 @@ export default {
 						}
 					}
 
-					if (key === "_params") {
+					if (key === "params") {
 						return {
 							...acc,
 							[key]: updateParams(prop)

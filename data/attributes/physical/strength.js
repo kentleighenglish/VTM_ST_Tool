@@ -3,8 +3,8 @@ import { calculateTraitRating } from "@/data/_utils";
 export default {
 	label: "Strength",
 	type: "dots",
-	_meta: {
-		_params: {
+	meta: {
+		params: {
 			maxDots: calculateTraitRating
 		},
 		description: `Strength is the raw, brute power of a character.
