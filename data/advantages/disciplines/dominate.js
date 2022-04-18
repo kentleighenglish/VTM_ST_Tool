@@ -12,7 +12,7 @@ Resisting Dominate:
 • Nature: A character’s Nature can have a distinct impact on how easily Dominate influences her. A vampire might easily control subjects with inherently empathic Natures (Caregiver, Child, Conformist), while those whose Natures denote a great degree of inner strength (Bravo, Director, Rebel) can be more of a challenge. The Storyteller may reduce the required difficulty or number of successes by one or two when the player rolls against those subjects with “weaker” Natures, or raise them by a similar amount for “stronger” Natures. On the other hand, “strong” Natures might be more easiliy influenced to take aggressive actions — for example, coaxing a Rebel to denounce the Prince is likely easier than goading a Conformist to do the same thing. Ultimately, the Storyteller must adjudicate.
 • Botches: If a Dominate roll botches, the target is rendered immune to future attempts by the same vampire for the rest of the story.`;
 
-export const powers = [
+export const dots = [
 	{
 		dot: 1,
 		label: "Command",

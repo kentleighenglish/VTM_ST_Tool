@@ -3,7 +3,7 @@ export const label = "Quietus";
 
 export const description = "The Discipline of silent death, Quietus is practicedby those of Clan Assamite. Based on elements of blood, poison, vitae control, and pestilence, Quietus focuses on the destruction of a target through a variety of means. This Discipline doesn’t always cause a quick death, but the Assamites rely on its lethality to hide their involvement with their victims.";
 
-export const powers = [
+export const dots = [
 	{
 		dot: 1,
 		label: "Silence of Death",
