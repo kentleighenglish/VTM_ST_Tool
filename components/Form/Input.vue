@@ -1,5 +1,5 @@
 <template>
-	<div class="formInput">
+	<div class="formInput" @mouseover="onHover">
 		<label :for="name">
 			<span v-if="label" class="formInput__label">{{ label }}</span>
 			<div class="formInput__field">
@@ -23,9 +23,15 @@
 	</div>
 </template>
 <script>
+import { mapActions } from "vuex";
+
 export default {
 	name: "FormInput",
 	props: {
+		meta: {
+			type: Object,
+			default: () => ({})
+		},
 		name: {
 			type: String,
 			default: null
@@ -74,6 +80,9 @@ export default {
 		this.model = this.value;
 	},
 	methods: {
+		...mapActions({
+			updateMetaField: "sheets/updateMetaField"
+		}),
 		updateValue (value) {
 			if (this.type === "checkbox") {
 				this.$emit("input", !this.model);
@@ -83,6 +92,14 @@ export default {
 		},
 		handleChange (e) {
 			this.$emit("change", e);
+		},
+		onHover (i) {
+			const { description } = this.meta;
+			if (description) {
+				const text = typeof description === "function" ? description(this.name, i) : description;
+
+				this.updateMetaField({ text });
+			}
 		}
 	}
 }
