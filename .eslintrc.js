@@ -21,6 +21,7 @@ module.exports = {
 		"indent": ["error", "tab"],
 		"vue/html-indent": ["error", "tab"],
 		"quotes": ["error", "double"],
-		"import/namespace": ["error", { allowComputed: true }]
+		"import/namespace": ["error", { allowComputed: true }],
+		"vue/no-v-html": "off"
 	}
 }

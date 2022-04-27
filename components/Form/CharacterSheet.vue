@@ -5,9 +5,12 @@
 			<FormFields v-model="data" :fields="sheetData" @input="updateForm" />
 		</div>
 		<div class="characterSheet__meta">
-			<div ref="metaContainer" class="characterSheet__metaInner" :style="{ maxHeight: `${metaSize.height}px` }">
-				{{ metaText }}
-			</div>
+			<div
+				ref="metaContainer"
+				class="characterSheet__metaInner"
+				:style="{ maxHeight: `${metaSize.height}px` }"
+				v-html="metaText"
+			/>
 		</div>
 	</div>
 </template>
@@ -33,7 +36,7 @@ export default {
 	computed: {
 		...mapState({
 			metaText ({ sheets }) {
-				return sheets.metaDisplay.text
+				return (sheets.metaDisplay.text || "").replaceAll(/[\n\r]/g, "<br>")
 			}
 		})
 	},
@@ -48,7 +51,9 @@ export default {
 			const docHeight = document.body.clientHeight;
 			const el = this.$refs.metaContainer;
 
-			this.metaSize.height = docHeight - el.offsetTop - 40;
+			if (el) {
+				this.metaSize.height = docHeight - el.offsetTop - 40;
+			}
 		},
 		updateForm (value) {
 			this.data = {
