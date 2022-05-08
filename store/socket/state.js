@@ -1,5 +1,5 @@
 export default () => ({
 	socket: null,
-	connecting: false,
-	connected: false
+	connected: false,
+	error: null
 });
