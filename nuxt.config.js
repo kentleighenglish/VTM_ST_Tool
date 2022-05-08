@@ -1,3 +1,5 @@
+const socketPath = "/socket";
+
 export default {
 	// Disable server-side rendering: https://go.nuxtjs.dev/ssr-mode
 	ssr: false,
@@ -32,8 +34,7 @@ export default {
 	],
 
 	// Plugins to run before rendering page: https://go.nuxtjs.dev/config-plugins
-	plugins: [
-	],
+	plugins: ["@/plugins/socket"],
 
 	// Auto import components: https://go.nuxtjs.dev/config-components
 	components: true,
@@ -47,6 +48,7 @@ export default {
 	// Modules: https://go.nuxtjs.dev/config-modules
 	modules: [
 		// https://go.nuxtjs.dev/axios
+		["@/server/socket", { socketPath }],
 		'@nuxtjs/axios',
 		// ["@/server/socket", { socketPath }],
 		"@nuxtjs/style-resources"
@@ -63,6 +65,9 @@ export default {
 	axios: {
 		// Workaround to avoid enforcing hard-coded localhost:3000: https://github.com/nuxt-community/axios-module/issues/308
 		baseURL: '/'
+	},
+	publicRuntimeConfig: {
+		socketPath,
 	},
 
 	// Build Configuration: https://go.nuxtjs.dev/config-build
