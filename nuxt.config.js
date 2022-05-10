@@ -6,28 +6,38 @@ export default {
 
 	// Global page headers: https://go.nuxtjs.dev/config-head
 	head: {
-      title: "VTM Storyteller Tool",
-      htmlAttrs: {
-        lang: "en",
-      },
-      meta: [
-        { charset: "utf-8" },
-        { name: "viewport", content: "width=device-width, initial-scale=1" },
-        { hid: "description", name: "description", content: "" },
-      ],
-      link: [
-        { rel: "icon", type: "image/x-icon", href: "/favicon.ico" },
-        {
-          rel: "stylesheet",
-          href: "https://fonts.googleapis.com/icon?family=Material+Icons",
-        },
-        {
-          rel: "stylesheet",
-          href:
-            "https://fonts.googleapis.com/css?family=Montserrat|Nunito|Open+Sans:400,700",
-        },
-      ],
-    },
+		title: "VTM Storyteller Tool",
+		htmlAttrs: {
+			lang: "en",
+		},
+		meta: [
+			{ charset: "utf-8" },
+			{ name: "viewport", content: "width=device-width, initial-scale=1" },
+			{ hid: "description", name: "description", content: "" },
+		],
+		link: [
+			{ rel: "icon", type: "image/x-icon", href: "/favicon.ico" },
+			{
+				rel: "stylesheet",
+				href: "https://fonts.googleapis.com/icon?family=Material+Icons",
+			},
+			{
+				rel: "stylesheet",
+				href:
+				"https://fonts.googleapis.com/css?family=Montserrat|Nunito|Open+Sans:400,700",
+			},
+		],
+	},
+	router: {
+		extendRoutes(routes, resolve) {
+			routes.push({
+				path: "/sheets/:id?",
+				component: resolve(__dirname, "pages/sheets.vue")
+			})
+		},
+		linkActiveClass: "active",
+		linkExactActiveClass: "active-exact"
+	},
 
 	// Global CSS: https://go.nuxtjs.dev/config-css
 	css: [

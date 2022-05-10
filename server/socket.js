@@ -2,7 +2,6 @@ import http from "http";
 import { Server, Socket, BroadcastOperator } from "socket.io";
 import { each } from "lodash";
 import debugFunc from "debug";
-import * as m from "./mongo";
 import * as socketEvents from "./events";
 
 const debug = debugFunc("app:socket");

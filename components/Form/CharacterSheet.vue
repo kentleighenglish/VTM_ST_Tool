@@ -2,7 +2,10 @@
 	<div class="characterSheet">
 		<h1>Character sheet</h1>
 		<div class="characterSheet__fields">
-			<FormFields v-model="data" :fields="sheetData" @input="updateForm" />
+			<FormFields v-model="model" :fields="sheetData" @input="updateValue" />
+		</div>
+		<div class="characterSheet__actions">
+			ACTIONS
 		</div>
 		<div class="characterSheet__meta">
 			<div
@@ -21,14 +24,15 @@ import { sheetSkeleton } from "../../data/chardata";
 export default {
 	name: "CharacterSheet",
 	props: {
-		structure: {
+		value: {
 			type: Object,
 			default: () => ({})
-		}
+		},
+		readOnly: Boolean
 	},
 	data: () => ({
 		sheetData: {},
-		data: {},
+		model: {},
 		metaSize: {
 			height: 1000
 		}
@@ -40,7 +44,12 @@ export default {
 			}
 		})
 	},
+	created () {
+		this.model = this.value;
+	},
 	mounted () {
+		this.model = this.value;
+
 		this.updateSheetData();
 
 		document.addEventListener("resize", () => this.calculateMetaSize());
@@ -55,11 +64,11 @@ export default {
 				this.metaSize.height = docHeight - el.offsetTop - 40;
 			}
 		},
-		updateForm (value) {
-			this.data = {
+		updateValue (e, value) {
+			this.$emit("input", {
 				...(this.data || {}),
 				...(value || {})
-			};
+			});
 
 			this.updateSheetData();
 		},
@@ -101,6 +110,11 @@ export default {
 
 			this.sheetData = parseObject(sheetSkeleton);
 		}
+	},
+	watch: {
+		value (v) {
+			this.model = v;
+		}
 	}
 }
 </script>
@@ -112,7 +126,7 @@ export default {
 		grid-template-columns: 1fr 900px 1fr;
 		grid-template-areas:
 			". title ."
-			". fields meta";
+			"actions fields meta";
 		// max-width: 900px;
 		// margin: 0 auto;
 
@@ -127,6 +141,11 @@ export default {
 		&__meta {
 			position: relative;
 			grid-area: meta;
+		}
+
+		&__actions {
+			position: relative;
+			grid-area: actions;
 		}
 
 		&__metaInner {
