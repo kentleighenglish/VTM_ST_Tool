@@ -3,23 +3,27 @@ import {
 	updateSocketStatusType
 } from "./mutations";
 
-export const addSocket = ({ commit }, { socket }) => {
+export const addSocket = ({ commit, dispatch }, { socket }) => {
 	commit(addSocketType, { socket });
+
+	const socketIo = socket();
+
+	dispatch("bindEvents", socketIo);
 };
 
-export const bindEvents = ({ commit, dispatch }, io) => {
-	io.on("connect", () => {
+export const bindEvents = ({ commit, dispatch }, socketIo) => {
+	socketIo.on("connect", () => {
 		commit(updateSocketStatusType, {
 			connected: true
 		});
 	});
-	io.on("connect_error", (error) => {
+	socketIo.on("connect_error", (error) => {
 		commit(updateSocketStatusType, {
 			connected: false,
 			error: error.message
 		});
 	});
-	io.on("disconnect", (reason) => {
+	socketIo.on("disconnect", (reason) => {
 		commit(updateSocketStatusType, {
 			connected: false,
 			error: reason

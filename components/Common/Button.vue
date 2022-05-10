@@ -9,10 +9,10 @@
 import classModsMixin from "@/mixins/classModsMixin";
 
 export default {
-	name: "FormButton",
+	name: "CommonButton",
 	mixins: [classModsMixin],
 	classMod: {
-		baseClass: "formButton",
+		baseClass: "button",
 		modifiers: {
 			disabled: vm => !!vm.disabled
 			// block: vm => !!vm.block,
@@ -33,6 +33,14 @@ export default {
 		disabled: {
 			type: Boolean,
 			default: false
+		},
+		blocks: {
+			type: Boolean,
+			default: false
+		},
+		inline: {
+			type: Boolean,
+			default: false
 		}
 	},
 	methods: {
@@ -47,20 +55,27 @@ export default {
 }
 </script>
 <style lang="scss">
-	.formButton {
+	.button {
 		button {
-			border: none;
 			background: none;
-			padding: math.div($gap, 4) $gap;
+			padding: math.div($gap, 2) $gap;
 			margin: math.div($gap, 2);
 			font-family: $font-family-default;
+			font-size: 0.9em;
 			cursor: pointer;
 
 			background: $grey-lighter;
 			color: $grey-darker;
 
+			border: $grey-light 1px solid;
+
 			@include realShadow($grey);
 			transition: box-shadow .6s;
+
+			&:hover {
+				color: $primary;
+				background: $grey-lightest;
+			}
 
 			&:disabled {
 				opacity: 0.8;

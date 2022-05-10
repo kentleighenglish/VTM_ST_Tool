@@ -1,6 +1,6 @@
 <template>
 	<div class="characterSheet">
-		<FormFields v-model="model" :fields="sheetData" @input="updateValue" />
+		<FormFields v-model="model" :fields="sheetData" @input="updateValue($event)" />
 	</div>
 </template>
 <script>
@@ -19,6 +19,11 @@ export default {
 		sheetData: {},
 		model: {}
 	}),
+	watch: {
+		value (v) {
+			this.model = v;
+		}
+	},
 	created () {
 		this.model = this.value;
 	},
@@ -28,7 +33,7 @@ export default {
 		this.updateSheetData();
 	},
 	methods: {
-		updateValue (e, value) {
+		updateValue (value) {
 			this.$emit("input", {
 				...(this.data || {}),
 				...(value || {})
@@ -73,11 +78,6 @@ export default {
 			}
 
 			this.sheetData = parseObject(sheetSkeleton);
-		}
-	},
-	watch: {
-		value (v) {
-			this.model = v;
 		}
 	}
 }

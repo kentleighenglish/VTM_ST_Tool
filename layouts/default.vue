@@ -1,6 +1,6 @@
 <template>
 	<div class="layout">
-		<Nuxt />
+		<Nuxt v-if="connected" />
 	</div>
 </template>
 <script lang="ts">
@@ -10,15 +10,15 @@ export default {
 	name: "defaultLayout",
 	computed: {
 		...mapState({
-
+			connected ({ socket: { connected } }) {
+				return connected;
+			}
 		})
 	},
 	mounted () {
-		this.addSocket(this.$socket);
+		this.addSocket({ socket: this.$socket });
 
 		this.$socket().connect();
-
-		// this.initSet();
 	},
 	methods: {
 		...mapActions({

@@ -1,3 +1,4 @@
+import { ObjectID } from "mongodb";
 import debug from "../debug";
 import { run } from "./_utils";
 
@@ -8,38 +9,58 @@ export const createSheet = async (sheet) => {
 		const response = await run(
 			(db) =>
 			new Promise((resolve, reject) =>
-			db.collection(COLLECTION).insertOne(
-				sheet,
-				(err, result) => (err ? reject(err) : resolve(result.insertedId))
+				db.collection(COLLECTION).insertOne(
+					sheet,
+					(err, result) => (err ? reject(err) : resolve(result.insertedId))
+				)
 			)
-		)
-	);
+		);
 
-	if (response) {
-		return response;
+		if (response) {
+			return response;
+		}
+
+		return null;
+	} catch (e) {
+		debug("db:sheets", true)("ERROR", e);
+		return null;
 	}
-
-	return null;
-} catch (e) {
-	debug("db:sheets", true)("ERROR", e);
-	return null;
-}
 };
+
+export const loadSheet = async (id) => {
+	try {
+		const response = await run(db => new Promise((resolve, reject) => {
+			db.collection(COLLECTION).findOne(
+				{ _id: ObjectID(id) },
+				(err, result) => (err ? reject(err) : resolve(result))
+			);
+		}));
+
+		if (response) {
+			return response;
+		}
+
+		return null;
+	} catch (e) {
+		debug("db:sheets", true)("ERROR", e);
+		return null;
+	}
+}
 
 export const updateSheet = async (sheet) => {
 	try {
 		const response = await run((db) =>
-		db.collection(COLLECTION).updateOne({ _id: sheet._id }, { $sheet: set })
-	);
+			db.collection(COLLECTION).updateOne({ _id: sheet._id }, { $sheet: set })
+		);
 
-	if (response) {
-		return response;
+		if (response) {
+			return response;
+		}
+
+		return null;
+	} catch (e) {
+		return null;
 	}
-
-	return null;
-} catch (e) {
-	return null;
-}
 };
 
 export const fetchAll = async () => {

@@ -8,7 +8,9 @@
 				<FormCharacterSheet v-model="formData" :read-only="readOnly" @input="onUpdate" />
 			</div>
 			<div class="sheets__actions">
-				ACTIONS
+				<CommonButton @click="onSaveSheet">
+					Save Sheet
+				</CommonButton>
 			</div>
 			<div class="sheets__meta">
 				<div
@@ -22,7 +24,7 @@
 	</LayoutDefault>
 </template>
 <script>
-import { mapState } from "vuex";
+import { mapActions, mapState } from "vuex";
 
 export default {
 	name: "SheetsPage",
@@ -36,20 +38,39 @@ export default {
 	computed: {
 		...mapState({
 			metaText ({ sheets }) {
-				return (sheets.metaDisplay.text || "").replaceAll(/[\n\r]/g, "<br>")
+				return (sheets.metaDisplay.text || "").replaceAll(/[\n\r]/g, "<br>");
+			},
+			loading ({ sheets: { loading } }) {
+				return !!loading;
+			},
+			loadedSheet ({ sheets: { currentSheet = null } }) {
+				return currentSheet;
 			}
 		}),
 		readOnly () {
 			return !!this.sheetId
 		}
 	},
+	watch: {
+		loadedSheet () {
+			this.formData = this.loadedSheet;
+		}
+	},
 	mounted () {
-		this.sheetId = this.$route?.params?.id;
+		this.sheetId = this.$route.params.id;
+
+		if (this.sheetId) {
+			this.loadSheet({ id: this.sheetId });
+		}
 
 		document.addEventListener("resize", () => this.calculateMetaSize());
 		this.calculateMetaSize();
 	},
 	methods: {
+		...mapActions({
+			createSheet: "sheets/createSheet",
+			loadSheet: "sheets/loadSheet"
+		}),
 		calculateMetaSize () {
 			const docHeight = document.body.clientHeight;
 			const el = this.$refs.metaContainer;
@@ -60,6 +81,15 @@ export default {
 		},
 		onUpdate (data) {
 			this.formData = data;
+		},
+		async onSaveSheet () {
+			if (this.sheetId) {
+				console.log("load sheet placeholder");
+			} else {
+				const { id } = await this.createSheet({ sheet: this.formData });
+
+				this.$router.push(`/sheets/${id}`);
+			}
 		}
 	}
 }
