@@ -1,0 +1,26 @@
+
+html {
+	display: flex;
+	// overflow: hidden;
+	height: 100%;
+	flex-direction: column;
+}
+
+body {
+	background-color: $grey-lightest;
+	color: $grey-darker;
+	margin: 0;
+	height: 100%;
+
+	@include applyFontStandards();
+
+	// @include texturedBg($grey-darkest, "asanoha");
+}
+
+* {
+	box-sizing: border-box;
+}
+
+#__nuxt, #__layout {
+  height: 100%;
+}
