@@ -61,12 +61,12 @@
 }
 
 @mixin generate-flex-items($multiple, $extra: true) {
-	$total: floor(100 / $multiple);
+	$total: floor(math.div(100, $multiple));
 
 	// width:
 	@for $i from 1 through $total {
 		$width-name: $i*$multiple;
-		$width: percentage($i*$multiple/100);
+		$width: percentage($i * math.div($multiple, 100));
 		&-#{$width-name} {
 			@include generate-flex($width, $extra);
 		}
@@ -137,31 +137,31 @@
 		}
 
 		&-margin {
-			margin: $gap/2;
+			margin: math.div($gap, 2);
 
 			&-v {
-				margin: $gap/2 0;
+				margin: math.div($gap, 2) 0;
 			}
 			&-h {
-				margin: 0 $gap/2;
+				margin: 0 math.div($gap, 2);
 			}
 		}
 
 		&-padding {
-			padding: $gap/2;
+			padding: math.div($gap, 2);
 
 			&-v {
-				padding: $gap/2 0;
+				padding: math.div($gap, 2) 0;
 			}
 			&-h {
-				padding: 0 $gap/2;
+				padding: 0 math.div($gap, 2);
 			}
 
 			&-lg {
 				padding: $gap;
 			}
 			&-sm {
-				padding: $gap/4;
+				padding: math.div($gap, 4);
 			}
 		}
 

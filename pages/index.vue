@@ -1,7 +1,9 @@
 <template>
 	<LayoutDefault>
 		<h1>Characters</h1>
-		{{ sheets }}
+		<div class="st-flex">
+			{{ sheets }}
+		</div>
 	</LayoutDefault>
 </template>
 <script>
