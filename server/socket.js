@@ -1,17 +1,34 @@
 import http from "http";
 import { Server, Socket, BroadcastOperator } from "socket.io";
-import { each } from "lodash";
+import { get, each } from "lodash";
 import debugFunc from "debug";
-import * as socketEvents from "./events";
+import socketEvents from "./events";
 
 const debug = debugFunc("app:socket");
 
-const bindEvents = (io, socket) => {
-	each(socketEvents, (func, action) => {
-		socket.on(action, (data, callback) => {
-			debug(`Event Trigger: ${action}`);
+export const eventTypes = Object.keys(socketEvents).reduce((acc, key) => {
+	const methods = Object.keys(socketEvents[key]).reduce((acc2, key2) => ({
+		...acc2,
+		[key2]: `${key}/${key2}`
+	}), {});
 
-			return func({ socket, data, callback, io });
+	return {
+		...acc,
+		[key]: methods
+	};
+}, {});
+
+const bindEvents = (io, socket) => {
+	each(eventTypes, (group) => {
+		each(group, (action) => {
+			const method = get(socketEvents, action.replace("/", "."), null);
+
+			socket.on(action, (data, callback) => {
+				debug(`Action triggered: ${action}`);
+
+				return method({ socket, data, callback, io });
+			});
+			debug(`Bound socket.io event: ${action}`);
 		});
 	});
 };

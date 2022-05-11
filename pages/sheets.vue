@@ -68,8 +68,8 @@ export default {
 	},
 	methods: {
 		...mapActions({
-			createSheet: "sheets/createSheet",
-			loadSheet: "sheets/loadSheet"
+			createSheet: "sheets/create",
+			loadSheet: "sheets/load"
 		}),
 		calculateMetaSize () {
 			const docHeight = document.body.clientHeight;

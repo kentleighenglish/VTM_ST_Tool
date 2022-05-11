@@ -1,4 +1,4 @@
-import * as m from "./mongo";
+import * as m from "../mongo";
 
 export const createSheet = async ({ socket, callback, data = {} }) => {
 	try {

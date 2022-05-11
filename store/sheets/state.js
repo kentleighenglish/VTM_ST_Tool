@@ -2,7 +2,7 @@ export default () => ({
 	metaDisplay: {
 		text: null
 	},
-	loading: false,
+	loading: {},
 	currentSheet: {},
 	currentSheetId: null,
 	sheets: []

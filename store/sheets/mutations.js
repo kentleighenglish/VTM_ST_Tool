@@ -1,19 +1,24 @@
 import Vue from "vue";
 
 export const updateMetaFieldType = "@sheets/updateMetaField";
-export const loadSheetType = "@sheets/loadSheet";
-export const loadSheetCompleteType = "@sheets/loadSheetComplete";
+export const loadType = "@sheets/load";
+export const loadCompleteType = "@sheets/loadComplete";
+export const loadAllType = "@sheets/loadAll";
+export const loadAllCompleteType = "@sheets/loadAllComplete";
 
 export default {
 	[updateMetaFieldType] (state, { text }) {
 		Vue.set(state.metaDisplay, "text", text);
 	},
-	[loadSheetType] (state, { id }) {
-		Vue.set(state, "loading", true);
+	[loadType] (state, { id }) {
+		Vue.set(state.loading, id, true);
 	},
-	[loadSheetCompleteType] (state, { sheet }) {
+	[loadCompleteType] (state, { sheet }) {
 		Vue.set(state, "currentSheet", sheet.sheet);
 		Vue.set(state, "currentSheetId", sheet._id);
 		Vue.set(state, "loading", false);
+	},
+	[loadAllType] (state) {
+		Vue.set(state.loading, "all", true);
 	}
 }

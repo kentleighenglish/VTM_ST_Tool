@@ -1,14 +1,16 @@
 import {
 	updateMetaFieldType,
-	loadSheetType,
-	loadSheetCompleteType
+	loadType,
+	loadCompleteType,
+	loadAllType,
+	loadAllCompleteType
 } from "./mutations";
 
 export const updateMetaField = ({ commit }, { text }) => {
 	commit(updateMetaFieldType, { text });
 };
 
-export const createSheet = ({ dispatch, commit, rootState }, { sheet }) => {
+export const create = ({ dispatch, commit, rootState }, { sheet }) => {
 	const { socket } = rootState.socket;
 
 	return new Promise((resolve, reject) => {
@@ -23,14 +25,29 @@ export const createSheet = ({ dispatch, commit, rootState }, { sheet }) => {
 	});
 };
 
-export const loadSheet = async ({ commit, rootState }, { id }) => {
+export const load = async ({ commit, rootState }, { id }) => {
 	const { socket } = rootState.socket;
-	commit(loadSheetType, { id });
+	commit(loadType, { id });
 
 	await new Promise((resolve) => {
 		socket().emit("loadSheet", { id }, ({ sheet }) => {
 			if (sheet) {
-				commit(loadSheetCompleteType, { id, sheet });
+				commit(loadCompleteType, { id, sheet });
+
+				resolve();
+			}
+		});
+	});
+}
+
+export const loadAll = async ({ commit, rootState }, { filter }) => {
+	const { socket } = rootState.socket;
+	commit(loadAllType, {});
+
+	await new Promise((resolve) => {
+		socket().emit("loadAllSheets", {}, ({ sheets }) => {
+			if (sheets) {
+				commit(loadAllCompleteType, { sheets });
 
 				resolve();
 			}
