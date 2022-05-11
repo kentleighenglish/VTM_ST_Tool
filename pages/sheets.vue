@@ -84,7 +84,7 @@ export default {
 		},
 		async onSaveSheet () {
 			if (this.sheetId) {
-				console.log("load sheet placeholder");
+				// @todo load sheet placeholder
 			} else {
 				const { id } = await this.createSheet({ sheet: this.formData });
 

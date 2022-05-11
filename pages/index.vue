@@ -2,7 +2,7 @@
 	<LayoutDefault>
 		<h1>Characters</h1>
 		<div class="st-flex st-column">
-			<div class="st-flex" v-for="sheet in sheets" :key="sheet._id">
+			<div v-for="sheet in sheets" :key="sheet._id" class="st-flex">
 				{{ sheet._id }}
 			</div>
 		</div>

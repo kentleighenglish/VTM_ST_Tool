@@ -1,9 +1,9 @@
 <template>
 	<div v-if="mode === 'page'" class="loadingWrapper">
-		<div class="loading"></div>
+		<div class="loading" />
 	</div>
 	<transition v-else appear name="loading-slide">
-		<div :class="componentClass"></div>
+		<div :class="componentClass" />
 	</transition>
 </template>
 <script>
