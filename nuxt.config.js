@@ -31,8 +31,8 @@ export default {
 	router: {
 		extendRoutes(routes, resolve) {
 			routes.push({
-				path: "/sheets/:id?",
-				component: resolve(__dirname, "pages/sheets.vue")
+				path: "/sheets/:id",
+				component: resolve(__dirname, "pages/sheetsView.vue")
 			})
 		},
 		linkActiveClass: "active",
