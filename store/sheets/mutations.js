@@ -13,10 +13,10 @@ export default {
 	[loadType] (state, { id }) {
 		Vue.set(state.loading, id, true);
 	},
-	[loadCompleteType] (state, { sheet }) {
+	[loadCompleteType] (state, { sheet, id }) {
 		Vue.set(state, "currentSheet", sheet.sheet);
 		Vue.set(state, "currentSheetId", sheet._id);
-		Vue.set(state, "loading", false);
+		Vue.set(state.loading, id, false);
 	},
 	[loadAllType] (state) {
 		Vue.set(state.loading, "all", true);
