@@ -1,11 +1,10 @@
 <template>
 	<LayoutDefault>
 		<h1>Characters</h1>
-		<div class="st-flex st-column">
-			<div v-for="sheet in sheets" :key="sheet._id" class="st-flex">
-				{{ sheet._id }}
-			</div>
-		</div>
+		<CommonTable
+			:columns="characterSheetColumns"
+			:rows="parsedSheets"
+		/>
 	</LayoutDefault>
 </template>
 <script>
@@ -21,7 +20,39 @@ export default {
 			sheets ({ sheets: { sheets = [] } }) {
 				return sheets;
 			}
-		})
+		}),
+		parsedSheets () {
+			return (this.sheets || []).reduce((acc, { _id, sheet }) => ([
+				...acc,
+				{
+					id: _id,
+					characterName: sheet?.details?.info?.name,
+					clan: sheet?.details?.vampire?.clan
+				}
+			]), []);
+		},
+		characterSheetColumns () {
+			return {
+				id: {
+					label: "ID"
+				},
+				characterName: {
+					label: "Character Name"
+				},
+				actions: {
+					label: "",
+					key: null,
+					actions: () => ([
+						{
+							label: "View",
+							func (item, component) {
+								component.$router.push(`/sheets/${item.id}`);
+							}
+						}
+					])
+				}
+			};
+		}
 	},
 	mounted () {
 		this.onLoad();

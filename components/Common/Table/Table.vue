@@ -23,7 +23,7 @@
 						:column="col"
 						:col-key="key"
 						:row="row"
-						@actionTrigger="triggerAction(func, row)"
+						@actionTrigger="triggerAction"
 					/>
 				</tr>
 			</tbody>
@@ -79,7 +79,7 @@ export default {
 
 			this.$emit("onSort", { column: key, ascending: this.sortAsc });
 		},
-		triggerAction (func, row) {
+		triggerAction ({ func, row }) {
 			func(row, this);
 		},
 		getRowClass (row) {
@@ -139,7 +139,7 @@ table.table {
 	}
 
 	td {
-		padding: ($gap / 2) $gap;
+		padding: math.div($gap, 2) $gap;
 	}
 
 	thead {

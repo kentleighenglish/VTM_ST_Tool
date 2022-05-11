@@ -25,14 +25,14 @@ export default {
 			return val;
 		},
 		generateActions (h) {
-			return this.column.actions.map(action => h(
+			return this.column.actions(this.row).map(action => h(
 				"span",
-				{ class: "table__action", onClick: this.triggerAction(action.func) },
+				{ class: "table__action", on: { click: () => this.triggerAction(action.func) } },
 				action.label
 			));
 		},
 		triggerAction (func) {
-			this.$emit("actionTrigger", func, this.row);
+			this.$emit("actionTrigger", { func, row: this.row });
 		}
 	},
 	render (h) {
