@@ -27,7 +27,7 @@ export const create = async (sheet) => {
 	}
 };
 
-export const load = async (id) => {
+export const fetch = async (id) => {
 	try {
 		const response = await run(db => new Promise((resolve, reject) => {
 			db.collection(COLLECTION).findOne(
