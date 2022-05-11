@@ -58,6 +58,10 @@ export default function (options) {
 			socket.join("global");
 
 			bindEvents(io, socket);
+
+			socket.emit("connectResponse", {
+				events: eventTypes
+			});
 		});
 	});
 }

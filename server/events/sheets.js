@@ -1,8 +1,8 @@
 import * as m from "../mongo";
 
-export const createSheet = async ({ socket, callback, data = {} }) => {
+export const create = async ({ socket, callback, data = {} }) => {
 	try {
-		const response = await m.sheets.createSheet(data);
+		const response = await m.sheets.create(data);
 
 		if (response) {
 			callback({ id: response });
@@ -14,16 +14,26 @@ export const createSheet = async ({ socket, callback, data = {} }) => {
 	}
 }
 
-export const updateSheet = async () => {
+export const update = async () => {
 
 }
 
-export const loadSheet = async ({ data, callback }) => {
-	const sheet = await m.sheets.loadSheet(data.id);
+export const fetch = async ({ data, callback }) => {
+	const sheet = await m.sheets.fetch(data.id);
 
 	if (sheet) {
 		callback({ sheet });
 	} else {
 		callback({ sheet: null });
+	}
+}
+
+export const fetchAll = async ({ data, callback }) => {
+	const sheets = await m.sheets.fetchAll();
+
+	if (sheets) {
+		callback({ sheets });
+	} else {
+		callback({ sheets: [] });
 	}
 }

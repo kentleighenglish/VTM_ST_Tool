@@ -4,7 +4,7 @@ import { run } from "./_utils";
 
 const COLLECTION = "sheets";
 
-export const createSheet = async (sheet) => {
+export const create = async (sheet) => {
 	try {
 		const response = await run(
 			(db) =>
@@ -27,7 +27,7 @@ export const createSheet = async (sheet) => {
 	}
 };
 
-export const loadSheet = async (id) => {
+export const load = async (id) => {
 	try {
 		const response = await run(db => new Promise((resolve, reject) => {
 			db.collection(COLLECTION).findOne(
@@ -47,7 +47,7 @@ export const loadSheet = async (id) => {
 	}
 }
 
-export const updateSheet = async (sheet) => {
+export const update = async (sheet) => {
 	try {
 		const response = await run((db) =>
 			db.collection(COLLECTION).updateOne({ _id: sheet._id }, { $sheet: set })

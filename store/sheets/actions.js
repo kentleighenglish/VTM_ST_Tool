@@ -11,10 +11,10 @@ export const updateMetaField = ({ commit }, { text }) => {
 };
 
 export const create = ({ dispatch, commit, rootState }, { sheet }) => {
-	const { socket } = rootState.socket;
+	const { socket, events } = rootState.socket;
 
 	return new Promise((resolve, reject) => {
-		socket().emit("createSheet", { sheet }, ({ id, error }) => {
+		socket().emit(events.sheets.create, { sheet }, ({ id, error }) => {
 			if (id) {
 				resolve({ id });
 			} else {
@@ -26,11 +26,11 @@ export const create = ({ dispatch, commit, rootState }, { sheet }) => {
 };
 
 export const load = async ({ commit, rootState }, { id }) => {
-	const { socket } = rootState.socket;
+	const { socket, events } = rootState.socket;
 	commit(loadType, { id });
 
 	await new Promise((resolve) => {
-		socket().emit("loadSheet", { id }, ({ sheet }) => {
+		socket().emit(events.sheets.fetch, { id }, ({ sheet }) => {
 			if (sheet) {
 				commit(loadCompleteType, { id, sheet });
 
@@ -41,11 +41,11 @@ export const load = async ({ commit, rootState }, { id }) => {
 }
 
 export const loadAll = async ({ commit, rootState }, { filter }) => {
-	const { socket } = rootState.socket;
+	const { socket, events } = rootState.socket;
 	commit(loadAllType, {});
 
 	await new Promise((resolve) => {
-		socket().emit("loadAllSheets", {}, ({ sheets }) => {
+		socket().emit(events.sheets.fetchAll, {}, ({ sheets }) => {
 			if (sheets) {
 				commit(loadAllCompleteType, { sheets });
 

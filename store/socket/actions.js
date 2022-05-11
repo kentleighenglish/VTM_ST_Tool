@@ -1,5 +1,6 @@
 import {
 	addSocketType,
+	addEventsType,
 	updateSocketStatusType
 } from "./mutations";
 
@@ -29,8 +30,7 @@ export const bindEvents = ({ commit, dispatch }, socketIo) => {
 			error: reason
 		});
 	});
-
-	// io.on(socketEvents.server.UPDATE_SETS, (sets) => {
-	// 	dispatch("sets/updateSets", sets, { root: true });
-	// });
+	socketIo.on("connectResponse", ({ events }) => {
+		commit(addEventsType, { events });
+	});
 };
