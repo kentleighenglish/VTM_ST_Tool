@@ -221,3 +221,15 @@
 	background: url("@/assets/pat/#{$pattern}.png"), $colour;
 	background-blend-mode: multiply;
 }
+
+@mixin generateStateModifiers() {
+	@for $i from 1 through length($state-modifiers) {
+		$state-mod: nth($state-modifiers, $i);
+		$name: nth($state-mod, 1);
+		$mod: nth($state-mod, 2);
+
+		&--#{$name} {
+			@content($mod);
+		}
+	}
+}

@@ -1,8 +1,10 @@
 <template>
 	<LayoutDefault>
 		<h1>Characters</h1>
-		<div class="st-flex">
-			{{ sheets }}
+		<div class="st-flex st-column">
+			<div class="st-flex" v-for="sheet in sheets" :key="sheet._id">
+				{{ sheet._id }}
+			</div>
 		</div>
 	</LayoutDefault>
 </template>

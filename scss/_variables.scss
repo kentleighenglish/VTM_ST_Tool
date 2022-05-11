@@ -54,3 +54,11 @@ $mq-breakpoints: (
 	md: 1200px,
 	lg: 1500px,
 );
+
+$state-modifiers: (
+	primary: $primary,
+	success: $success,
+	warning: $warning,
+	danger: $danger,
+	error: $danger
+);
