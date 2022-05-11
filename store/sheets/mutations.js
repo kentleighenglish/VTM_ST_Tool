@@ -20,5 +20,8 @@ export default {
 	},
 	[loadAllType] (state) {
 		Vue.set(state.loading, "all", true);
+	},
+	[loadAllCompleteType] (state, { sheets = [] }) {
+		Vue.set(state, "sheets", sheets);
 	}
 }

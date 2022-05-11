@@ -9,6 +9,9 @@ import { mapState, mapActions } from "vuex";
 
 export default {
 	name: "IndexPage",
+	data: () => ({
+		filter: {}
+	}),
 	computed: {
 		...mapState({
 			sheets ({ sheets: { sheets = [] } }) {
@@ -16,10 +19,16 @@ export default {
 			}
 		})
 	},
+	mounted () {
+		this.onLoad();
+	},
 	methods: {
 		...mapActions({
 			loadAll: "sheets/loadAll"
-		})
+		}),
+		onLoad () {
+			this.loadAll({ filter: this.filter });
+		}
 	}
 }
 </script>

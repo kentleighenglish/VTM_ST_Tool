@@ -45,7 +45,7 @@ export const loadAll = async ({ commit, rootState }, { filter }) => {
 	commit(loadAllType, {});
 
 	await new Promise((resolve) => {
-		socket().emit(events.sheets.fetchAll, {}, ({ sheets }) => {
+		socket().emit(events.sheets.fetchAll, { filter }, ({ sheets }) => {
 			if (sheets) {
 				commit(loadAllCompleteType, { sheets });
 
