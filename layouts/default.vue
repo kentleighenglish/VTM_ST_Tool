@@ -1,7 +1,6 @@
 <template>
 	<div class="layout">
-		{{ connected }}
-		<Nuxt v-if="connected" />
+		<Nuxt v-if="connected && hasEvents" />
 		<CommonLoading v-else mode="page" />
 	</div>
 </template>
@@ -14,6 +13,9 @@ export default {
 		...mapState({
 			connected ({ socket: { connected } }) {
 				return connected;
+			},
+			hasEvents ({ socket: { events } }) {
+				return events && Object.keys(events).length;
 			}
 		})
 	},
