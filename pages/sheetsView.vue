@@ -41,6 +41,13 @@ export default {
 			height: 1000
 		}
 	}),
+	head () {
+		const charName = this.loadedSheet?.details?.info?.name;
+
+		return {
+			title: charName || "New Sheet"
+		}
+	},
 	computed: {
 		...mapState({
 			metaText ({ sheets }) {

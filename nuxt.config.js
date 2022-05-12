@@ -6,7 +6,7 @@ export default {
 
 	// Global page headers: https://go.nuxtjs.dev/config-head
 	head: {
-		title: "VTM Storyteller Tool",
+		titleTemplate: (title) => `${title ? title + " | " : "" }VTM ST Tool`,
 		htmlAttrs: {
 			lang: "en",
 		},
