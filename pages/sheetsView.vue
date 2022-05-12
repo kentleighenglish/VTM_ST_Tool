@@ -43,9 +43,10 @@ export default {
 	}),
 	head () {
 		const charName = this.loadedSheet?.details?.info?.name;
+		const createMode = this.createMode;
 
 		return {
-			title: charName || "New Sheet"
+			title: createMode ? "New Sheet" : charName
 		}
 	},
 	computed: {
