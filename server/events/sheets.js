@@ -14,8 +14,18 @@ export const create = async ({ socket, callback, data = {} }) => {
 	}
 }
 
-export const update = async () => {
+export const update = async ({ data: { _id, sheet }, callback }) => {
+	try {
+		const response = await m.sheets.update({ _id, sheet });
 
+		if (response) {
+			callback({ id: response });
+		} else {
+			throw "Could not update character sheet";
+		}
+	} catch(e) {
+		callback({ error: e });
+	}
 }
 
 export const fetch = async ({ data, callback }) => {

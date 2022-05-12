@@ -1,21 +1,24 @@
 <template>
 	<LayoutDefault>
-		<div class="sheets">
-			<h1 class="sheets__title">
+		<div class="sheetView">
+			<h1 class="sheetView__title">
 				Character sheet
 			</h1>
-			<div class="sheets__fields">
+			<div class="sheetView__fields">
 				<FormCharacterSheet v-model="formData" :read-only="readOnly" @input="onUpdate" />
 			</div>
-			<div class="sheets__actions">
+			<div class="sheetView__actions">
 				<CommonButton @click="onSaveSheet">
-					Save Sheet
+					{{ sheetId ? "Save Sheet" : "Create Sheet" }}
+				</CommonButton>
+				<CommonButton @click="reset">
+					Reset
 				</CommonButton>
 			</div>
-			<div class="sheets__meta">
+			<div class="sheetView__meta">
 				<div
 					ref="metaContainer"
-					class="sheets__metaInner"
+					class="sheetView__metaInner"
 					:style="{ maxHeight: `${metaSize.height}px` }"
 					v-html="metaText"
 				/>
@@ -69,6 +72,7 @@ export default {
 	methods: {
 		...mapActions({
 			createSheet: "sheets/create",
+			updateSheet: "sheets/update",
 			loadSheet: "sheets/load"
 		}),
 		calculateMetaSize () {
@@ -82,9 +86,12 @@ export default {
 		onUpdate (data) {
 			this.formData = data;
 		},
+		reset () {
+			this.formData = this.loadedSheet;
+		},
 		async onSaveSheet () {
 			if (this.sheetId) {
-				// @todo load sheet placeholder
+				await this.updateSheet({ _id: this.sheetId, sheet: this.formData });
 			} else {
 				const { id } = await this.createSheet({ sheet: this.formData });
 
@@ -95,7 +102,7 @@ export default {
 }
 </script>
 <style lang="scss">
-.sheets {
+.sheetView {
 	display: grid;
 
 	grid-template-rows: auto auto;

@@ -25,6 +25,21 @@ export const create = ({ dispatch, commit, rootState }, { sheet }) => {
 	});
 };
 
+export const update = ({ dispatch, commit, rootState }, { _id, sheet }) => {
+	const { socket, events } = rootState.socket;
+
+	return new Promise((resolve, reject) => {
+		socket().emit(events.sheets.update, { _id, sheet }, ({ id, error }) => {
+			if (id) {
+				resolve({ id });
+			} else {
+				console.error(error);
+				resolve({ id: null });
+			}
+		});
+	});
+};
+
 export const load = async ({ commit, rootState }, { id }) => {
 	const { socket, events } = rootState.socket;
 	commit(loadType, { id });

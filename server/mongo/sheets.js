@@ -27,6 +27,22 @@ export const create = async (sheet) => {
 	}
 };
 
+export const update = async ({ _id, sheet }) => {
+	try {
+		const response = await run((db) =>
+			db.collection(COLLECTION).updateOne({ _id: ObjectID(_id) }, { $set: { sheet } })
+		);
+
+		if (response) {
+			return response;
+		}
+
+		return null;
+	} catch (e) {
+		return null;
+	}
+};
+
 export const fetch = async (id) => {
 	try {
 		const response = await run(db => new Promise((resolve, reject) => {
@@ -47,21 +63,6 @@ export const fetch = async (id) => {
 	}
 }
 
-export const update = async (sheet) => {
-	try {
-		const response = await run((db) =>
-			db.collection(COLLECTION).updateOne({ _id: sheet._id }, { $sheet: set })
-		);
-
-		if (response) {
-			return response;
-		}
-
-		return null;
-	} catch (e) {
-		return null;
-	}
-};
 
 export const fetchAll = async () => {
 	try {
