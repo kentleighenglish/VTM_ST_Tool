@@ -11,11 +11,6 @@
 	</div>
 </template>
 <script>
-import Section from "./Section";
-import SectionColumn from "./SectionColumn"
-import Dots from "./Dots"
-import DynamicField from "./DynamicField"
-import Input from "./Input"
 
 const inputTypes = [
 	"text",
@@ -28,11 +23,11 @@ const inputTypes = [
 ];
 
 const types = {
-	section: Section,
-	sectionColumn: SectionColumn,
-	dots: Dots,
-	dynamicField: DynamicField,
-	...inputTypes.reduce((acc, k) => ({ ...acc, [k]: Input }), {})
+	section: "FormSection",
+	sectionColumn: "FormSectionColumn",
+	dots: "FormDots",
+	dynamicField: "FormDynamicField",
+	...inputTypes.reduce((acc, k) => ({ ...acc, [k]: "FormInput" }), {})
 }
 
 export default {

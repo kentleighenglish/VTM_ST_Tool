@@ -14,7 +14,7 @@
 </template>
 <script>
 export default {
-	name: "FormSection",
+	name: "FormSectionColumn",
 	props: {
 		name: {
 			type: String,
