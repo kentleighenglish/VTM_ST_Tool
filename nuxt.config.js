@@ -31,6 +31,11 @@ export default {
 	router: {
 		extendRoutes(routes, resolve) {
 			routes.push({
+				path: "/sheets/create",
+				component: resolve(__dirname, "pages/sheetsView.vue"),
+				props: { createMode: true }
+			})
+			routes.push({
 				path: "/sheets/:id",
 				component: resolve(__dirname, "pages/sheetsView.vue")
 			})

@@ -31,6 +31,9 @@ import { mapActions, mapState } from "vuex";
 
 export default {
 	name: "SheetsPage",
+	props: {
+		createMode: Boolean
+	},
 	data: () => ({
 		sheetId: null,
 		formData: {},
@@ -62,7 +65,7 @@ export default {
 	mounted () {
 		this.sheetId = this.$route.params.id;
 
-		if (this.sheetId) {
+		if (!this.createMode && this.sheetId) {
 			this.loadSheet({ id: this.sheetId });
 		}
 
@@ -90,12 +93,12 @@ export default {
 			this.formData = this.loadedSheet;
 		},
 		async onSaveSheet () {
-			if (this.sheetId) {
+			if (!this.createMode && this.sheetId) {
 				await this.updateSheet({ _id: this.sheetId, sheet: this.formData });
 			} else {
 				const { id } = await this.createSheet({ sheet: this.formData });
 
-				this.$router.push(`/sheets/${id}`);
+				this.$router.replace(`/sheets/${id}`);
 			}
 		}
 	}

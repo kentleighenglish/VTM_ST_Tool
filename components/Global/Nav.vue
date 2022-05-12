@@ -15,7 +15,8 @@ export default {
 	data: () => ({
 		items: [
 			{ label: "Home", path: "/" },
-			{ label: "Sheets", path: "/sheets" }
+			{ label: "Sheets", path: "/sheets" },
+			{ label: "Create Sheet", path: "/sheets/create" }
 		]
 	})
 }
