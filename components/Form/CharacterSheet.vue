@@ -45,7 +45,7 @@ export default {
 			const updateParams = (params) => {
 				return Object.keys(params).reduce((acc, key) => ({
 					...acc,
-					[key]: params[key](this.data)
+					[key]: params[key](this.model)
 				}), {});
 			}
 
