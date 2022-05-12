@@ -22,6 +22,8 @@ export default {
 	watch: {
 		value (v) {
 			this.model = v;
+
+			this.updateSheetData();
 		}
 	},
 	created () {

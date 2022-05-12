@@ -1,7 +1,7 @@
 import { calculateTraitRating } from "@/data/_utils";
 
 export default {
-	label: "Politice",
+	label: "Politics",
 	type: "dots",
 	meta: {
 		params: {

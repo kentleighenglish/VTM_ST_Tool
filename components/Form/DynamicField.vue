@@ -120,6 +120,7 @@ export default {
 	},
 	methods: {
 		updateValue (value) {
+			console.log(value);
 			this.$emit("input", {
 				...value,
 				_custom: (value._custom || [])
@@ -127,6 +128,8 @@ export default {
 		},
 		handleChange (e) {
 			this.$emit("change", e);
+
+			this.updateValue(e);
 		},
 		addCustom (e) {
 			if (this.customAdd) {
