@@ -1,30 +1,13 @@
 ###########################
 ####### VTM-ST-TOOL #######
 ###########################
-FROM node:14.19 as builder
+FROM node:14-alpine AS vtm-st-tool
 
-WORKDIR /app
-COPY . .
+RUN mkdir -p /home/node/app/node_modules/ && chown -R node:node /home/node/app
 
-RUN yarn install \
-  --prefer-offline \
-  --frozen-lockfile \
-  --non-interactive \
-  --production=false
+WORKDIR /home/node/app
+COPY ./ /home/node/app
 
-RUN yarn build
+RUN npm install; npm run build
 
-RUN rm -rf node_modules && \
-  NODE_ENV=production yarn install \
-  --prefer-offline \
-  --pure-lockfile \
-  --non-interactive \
-  --production=true
-
-FROM node:14.19 as vtm-st-tool
-
-WORKDIR /app
-
-COPY --from=builder /app  .
-
-CMD [ "yarn", "start", "--host '0.0.0.0'" ]
+CMD [ "npm", "run", "dev" ]
