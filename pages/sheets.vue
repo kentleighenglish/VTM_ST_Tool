@@ -27,7 +27,8 @@ export default {
 				{
 					id: _id,
 					characterName: sheet?.details?.info?.name,
-					clan: sheet?.details?.vampire?.clan
+					clan: sheet?.details?.vampire?.clan,
+					generation: sheet?.details?.vampire?.generation
 				}
 			]), []);
 		},
@@ -38,6 +39,24 @@ export default {
 				},
 				characterName: {
 					label: "Character Name"
+				},
+				clan: {
+					label: "Clan"
+				},
+				generation: {
+					label: "Generation",
+					parser: (val) => {
+						if (!val) { return null; }
+						const lastNum = `${val}`.substr(-1);
+						switch (lastNum) {
+						case "1":
+							return `${val}st`;
+						case "2":
+							return `${val}nd`;
+						default:
+							return `${val}th`;
+						}
+					}
 				},
 				actions: {
 					label: "",
