@@ -10,4 +10,4 @@ COPY ./ /home/node/app
 
 RUN npm install; npm run build
 
-CMD [ "npm", "run", "dev" ]
+CMD [ "npm", "run", "start:docker" ]
