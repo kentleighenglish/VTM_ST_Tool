@@ -9,6 +9,7 @@
 </template>
 <script>
 import { mapState, mapActions } from "vuex";
+import * as clans from "@/data/details/clans";
 
 export default {
 	name: "IndexPage",
@@ -41,7 +42,8 @@ export default {
 					label: "Character Name"
 				},
 				clan: {
-					label: "Clan"
+					label: "Clan",
+					parser: val => val ? clans[val].label : null
 				},
 				generation: {
 					label: "Generation",

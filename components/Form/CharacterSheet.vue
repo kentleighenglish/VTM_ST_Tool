@@ -4,7 +4,7 @@
 	</div>
 </template>
 <script>
-import { sheetSkeleton } from "../../data/chardata";
+import { sheetSkeleton } from "@/data/chardata";
 
 export default {
 	name: "CharacterSheet",
