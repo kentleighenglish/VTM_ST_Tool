@@ -69,6 +69,7 @@ export default {
 		&__content {
 			display: grid;
 			grid-template-areas: ". . .";
+			grid-template-columns: repeat(3, minmax(0, 1fr));
 		}
 	}
 </style>

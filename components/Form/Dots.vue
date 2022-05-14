@@ -89,16 +89,15 @@ export default {
 .dotsInput {
 	display: flex;
 	align-items: center;
+	flex-wrap: wrap;
+	justify-content: space-between;
 
 	.dotsInput__label {
 		display: flex;
-		width: 100%;
 	}
 
 	.dots {
 		display: flex;
-		width: 100%;
-		max-width: 400px;
 
 		&__dot {
 			cursor: pointer;
