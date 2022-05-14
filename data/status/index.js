@@ -2,12 +2,12 @@ export default {
 	label: null,
 	type: "section",
 	fields: {
-		talents: {
+		meritsFlaws: {
 			label: "Merits & Flaws",
 			type: "sectionColumn",
 			fields: {}
 		},
-		skills: {
+		condition: {
 			label: "Humanity/Path",
 			type: "sectionColumn",
 			fields: {
@@ -24,10 +24,28 @@ export default {
 					label: "Bearing",
 					type: "select",
 					options: {}
+				},
+				willpower: {
+					label: "Willpower",
+					type: "dots",
+					meta: {
+						params: {
+							maxDots: () => 10
+						}
+					}
+				},
+				willpowerStatus: {
+					label: null,
+					type: "statusDots",
+					meta: {
+						params: {
+							maxDots: data => data?.status?.condition?.willpower || 10
+						}
+					}
 				}
 			}
 		},
-		knowledges: {
+		health: {
 			label: "Health",
 			type: "sectionColumn",
 			fields: {}

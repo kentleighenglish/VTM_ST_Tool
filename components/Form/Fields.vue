@@ -26,6 +26,7 @@ const types = {
 	section: "FormSection",
 	sectionColumn: "FormSectionColumn",
 	dots: "FormDots",
+	statusDots: "FormStatusDots",
 	dynamicField: "FormDynamicField",
 	...inputTypes.reduce((acc, k) => ({ ...acc, [k]: "FormInput" }), {})
 }
