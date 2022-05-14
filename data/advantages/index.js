@@ -102,7 +102,7 @@ export default {
 			type: "sectionColumn",
 			fields: {
 				conscienceConviction: {
-					label: "Conscience/Conviction",
+					label: "Conscience / Conviction",
 					type: "dots",
 					meta: {
 						params: {
@@ -111,7 +111,7 @@ export default {
 					}
 				},
 				selfControl: {
-					label: "Self-Control/Instinct",
+					label: "Self-Control / Instinct",
 					type: "dots",
 					meta: {
 						params: {
