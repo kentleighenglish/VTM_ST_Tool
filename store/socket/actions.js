@@ -1,7 +1,10 @@
 import {
 	addSocketType,
 	addEventsType,
-	updateSocketStatusType
+	updateSocketStatusType,
+	joinRoomType,
+	leaveRoomType,
+	updateTriggeredType
 } from "./mutations";
 
 export const addSocket = ({ commit, dispatch }, { socket }) => {
@@ -33,4 +36,29 @@ export const bindEvents = ({ commit, dispatch }, socketIo) => {
 	socketIo.on("connectResponse", ({ events }) => {
 		commit(addEventsType, { events });
 	});
+	socketIo.on("updateTriggered", ({ sockets = [], updateAvailable = false }) => {
+		commit(updateTriggeredType, { sockets, updateAvailable });
+	});
 };
+
+export const joinRoom = async ({ commit, rootState }, { id }) => {
+	const { socket, events } = rootState.socket;
+	commit(joinRoomType, {});
+
+	await new Promise((resolve) => {
+		socket().emit(events.rooms.join, { id }, ({ sockets }) => {
+			commit(updateTriggeredType, { sockets });
+
+			resolve();
+		});
+	});
+}
+
+export const leaveRoom = async ({ commit, rootState }, { id }) => {
+	const { socket, events } = rootState.socket;
+	commit(leaveRoomType, {});
+
+	await new Promise((resolve) => {
+		socket().emit(events.rooms.leave, { id });
+	});
+}

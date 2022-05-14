@@ -2,5 +2,9 @@ export default () => ({
 	socket: null,
 	connected: false,
 	error: null,
-	events: {}
+	events: {},
+	roomData: {
+		sockets: [],
+		updateAvailable: false
+	}
 });

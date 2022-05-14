@@ -75,16 +75,24 @@ export default {
 
 		if (!this.createMode && this.sheetId) {
 			this.loadSheet({ id: this.sheetId });
+			this.joinRoom({ id: this.sheetId });
 		}
 
 		document.addEventListener("resize", () => this.calculateMetaSize());
 		this.calculateMetaSize();
 	},
+	beforeDestroy () {
+		if (this.sheetId) {
+			this.leaveRoom({ id: this.sheetId })
+		}
+	},
 	methods: {
 		...mapActions({
 			createSheet: "sheets/create",
 			updateSheet: "sheets/update",
-			loadSheet: "sheets/load"
+			loadSheet: "sheets/load",
+			joinRoom: "socket/joinRoom",
+			leaveRoom: "socket/leaveRoom"
 		}),
 		calculateMetaSize () {
 			const docHeight = document.body.clientHeight;

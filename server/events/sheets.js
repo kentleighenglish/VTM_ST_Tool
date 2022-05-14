@@ -1,4 +1,5 @@
 import * as m from "../mongo";
+import { updateRoom } from "./rooms";
 
 export const create = async ({ socket, callback, data = {} }) => {
 	try {
@@ -14,12 +15,14 @@ export const create = async ({ socket, callback, data = {} }) => {
 	}
 }
 
-export const update = async ({ data: { _id, sheet }, callback }) => {
+export const update = async ({ data: { _id, sheet }, socket, callback }) => {
 	try {
 		const response = await m.sheets.update({ _id, sheet });
 
 		if (response) {
 			callback({ id: response });
+
+			updateRoom({ socket, data: { id: _id, updateAvailable: true } });
 		} else {
 			throw "Could not update character sheet";
 		}
