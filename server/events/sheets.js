@@ -15,14 +15,14 @@ export const create = async ({ socket, callback, data = {} }) => {
 	}
 }
 
-export const update = async ({ data: { _id, sheet }, socket, callback }) => {
+export const update = async ({ data: { _id, sheet }, socket, io, callback }) => {
 	try {
 		const response = await m.sheets.update({ _id, sheet });
 
 		if (response) {
 			callback({ id: response });
 
-			updateRoom({ socket, data: { id: _id, updateAvailable: true } });
+			updateRoom({ socket, io, data: { id: _id, updateAvailable: true } });
 		} else {
 			throw "Could not update character sheet";
 		}
