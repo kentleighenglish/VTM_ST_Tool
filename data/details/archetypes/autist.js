@@ -1,0 +1,5 @@
+export const label = "Autist"
+
+export const description = `You wouldn't have to keep such secrets if everyone wasn't trying to use your history, your opinions, and your true feelings against you all the time. But everyone wants in to your life, mostly to manipulate you, and the best way to avoid this is to reveal as little as possible. Everyone keeps secrets, and you don't necessarily see a reason to lie; whose business is it anyway, aside from yours? Others may see you as a distant loner, or a mysterious plotter, but you're mostly trying to keep them from manipulating you. Odds are if someone reveals how they really feel to you, they're either lying to manipulate you or a fool who hasn't learned the way the world really works yet. Maybe you'll give them a pointer, as long as it doesn't tip your own hand to do so.
+Quest: Whenever you manage to reveal nothing while under scrutiny, regain a point of Willpower.
+Ban: Never reveal your thoughts to others; never place too much trust in those who do.`;

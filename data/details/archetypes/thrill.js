@@ -1,0 +1,5 @@
+export const label = "Thrill-Seeker"
+
+export const description = `No chance is too slim, no risk too great, no longshot too far for your tastes. You love the thrill of the wind in your hair, and the gasps of the crowd as you do what they didn't believe was possible. The people who tell you that it can't be done are simply cowards, with no appreciation for your skill or knowledge of your past accomplishments. You aren't happy unless your adrenaline is racing; you might prefer to perform for others, but you'll take the risk simply for your own enjoyment if no audience is handy. It's certainly possible that you are a braggart, and even the most humble thrill-seekers fly in the face of convention and promote others to take risks which most would deem unacceptable. You are constantly looking for the next high, the next rush, and it has to be better than the last one, or else it's just boring. You rush in where angels fear to tread.
+Quest: Whenever you take a life-threatening risk that pays off for you, you gain Willpower.
+Ban: Never take the easy way when there's a more exciting and dangerous path.`;

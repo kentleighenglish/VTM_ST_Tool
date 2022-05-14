@@ -1,0 +1,5 @@
+export const label = "Oracle"
+
+export const description = `Unwelcome though they may sometimes be, messages come from the spirit world and the future which cannot be ignored. You are the figure who receives and interprets these signs, and your burden is to warn others of their impending meaning. Your presence may not be wanted, but it is needed, and you refuse to abandon your sacred mission. Perhaps you have revelations from a gift at birth, or a magical blessing, or even the spirits of the dead speaking with you, but you do your best to interpret the truth and share it with others. Some regard you with reverence, others with dread, but you are sworn to your obligation to pursue the truth and reveal it to others.
+Quest: Whenever you intervene on behalf of spiritual and mystical agencies, delivering messages and omens for them, you regain Willpower, especially if these augurs come to pass.
+Ban: Never turn away from a revelation simply because it is unpleasant or others do not wish to hear it.`;

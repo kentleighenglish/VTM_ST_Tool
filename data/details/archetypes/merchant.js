@@ -1,0 +1,5 @@
+export const label = "Merchant"
+
+export const description = `There's no such thing as a free lunch, and anyone who expects one is a sucker who deserves to be taken for a ride. You don't trust any situation where you can't inspect the merchandise and hear the price up front, and you always want to know what the catch is. Naturally, you make your livelihood by selling something– perhaps something you make, or own, or steal, or even through selling yourself, as a mercenary. You're not in the habit of giving hand-outs away, and no one's going to buy the cow if they get the milk for free. You live by the adages of business, and see the entire world as a market, whose economy is driven by those who have and those who want. You reduce even the most complex interactions to business, and excel at fetching a better price for your wares than anyone else does.
+Quest: Regain Willpower whenever you manage to fetch a better part of a bargain, selling something, even yourself, at inflated prices.
+Ban: Never give anything away, including your own help, without getting paid for it.`;

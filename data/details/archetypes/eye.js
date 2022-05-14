@@ -1,0 +1,5 @@
+export const label = "Eye-of-the-Storm"
+
+export const description = `The thrill of chaos calls to you, but you see yourself as the center of a storm, twisting all around you while you remain unmoved. You are a master at being unfazed by the ever-changing tableau around you. Perhaps you take great risks, wading through combat or standing atop tall spires while a raging thunderstorm crashes all about. Alternately, perhaps the thrill of court, with its constant subtle manipulations and veiled violence calls to you. You are a master of smiling while they knife you in the back, and subtle reprisal is your calling. Others may regard you as a maniac, a removed manipulator, or an implacable mask-wearer, but you know only by holding fast to where you are can you survive the whirling storm all around.
+Quest: Regain Willpower every time you manage to survive chaos, violence, or trouble by doing nothing, and maintaining exactly as you were about to do before.
+Ban: Never flinch from danger, or retreat.`;

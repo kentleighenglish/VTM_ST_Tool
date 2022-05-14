@@ -1,0 +1,5 @@
+export const label = "Judge"
+
+export const description = `You seek to perpetually improve the system, taking pleasure in your rational nature and ability to draw the right conclusion when presented with the facts. You respect justice as the highest ideal, and are quick to point out its efficiency for resolving all issues. You are hardly a visionary, relying on what has gone before as the best model. Nonetheless, others look to you to solve disputes, carefully listening to all sides and gathering all the facts before you make a decision. You are highly likely to speak up if you think someone has made an unfair decision, though your opinion may differ wildly even from another Judge's. You believe that fair decisions are more important than merciful ones, and strive for what is right over what is easiest.
+Quest: Regain Willpower whenever you correctly deduce a mystery by assembling the clues presented, or when one of your arguments unites dissenting parties.
+Ban: Never rest until you are certain that justice has been served. Never let injustice occur without speaking against it.`;

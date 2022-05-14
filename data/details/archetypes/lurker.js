@@ -1,0 +1,5 @@
+export const label = "Lurker"
+
+export const description = `It's a dangerous world out there, and the nail that stands the tallest gets hammered down. You've mastered the art of not being noticed, and you slouch, slink, and creep out of the way of trouble and the attention of others. You may make the occasional "friend," but he or she had better fend for themselves when times get tough, because that's just what you plan to do. Those who speak up or act out are only asking for punishment; you toe the party line, no matter how you really feel. You've learned that there are some benefits in not being noticed; you can get juicy dirt on people when they've been convinced that you're not worth paying attention to, but you're loathe to act on any of what you find out for any other reason than to save your own worthless hide.
+Quest: Whenever you manage to keep your head down and blend in to avoid trouble, you gain a point of Willpower.
+Ban: Never do anything to draw attention to yourself, even if it means abandoning your friends.`;

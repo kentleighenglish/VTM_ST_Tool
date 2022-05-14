@@ -1,0 +1,5 @@
+export const label = "Paranoid"
+
+export const description = `You have seen all the malice of the world, and know better than to simply accept anything at face value. The more someone seems innocent, the more likely that it's all a ruse, and they're working for their own interests. You know that there's always a string attached, a hidden clause that someone is waiting for you to agree to. Consequently, you are wary of everyone and everything, placing little trust in others. You watch everyone like a hawk, and see agendas and conspiracies everywhere. You are often more than a little desperate, as you feel the walls closing in around you, and can't determine who to trust. Ultimately, you may exploit others just to have an ally that you know you can rely on, but you always watch for the first sign that they are about to betray you.
+Quest: You regain Willpower every time your distrust and scrutiny of others yields information that can be used against them, especially if they were about to use it against you.
+Ban: Never trust anyone without having something on them.`;

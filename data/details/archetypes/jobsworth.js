@@ -1,0 +1,5 @@
+export const label = "Jobsworth"
+
+export const description = `You are dedicated to the unbroken routine of your existence, and refuse to do anything that compromises your routine and established practices. No matter how urgent or deserving an individual case may be, the preservation of established practices and routines is more important. Individual decisions and considerations are fallible, whereas routines and established procedures are the distilled wisdom of years or decades of decision-making. Routines are what separate order from chaos. make an exception once, and it sets a dangerous precedent; make an exception twice, and the door to anarchy is opened.
+Quest: Regain a Willpower point each time you are able to preserve your routine, and each time you avoid reevaluating anything or making a decision about a situation based on its individual merits. At the Storyteller's option, more points may be awarded for truly impressive feats of generalization.
+Ban: Don't ever break your routine.`;

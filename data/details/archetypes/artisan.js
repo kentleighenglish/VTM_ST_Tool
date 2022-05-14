@@ -1,0 +1,5 @@
+export const label = "Artisan"
+
+export const description = `There's no substitute for hard work, no matter what anyone says. Ultimately, you know that nothing is ever accomplished unless people are willing to toil at it, tirelessly getting the job done. Other people may flit about, with their intrigues and their love affairs, but in the end, it's sweat, tears, and blood which get the job done, and any person who says otherwise has no idea what he's talking about, as far as you're concerned. You don't labor for glory, but for the pride of a job well done, and it's almost impossible for you to be at peace with a project still incomplete, tugging at the corner of your mind. You're not afraid of heavy labor, and regard the calluses on your hands as a badge of honor. You are proud of your work, but not arrogant towards anyone, as long as they have respect for your toil.
+Quest: Whenever your labor at a task at the expense of yourself finally pays off with success, you gain a point of Willpower.
+Ban: Never rest easily until your current projects are complete.`;

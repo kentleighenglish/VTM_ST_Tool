@@ -1,0 +1,5 @@
+export const label = "Predator"
+
+export const description = `You divide the world into those who hunt, and those who are hunted, and you are one of the trackers and killers. There is no thrill like the hunt– you may sometimes pick weaker prey, just to keep your skills sharp, but the true game is the smart, cunning, and swift equal. You may hunt animals for food, but you live for the thrill of the chase of smarter creatures. You may not necessarily kill what you catch, but you love to prove your excellence by being able to trap it. You decry civilization as an amusing game, but ultimately something to be shed for the thrill of the hunt itself. You are not a Savage, of course; you're more than willing to use technology, and to brag to others about your prowess, but you'll never let a machine or a trap get in the way of the hunt itself.
+Quest: Whenever you stalk and capture, subdue, or kill a victim after an extended hunt, you gain a point of Willpower.
+Ban: Never resist a challenge; never surrender once you have decided that a victim must be selected.`;

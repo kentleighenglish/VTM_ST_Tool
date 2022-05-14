@@ -1,0 +1,5 @@
+export const label = "Minion"
+
+export const description = `You crave the attentions of beings more powerful than yourself, knowing that such creatures desire agents capable of working for them in the mortal world. Perhaps you seek the respect of a secret society, but it's far more likely that you are attempting to gain the attention of vast, cosmic forces. Compared to these impersonal godlike beings, you feel small and afraid, and so you covet their attention and praise, attempting to ingratiate yourself with something beyond your control. You are more similar to the Riddler than the Lackey, but you contain elements of both. You are willing to sell your soul to the highest bidder, or even play two of these forces off against each other. Sooner or later, we'll all belong to them anyway. Better to be one of the jailers than the prisoners. You want forbidden knowledge at any cost, and are willing to undertake great risk for the rewards of power.
+Quest: Regain Willpower whenever you manage to ingratiate yourself with forces beyond your comprehension and win their favor.
+Ban: Never do anything without expecting some reward, whether short- or long-term.`;

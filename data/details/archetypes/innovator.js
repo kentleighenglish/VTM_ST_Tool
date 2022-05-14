@@ -1,0 +1,6 @@
+export const label = "Innovator"
+
+export const description = `There’s always room for improvement, always some secret that's just out of sight or some puzzle that's just this close to being solved. You've dedicated your life to making things better, to finding new way of doing things, and turning them into the new reality. Past achievements are always good, but they’re just the stepping-stones for something even better. So approach an old situation from a new perspective; try a new method; test a new theory. At worst, you'll make a mistake and have to start over… but then again, mistakes often yield fascinating new innovations, too!
+You're exceedingly creative - a welcome talent in the technocracy, where the future rides on creativity. While the drones follow their marching orders, you're drawing up the next set of both drones and marching orders.
+You’re way too restless, though, which is not always a good thing when Supervisors are watching. if you're too creative, they might consider you a dreamer… or a threat. Innovators keep the Union well-oiled, but they get ground between the gears, too. Maintain a balance between innovation and chaos. And always watch your back.
+– Regain Willpower when inspiration leads to some new breakthrough; a new Procedure, a new device, a brilliant tactic or even a promotion.`;

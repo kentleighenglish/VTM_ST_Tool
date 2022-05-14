@@ -1,0 +1,5 @@
+export const label = "Traditionalist"
+
+export const description = `In a world which has forgotten its roots, you still see the old ways as the best. You speak fondly of the "old days," not to chastise as the Humbug does, but with the hopes of instructing others in avoiding the mistakes of the past. It's likely that others see you as an old fuddy-duddy, with your outdated dress and manner of speaking, but you refuse to turn your backs on them, responding in as mentorly and sagacious a fashion as you can. If there's an old ritual or celebration, a forgotten tidbit of lore, or an archaic custom, you see the beauty and worth in it, and try to encourage that same respect in others. It's likely that you've fallen behind the times, and may not be aware of the newest rages among various cultures; you probably see them as passing fads, or not worthy of attention until they have withstood the test of time.
+Quest: Whenever you prove to others that the old ways work best (forgotten lore, customs, and the like), you gain a point of Willpower.
+Ban: Never try anything new without first doing it the old-fashioned way.`;

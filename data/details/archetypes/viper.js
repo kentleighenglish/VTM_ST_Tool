@@ -1,0 +1,5 @@
+export const label = "Viper"
+
+export const description = `Similar to the Pandora, trouble follows you wherever you go. Unlike the innocence of that other archetype, however, you have a mean streak a mile wide, and are just waiting to bite the hand the feeds you. You are the scorpion who stings the wolf as he swims across the river, dooming you both to drown because it's simply in your own nature. You strike first as a means of protecting yourself, and feign innocence to shield you from your accusers. What's more, you have a love of ingratiating yourself among those you want to destroy, gaining their confidence so that the sting of your bite hurts all the more. You protest your innocence even when caught red-handed, but will strike again the moment their backs are turned. Getting away with it doesn't even enter your mind; you're concerned first with the delight of the betrayal, and covering your tracks later.
+Quest: Whenever you manage to feign innocence and still wreak havoc, you gain Willpower.
+Ban: Never reveal your true colors to anyone; always protest your innocence.`;

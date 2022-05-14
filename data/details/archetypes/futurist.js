@@ -1,0 +1,5 @@
+export const label = "Futurist"
+
+export const description = `The Futurist revels in the magnificent unknown. Humanity is at the threshold of a wondrous and exciting new age. That which is coming must be embraced. A Futurist might delight in the amazing developments of technology and human endeavor, or he might set out to discover new theories, principles and practices, often a manner similar to Celebrants. Futurism developed from the concept of manifest destiny and is sister to the science-fiction genre, also born of this era. Scientists, patrons, writers, teachers or any other forward-looking sort are often of the Futurist Archetype.
+Quest: Regain a point of Willpower whenever you first come upon some progressive device or concept. Reading about such things isn't enough. You have to meet people and touch things. At the Storyteller's discretion, you may regain two Willpower points whenever you actually contribute to the creation of some futuristic development.
+Ban: Never deny yourself the chance of being apart of a new invention or embracing new developments in the world.`;
