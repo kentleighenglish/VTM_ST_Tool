@@ -6,6 +6,7 @@ export * as dementation from "./dementation";
 export * as dominate from "./dominate";
 export * as fortitude from "./fortitude";
 export * as necromancy from "./necromancy";
+export * as obeah from "./obeah";
 export * as obfuscate from "./obfuscate";
 export * as obtenebration from "./obtenebration";
 export * as potence from "./potence";

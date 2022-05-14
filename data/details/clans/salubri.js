@@ -1,5 +1,5 @@
-import { auspex, fortitude, valeren } from "../../advantages/disciplines";
+import { auspex, fortitude, obeah } from "../../advantages/disciplines";
 
 export const label = "Salubri";
 
-export const disciplines = { auspex, fortitude, valeren };
+export const disciplines = { auspex, fortitude, obeah };
