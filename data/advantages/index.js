@@ -100,7 +100,35 @@ export default {
 		virtues: {
 			label: "Virtues",
 			type: "sectionColumn",
-			fields: {}
+			fields: {
+				conscienceConviction: {
+					label: "Conscience/Conviction",
+					type: "dots",
+					meta: {
+						params: {
+							maxDots: () => 5
+						}
+					}
+				},
+				selfControl: {
+					label: "Self-Control/Instinct",
+					type: "dots",
+					meta: {
+						params: {
+							maxDots: () => 5
+						}
+					}
+				},
+				courage: {
+					label: "Courage",
+					type: "dots",
+					meta: {
+						params: {
+							maxDots: () => 5
+						}
+					}
+				}
+			}
 		}
 	}
 }
