@@ -41,12 +41,10 @@ export default {
 </script>
 <style lang="scss">
 .layout__default {
-	height: 100%;
 	min-height: 100%;
 
 	.content {
 		padding: $gap ($gap * 2);
-		height: 100%;
 	}
 }
 </style>

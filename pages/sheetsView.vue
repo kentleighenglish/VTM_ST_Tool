@@ -7,20 +7,23 @@
 			<FormCharacterSheet v-model="formData" :read-only="readOnly" @input="onUpdate" />
 		</div>
 		<div class="sheetView__actions">
-			<CommonButton @click="onSaveSheet">
-				{{ sheetId ? "Save Sheet" : "Create Sheet" }}
-			</CommonButton>
-			<CommonButton @click="reset">
-				Reset
-			</CommonButton>
+			<CommonSticky :offset-top="40">
+				<CommonButton @click="onSaveSheet">
+					{{ sheetId ? "Save Sheet" : "Create Sheet" }}
+				</CommonButton>
+				<CommonButton @click="reset">
+					Reset
+				</CommonButton>
+			</CommonSticky>
 		</div>
 		<div class="sheetView__meta">
-			<div
-				ref="metaContainer"
-				class="sheetView__metaInner"
-				:style="{ maxHeight: `${metaSize.height}px` }"
-				v-html="metaText"
-			/>
+			<CommonSticky :offset-top="40">
+				<div
+					ref="metaContainer"
+					class="sheetView__metaInner"
+					v-html="metaText"
+				/>
+			</CommonSticky>
 		</div>
 	</div>
 </template>
@@ -34,10 +37,7 @@ export default {
 	},
 	data: () => ({
 		sheetId: null,
-		formData: {},
-		metaSize: {
-			height: 1000
-		}
+		formData: {}
 	}),
 	head () {
 		const charName = this.loadedSheet?.details?.info?.name;
@@ -75,9 +75,6 @@ export default {
 			this.loadSheet({ id: this.sheetId });
 			this.joinRoom({ id: this.sheetId });
 		}
-
-		document.addEventListener("resize", () => this.calculateMetaSize());
-		this.calculateMetaSize();
 	},
 	beforeDestroy () {
 		if (this.sheetId) {
@@ -92,14 +89,6 @@ export default {
 			joinRoom: "socket/joinRoom",
 			leaveRoom: "socket/leaveRoom"
 		}),
-		calculateMetaSize () {
-			const docHeight = document.body.clientHeight;
-			const el = this.$refs.metaContainer;
-
-			if (el) {
-				this.metaSize.height = docHeight - el.offsetTop - 40;
-			}
-		},
 		onUpdate (data) {
 			this.formData = data;
 		},
@@ -149,7 +138,6 @@ export default {
 	}
 
 	&__metaInner {
-		position: fixed;
 		padding: $gap;
 		overflow-x: auto;
 	}
