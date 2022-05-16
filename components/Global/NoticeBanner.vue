@@ -34,7 +34,7 @@ export default {
 		}),
 		noticeText () {
 			if (this.updateAvailable) {
-				return "This character sheet has been updated";
+				return "This character sheet has been updated by someone else";
 			}
 
 			if (this.otherConnections.length) {

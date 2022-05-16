@@ -1,14 +1,14 @@
 <template>
-	<nav v-if="adminMode" class="mainNav">
-		<div class="mainNav__back" />
-		<ul>
+	<nav class="mainNav">
+		<div v-if="adminMode" class="mainNav__back" />
+		<ul v-if="adminMode">
 			<li v-for="item in items" :key="item.path">
 				<router-link :to="item.path">
 					{{ item.label }}
 				</router-link>
 			</li>
 		</ul>
-		<GlobalSocketStatus />
+		<GlobalSocketStatus v-if="adminMode" />
 		<GlobalNoticeBanner />
 	</nav>
 </template>
