@@ -1,6 +1,6 @@
 <template>
 	<div class="dynamicField">
-		<FormFields
+		<SheetFields
 			v-if="generatedFields"
 			v-model="model"
 			:fields="generatedFields"
@@ -8,25 +8,25 @@
 			@input="handleChange($event)"
 		/>
 		<div class="dynamicField__customAdd">
-			<FormInput
+			<SheetInput
 				v-if="keyOptions"
 				v-model="customAdd"
 				name="dynamicFieldCustom"
 				:type="keyOptions ? 'select' : 'text'"
 				:options="keyOptions"
 			/>
-			<FormButton
+			<SheetButton
 				:disabled="!customAdd"
 				@click="addCustom($event)"
 			>
 				Add
-			</FormButton>
+			</SheetButton>
 		</div>
 	</div>
 </template>
 <script>
 export default {
-	name: "DynamicField",
+	name: "SheetDynamicField",
 	props: {
 		name: {
 			type: String,

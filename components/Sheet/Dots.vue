@@ -1,30 +1,25 @@
 <template>
-	<div class="statusDotsInput">
-		<span v-if="label" class="statusDotsInput__label">{{ label }}</span>
-		<div v-if="maxDots" class="statusDots">
+	<div class="dotsInput">
+		<span class="dotsInput__label">{{ label }}</span>
+		<div v-if="maxDots" class="dots">
 			<div
 				v-for="i in maxDots"
 				:key="i"
-				:class="{
-					'statusDots__dot': true,
-					'statusDots__dot--filled': isDotFilled(i),
-					'statusDots__dot--interstitial': isDotInterstitial(i)
-				}"
-				@mouseover="dotHover(i)"
+				:class="{ 'dots__dot': true, 'dots__dot--filled': isDotFilled(i) }"
+				@mouseover="setDotHover(i)"
 				@mouseleave="clearDotHover()"
 				@click="updateValue($event, i)"
 			>
-				<div class="statusDots__dotInner" />
+				<div class="dots__dotInner" />
 			</div>
 		</div>
-		<div v-if="showClear" class="statusDotsInput__clear" />
 	</div>
 </template>
 <script>
 import { mapActions } from "vuex";
 
 export default {
-	name: "FormStatusDots",
+	name: "SheetDots",
 	props: {
 		meta: {
 			type: Object,
@@ -44,8 +39,8 @@ export default {
 		}
 	},
 	data: () => ({
-		model: null,
-		showClear: false
+		hoverDot: null,
+		model: null
 	}),
 	computed: {
 		maxDots () {
@@ -69,20 +64,20 @@ export default {
 			updateMetaField: "sheets/updateMetaField"
 		}),
 		isDotFilled (i) {
-			return this.model >= i;
+			return (this.hoverDot >= this.model ? this.hoverDot : this.model) >= i;
 		},
-		isDotInterstitial (i) {
-			return this.model >= i;
-		},
-		dotHover (i) {
+		setDotHover (i) {
 			const { description } = this.meta;
 			if (description) {
 				const text = typeof description === "function" ? description(this.name, i) : description;
 
 				this.updateMetaField({ text });
 			}
+
+			this.hoverDot = i;
 		},
 		clearDotHover () {
+			this.hoverDot = null;
 		},
 		updateValue (e, value) {
 			if (value === 1 && this.model === 1) {
@@ -95,37 +90,17 @@ export default {
 }
 </script>
 <style lang="scss">
-.statusDotsInput {
-	position: relative;
+.dotsInput {
 	display: flex;
 	align-items: center;
 	flex-wrap: wrap;
 	justify-content: space-between;
 
-	&__label {
+	.dotsInput__label {
 		display: flex;
 	}
 
-	&__clear {
-		position: absolute;
-		top: 0;
-		left: 0;
-		width: 12px;
-		height: 12px;
-		margin: math.div($gap, 4);
-		background: $grey-lightest;
-		cursor: pointer;
-
-		&:before {
-			display: block;
-			content: "X";
-			position: absolute;
-			font-size: 18px;
-			line-height: 15px;
-		}
-	}
-
-	.statusDots {
+	.dots {
 		display: flex;
 
 		&__dot {
@@ -133,7 +108,7 @@ export default {
 			padding: 4px;
 
 			&--filled {
-				.statusDots__dotInner {
+				.dots__dotInner {
 					background: $grey-dark;
 				}
 			}
@@ -143,6 +118,8 @@ export default {
 			width: 12px;
 			height: 12px;
 			border: 1px solid $grey-dark;
+
+			border-radius: 50%;
 		}
 	}
 }

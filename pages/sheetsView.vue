@@ -4,7 +4,7 @@
 			Character sheet
 		</h1>
 		<div class="sheetView__fields">
-			<FormCharacterSheet v-model="formData" :read-only="readOnly" @input="onUpdate" />
+			<SheetCharacterSheet v-model="formData" :read-only="readOnly" @input="onUpdate" />
 		</div>
 		<div class="sheetView__actions">
 			<CommonSticky :offset-top="40">

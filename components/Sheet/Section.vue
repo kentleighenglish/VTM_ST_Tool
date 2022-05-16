@@ -1,20 +1,20 @@
 <template>
-	<div class="formSectionColumn">
-		<h4 v-if="label" class="formSectionColumn__title">
+	<div class="formSection">
+		<h3 v-if="label" class="formSection__title">
 			{{ label }}
-		</h4>
-		<FormFields
+		</h3>
+		<SheetFields
 			v-if="fields"
 			v-model="model"
 			:fields="fields"
-			class-name="formSectionColumn__content"
-			@input="handleChange"
+			class-name="formSection__content"
+			@input="handleChange($event)"
 		/>
 	</div>
 </template>
 <script>
 export default {
-	name: "FormSectionColumn",
+	name: "SheetSection",
 	props: {
 		name: {
 			type: String,
@@ -51,14 +51,25 @@ export default {
 		handleChange (value) {
 			this.$emit("input", {
 				...(this.model || {}),
-				...(value || {})
+				...value
 			});
 		}
 	}
 }
 </script>
 <style lang="scss">
-	.formSectionColumn {
-		padding: 0 $gap;
+	.formSection {
+		display: flex;
+		flex-direction: column;
+
+		&__title {
+			text-align: center;
+		}
+
+		&__content {
+			display: grid;
+			grid-template-areas: ". . .";
+			grid-template-columns: repeat(3, minmax(0, 1fr));
+		}
 	}
 </style>

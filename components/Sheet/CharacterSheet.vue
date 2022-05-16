@@ -1,6 +1,6 @@
 <template>
 	<div class="characterSheet">
-		<FormFields v-model="model" :fields="sheetData" @input="updateValue($event)" />
+		<SheetFields v-model="model" :fields="sheetData" @input="updateValue($event)" />
 	</div>
 </template>
 <script>
