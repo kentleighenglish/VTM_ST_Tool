@@ -1,30 +1,10 @@
 <template>
 	<div class="sheetView">
-		<h1 class="sheetView__title">
-			Character sheet
-		</h1>
-		<div class="sheetView__fields">
-			<SheetCharacterSheet v-model="formData" :read-only="readOnly" @input="onUpdate" />
-		</div>
-		<div class="sheetView__actions">
-			<CommonSticky :offset-top="40">
-				<CommonButton @click="onSaveSheet">
-					{{ sheetId ? "Save Sheet" : "Create Sheet" }}
-				</CommonButton>
-				<CommonButton @click="reset">
-					Reset
-				</CommonButton>
-			</CommonSticky>
-		</div>
-		<div class="sheetView__meta">
-			<CommonSticky :offset-top="40">
-				<div
-					ref="metaContainer"
-					class="sheetView__metaInner"
-					v-html="metaText"
-				/>
-			</CommonSticky>
-		</div>
+		<SheetTabs :tabs="tabs" default-tab="main">
+			<template #main>
+				<SheetMain v-model="formData" :read-only="readOnly" />
+			</template>
+		</SheetTabs>
 	</div>
 </template>
 <script>
@@ -37,7 +17,12 @@ export default {
 	},
 	data: () => ({
 		sheetId: null,
-		formData: {}
+		formData: {},
+		tabs: {
+			main: {
+				label: "Main"
+			}
+		}
 	}),
 	head () {
 		const charName = this.loadedSheet?.details?.info?.name;
@@ -109,37 +94,6 @@ export default {
 </script>
 <style lang="scss">
 .sheetView {
-	display: grid;
 
-	grid-template-rows: auto auto;
-	grid-template-columns: 1fr 900px 1fr;
-	grid-template-areas:
-		". title ."
-		"actions fields meta";
-	// max-width: 900px;
-	// margin: 0 auto;
-
-	h1 {
-		grid-area: title;
-	}
-
-	&__fields {
-		grid-area: fields;
-	}
-
-	&__meta {
-		position: relative;
-		grid-area: meta;
-	}
-
-	&__actions {
-		position: relative;
-		grid-area: actions;
-	}
-
-	&__metaInner {
-		padding: $gap;
-		overflow-x: auto;
-	}
 }
 </style>

@@ -23,16 +23,16 @@ const inputTypes = [
 ];
 
 const types = {
-	section: "SheetSection",
-	sectionColumn: "SheetSectionColumn",
-	dots: "SheetDots",
-	statusDots: "SheetStatusDots",
-	dynamicField: "SheetDynamicField",
-	...inputTypes.reduce((acc, k) => ({ ...acc, [k]: "SheetInput" }), {})
+	section: "SheetFormSection",
+	sectionColumn: "SheetFormSectionColumn",
+	dots: "SheetFormDots",
+	statusDots: "SheetFormStatusDots",
+	dynamicField: "SheetFormDynamicField",
+	...inputTypes.reduce((acc, k) => ({ ...acc, [k]: "SheetFormInput" }), {})
 }
 
 export default {
-	name: "SheetFields",
+	name: "SheetFormFields",
 	props: {
 		fields: {
 			type: Object,

@@ -24,7 +24,7 @@
 import { mapActions } from "vuex";
 
 export default {
-	name: "SheetStatusDots",
+	name: "SheetFormStatusDots",
 	props: {
 		meta: {
 			type: Object,

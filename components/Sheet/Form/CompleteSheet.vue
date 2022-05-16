@@ -1,13 +1,13 @@
 <template>
-	<div class="characterSheet">
-		<SheetFields v-model="model" :fields="sheetData" @input="updateValue($event)" />
+	<div class="characterSheetForm">
+		<SheetFormFields v-model="model" :fields="sheetData" @input="updateValue($event)" />
 	</div>
 </template>
 <script>
 import { sheetSkeleton } from "@/data/chardata";
 
 export default {
-	name: "CharacterSheet",
+	name: "SheetFormCompleteSheet",
 	props: {
 		value: {
 			type: Object,
@@ -23,7 +23,7 @@ export default {
 		value (v) {
 			this.model = v;
 
-			this.updateSheetData();
+			this.updateSheetFormData();
 		}
 	},
 	created () {
@@ -32,7 +32,7 @@ export default {
 	mounted () {
 		this.model = this.value;
 
-		this.updateSheetData();
+		this.updateSheetFormData();
 	},
 	methods: {
 		updateValue (value) {
@@ -41,9 +41,9 @@ export default {
 				...(value || {})
 			});
 
-			this.updateSheetData();
+			this.updateSheetFormData();
 		},
-		updateSheetData () {
+		updateSheetFormData () {
 			const updateParams = (params) => {
 				return Object.keys(params).reduce((acc, key) => ({
 					...acc,
