@@ -1,30 +1,28 @@
 <template>
-	<LayoutDefault>
-		<div class="sheetView">
-			<h1 class="sheetView__title">
-				Character sheet
-			</h1>
-			<div class="sheetView__fields">
-				<FormCharacterSheet v-model="formData" :read-only="readOnly" @input="onUpdate" />
-			</div>
-			<div class="sheetView__actions">
-				<CommonButton @click="onSaveSheet">
-					{{ sheetId ? "Save Sheet" : "Create Sheet" }}
-				</CommonButton>
-				<CommonButton @click="reset">
-					Reset
-				</CommonButton>
-			</div>
-			<div class="sheetView__meta">
-				<div
-					ref="metaContainer"
-					class="sheetView__metaInner"
-					:style="{ maxHeight: `${metaSize.height}px` }"
-					v-html="metaText"
-				/>
-			</div>
+	<div class="sheetView">
+		<h1 class="sheetView__title">
+			Character sheet
+		</h1>
+		<div class="sheetView__fields">
+			<FormCharacterSheet v-model="formData" :read-only="readOnly" @input="onUpdate" />
 		</div>
-	</LayoutDefault>
+		<div class="sheetView__actions">
+			<CommonButton @click="onSaveSheet">
+				{{ sheetId ? "Save Sheet" : "Create Sheet" }}
+			</CommonButton>
+			<CommonButton @click="reset">
+				Reset
+			</CommonButton>
+		</div>
+		<div class="sheetView__meta">
+			<div
+				ref="metaContainer"
+				class="sheetView__metaInner"
+				:style="{ maxHeight: `${metaSize.height}px` }"
+				v-html="metaText"
+			/>
+		</div>
+	</div>
 </template>
 <script>
 import { mapActions, mapState } from "vuex";

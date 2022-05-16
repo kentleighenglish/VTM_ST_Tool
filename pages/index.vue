@@ -1,7 +1,5 @@
 <template>
-	<LayoutDefault>
-		<h1>Homepage</h1>
-	</LayoutDefault>
+	<h1>Homepage</h1>
 </template>
 <script>
 export default {

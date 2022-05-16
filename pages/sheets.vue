@@ -1,18 +1,18 @@
 <template>
-	<LayoutDefault>
+	<div class="sheetsPage">
 		<h1>Characters</h1>
 		<CommonTable
 			:columns="characterSheetColumns"
 			:rows="parsedSheets"
 		/>
-	</LayoutDefault>
+	</div>
 </template>
 <script>
 import { mapState, mapActions } from "vuex";
 import * as clans from "@/data/details/clans";
 
 export default {
-	name: "IndexPage",
+	name: "SheetsPage",
 	data: () => ({
 		filter: {}
 	}),
