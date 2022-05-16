@@ -1,5 +1,5 @@
 <template>
-	<nav class="mainNav">
+	<nav v-if="adminMode" class="mainNav">
 		<div class="mainNav__back" />
 		<ul>
 			<li v-for="item in items" :key="item.path">
@@ -13,6 +13,8 @@
 	</nav>
 </template>
 <script>
+import { mapState } from "vuex";
+
 export default {
 	name: "GlobalNav",
 	data: () => ({
@@ -21,7 +23,14 @@ export default {
 			{ label: "Sheets", path: "/sheets" },
 			{ label: "Create Sheet", path: "/sheets/create" }
 		]
-	})
+	}),
+	computed: {
+		...mapState({
+			adminMode ({ adminMode }) {
+				return adminMode;
+			}
+		})
+	}
 }
 </script>
 <style lang="scss">

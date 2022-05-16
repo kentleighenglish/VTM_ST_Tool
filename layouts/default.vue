@@ -1,6 +1,6 @@
 <template>
 	<div class="layout__default">
-		<GlobalNav v-if="adminMode && connected && hasEvents" />
+		<GlobalNav v-if="connected && hasEvents" />
 		<div v-if="connected && hasEvents" class="content">
 			<Nuxt />
 		</div>
@@ -19,9 +19,6 @@ export default {
 			},
 			hasEvents ({ socket: { events } }) {
 				return events && Object.keys(events).length;
-			},
-			adminMode ({ adminMode }) {
-				return adminMode;
 			}
 		})
 	},
