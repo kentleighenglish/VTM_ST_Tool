@@ -74,8 +74,3 @@ export default {
 	}
 }
 </script>
-<style lang="scss">
-.stickyBlock {
-	overflow: hidden;
-}
-</style>

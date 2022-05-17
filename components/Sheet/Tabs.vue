@@ -1,15 +1,17 @@
 <template>
 	<div class="sheetTabs">
-		<div class="sheetTabs__list">
-			<div
-				v-for="tab in tabs"
-				:key="tab.key"
-				:class="tabClass(tab)"
-				@click="onTabClick(tab)"
-			>
-				{{ tab.label }}
+		<CommonSticky :offset-top="20">
+			<div class="sheetTabs__list">
+				<div
+					v-for="tab in tabs"
+					:key="tab.key"
+					:class="tabClass(tab)"
+					@click="onTabClick(tab)"
+				>
+					{{ tab.label }}
+				</div>
 			</div>
-		</div>
+		</CommonSticky>
 		<div class="sheetTabs__content">
 			<slot :name="currentTab" />
 		</div>
@@ -35,6 +37,9 @@ export default {
 			const hash = (this.$route.hash || "").replace("#", "");
 			return hash || this.defaultTab;
 		}
+	},
+	mounted () {
+		this.onTabClick({ key: this.currentTab });
 	},
 	methods: {
 		async onTabClick (tab) {
@@ -67,13 +72,31 @@ export default {
 
 	&__item {
 		display: block;
+		position: relative;
 		padding: math.div($gap, 4) $gap;
 		margin: 0 math.div($gap, 2);
 
 		border: 1px solid $grey;
 		border-radius: 100px;
+		background: $grey-lightest;
 		color: $grey-darker;
 		cursor: pointer;
+
+		&:before {
+			display: block;
+			position: absolute;
+			top: 0;
+			left: 0;
+			content: "";
+			background: black;
+			width: 100%;
+			height: 100%;
+
+			border-radius: 100px;
+			filter: blur(6px);
+			opacity: 0.2;
+			z-index: -1;
+		}
 
 		&--active {
 			background: $grey-dark;
