@@ -65,8 +65,6 @@ export default {
 				return 0;
 			}
 
-			// const innerEl = el.querySelector(".stickyBlock__inner");
-
 			const getOffset = (el) => {
 				if (el.offsetTop !== 0) {
 					return el.offsetTop;

@@ -1,7 +1,7 @@
 <template>
 	<div class="characterSheet">
 		<h1 class="characterSheet__title">
-			Character Character
+			Character Sheet
 		</h1>
 		<div class="characterSheet__fields">
 			<CharacterForm v-model="model" :read-only="readOnly" @input="updateValue" />

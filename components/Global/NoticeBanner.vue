@@ -68,14 +68,14 @@ export default {
 			position: absolute;
 			display: flex;
 			top: 100%;
-			width: 100%;
-			left: 0;
+			right: 0;
+			border-bottom-left-radius: 15px;
 
 			align-items: center;
 			padding: math.div($gap, 4) $gap * 2;
 			font-size: 0.9em;
 			transform: translateY(-100%);
-			transition: background-color 0.3s, transform 0.3s;
+			transition: background-color 0.3s, transform 0.3s, width 0.2s;
 
 			@include realShadow();
 
