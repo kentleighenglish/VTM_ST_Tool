@@ -1,8 +1,8 @@
 import http from "http";
-import { Server, Socket, BroadcastOperator } from "socket.io";
+import { Server } from "socket.io";
 import { get, each } from "lodash";
 import debugFunc from "debug";
-import socketEvents from "./events";
+import * as socketEvents from "./events";
 
 const debug = debugFunc("app:socket");
 
@@ -33,10 +33,10 @@ const bindEvents = (io, socket) => {
 	});
 
 	socket.on("disconnecting", () => {
-		const sheetRooms = [ ...socket.rooms ].filter(roomName => /^sheet_/.test(roomName));
-		sheetRooms.forEach(room => {
+		const sheetRooms = [...socket.rooms].filter(roomName => /^sheet_/.test(roomName));
+		sheetRooms.forEach((room) => {
 			const roomSplit = room.split("_");
-			socketEvents.rooms.leave({ socket, io, data: { id: roomSplit[1]} });
+			socketEvents.rooms.leave({ socket, io, data: { id: roomSplit[1] } });
 		});
 	});
 };
@@ -45,10 +45,10 @@ export default function (options) {
 	this.nuxt.hook("render:before", () => {
 		const server = http.createServer(this.nuxt.renderer.app);
 
-		const io = new Server( server, { path: options.socketPath });
+		const io = new Server(server, { path: options.socketPath });
 		const { host = "localhost", port = 3000 } = this.nuxt.options.server;
 
-		this.nuxt.server.listen = () => new Promise((resolve) =>
+		this.nuxt.server.listen = () => new Promise(resolve =>
 			server.listen(port, host, resolve)
 		);
 
@@ -56,12 +56,12 @@ export default function (options) {
 			server.close(resolve);
 		}));
 
-		io.on("connection", async (socket) => {
+		io.on("connection", (socket) => {
 			debug("Socket connection");
 
-			const {
-				query: { platform = "", userAgent = "" },
-			} = socket.handshake;
+			// const {
+			// 	query: { platform = "", userAgent = "" }
+			// } = socket.handshake;
 
 			socket.join("global");
 

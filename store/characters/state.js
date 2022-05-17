@@ -3,7 +3,7 @@ export default () => ({
 		text: null
 	},
 	loading: {},
-	currentSheet: {},
-	currentSheetId: null,
-	sheets: []
+	currentCharacter: {},
+	currentCharacterId: null,
+	characters: []
 });

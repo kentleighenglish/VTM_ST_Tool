@@ -1,21 +1,21 @@
 <template>
-	<div class="sheetMain">
-		<h1 class="sheetMain__title">
-			Character sheet
+	<div class="characterSheet">
+		<h1 class="characterSheet__title">
+			Character Character
 		</h1>
-		<div class="sheetMain__fields">
-			<SheetFormCompleteSheet v-model="model" :read-only="readOnly" @input="updateValue" />
+		<div class="characterSheet__fields">
+			<CharacterForm v-model="model" :read-only="readOnly" @input="updateValue" />
 		</div>
-		<div class="sheetMain__actions">
-			<CommonSticky :offset-top="40">
+		<div class="characterSheet__actions">
+			<CommonSticky :offset-top="80">
 				ACTIONS
 			</CommonSticky>
 		</div>
-		<div class="sheetMain__meta">
-			<CommonSticky :offset-top="40">
+		<div class="characterSheet__meta">
+			<CommonSticky :offset-top="80">
 				<div
 					ref="metaContainer"
-					class="sheetMain__metaInner"
+					class="characterSheet__metaInner"
 					v-html="metaText"
 				/>
 			</CommonSticky>
@@ -26,7 +26,7 @@
 import { mapState } from "vuex";
 
 export default {
-	name: "SheetMain",
+	name: "CharacterSheet",
 	props: {
 		readOnly: Boolean,
 		value: {
@@ -40,8 +40,8 @@ export default {
 	}),
 	computed: {
 		...mapState({
-			metaText ({ sheets }) {
-				return (sheets.metaDisplay.text || "").replaceAll(/[\n\r]/g, "<br>");
+			metaText ({ characters }) {
+				return (characters.metaDisplay.text || "").replaceAll(/[\n\r]/g, "<br>");
 			}
 		})
 	},
@@ -64,7 +64,7 @@ export default {
 }
 </script>
 <style lang="scss">
-.sheetMain {
+.characterSheet {
 	display: grid;
 
 	grid-template-rows: auto auto;

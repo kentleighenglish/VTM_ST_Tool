@@ -19,7 +19,7 @@
 import { mapActions } from "vuex";
 
 export default {
-	name: "SheetFormDots",
+	name: "CharacterFormDots",
 	props: {
 		meta: {
 			type: Object,

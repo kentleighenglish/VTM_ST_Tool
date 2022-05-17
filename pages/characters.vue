@@ -1,9 +1,9 @@
 <template>
-	<div class="sheetsPage">
+	<div class="charactersPage">
 		<h1>Characters</h1>
 		<CommonTable
-			:columns="characterSheetColumns"
-			:rows="parsedSheets"
+			:columns="characterColumns"
+			:rows="parsedCharacters"
 		/>
 	</div>
 </template>
@@ -12,18 +12,18 @@ import { mapState, mapActions } from "vuex";
 import * as clans from "@/data/details/clans";
 
 export default {
-	name: "SheetsPage",
+	name: "CharactersPage",
 	data: () => ({
 		filter: {}
 	}),
 	computed: {
 		...mapState({
-			sheets ({ sheets: { sheets = [] } }) {
-				return sheets;
+			characters ({ characters: { characters = [] } }) {
+				return characters;
 			}
 		}),
-		parsedSheets () {
-			return (this.sheets || []).reduce((acc, { _id, sheet }) => ([
+		parsedCharacters () {
+			return (this.characters || []).reduce((acc, { _id, sheet }) => ([
 				...acc,
 				{
 					id: _id,
@@ -33,7 +33,7 @@ export default {
 				}
 			]), []);
 		},
-		characterSheetColumns () {
+		characterColumns () {
 			return {
 				id: {
 					label: "ID"
@@ -67,7 +67,7 @@ export default {
 						{
 							label: "View",
 							func (item, component) {
-								component.$router.push(`/sheets/${item.id}`);
+								component.$router.push(`/characters/${item.id}`);
 							}
 						}
 					])
@@ -80,7 +80,7 @@ export default {
 	},
 	methods: {
 		...mapActions({
-			loadAll: "sheets/loadAll"
+			loadAll: "characters/loadAll"
 		}),
 		onLoad () {
 			this.loadAll({ filter: this.filter });

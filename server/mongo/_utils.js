@@ -8,18 +8,18 @@ const debugError = debugFunc("db:error");
 const { MONGO_URI } = process.env;
 
 const collections = {
-	sets: {},
+	characters: {}
 };
 
 export const DB_NAME = "stTool";
 
-export const run = async (query)=> {
+export const run = async (query) => {
 	try {
 		const client = await MongoClient.connect(MONGO_URI, {
 			sslValidate: false,
 			useNewUrlParser: true,
 			useUnifiedTopology: true,
-			tlsAllowInvalidHostnames: true,
+			tlsAllowInvalidHostnames: true
 		});
 
 		const db = client.db(DB_NAME);
@@ -36,10 +36,10 @@ export const run = async (query)=> {
 };
 
 export const assertCollection = async (collection, db = DB_NAME) => {
-	const collectionList = await run((db) => db.collections());
+	const collectionList = await run(db => db.collections());
 
 	if (!map(collectionList, "namespace").includes(`${DB_NAME}.${collection}`)) {
-		await run((db) => db.createCollection(collection));
+		await run(db => db.createCollection(collection));
 		debug(`Collection Created: ${collection}`);
 	}
 	const { secondaryIndices = [] } = collections[collection] || {};
@@ -47,19 +47,19 @@ export const assertCollection = async (collection, db = DB_NAME) => {
 		secondaryIndices.map(async (index) => {
 			try {
 				if (typeof index === "string") {
-					await run((db) =>
-					db.collection(collection).createIndex({ [index]: 1 })
-				);
+					await run(db =>
+						db.collection(collection).createIndex({ [index]: 1 })
+					);
+				}
+			} catch (e) {
+				debugError(`Failed creating index on ${collection} with field ${index}. `, e);
 			}
-		} catch (e) {
-			debugError(`Failed creating index on ${collection} with field ${index}. `, e);
-		}
-	})
-);
+		})
+	);
 };
 
 export const assertAllCollections = async (db = DB_NAME) => {
 	await Promise.all(
-		Object.keys(collections).map(async (key) => await assertCollection(key, db))
+		Object.keys(collections).map(async key => await assertCollection(key, db))
 	);
 };

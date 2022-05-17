@@ -1,7 +1,7 @@
 <template>
-	<div class="sheetTabs">
+	<div class="characterTabs">
 		<CommonSticky :offset-top="20">
-			<div class="sheetTabs__list">
+			<div class="characterTabs__list">
 				<div
 					v-for="tab in tabs"
 					:key="tab.key"
@@ -12,7 +12,7 @@
 				</div>
 			</div>
 		</CommonSticky>
-		<div class="sheetTabs__content">
+		<div class="characterTabs__content">
 			<slot :name="currentTab" />
 		</div>
 	</div>
@@ -56,7 +56,7 @@ export default {
 		tabClass (tab) {
 			const hash = (this.$route.hash || "").replace("#", "");
 
-			return makeClassMods("sheetTabs__item", {
+			return makeClassMods("characterTabs__item", {
 				state: tab => tab.state,
 				active: tab => tab.key === hash
 			}, tab);
@@ -65,7 +65,17 @@ export default {
 }
 </script>
 <style lang="scss">
-.sheetTabs {
+.characterTabs {
+	position: relative;
+
+	> .stickyBlock {
+		z-index: 2;
+	}
+
+	> &__content {
+		z-index: 1;
+	}
+
 	&__list {
 		display: flex;
 	}

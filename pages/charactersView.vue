@@ -1,20 +1,20 @@
 <template>
-	<div class="sheetView">
-		<SheetTabs :tabs="tabs" default-tab="sheet">
+	<div class="characterView">
+		<CharacterTabs :tabs="tabs" default-tab="sheet">
 			<template #sheet>
-				<SheetMain v-model="formData" :read-only="readOnly" />
+				<CharacterSheet v-model="formData" :read-only="readOnly" />
 			</template>
 			<template #powers>
-				<SheetPowers :data="formData" />
+				<CharacterPowers :data="formData" />
 			</template>
-		</SheetTabs>
+		</CharacterTabs>
 	</div>
 </template>
 <script>
 import { mapActions, mapState } from "vuex";
 
 export default {
-	name: "SheetsPage",
+	name: "CharactersViewPage",
 	props: {
 		createMode: Boolean
 	},
@@ -23,23 +23,23 @@ export default {
 		formData: {}
 	}),
 	head () {
-		const charName = this.loadedSheet?.details?.info?.name;
+		const charName = this.loadedCharacter?.details?.info?.name;
 		const createMode = this.createMode;
 
 		return {
-			title: createMode ? "New Sheet" : charName
+			title: createMode ? "New Character" : charName
 		}
 	},
 	computed: {
 		...mapState({
-			metaText ({ sheets }) {
-				return (sheets.metaDisplay.text || "").replaceAll(/[\n\r]/g, "<br>");
+			metaText ({ characters }) {
+				return (characters.metaDisplay.text || "").replaceAll(/[\n\r]/g, "<br>");
 			},
 			loading ({ sheets: { loading } }) {
 				return !!loading;
 			},
-			loadedSheet ({ sheets: { currentSheet = null } }) {
-				return currentSheet;
+			loadedSheet ({ characters: { currentCharacter = null } }) {
+				return currentCharacter;
 			}
 		}),
 		readOnly () {
@@ -48,13 +48,13 @@ export default {
 		tabs () {
 			const tabs = [
 				{
-					key: "saveSheet",
-					label: this.createMode ? "Create Sheet" : "Save Sheet",
-					action: () => this.onSaveSheet(),
+					key: "saveCharacter",
+					label: this.createMode ? "Create Character" : "Save Character",
+					action: () => this.onSaveCharacter(),
 					state: "primary"
 				},
 				{
-					key: "resetSheet",
+					key: "resetCharacter",
 					label: "Reset",
 					action: () => this.reset(),
 					state: "warning"
@@ -81,7 +81,7 @@ export default {
 		}
 	},
 	mounted () {
-		this.sheetId = this.$route.params.id;
+		this.characterId = this.$route.params.id;
 
 		if (!this.createMode && this.sheetId) {
 			this.loadSheet({ id: this.sheetId });
@@ -95,9 +95,9 @@ export default {
 	},
 	methods: {
 		...mapActions({
-			createSheet: "sheets/create",
-			updateSheet: "sheets/update",
-			loadSheet: "sheets/load",
+			createCharacter: "characters/create",
+			updateCharacter: "characters/update",
+			loadSheet: "characters/load",
 			joinRoom: "socket/joinRoom",
 			leaveRoom: "socket/leaveRoom"
 		}),
@@ -105,22 +105,22 @@ export default {
 			this.formData = data;
 		},
 		reset () {
-			this.formData = this.loadedSheet;
+			this.formData = { ...(this.loadedCharacter || {}) };
 		},
-		async onSaveSheet () {
-			if (!this.createMode && this.sheetId) {
-				await this.updateSheet({ _id: this.sheetId, sheet: this.formData });
+		async onSaveCharacter () {
+			if (!this.createMode && this.characterId) {
+				await this.updateCharacter({ _id: this.characterId, sheet: this.formData });
 			} else {
-				const { id } = await this.createSheet({ sheet: this.formData });
+				const { id } = await this.createCharacter({ sheet: this.formData });
 
-				this.$router.replace(`/sheets/${id}`);
+				this.$router.replace(`/characters/${id}`);
 			}
 		}
 	}
 }
 </script>
 <style lang="scss">
-.sheetView {
+.characterView {
 
 }
 </style>

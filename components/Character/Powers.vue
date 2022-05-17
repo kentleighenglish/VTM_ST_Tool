@@ -1,6 +1,6 @@
 <template>
-	<div class="sheetPowers">
-		<div v-if="sortedDisciplines.length" class="sheetPowers__navList">
+	<div class="characterPowers">
+		<div v-if="sortedDisciplines.length" class="characterPowers__navList">
 			<div :class="navListItemClass({ key: null })" @click="setFilter(null)">
 				<span>All</span>
 			</div>
@@ -13,7 +13,7 @@
 				<span>{{ d.label }}</span>
 			</div>
 		</div>
-		<div v-if="sortedPowers.length" class="sheetPowers__list">
+		<div v-if="sortedPowers.length" class="characterPowers__list">
 			<div v-for="(power, $index) in sortedPowers" :key="$index" class="powerItem">
 				<div class="powerItem__label">
 					{{ power.label }}
@@ -23,7 +23,7 @@
 				</div>
 			</div>
 		</div>
-		<div v-if="!sortedDisciplines.length && !sortedPowers.length" class="sheetPowers__none">
+		<div v-if="!sortedDisciplines.length && !sortedPowers.length" class="characterPowers__none">
 			<span>No disciplines/powers for this character</span>
 		</div>
 	</div>
@@ -79,7 +79,7 @@ export default {
 			this.filter = key;
 		},
 		navListItemClass (item) {
-			return makeClassMods("sheetPowers__navListItem", {
+			return makeClassMods("characterPowers__navListItem", {
 				active: i => i.key === this.filter
 			}, item);
 		}
@@ -87,7 +87,7 @@ export default {
 }
 </script>
 <style lang="scss">
-.sheetPowers {
+.characterPowers {
 	padding: $gap * 2 $gap;
 	display: grid;
 	grid-template-columns: 200px 1fr;

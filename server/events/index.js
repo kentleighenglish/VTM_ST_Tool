@@ -1,9 +1,7 @@
-import * as sheets from "./sheets";
+import * as characters from "./characters";
 import * as rooms from "./rooms";
 
-export { sheets, rooms };
-
-export default {
-  sheets,
-  rooms
-};
+export {
+	characters,
+	rooms
+}

@@ -2,18 +2,18 @@ import { ObjectID } from "mongodb";
 import debug from "../debug";
 import { run } from "./_utils";
 
-const COLLECTION = "sheets";
+const COLLECTION = "characters";
 
 export const create = async (sheet) => {
 	try {
 		const response = await run(
-			(db) =>
-			new Promise((resolve, reject) =>
-				db.collection(COLLECTION).insertOne(
-					sheet,
-					(err, result) => (err ? reject(err) : resolve(result.insertedId))
+			db =>
+				new Promise((resolve, reject) =>
+					db.collection(COLLECTION).insertOne(
+						sheet,
+						(err, result) => (err ? reject(err) : resolve(result.insertedId))
+					)
 				)
-			)
 		);
 
 		if (response) {
@@ -29,7 +29,7 @@ export const create = async (sheet) => {
 
 export const update = async ({ _id, sheet }) => {
 	try {
-		const response = await run((db) =>
+		const response = await run(db =>
 			db.collection(COLLECTION).updateOne({ _id: ObjectID(_id) }, { $set: { sheet } })
 		);
 
@@ -62,7 +62,6 @@ export const fetch = async (id) => {
 		return null;
 	}
 }
-
 
 export const fetchAll = async () => {
 	try {

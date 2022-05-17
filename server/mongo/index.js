@@ -1,7 +1,7 @@
-import * as sheets from "./sheets";
+import * as characters from "./characters";
 
-export { sheets };
+export { characters };
 
 export default {
-  sheets,
+	characters
 };

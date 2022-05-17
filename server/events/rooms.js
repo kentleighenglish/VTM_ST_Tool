@@ -17,16 +17,15 @@ export const join = async ({ socket, io, data, callback }) => {
 
 		const sockets = await getRoomSockets(io, socket)(room);
 
-		callback({ sockets });
+		callback(null, { sockets });
 		updateRoom({ socket, io, data });
 	}
 }
 
-export const leave = async ({ socket, io, data, callback }) => {
+export const leave = ({ socket, io, data, callback }) => {
 	if (data.id) {
 		const room = roomId(data.id);
 		socket.leave(room);
-		const sockets = await getRoomSockets(io, socket)(room);
 
 		updateRoom({ socket, io, data });
 	}
