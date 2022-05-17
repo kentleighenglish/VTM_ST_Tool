@@ -19,7 +19,7 @@ export default {
 		createMode: Boolean
 	},
 	data: () => ({
-		sheetId: null,
+		characterId: null,
 		formData: {}
 	}),
 	head () {
@@ -35,15 +35,15 @@ export default {
 			metaText ({ characters }) {
 				return (characters.metaDisplay.text || "").replaceAll(/[\n\r]/g, "<br>");
 			},
-			loading ({ sheets: { loading } }) {
+			loading ({ characters: { loading } }) {
 				return !!loading;
 			},
-			loadedSheet ({ characters: { currentCharacter = null } }) {
-				return currentCharacter;
+			loadedSheet ({ characters: { currentCharacter = {} } }) {
+				return currentCharacter.sheet;
 			}
 		}),
 		readOnly () {
-			return !!this.sheetId
+			return !!this.characterId
 		},
 		tabs () {
 			const tabs = [
@@ -83,14 +83,14 @@ export default {
 	mounted () {
 		this.characterId = this.$route.params.id;
 
-		if (!this.createMode && this.sheetId) {
-			this.loadSheet({ id: this.sheetId });
-			this.joinRoom({ id: this.sheetId });
+		if (!this.createMode && this.characterId) {
+			this.loadSheet({ id: this.characterId });
+			this.joinRoom({ id: this.characterId });
 		}
 	},
 	beforeDestroy () {
-		if (this.sheetId) {
-			this.leaveRoom({ id: this.sheetId })
+		if (this.characterId) {
+			this.leaveRoom({ id: this.characterId })
 		}
 	},
 	methods: {
@@ -105,7 +105,7 @@ export default {
 			this.formData = data;
 		},
 		reset () {
-			this.formData = { ...(this.loadedCharacter || {}) };
+			this.formData = { ...(this.loadedSheet || {}) };
 		},
 		async onSaveCharacter () {
 			if (!this.createMode && this.characterId) {

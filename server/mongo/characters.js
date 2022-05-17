@@ -4,13 +4,13 @@ import { run } from "./_utils";
 
 const COLLECTION = "characters";
 
-export const create = async (sheet) => {
+export const create = async ({ sheet }) => {
 	try {
 		const response = await run(
 			db =>
 				new Promise((resolve, reject) =>
 					db.collection(COLLECTION).insertOne(
-						sheet,
+						{ sheet },
 						(err, result) => (err ? reject(err) : resolve(result.insertedId))
 					)
 				)
@@ -22,7 +22,7 @@ export const create = async (sheet) => {
 
 		return null;
 	} catch (e) {
-		debug("db:sheets", true)("ERROR", e);
+		debug("db:characters", true)("ERROR", e);
 		return null;
 	}
 };
@@ -58,7 +58,7 @@ export const fetch = async (id) => {
 
 		return null;
 	} catch (e) {
-		debug("db:sheets", true)("ERROR", e);
+		debug("db:characters", true)("ERROR", e);
 		return null;
 	}
 }

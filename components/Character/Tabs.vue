@@ -43,13 +43,15 @@ export default {
 	},
 	methods: {
 		async onTabClick (tab) {
+			const hash = (this.$route.hash || "").replace("#", "");
+
 			if (tab.action) {
 				await tab.action();
 
 				return;
 			}
 
-			if (tab.key) {
+			if (tab.key && tab.key !== hash) {
 				this.$router.replace({ hash: tab.key || this.defaultTab });
 			}
 		},

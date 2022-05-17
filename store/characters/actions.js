@@ -23,7 +23,7 @@ export const create = ({ dispatch, commit, rootState }, { sheet }) => {
 			} else {
 				globalPushMessage(dispatch)({
 					type: "error",
-					error: error.getMessage()
+					body: error.message
 				});
 				resolve({ id: null });
 			}
@@ -36,27 +36,33 @@ export const update = ({ dispatch, commit, rootState }, { _id, sheet }) => {
 
 	return new Promise((resolve, reject) => {
 		socket().emit(events.characters.update, { _id, sheet }, (error, { id }) => {
-			if (id) {
-				resolve({ id });
-			} else {
+			if (error) {
 				globalPushMessage(dispatch)({
 					type: "error",
-					error: error.getMessage()
+					body: error.message
 				});
 				resolve({ id: null });
+			} else if (id) {
+				resolve({ id });
 			}
 		});
 	});
 };
 
-export const load = async ({ commit, rootState }, { id }) => {
+export const load = async ({ dispatch, commit, rootState }, { id }) => {
 	const { socket, events } = rootState.socket;
 	commit(loadType, { id });
 
 	await new Promise((resolve) => {
-		socket().emit(events.characters.fetch, { id }, ({ sheet }) => {
-			if (sheet) {
-				commit(loadCompleteType, { id, sheet });
+		socket().emit(events.characters.fetch, { id }, (error, { character }) => {
+			if (error) {
+				globalPushMessage(dispatch)({
+					type: "error",
+					body: error.message
+				});
+				resolve({ id: null });
+			} else if (character) {
+				commit(loadCompleteType, { id, character });
 
 				resolve();
 			}
@@ -73,7 +79,7 @@ export const loadAll = async ({ commit, dispatch, rootState }, { filter }) => {
 			if (error) {
 				globalPushMessage(dispatch)({
 					type: "error",
-					error: error.getMessage()
+					body: error.message
 				});
 			} else if (characters) {
 				commit(loadAllCompleteType, { characters });

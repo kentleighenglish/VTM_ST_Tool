@@ -6,6 +6,9 @@ import {
 	leaveRoomType,
 	updateTriggeredType
 } from "./mutations";
+import {
+	globalPushMessage
+} from "@/store/toast/actions";
 
 export const addSocket = ({ commit, dispatch }, { socket }) => {
 	commit(addSocketType, { socket });
@@ -41,12 +44,18 @@ export const bindEvents = ({ commit, dispatch }, socketIo) => {
 	});
 };
 
-export const joinRoom = async ({ commit, rootState }, { id }) => {
+export const joinRoom = async ({ dispatch, commit, rootState }, { id }) => {
 	const { socket, events } = rootState.socket;
 	commit(joinRoomType, {});
 
 	await new Promise((resolve) => {
-		socket().emit(events.rooms.join, { id }, ({ sockets }) => {
+		socket().emit(events.rooms.join, { id }, (error, { sockets }) => {
+			if (error) {
+				globalPushMessage(dispatch)({
+					type: "error",
+					body: error.message
+				});
+			}
 			commit(updateTriggeredType, { sockets });
 
 			resolve();
