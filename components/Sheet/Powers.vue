@@ -1,21 +1,35 @@
 <template>
 	<div class="sheetPowers">
-		<div v-if="sortedPowers.length" class="sheetPowers__navList">
-			<div class="sheetPowers__navListItem">
+		<div v-if="sortedDisciplines.length" class="sheetPowers__navList">
+			<div :class="navListItemClass({ key: null })" @click="setFilter(null)">
 				<span>All</span>
 			</div>
-			<div v-for="p in sortedPowers" :key="`navList_${p.key}`" class="sheetPowers__navListItem">
-				<span>{{ p.label }}</span>
+			<div
+				v-for="d in sortedDisciplines"
+				:key="`navList_${d.key}`"
+				:class="navListItemClass(d)"
+				@click="setFilter(d.key)"
+			>
+				<span>{{ d.label }}</span>
 			</div>
 		</div>
 		<div v-if="sortedPowers.length" class="sheetPowers__list">
+			<div v-for="(power, $index) in sortedPowers" :key="$index" class="powerItem">
+				<div class="powerItem__label">
+					{{ power.label }}
+				</div>
+				<div class="powerItem__description">
+					{{ power.description }}
+				</div>
+			</div>
 		</div>
-		<div v-if="!sortedPowers.length" class="sheetPowers__none">
+		<div v-if="!sortedDisciplines.length && !sortedPowers.length" class="sheetPowers__none">
 			<span>No disciplines/powers for this character</span>
 		</div>
 	</div>
 </template>
 <script>
+import { makeClassMods } from "@/mixins/classModsMixin";
 import * as disciplines from "@/data/advantages/disciplines";
 
 export default {
@@ -26,28 +40,48 @@ export default {
 			default: () => ({})
 		}
 	},
+	data: () => ({
+		filter: null
+	}),
 	computed: {
-		sortedPowers () {
-			const {
-				advantages: {
-					disciplines: { list: charDisciplines = {} } = {}
-				} = {}
-			} = (this.data || {});
+		disciplines () {
+			const { advantages: { disciplines: { list = {} } = {} } = {} } = (this.data || {});
 
-			return Object.keys(charDisciplines).filter(key => key !== "_custom").reduce((acc, key) => {
-				const dotLevel = charDisciplines[key];
-				const label = (disciplines[key] || {}).label;
-				const powers = (disciplines[key] || {}).dots || [];
-
-				return [
+			return list;
+		},
+		sortedDisciplines () {
+			return Object.keys(this.disciplines)
+				.filter(key => key !== "_custom")
+				.reduce((acc, key) => ([
 					...acc,
 					{
 						key,
-						label,
-						powers: powers.filter(power => power.dot <= dotLevel)
+						label: (disciplines[key] || {}).label
 					}
-				]
-			}, []);
+				]), []);
+		},
+		sortedPowers () {
+			return Object.keys(this.disciplines)
+				.filter(key => key !== "_custom" && (!this.filter || this.filter === key))
+				.reduce((acc, key) => {
+					const dotLevel = this.disciplines[key];
+					const powers = (disciplines[key] || {}).dots || [];
+
+					return [
+						...acc,
+						...powers.filter(power => power.dot <= dotLevel)
+					];
+				}, []);
+		}
+	},
+	methods: {
+		setFilter (key) {
+			this.filter = key;
+		},
+		navListItemClass (item) {
+			return makeClassMods("sheetPowers__navListItem", {
+				active: i => i.key === this.filter
+			}, item);
 		}
 	}
 }
@@ -78,11 +112,34 @@ export default {
 			font-size: 1em;
 			text-align: center;
 			background: $grey-lighter;
+
+			&:hover:not(&--active) {
+				cursor: pointer;
+				background: $grey-light;
+			}
+
+			&--active {
+				background: $grey-light;
+			}
 		}
 	}
 
 	&__list {
-		display: flex;
+		display: grid;
+		grid-template-columns: repeat(4, minmax(0, 1fr));
+		grid-gap: $gap;
+		padding: 0 $gap * 2;
+
+		.powerItem {
+			width: 100%;
+			height: 200px;
+			overflow: hidden;
+
+			&__label {
+				font-size: 1.1em;
+				font-weight: 600;
+			}
+		}
 	}
 }
 </style>

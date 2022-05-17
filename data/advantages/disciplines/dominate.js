@@ -72,20 +72,5 @@ export const dots = [
 		dot: 9,
 		label: "Speak Through the Blood",
 		description: "The power structures of Methuselahs extend across continents and centuries. This power allows such ancients to wield control over their descendants, even those far outside their geographic spheres of influence. Speak Through the Blood allows an elder to issue commands to every vampire whose lineage can be traced to her — even if the two have never met. Thus, entire broods act to further the goals of sleeping ancients whose existences they may be completely unaware of. The vampires affected by this power rarely act directly to pursue the command they were given, but over a decade or so, their priorities slowly shift until the fulfillment of the Methuselah‘s command is among their long-term goals. Speak Through the Blood, because it takes effect so slowly, is rarely recognized as an outside influence, and its victims rationalize their behavior as “growing and changing,” or something to that effect. System: The player spends a permanent Willpower point and rolls Manipulation + Leadership. The difficulty of this roll is equal to four plus the number of Generations to which the command is to be passed. Unless the character is aware of the location and present agenda of every descendant of his — a highly unlikely event — he may only issue general commands, such as “work for the greater glory of Clan Malkavian” or “destroy all those who seek to extinguish the light of knowledge.” Speak Through the Blood can be used by a vampire in torpor. Commands issued through this power last for one decade per success on the roll. Difficulties over 10 require one additional success for each point past 10, making it that much more difficult to issue long-lasting commands stretching down to the ends of one’s lineage. A vampire who has reached Golconda is not affected by this power, and is completely unaware that it has been used. Her childer, however, are affected normally unless they are also enlightened. Ghouls of the victims of this power are also affected, but to a lesser extent."
-	},
-	{
-		dot: 1,
-		label: "",
-		description: ""
-	},
-	{
-		dot: 1,
-		label: "",
-		description: ""
-	},
-	{
-		dot: 1,
-		label: "",
-		description: ""
 	}
 ];

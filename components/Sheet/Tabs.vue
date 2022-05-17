@@ -16,7 +16,7 @@
 	</div>
 </template>
 <script>
-import { makeMods } from "@/mixins/classModsMixin";
+import { makeClassMods } from "@/mixins/classModsMixin";
 
 export default {
 	name: "SheetTabs",
@@ -51,7 +51,7 @@ export default {
 		tabClass (tab) {
 			const hash = (this.$route.hash || "").replace("#", "");
 
-			return makeMods("sheetTabs__item", {
+			return makeClassMods("sheetTabs__item", {
 				state: tab => tab.state,
 				active: tab => tab.key === hash
 			}, tab);

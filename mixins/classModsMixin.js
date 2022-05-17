@@ -1,5 +1,5 @@
 
-export const makeMods = (baseClass, modifiers, component) => Object.keys(modifiers).reduce((arr, key) => {
+export const makeClassMods = (baseClass, modifiers, component) => Object.keys(modifiers).reduce((arr, key) => {
 	const modifier = modifiers[key];
 
 	const result = modifier(component);
@@ -21,7 +21,7 @@ export default {
 			if (this.$options.classMod) {
 				const { baseClass = "", modifiers = {} } = this.$options.classMod;
 
-				return makeMods(baseClass, modifiers, this);
+				return makeClassMods(baseClass, modifiers, this);
 			}
 
 			return "";
