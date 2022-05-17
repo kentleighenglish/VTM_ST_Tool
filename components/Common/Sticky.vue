@@ -1,6 +1,8 @@
 <template>
-	<div ref="stickyContainer" class="stickyBlock" :style="stickyStyle">
-		<slot />
+	<div ref="stickyContainer" class="stickyBlock" :style="{ height: `${containerHeight}px` }">
+		<div class="stickyBlock__inner" :style="stickyStyle">
+			<slot />
+		</div>
 	</div>
 </template>
 <script>
@@ -13,8 +15,8 @@ export default {
 		}
 	},
 	data: () => ({
-		maxHeight: 0,
-		scrollPos: 1
+		scrollPos: 1,
+		containerHeight: 0
 	}),
 	computed: {
 		positionState () {
@@ -45,11 +47,13 @@ export default {
 	},
 	methods: {
 		updateHeight () {
-			const docHeight = document.body.clientHeight;
 			const el = this.$refs.stickyContainer;
 
 			if (el) {
-				this.maxHeight = docHeight - el.offsetTop - 40;
+				const innerEl = el.querySelector(".stickyBlock__inner");
+				if (innerEl) {
+					this.containerHeight = innerEl.clientHeight;
+				}
 			}
 		},
 		updateScroll () {
@@ -60,6 +64,8 @@ export default {
 			if (!el) {
 				return 0;
 			}
+
+			// const innerEl = el.querySelector(".stickyBlock__inner");
 
 			const getOffset = (el) => {
 				if (el.offsetTop !== 0) {
@@ -74,3 +80,10 @@ export default {
 	}
 }
 </script>
+<style lang="scss">
+.stickyBlock {
+	&__inner {
+		width: 100%;
+	}
+}
+</style>

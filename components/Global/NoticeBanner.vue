@@ -1,8 +1,10 @@
 <template>
 	<div :class="componentClass">
-		<div class="noticeBanner__text">
-			{{ noticeText }}
-		</div>
+		<CommonSticky :offset-top="0">
+			<div class="noticeBanner__inner">
+				{{ noticeText }}
+			</div>
+		</CommonSticky>
 	</div>
 </template>
 <script>
@@ -48,31 +50,47 @@ export default {
 </script>
 <style lang="scss">
 	.noticeBanner {
-		position: absolute;
-		display: flex;
-		top: 100%;
-		left: 0;
+		position: relative;
 		width: 100%;
+		margin-bottom: 0px;
+		transition: margin-bottom 0.3s;
+		z-index: 2;
 
-		align-items: center;
-		padding: math.div($gap, 4) $gap * 2;
-		font-size: 0.9em;
-		transform: translateY(-100%);
-		transition: background-color 0.3s, transform 0.3s;
-
-		@include realShadow();
+		.stickyBlock {
+			width: 100%;
+		}
 
 		&--visible {
-			transform: translateY(0%);
+			margin-bottom: 30px;
 		}
 
-		&--updateAvailable {
-			background-color: $warning;
-		}
+		&__inner {
+			position: absolute;
+			display: flex;
+			top: 100%;
+			width: 100%;
+			left: 0;
 
-		&--beingViewed {
-			background-color: $grey-light;
-			color: $grey-dark;
+			align-items: center;
+			padding: math.div($gap, 4) $gap * 2;
+			font-size: 0.9em;
+			transform: translateY(-100%);
+			transition: background-color 0.3s, transform 0.3s;
+
+			@include realShadow();
+
+			.noticeBanner--visible & {
+				transform: translateY(0%);
+			}
+
+			.noticeBanner--updateAvailable & {
+				background-color: $warning;
+			}
+
+			.noticeBanner--beingViewed & {
+				background-color: $grey-light;
+				color: $grey-darker;
+			}
 		}
 	}
 </style>

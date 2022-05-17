@@ -1,6 +1,7 @@
 <template>
 	<div class="layout__default">
 		<GlobalNav v-if="connected && hasEvents" />
+		<GlobalNoticeBanner />
 		<div v-if="connected && hasEvents" class="content">
 			<Nuxt />
 		</div>
@@ -42,6 +43,7 @@ export default {
 <style lang="scss">
 .layout__default {
 	min-height: 100%;
+	position: relative;
 
 	.content {
 		padding: $gap ($gap * 2);

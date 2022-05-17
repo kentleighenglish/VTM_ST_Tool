@@ -9,7 +9,6 @@
 			</li>
 		</ul>
 		<GlobalSocketStatus v-if="adminMode" />
-		<GlobalNoticeBanner />
 	</nav>
 </template>
 <script>
@@ -39,7 +38,7 @@ export default {
 		justify-content: space-between;
 		align-items: center;
 		position: relative;
-		z-index: 1;
+		z-index: 3;
 
 		&__back {
 			position: absolute;
