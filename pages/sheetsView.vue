@@ -1,8 +1,11 @@
 <template>
 	<div class="sheetView">
-		<SheetTabs :tabs="tabs" default-tab="main">
-			<template #main>
+		<SheetTabs :tabs="tabs" default-tab="sheet">
+			<template #sheet>
 				<SheetMain v-model="formData" :read-only="readOnly" />
+			</template>
+			<template #powers>
+				<SheetPowers :data="formData" />
 			</template>
 		</SheetTabs>
 	</div>
@@ -17,12 +20,7 @@ export default {
 	},
 	data: () => ({
 		sheetId: null,
-		formData: {},
-		tabs: {
-			main: {
-				label: "Main"
-			}
-		}
+		formData: {}
 	}),
 	head () {
 		const charName = this.loadedSheet?.details?.info?.name;
@@ -46,6 +44,35 @@ export default {
 		}),
 		readOnly () {
 			return !!this.sheetId
+		},
+		tabs () {
+			const tabs = [
+				{
+					key: "saveSheet",
+					label: this.createMode ? "Create Sheet" : "Save Sheet",
+					action: () => this.onSaveSheet(),
+					state: "primary"
+				},
+				{
+					key: "resetSheet",
+					label: "Reset",
+					action: () => this.reset(),
+					state: "warning"
+				},
+				{
+					key: "sheet",
+					label: "Character Sheet"
+				}
+			];
+
+			if (this.formData?.details?.vampire?.clan) {
+				tabs.push({
+					key: "powers",
+					label: "Powers"
+				});
+			}
+
+			return tabs;
 		}
 	},
 	watch: {
