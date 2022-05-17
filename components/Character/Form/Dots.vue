@@ -61,7 +61,7 @@ export default {
 	},
 	methods: {
 		...mapActions({
-			updateMetaField: "sheets/updateMetaField"
+			updateMetaField: "characters/updateMetaField"
 		}),
 		isDotFilled (i) {
 			return (this.hoverDot >= this.model ? this.hoverDot : this.model) >= i;

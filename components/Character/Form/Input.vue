@@ -81,7 +81,7 @@ export default {
 	},
 	methods: {
 		...mapActions({
-			updateMetaField: "sheets/updateMetaField"
+			updateMetaField: "characters/updateMetaField"
 		}),
 		updateValue (value) {
 			if (this.type === "checkbox") {

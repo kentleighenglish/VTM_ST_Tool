@@ -20,8 +20,8 @@ export default {
 	data: () => ({
 		items: [
 			{ label: "Home", path: "/" },
-			{ label: "Sheets", path: "/sheets" },
-			{ label: "Create Sheet", path: "/sheets/create" }
+			{ label: "Characters", path: "/characters" },
+			{ label: "Create Character", path: "/characters/create" }
 		]
 	}),
 	computed: {

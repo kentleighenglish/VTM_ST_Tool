@@ -66,7 +66,7 @@ export default {
 	},
 	methods: {
 		...mapActions({
-			updateMetaField: "sheets/updateMetaField"
+			updateMetaField: "characters/updateMetaField"
 		}),
 		isDotFilled (i) {
 			return this.model >= i;
