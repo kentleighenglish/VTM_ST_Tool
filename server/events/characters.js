@@ -8,7 +8,7 @@ export const create = async ({ socket, callback, data = {} }) => {
 		if (response) {
 			callback(null, { id: response });
 		} else {
-			throw new Error("Could not create character sheet");
+			callback(new Error("Could not create character sheet").message, {});
 		}
 	} catch (e) {
 		callback(e);
@@ -24,7 +24,7 @@ export const update = async ({ data: { _id, sheet }, socket, io, callback }) => 
 
 			updateRoom({ socket, io, data: { id: _id, updateAvailable: true } });
 		} else {
-			callback(new Error("Could not update character sheet"));
+			callback(new Error("Could not update character sheet").message, {});
 		}
 	} catch (e) {
 		callback(e);
@@ -37,7 +37,7 @@ export const fetch = async ({ data, callback }) => {
 	if (character) {
 		callback(null, { character });
 	} else {
-		callback(null, { character: null });
+		callback(new Error("Could not find character").message, { character: null });
 	}
 }
 

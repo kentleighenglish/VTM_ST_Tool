@@ -27,7 +27,11 @@ export const bindEvents = ({ commit, dispatch }, socketIo) => {
 	socketIo.on("connect_error", (error) => {
 		commit(updateSocketStatusType, {
 			connected: false,
-			error: error.message
+			error
+		});
+		globalPushMessage(dispatch)({
+			type: "error",
+			body: error
 		});
 	});
 	socketIo.on("disconnect", (reason) => {
@@ -53,7 +57,7 @@ export const joinRoom = async ({ dispatch, commit, rootState }, { id }) => {
 			if (error) {
 				globalPushMessage(dispatch)({
 					type: "error",
-					body: error.message
+					body: error
 				});
 			}
 			commit(updateTriggeredType, { sockets });

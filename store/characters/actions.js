@@ -58,7 +58,7 @@ export const load = async ({ dispatch, commit, rootState }, { id }) => {
 			if (error) {
 				globalPushMessage(dispatch)({
 					type: "error",
-					body: error.message
+					body: error
 				});
 				resolve({ id: null });
 			} else if (character) {
