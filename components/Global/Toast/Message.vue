@@ -1,8 +1,10 @@
 <template>
-	<div :class="componentClass">
-		<div class="toastMessage__timeoutSlider" :style="{ width: `${timerPercentage}%` }" />
-		<div class="toastMessage__body">
-			{{ body }}
+	<div :class="componentClass" @mouseover="pauseTimer" @mouseleave="playTimer">
+		<div class="toastMessage__inner">
+			<div class="toastMessage__timeoutSlider" :style="{ width: `${timerPercentage}%` }" />
+			<div class="toastMessage__body">
+				{{ body }}
+			</div>
 		</div>
 	</div>
 </template>
@@ -15,10 +17,15 @@ export default {
 	classMod: {
 		baseClass: "toastMessage",
 		modifiers: {
-			type: vm => vm.type
+			type: vm => vm.type,
+			status: vm => vm.status
 		}
 	},
 	props: {
+		id: {
+			type: String,
+			default: null
+		},
 		type: {
 			type: String,
 			default: "default"
@@ -29,14 +36,15 @@ export default {
 		},
 		timeout: {
 			type: Number,
-			default: 3000
+			default: 0
 		}
 	},
 	data () {
 		return {
 			timerTotal: 0,
 			timer: 0,
-			timerRunning: true
+			timerRunning: false,
+			status: "loading"
 		}
 	},
 	computed: {
@@ -53,7 +61,7 @@ export default {
 			wpsTimeout = match.length / wps;
 		}
 
-		const timer = this.timeout || wpsTimeout;
+		const timer = Math.max(this.timeout || wpsTimeout, 5000);
 
 		this.timer = timer;
 		this.timerTotal = timer;
@@ -61,6 +69,11 @@ export default {
 		if (this.timer > 0) {
 			this.timerInterval = setInterval(() => this.updateTimer(), 100);
 		}
+
+		setTimeout(() => {
+			this.status = "loaded"
+			this.timerRunning = true;
+		}, 50);
 	},
 	beforeDestroy () {
 		if (this.timerInterval) {
@@ -78,6 +91,12 @@ export default {
 			if (this.timerRunning && this.timer > 0) {
 				this.timer += -100;
 			}
+
+			if (this.timer <= 0) {
+				this.status = "destroying";
+
+				setTimeout(() => this.$emit("dismiss", this.id), 500);
+			}
 		}
 	}
 }
@@ -85,21 +104,38 @@ export default {
 <style lang="scss">
 .toastMessage {
 	position: relative;
-	background: $grey-lightest;
-	padding: $gap;
 	width: 100%;
 
-	border-left: 5px solid $grey-light;
+	transform: translateX(150%);
+	transition: transform 0.5s, max-height 2s;
+	max-height: 0px;
+	overflow: hidden;
+	pointer-events: all;
 
-	@include realShadow($grey-light);
+	&__inner {
+		width: 100%;
+		border-left: 5px solid $grey-light;
+		background: lighten($grey-lightest, 2%);
+		padding: $gap;
+		margin-bottom: $gap;
+
+		@include realShadow($grey-light);
+	}
+
+	&--loaded {
+		transform: translateX(0%);
+		max-height: 600px;
+	}
 
 	@include generateStateModifiers() using ($color) {
-		@include realShadow($color);
+		.toastMessage__inner {
+			@include realShadow($color);
 
-		border-left-color: lighten(desaturate($color, 15%), 10%);
+			border-left-color: lighten(desaturate($color, 15%), 10%);
+		}
 
-		.toastMessage__timeoutSlider {
-			background: darken($color, 10%);
+		.toastMessage__body {
+			color: darken($color, 15%);
 		}
 	}
 
@@ -109,7 +145,7 @@ export default {
 		left: 0;
 
 		height: 3px;
-		background: black;
+		background: $grey-light;
 		transition: width 0.1s;
 	}
 }

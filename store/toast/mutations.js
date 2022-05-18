@@ -12,8 +12,8 @@ export default {
 
 		Vue.set(state, "messages", messages);
 	},
-	[dismissMessageType]: (state, messageId) => {
-		const messages = state.messages.filter(message => message.id !== messageId);
+	[dismissMessageType]: (state, { id }) => {
+		const messages = state.messages.filter(message => message.id !== id);
 
 		Vue.set(state, "messages", messages);
 	}
