@@ -50,3 +50,15 @@ export const fetchAll = async ({ data, callback }) => {
 		callback(null, { characters: [] });
 	}
 }
+
+export const rewardXp = async ({ socket, io, data = {}, callback }) => {
+	const { id, amount } = data;
+
+	if (id && amount) {
+		await m.characters.rewardXp({ _id: id, amount });
+
+		updateRoom({ socket, io, data: { id, xpUpdateAvailable: true } });
+
+		await fetch({ data: { id }, callback });
+	}
+}

@@ -32,6 +32,9 @@ export default {
 	},
 	computed: {
 		...mapState({
+			adminMode ({ adminMode }) {
+				return !!adminMode;
+			},
 			metaText ({ characters }) {
 				return (characters.metaDisplay.text || "").replaceAll(/[\n\r]/g, "<br>");
 			},
@@ -65,7 +68,16 @@ export default {
 				}
 			];
 
-			if (this.formData?.details?.vampire?.clan) {
+			if (this.adminMode) {
+				tabs.unshift({
+					key: "rewardXp",
+					label: "Reward 1 XP",
+					action: () => this.onGiveXp(1),
+					state: "primary"
+				});
+			}
+
+			if (this.formData?.sheet?.details?.vampire?.clan) {
 				tabs.push({
 					key: "powers",
 					label: "Powers"
@@ -98,6 +110,7 @@ export default {
 			createCharacter: "characters/create",
 			updateCharacter: "characters/update",
 			loadCharacter: "characters/load",
+			rewardXp: "characters/rewardXp",
 			joinRoom: "socket/joinRoom",
 			leaveRoom: "socket/leaveRoom"
 		}),
@@ -112,6 +125,9 @@ export default {
 
 				this.$router.replace(`/characters/${id}`);
 			}
+		},
+		async onGiveXp (amount) {
+			await this.rewardXp({ id: this.characterId, amount });
 		}
 	}
 }

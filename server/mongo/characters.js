@@ -76,3 +76,23 @@ export const fetchAll = async () => {
 		return [];
 	}
 };
+
+export const rewardXp = async ({ _id, amount }) => {
+	try {
+		const response = await run(db =>
+			db.collection(COLLECTION).updateOne(
+				{ _id: ObjectID(_id) },
+				{ $inc: { "xp.availablePoints": amount } },
+				{ upsert: true }
+			)
+		);
+
+		if (response) {
+			return response;
+		}
+
+		return null;
+	} catch (e) {
+		return null;
+	}
+};

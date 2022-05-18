@@ -89,3 +89,21 @@ export const loadAll = async ({ commit, dispatch, rootState }, { filter }) => {
 		});
 	});
 }
+
+export const rewardXp = async ({ commit, dispatch, rootState }, { id, amount }) => {
+	const { socket, events } = rootState.socket;
+
+	await new Promise((resolve) => {
+		socket().emit(events.characters.rewardXp, { id, amount }, (error, { character }) => {
+			if (error) {
+				globalPushMessage(dispatch)({
+					type: "error",
+					body: error.message
+				});
+			} else if (character) {
+				commit(loadCompleteType, { id, character });
+				resolve();
+			}
+		});
+	});
+}
