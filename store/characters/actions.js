@@ -53,6 +53,11 @@ export const load = async ({ dispatch, commit, rootState }, { id }) => {
 	const { socket, events } = rootState.socket;
 	commit(loadType, { id });
 
+	globalPushMessage(dispatch)({
+		type: "error",
+		body: "Test"
+	});
+
 	await new Promise((resolve) => {
 		socket().emit(events.characters.fetch, { id }, (error, { character }) => {
 			if (error) {

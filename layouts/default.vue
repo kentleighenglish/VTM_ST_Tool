@@ -2,6 +2,7 @@
 	<div class="layout__default">
 		<GlobalNav v-if="connected && hasEvents" />
 		<GlobalNoticeBanner />
+		<GlobalToastContainer />
 		<div v-if="connected && hasEvents" class="content">
 			<Nuxt />
 		</div>
