@@ -4,11 +4,12 @@
 			Character Sheet
 		</h1>
 		<div class="characterSheet__fields">
-			<CharacterForm v-model="model" :read-only="readOnly" @input="updateValue" />
+			<CharacterForm v-model="model.sheet" :read-only="readOnly" @input="updateValue('sheet', $event)" />
 		</div>
 		<div class="characterSheet__actions">
 			<CommonSticky :offset-top="80">
-				ACTIONS
+				<CharacterXpPoints :data="model.xp" />
+				<CharacterXpHistory :data="model.xp" />
 			</CommonSticky>
 		</div>
 		<div class="characterSheet__meta">
@@ -57,8 +58,11 @@ export default {
 		this.model = this.value;
 	},
 	methods: {
-		updateValue (value) {
-			this.$emit("input", value);
+		updateValue (field, value) {
+			this.$emit("input", {
+				...this.model,
+				[field]: value
+			});
 		}
 	}
 }

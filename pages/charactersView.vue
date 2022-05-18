@@ -38,8 +38,8 @@ export default {
 			loading ({ characters: { loading } }) {
 				return !!loading;
 			},
-			loadedSheet ({ characters: { currentCharacter = {} } }) {
-				return currentCharacter.sheet;
+			loadedCharacter ({ characters: { currentCharacter = {} } }) {
+				return { ...currentCharacter };
 			}
 		}),
 		readOnly () {
@@ -76,15 +76,15 @@ export default {
 		}
 	},
 	watch: {
-		loadedSheet () {
-			this.formData = this.loadedSheet;
+		loadedCharacter () {
+			this.formData = this.loadedCharacter;
 		}
 	},
 	mounted () {
 		this.characterId = this.$route.params.id;
 
 		if (!this.createMode && this.characterId) {
-			this.loadSheet({ id: this.characterId });
+			this.loadCharacter({ id: this.characterId });
 			this.joinRoom({ id: this.characterId });
 		}
 	},
@@ -97,21 +97,18 @@ export default {
 		...mapActions({
 			createCharacter: "characters/create",
 			updateCharacter: "characters/update",
-			loadSheet: "characters/load",
+			loadCharacter: "characters/load",
 			joinRoom: "socket/joinRoom",
 			leaveRoom: "socket/leaveRoom"
 		}),
-		onUpdate (data) {
-			this.formData = data;
-		},
 		reset () {
-			this.formData = { ...(this.loadedSheet || {}) };
+			this.formData = { ...(this.loadedCharacter || {}) };
 		},
 		async onSaveCharacter () {
 			if (!this.createMode && this.characterId) {
-				await this.updateCharacter({ _id: this.characterId, sheet: this.formData });
+				await this.updateCharacter({ _id: this.characterId, ...this.formData });
 			} else {
-				const { id } = await this.createCharacter({ sheet: this.formData });
+				const { id } = await this.createCharacter({ ...this.formData });
 
 				this.$router.replace(`/characters/${id}`);
 			}
