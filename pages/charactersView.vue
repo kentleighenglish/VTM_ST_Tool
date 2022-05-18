@@ -5,7 +5,7 @@
 				<CharacterSheet v-model="formData" :read-only="readOnly" />
 			</template>
 			<template #powers>
-				<CharacterPowers :data="formData" />
+				<CharacterPowers :data="formData.sheet" />
 			</template>
 		</CharacterTabs>
 	</div>
