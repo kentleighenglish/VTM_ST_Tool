@@ -67,10 +67,10 @@ export default {
 
 			const getOffset = (el) => {
 				if (el.offsetTop !== 0) {
-					return el.offsetTop;
+					return el.offsetTop || 0;
 				}
 
-				return getOffset(el.parentNode);
+				return getOffset(el.parentNode) || 0;
 			}
 
 			return getOffset(el);

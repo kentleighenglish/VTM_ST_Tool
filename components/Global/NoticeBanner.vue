@@ -60,10 +60,6 @@ export default {
 			width: 100%;
 		}
 
-		&--visible {
-			margin-bottom: 30px;
-		}
-
 		&__inner {
 			position: absolute;
 			display: flex;
