@@ -131,7 +131,7 @@ export default {
 		.toastMessage__inner {
 			@include realShadow($color);
 
-			border-left-color: lighten(desaturate($color, 15%), 10%);
+			border-left-color: $color;
 		}
 
 		.toastMessage__body {

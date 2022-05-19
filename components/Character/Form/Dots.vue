@@ -85,7 +85,8 @@ export default {
 	},
 	methods: {
 		...mapActions({
-			updateMetaField: "characters/updateMetaField"
+			updateMetaField: "characters/updateMetaField",
+			pushToastMessage: "toast/pushMessage"
 		}),
 		dotClass (dotIndex) {
 			return makeClassMods("dots__dot", {
@@ -129,6 +130,11 @@ export default {
 				if (!this.createMode) {
 					this.xpSpendUpdate(this.label || this.name, value, xpCost);
 				}
+			} else if (!this.xpCheck(xpCost)) {
+				this.pushToastMessage({
+					type: "error",
+					body: "Not enough XP to buy this"
+				});
 			}
 		}
 	}
