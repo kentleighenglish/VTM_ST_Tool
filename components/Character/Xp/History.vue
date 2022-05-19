@@ -1,6 +1,6 @@
 <template>
 	<div class="xpHistory">
-		<div v-for="item in data.history" :key="item.id" class="xpHistory__item">
+		<div v-for="item in parsedHistory" :key="item.id" class="xpHistory__item">
 			<strong>[{{ item.name }}]: {{ item.value }}</strong> ({{ item.cost }}xp) - <small>{{ item.date | date }}</small>
 		</div>
 	</div>
@@ -19,6 +19,13 @@ export default {
 			default: () => ({
 				history: []
 			})
+		}
+	},
+	computed: {
+		parsedHistory () {
+			return (this.data?.history || []).sort((a, b) =>
+				a.date.toString() < b.date.toString() ? 1 : -1
+			);
 		}
 	}
 }

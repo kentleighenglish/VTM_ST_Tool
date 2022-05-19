@@ -123,13 +123,18 @@ export default {
 			this.formData = { ...(this.loadedCharacter || {}) };
 		},
 		xpCheck (cost) {
+			if (this.adminMode) {
+				return true;
+			}
+
 			return (this.formData?.xp?.availablePoints || 0) >= cost;
 		},
 		xpSpendUpdate (name, value, cost) {
-			const updatedXp = (this.formData?.xp?.availablePoints || 0) - cost;
+			const xp = (this.formData?.xp?.availablePoints || 0);
 			const history = (this.formData?.xp?.history || []);
 
 			const date = new Date();
+			const updatedXp = this.adminMode ? xp : (xp - cost);
 
 			history.push({
 				name,
