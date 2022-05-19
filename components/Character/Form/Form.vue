@@ -4,6 +4,7 @@
 			v-model="model"
 			:fields="sheetData"
 			:create-mode="createMode"
+			:admin-mode="adminMode"
 			:xp-check="xpCheck"
 			:xp-spend-update="xpSpendUpdate"
 			@input="updateValue($event)"

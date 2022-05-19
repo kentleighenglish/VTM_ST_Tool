@@ -43,6 +43,7 @@ export default {
 			default: null
 		},
 		createMode: Boolean,
+		adminMode: Boolean,
 		xpCheck: {
 			type: Function,
 			default: () => {}

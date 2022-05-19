@@ -9,6 +9,7 @@
 			:fields="fields"
 			class-name="formSectionColumn__content"
 			:create-mode="createMode"
+			:admin-mode="adminMode"
 			:xp-check="xpCheck"
 			:xp-spend-update="xpSpendUpdate"
 			@input="handleChange"
@@ -36,6 +37,7 @@ export default {
 			default: () => ({})
 		},
 		createMode: Boolean,
+		adminMode: Boolean,
 		xpCheck: {
 			type: Function,
 			default: () => {}

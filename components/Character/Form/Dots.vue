@@ -49,6 +49,7 @@ export default {
 			default: null
 		},
 		createMode: Boolean,
+		adminMode: Boolean,
 		xpCheck: {
 			type: Function,
 			default: () => {}
@@ -120,7 +121,7 @@ export default {
 				xpCost = getXpCost(this.model || 0, value);
 			}
 
-			if (this.xpCheck(xpCost) && (this.createMode || this.model < value)) {
+			if (this.adminMode || (this.xpCheck(xpCost) && (this.createMode || this.model < value))) {
 				if (value === 1 && this.model === 1) {
 					this.$emit("input", 0);
 				} else {

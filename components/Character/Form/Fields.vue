@@ -7,6 +7,7 @@
 			v-bind="field.data"
 			v-model="field.value"
 			:create-mode="createMode"
+			:admin-mode="adminMode"
 			:xp-check="xpCheck"
 			:xp-spend-update="xpSpendUpdate"
 			@input="handleChange(field.data.name, $event)"
@@ -54,6 +55,7 @@ export default {
 			default: null
 		},
 		createMode: Boolean,
+		adminMode: Boolean,
 		xpCheck: {
 			type: Function,
 			default: () => {}

@@ -6,6 +6,7 @@
 			:fields="generatedFields"
 			class-name="dynamicField__fields"
 			:create-mode="createMode"
+			:admin-mode="adminMode"
 			:xp-check="xpCheck"
 			:xp-spend-update="xpSpendUpdate"
 			@input="handleChange($event)"
@@ -18,6 +19,7 @@
 				:type="keyOptions ? 'select' : 'text'"
 				:options="keyOptions"
 				:create-mode="createMode"
+				:admin-mode="adminMode"
 				:xp-check="xpCheck"
 				:xp-spend-update="xpSpendUpdate"
 			/>
@@ -48,6 +50,7 @@ export default {
 			default: () => ({})
 		},
 		createMode: Boolean,
+		adminMode: Boolean,
 		xpCheck: {
 			type: Function,
 			default: () => {}
