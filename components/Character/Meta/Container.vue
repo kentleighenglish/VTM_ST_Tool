@@ -23,6 +23,11 @@ export default {
 </script>
 <style lang="scss">
 .metaContainer {
+	max-height: 100%;
+	overflow: hidden;
+	display: grid;
+
+	grid-auto-columns: minmax(0, 1fr);
 
 	&__inner {
 		padding: $gap;
