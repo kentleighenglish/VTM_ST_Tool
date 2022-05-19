@@ -5,6 +5,9 @@
 			v-model="model"
 			:fields="generatedFields"
 			class-name="dynamicField__fields"
+			:read-only="readOnly"
+			:xp-check="xpCheck"
+			:xp-spend-update="xpSpendUpdate"
 			@input="handleChange($event)"
 		/>
 		<div class="dynamicField__customAdd">
@@ -14,6 +17,9 @@
 				name="dynamicFieldCustom"
 				:type="keyOptions ? 'select' : 'text'"
 				:options="keyOptions"
+				:read-only="readOnly"
+				:xp-check="xpCheck"
+				:xp-spend-update="xpSpendUpdate"
 			/>
 			<CharacterFormButton
 				:disabled="!customAdd"
@@ -40,6 +46,15 @@ export default {
 		meta: {
 			type: Object,
 			default: () => ({})
+		},
+		readOnly: Boolean,
+		xpCheck: {
+			type: Function,
+			default: () => {}
+		},
+		xpSpendUpdate: {
+			type: Function,
+			default: () => {}
 		}
 	},
 	data: () => ({

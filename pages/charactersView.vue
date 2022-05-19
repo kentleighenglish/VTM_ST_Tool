@@ -2,7 +2,12 @@
 	<div class="characterView">
 		<CharacterTabs :tabs="tabs" default-tab="sheet">
 			<template #sheet>
-				<CharacterSheet v-model="formData" :read-only="readOnly" />
+				<CharacterSheet
+					v-model="formData"
+					:read-only="readOnly"
+					:xp-check="xpCheck"
+					:xp-spend-update="xpSpendUpdate"
+				/>
 			</template>
 			<template #powers>
 				<CharacterPowers :data="formData.sheet" />
@@ -46,7 +51,7 @@ export default {
 			}
 		}),
 		readOnly () {
-			return !!this.characterId
+			return !this.adminMode && (!!this.characterId || this.createMode);
 		},
 		tabs () {
 			const tabs = [
@@ -89,7 +94,7 @@ export default {
 	},
 	watch: {
 		loadedCharacter () {
-			this.formData = this.loadedCharacter;
+			this.formData = { ...this.loadedCharacter };
 		}
 	},
 	mounted () {
@@ -116,6 +121,12 @@ export default {
 		}),
 		reset () {
 			this.formData = { ...(this.loadedCharacter || {}) };
+		},
+		xpCheck (cost) {
+			return (this.formData?.xp?.avalablePoints || 0) >= cost;
+		},
+		xpSpendUpdate (fieldName, cost) {
+
 		},
 		async onSaveCharacter () {
 			if (!this.createMode && this.characterId) {

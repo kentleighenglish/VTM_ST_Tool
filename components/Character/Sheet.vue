@@ -33,6 +33,14 @@ export default {
 		value: {
 			type: Object,
 			default: () => ({})
+		},
+		xpCheck: {
+			type: Function,
+			default: () => {}
+		},
+		xpSpendUpdate: {
+			type: Function,
+			default: () => {}
 		}
 	},
 	data: () => ({

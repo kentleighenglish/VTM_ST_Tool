@@ -8,6 +8,9 @@
 			v-model="model"
 			:fields="fields"
 			class-name="formSectionColumn__content"
+			:read-only="readOnly"
+			:xp-check="xpCheck"
+			:xp-spend-update="xpSpendUpdate"
 			@input="handleChange"
 		/>
 	</div>
@@ -31,6 +34,15 @@ export default {
 		value: {
 			type: Object,
 			default: () => ({})
+		},
+		readOnly: Boolean,
+		xpCheck: {
+			type: Function,
+			default: () => {}
+		},
+		xpSpendUpdate: {
+			type: Function,
+			default: () => {}
 		}
 	},
 	data: () => ({

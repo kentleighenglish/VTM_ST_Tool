@@ -6,6 +6,9 @@
 				v-for="i in maxDots"
 				:key="i"
 				:class="{ 'dots__dot': true, 'dots__dot--filled': isDotFilled(i) }"
+				:read-only="readOnly"
+				:xp-check="xpCheck"
+				:xp-spend-update="xpSpendUpdate"
 				@mouseover="setDotHover(i)"
 				@mouseleave="clearDotHover()"
 				@click="updateValue($event, i)"
@@ -36,6 +39,15 @@ export default {
 		value: {
 			type: Number,
 			default: null
+		},
+		readOnly: Boolean,
+		xpCheck: {
+			type: Function,
+			default: () => {}
+		},
+		xpSpendUpdate: {
+			type: Function,
+			default: () => {}
 		}
 	},
 	data: () => ({

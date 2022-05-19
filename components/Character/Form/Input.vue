@@ -51,6 +51,15 @@ export default {
 		value: {
 			type: [Number, String],
 			default: null
+		},
+		readOnly: Boolean,
+		xpCheck: {
+			type: Function,
+			default: () => {}
+		},
+		xpSpendUpdate: {
+			type: Function,
+			default: () => {}
 		}
 	},
 	data: () => ({

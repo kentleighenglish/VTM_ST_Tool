@@ -1,6 +1,13 @@
 <template>
 	<div class="characterCharacterForm">
-		<CharacterFormFields v-model="model" :fields="sheetData" @input="updateValue($event)" />
+		<CharacterFormFields
+			v-model="model"
+			:fields="sheetData"
+			:read-only="readOnly"
+			:xp-check="xpCheck"
+			:xp-spend-update="xpSpendUpdate"
+			@input="updateValue($event)"
+		/>
 	</div>
 </template>
 <script>
@@ -13,7 +20,15 @@ export default {
 			type: Object,
 			default: () => ({})
 		},
-		readOnly: Boolean
+		readOnly: Boolean,
+		xpCheck: {
+			type: Function,
+			default: () => {}
+		},
+		xpSpendUpdate: {
+			type: Function,
+			default: () => {}
+		}
 	},
 	data: () => ({
 		sheetData: {},
