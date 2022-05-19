@@ -125,13 +125,23 @@ export default {
 		xpCheck (cost) {
 			return (this.formData?.xp?.availablePoints || 0) >= cost;
 		},
-		xpSpendUpdate (fieldName, cost) {
+		xpSpendUpdate (name, value, cost) {
 			const updatedXp = (this.formData?.xp?.availablePoints || 0) - cost;
-			console.log(fieldName);
+			const history = (this.formData?.xp?.history || []);
+
+			const date = new Date();
+
+			history.push({
+				name,
+				value,
+				cost,
+				date
+			});
 
 			this.formData.xp = {
 				...this.formData.xp,
-				availablePoints: updatedXp
+				availablePoints: updatedXp,
+				history
 			}
 		},
 		async onSaveCharacter () {
