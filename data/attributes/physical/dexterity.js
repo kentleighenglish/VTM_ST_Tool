@@ -8,6 +8,7 @@ export default {
 			maxDots: getTraitDots,
 			maxSpendDots: getMaxSpend(getAttributeCost)
 		},
+		getXpCost: getAttributeCost,
 		description: (name, dotIndex) => {
 			let desc = description;
 
