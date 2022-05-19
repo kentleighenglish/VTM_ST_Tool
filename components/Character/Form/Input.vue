@@ -52,7 +52,7 @@ export default {
 			type: [Number, String],
 			default: null
 		},
-		readOnly: Boolean,
+		createMode: Boolean,
 		xpCheck: {
 			type: Function,
 			default: () => {}

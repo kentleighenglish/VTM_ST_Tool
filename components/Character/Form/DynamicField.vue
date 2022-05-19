@@ -5,7 +5,7 @@
 			v-model="model"
 			:fields="generatedFields"
 			class-name="dynamicField__fields"
-			:read-only="readOnly"
+			:create-mode="createMode"
 			:xp-check="xpCheck"
 			:xp-spend-update="xpSpendUpdate"
 			@input="handleChange($event)"
@@ -17,7 +17,7 @@
 				name="dynamicFieldCustom"
 				:type="keyOptions ? 'select' : 'text'"
 				:options="keyOptions"
-				:read-only="readOnly"
+				:create-mode="createMode"
 				:xp-check="xpCheck"
 				:xp-spend-update="xpSpendUpdate"
 			/>
@@ -47,7 +47,7 @@ export default {
 			type: Object,
 			default: () => ({})
 		},
-		readOnly: Boolean,
+		createMode: Boolean,
 		xpCheck: {
 			type: Function,
 			default: () => {}

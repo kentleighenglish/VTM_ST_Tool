@@ -6,7 +6,7 @@
 				v-for="i in maxDots"
 				:key="i"
 				:class="{ 'dots__dot': true, 'dots__dot--filled': isDotFilled(i) }"
-				:read-only="readOnly"
+				:create-mode="createMode"
 				:xp-check="xpCheck"
 				:xp-spend-update="xpSpendUpdate"
 				@mouseover="setDotHover(i)"
@@ -40,7 +40,7 @@ export default {
 			type: Number,
 			default: null
 		},
-		readOnly: Boolean,
+		createMode: Boolean,
 		xpCheck: {
 			type: Function,
 			default: () => {}

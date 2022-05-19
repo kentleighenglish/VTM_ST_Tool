@@ -3,7 +3,7 @@
 		<CharacterFormFields
 			v-model="model"
 			:fields="sheetData"
-			:read-only="readOnly"
+			:create-mode="createMode"
 			:xp-check="xpCheck"
 			:xp-spend-update="xpSpendUpdate"
 			@input="updateValue($event)"
@@ -20,7 +20,7 @@ export default {
 			type: Object,
 			default: () => ({})
 		},
-		readOnly: Boolean,
+		createMode: Boolean,
 		xpCheck: {
 			type: Function,
 			default: () => {}

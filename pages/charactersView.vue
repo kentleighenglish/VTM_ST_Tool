@@ -4,7 +4,7 @@
 			<template #sheet>
 				<CharacterSheet
 					v-model="formData"
-					:read-only="readOnly"
+					:create-mode="createModeParsed"
 					:xp-check="xpCheck"
 					:xp-spend-update="xpSpendUpdate"
 				/>
@@ -50,7 +50,7 @@ export default {
 				return { ...currentCharacter };
 			}
 		}),
-		readOnly () {
+		createModeParsed () {
 			return !this.adminMode && (!!this.characterId || this.createMode);
 		},
 		tabs () {

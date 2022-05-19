@@ -8,7 +8,7 @@
 			v-model="model"
 			:fields="fields"
 			class-name="formSection__content"
-			:read-only="readOnly"
+			:create-mode="createMode"
 			:xp-check="xpCheck"
 			:xp-spend-update="xpSpendUpdate"
 			@input="handleChange($event)"
@@ -35,7 +35,7 @@ export default {
 			type: Object,
 			default: () => ({})
 		},
-		readOnly: Boolean,
+		createMode: Boolean,
 		xpCheck: {
 			type: Function,
 			default: () => {}

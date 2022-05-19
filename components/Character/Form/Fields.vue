@@ -6,7 +6,7 @@
 			:key="field.data.name"
 			v-bind="field.data"
 			v-model="field.value"
-			:read-only="readOnly"
+			:create-mode="createMode"
 			:xp-check="xpCheck"
 			:xp-spend-update="xpSpendUpdate"
 			@input="handleChange(field.data.name, $event)"
@@ -53,7 +53,7 @@ export default {
 			type: [Object, Number, String],
 			default: null
 		},
-		readOnly: Boolean,
+		createMode: Boolean,
 		xpCheck: {
 			type: Function,
 			default: () => {}
