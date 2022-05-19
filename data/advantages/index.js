@@ -1,12 +1,14 @@
-import { getDisciplineDots } from "../_utils";
+import { getDisciplineDots, getMaxSpend, getDisciplineCost } from "../_utils";
 import * as clans from "../details/clans";
 import * as disciplines from "./disciplines";
 import * as backgrounds from "./backgrounds";
 
 const disiplinesDotMeta = data => ({
 	params: {
-		maxDots: getDisciplineDots(data)
+		maxDots: getDisciplineDots(data),
+		maxSpendDots: getMaxSpend(getDisciplineCost)
 	},
+	getXpCost: getDisciplineCost,
 	description: (name, dotIndex) => {
 		let desc = null;
 		const discipline = disciplines[name];

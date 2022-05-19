@@ -103,7 +103,7 @@ export default {
 				this.updateMetaField({ text });
 			}
 			if (getXpCost) {
-				const xpCost = getXpCost(this.model || 0, i);
+				const xpCost = getXpCost({ current: this.model || 0, target: i });
 
 				console.log("This will cost", xpCost);
 			}
@@ -118,7 +118,7 @@ export default {
 			let xpCost = 0;
 
 			if (getXpCost) {
-				xpCost = getXpCost(this.model || 0, value);
+				xpCost = getXpCost({ current: this.model || 0, target: value });
 			}
 
 			if (this.adminMode || (this.xpCheck(xpCost) && (this.createMode || this.model < value))) {

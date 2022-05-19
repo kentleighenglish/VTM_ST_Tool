@@ -24,7 +24,7 @@ export const getDisciplineDots = (data) => {
 	return calculated > 10 ? 10 : calculated;
 }
 
-export const getAttributeCost = (current = 0, target) => {
+export const getAttributeCost = ({ current = 0, target }) => {
 	let xp = 0;
 	for (let i = current; i < target; i++) {
 		xp += i * 4;
@@ -33,7 +33,7 @@ export const getAttributeCost = (current = 0, target) => {
 	return xp;
 };
 
-export const getAbilitiesCost = (current = 0, target) => {
+export const getAbilitiesCost = ({ current = 0, target }) => {
 	let xp = 0;
 
 	if (current === 0) {
@@ -48,7 +48,7 @@ export const getAbilitiesCost = (current = 0, target) => {
 	return xp;
 };
 
-export const getDisciplineCost = (current, target, clanDiscipline = false) => {
+export const getDisciplineCost = ({ current, target, clanDiscipline = false }) => {
 	let xp = 0;
 	if (current === 0) {
 		xp = 10;
@@ -71,7 +71,7 @@ export const getMaxSpend = costFunc => (data, { adminMode, xpPoints, propPath })
 	const target = get(data, propPath.join("."), 0) + 1;
 
 	const checkTarget = (t) => {
-		const xpCost = costFunc(current, t);
+		const xpCost = costFunc({ current, target: t });
 
 		if (xpCost > xpPoints) {
 			return t - 1;
