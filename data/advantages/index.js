@@ -63,10 +63,11 @@ export default {
 											label: disciplines[key].label,
 											type: "dots",
 											default: null,
-											meta: (data = {}, additional = {}) => {
-												additional.propPath.push(key);
+											meta: (data, additional = {}) => {
+												const { propPath } = additional
+												const newPropPath = [...propPath].push(key);
 
-												return disciplinesDotMeta(data, { ...additional, clanDisciplines })
+												return disciplinesDotMeta(data, { ...additional, propPath: newPropPath, clanDisciplines })
 											}
 										}
 									}), {});
@@ -74,12 +75,13 @@ export default {
 
 								return {};
 							},
-							fieldsMeta: (data = {}, additional = {}) => (fieldName) => {
+							fieldsMeta: (data = {}, { propPath, ...additional } = { propPath: [] }) => (fieldName) => {
 								const clan = data?.details?.vampire?.clan;
 								const clanDisciplines = Object.keys(clans[clan]?.disciplines || {});
-								additional.propPath.push(fieldName);
+								const newPropPath = [...propPath];
+								newPropPath.push(fieldName);
 
-								return disciplinesDotMeta(data, { ...additional, clanDisciplines })
+								return disciplinesDotMeta(data, { ...additional, propPath: newPropPath, clanDisciplines })
 							}
 						},
 						keyOptions: Object.keys(disciplines).reduce((acc, key) => ({
