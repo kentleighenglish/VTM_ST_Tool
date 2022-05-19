@@ -68,7 +68,7 @@ export default {
 </script>
 <style lang="scss">
 .characterTabs {
-	position: relative;
+	// position: relative;
 
 	> .stickyBlock {
 		z-index: 2;

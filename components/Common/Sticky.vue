@@ -13,11 +13,17 @@ export default {
 			type: Number,
 			default: 0
 		},
+		overflowScroll: {
+			type: Boolean,
+			default: false
+		},
 		zIndex: Number
 	},
 	data: () => ({
 		scrollPos: 1,
-		containerHeight: 0
+		containerHeight: 0,
+		containerWidth: 0,
+		windowHeight: 0
 	}),
 	computed: {
 		positionState () {
@@ -36,19 +42,23 @@ export default {
 				position: this.positionState,
 				transform: `translateY(${this.positionState === "fixed" ? this.offsetTop : 0}px)`,
 				top: 0,
-				zIndex: (this.zIndex || null)
+				width: "100%",
+				maxWidth: `${this.containerWidth}px`,
+				maxHeight: `${this.windowHeight - this.offsetTop - 40}px`,
+				zIndex: (this.zIndex || null),
+				overflow: this.overflowScroll ? "auto" : "initial"
 			}
 		}
 	},
 	mounted () {
-		window.addEventListener("resize", () => this.updateHeight());
+		window.addEventListener("resize", () => this.updateSize());
 		window.addEventListener("scroll", () => this.updateScroll());
 
-		this.updateHeight();
+		this.updateSize();
 		this.updateScroll();
 	},
 	methods: {
-		updateHeight () {
+		updateSize () {
 			const el = this.$refs.stickyContainer;
 
 			if (el) {
@@ -56,7 +66,11 @@ export default {
 				if (innerEl) {
 					this.containerHeight = innerEl.clientHeight;
 				}
+
+				this.containerWidth = el.clientWidth;
 			}
+
+			this.windowHeight = window.innerHeight;
 		},
 		updateScroll () {
 			this.scrollPos = (window.scrollY || 0);
@@ -80,10 +94,3 @@ export default {
 	}
 }
 </script>
-<style lang="scss">
-.stickyBlock {
-	&__inner {
-		width: 100%;
-	}
-}
-</style>

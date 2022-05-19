@@ -14,26 +14,20 @@
 				@input="updateValue('sheet', $event)"
 			/>
 		</div>
-		<div class="characterSheet__actions">
+		<div class="characterSheet__xp">
 			<CommonSticky :offset-top="80">
 				<CharacterXpPoints :data="model.xp" />
 				<CharacterXpHistory :data="model.xp" />
 			</CommonSticky>
 		</div>
 		<div class="characterSheet__meta">
-			<CommonSticky :offset-top="80">
-				<div
-					ref="metaContainer"
-					class="characterSheet__metaInner"
-					v-html="metaText"
-				/>
+			<CommonSticky :offset-top="80" :overflow-scroll="true">
+				<CharacterMetaContainer />
 			</CommonSticky>
 		</div>
 	</div>
 </template>
 <script>
-import { mapState } from "vuex";
-
 export default {
 	name: "CharacterSheet",
 	props: {
@@ -56,13 +50,6 @@ export default {
 		sheetId: null,
 		model: null
 	}),
-	computed: {
-		...mapState({
-			metaText ({ characters }) {
-				return (characters.metaDisplay.text || "").replaceAll(/[\n\r]/g, "<br>");
-			}
-		})
-	},
 	watch: {
 		value (v) {
 			this.model = v;
@@ -87,6 +74,7 @@ export default {
 <style lang="scss">
 .characterSheet {
 	display: grid;
+	padding-top: $gap * 2;
 
 	grid-template-rows: auto auto;
 	grid-template-columns: 1fr 900px 1fr;
@@ -109,14 +97,9 @@ export default {
 		grid-area: meta;
 	}
 
-	&__actions {
+	&__xp {
 		position: relative;
 		grid-area: actions;
-	}
-
-	&__metaInner {
-		padding: $gap;
-		overflow-x: auto;
 	}
 }
 </style>

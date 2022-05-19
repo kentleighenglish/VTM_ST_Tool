@@ -25,6 +25,7 @@ export default {
 		font-weight: 600;
 
 		span {
+			display: inline-block;
 			padding: math.div($gap, 2);
 			background: $grey-lighter;
 			border-radius: 10px;
