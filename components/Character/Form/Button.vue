@@ -1,6 +1,6 @@
 <template>
 	<div :class="componentClass">
-		<button :type="type" :disabled="disabled" @click="onClick">
+		<button :type="type" @click="onClick">
 			<slot />
 		</button>
 	</div>
@@ -37,10 +37,14 @@ export default {
 	},
 	methods: {
 		onClick (e) {
-			this.$emit("click", e);
+			if (this.disabled) {
+				this.$emit("disabledClick", e);
+			} else {
+				this.$emit("click", e);
 
-			if (this.click) {
-				this.click(e);
+				if (this.click) {
+					this.click(e);
+				}
 			}
 		}
 	}
@@ -61,13 +65,13 @@ export default {
 
 			@include realShadow($grey);
 			transition: box-shadow .6s;
+		}
 
-			&:disabled {
-				opacity: 0.8;
-				color: $grey;
-				box-shadow: none;
-				cursor: default;
-			}
+		&--disabled button {
+			opacity: 0.8;
+			color: $grey;
+			box-shadow: none;
+			cursor: default;
 		}
 	}
 </style>

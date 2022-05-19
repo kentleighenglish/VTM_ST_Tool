@@ -133,8 +133,8 @@ export default {
 				}
 			} else if (!this.xpCheck(xpCost)) {
 				this.pushToastMessage({
-					type: "error",
-					body: "Not enough XP to buy this"
+					type: "warning",
+					body: `Not enough XP, you need ${xpCost}xp`
 				});
 			}
 		}

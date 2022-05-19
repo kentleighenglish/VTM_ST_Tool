@@ -24,8 +24,9 @@
 				:xp-spend-update="xpSpendUpdate"
 			/>
 			<CharacterFormButton
-				:disabled="!customAdd"
+				:disabled="isAddDisabled"
 				@click="addCustom($event)"
+				@disabledClick="addCustomFailed($event)"
 			>
 				Add
 			</CharacterFormButton>
@@ -33,6 +34,8 @@
 	</div>
 </template>
 <script>
+import { mapActions } from "vuex";
+
 export default {
 	name: "CharacterFormDynamicField",
 	props: {
@@ -65,6 +68,14 @@ export default {
 		customAdd: null
 	}),
 	computed: {
+		addCost () {
+			const getAdd = this.meta?.getXpAddCost;
+
+			return getAdd ? getAdd() : 0;
+		},
+		isAddDisabled () {
+			return !this.xpCheck(this.addCost) || !this.customAdd
+		},
 		fieldType () {
 			return this.meta.fieldType;
 		},
@@ -137,6 +148,9 @@ export default {
 		this.model = this.value;
 	},
 	methods: {
+		...mapActions({
+			pushToastMessage: "toast/pushMessage"
+		}),
 		updateValue (value) {
 			this.$emit("input", {
 				...value,
@@ -161,6 +175,15 @@ export default {
 				});
 
 				this.customAdd = null;
+			}
+		},
+		addCustomFailed (e) {
+			const xpCost = this.addCost;
+			if (!this.xpCheck(xpCost)) {
+				this.pushToastMessage({
+					type: "warning",
+					body: `You need ${xpCost}xp to add this`
+				});
 			}
 		}
 	}

@@ -51,6 +51,7 @@ export default {
 					label: null,
 					type: "dynamicField",
 					meta: {
+						getXpAddCost: () => getDisciplineCost({ current: 0, target: 1 }),
 						params: {
 							defaultFields: (data = {}, additional = {}) => {
 								const clan = data?.details?.vampire?.clan;
