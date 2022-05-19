@@ -8,6 +8,7 @@ export default {
 			maxDots: getTraitDots,
 			maxSpendDots: getMaxSpend(getAbilitiesCost)
 		},
+		getXpCost: getAbilitiesCost,
 		description: "raw physical strength"
 	}
 }
