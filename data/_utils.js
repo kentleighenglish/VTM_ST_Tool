@@ -48,6 +48,20 @@ export const getAbilitiesCost = (current = 0, target) => {
 	return xp;
 };
 
+export const getDisciplineCost = (current, target, clanDiscipline = false) => {
+	let xp = 0;
+	if (current === 0) {
+		xp = 10;
+		current++;
+	}
+
+	for (let i = current; i < target; i++) {
+		xp += i * (clanDiscipline ? 5 : 7);
+	}
+
+	return xp;
+}
+
 export const getMaxSpend = costFunc => (data, { adminMode, xpPoints, propPath }) => {
 	if (adminMode) {
 		return 100;
