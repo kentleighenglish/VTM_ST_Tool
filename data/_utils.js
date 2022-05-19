@@ -48,7 +48,11 @@ export const getAbilitiesCost = (current = 0, target) => {
 	return xp;
 };
 
-export const getMaxSpend = costFunc => (data, { xpPoints, propPath }) => {
+export const getMaxSpend = costFunc => (data, { adminMode, xpPoints, propPath }) => {
+	if (adminMode) {
+		return 100;
+	}
+
 	const current = get(data, propPath.join("."), 0);
 	const target = get(data, propPath.join("."), 0) + 1;
 

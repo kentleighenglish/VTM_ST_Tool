@@ -1,12 +1,11 @@
 <template>
-	<div class="dotsInput">
-		{{ maxSpendDots }}
+	<div :class="componentClass">
 		<span class="dotsInput__label">{{ label }}</span>
 		<div v-if="maxDots" class="dots">
 			<div
 				v-for="i in maxDots"
 				:key="i"
-				:class="{ 'dots__dot': true, 'dots__dot--filled': isDotFilled(i) }"
+				:class="dotClass(i)"
 				:create-mode="createMode"
 				:xp-check="xpCheck"
 				:xp-spend-update="xpSpendUpdate"
@@ -21,9 +20,17 @@
 </template>
 <script>
 import { mapActions } from "vuex";
+import classModsMixin, { makeClassMods } from "@/mixins/classModsMixin";
 
 export default {
 	name: "CharacterFormDots",
+	mixins: [classModsMixin],
+	classMod: {
+		baseClass: "dotsInput",
+		modifiers: {
+			overspend: vm => vm.hoverDot > vm.maxSpendDots
+		}
+	},
 	props: {
 		meta: {
 			type: Object,
@@ -80,8 +87,11 @@ export default {
 		...mapActions({
 			updateMetaField: "characters/updateMetaField"
 		}),
-		isDotFilled (i) {
-			return (this.hoverDot >= this.model ? this.hoverDot : this.model) >= i;
+		dotClass (dotIndex) {
+			return makeClassMods("dots__dot", {
+				filled: vm => (vm.hoverDot >= vm.model ? vm.hoverDot : vm.model) >= dotIndex,
+				inactive: vm => vm.maxSpendDots < dotIndex
+			}, this);
 		},
 		setDotHover (i) {
 			const { description } = this.meta;
@@ -117,6 +127,17 @@ export default {
 		display: flex;
 	}
 
+	&--overspend {
+		.dots {
+			.dots__dot--filled {
+				.dots__dotInner {
+					background: darken($danger, 10%);
+					border-color: darken($danger, 10%);
+				}
+			}
+		}
+	}
+
 	.dots {
 		display: flex;
 
@@ -128,6 +149,10 @@ export default {
 				.dots__dotInner {
 					background: $grey-dark;
 				}
+			}
+
+			&--inactive:not(&--filled) {
+				opacity: 0.2;
 			}
 		}
 
