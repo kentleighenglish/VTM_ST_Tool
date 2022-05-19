@@ -3,12 +3,19 @@ import * as clans from "../details/clans";
 import * as disciplines from "./disciplines";
 import * as backgrounds from "./backgrounds";
 
-const disiplinesDotMeta = data => ({
+const getDisciplineCostClan = (clanDisciplines = []) => ({ current, target, propPath }) => {
+	const disciplineName = propPath[propPath.length - 1];
+	const clanDiscipline = clanDisciplines.includes(disciplineName);
+
+	return getDisciplineCost({ current, target, clanDiscipline });
+}
+
+const disciplinesDotMeta = (data, additional) => ({
 	params: {
 		maxDots: getDisciplineDots(data),
-		maxSpendDots: getMaxSpend(getDisciplineCost)
+		maxSpendDots: getMaxSpend(getDisciplineCostClan(additional.clanDisciplines))(data, additional)
 	},
-	getXpCost: getDisciplineCost,
+	getXpCost: getDisciplineCostClan(additional.clanDisciplines),
 	description: (name, dotIndex) => {
 		let desc = null;
 		const discipline = disciplines[name];
@@ -45,24 +52,35 @@ export default {
 					type: "dynamicField",
 					meta: {
 						params: {
-							defaultFields: (data = {}) => {
+							defaultFields: (data = {}, additional = {}) => {
 								const clan = data?.details?.vampire?.clan;
+								const clanDisciplines = Object.keys(clans[clan]?.disciplines || {});
 
 								if (clan) {
-									return Object.keys(clans[clan].disciplines || {}).reduce((acc, key) => ({
+									return clanDisciplines.reduce((acc, key) => ({
 										...acc,
 										[key]: {
 											label: disciplines[key].label,
 											type: "dots",
 											default: null,
-											meta: disiplinesDotMeta(data)
+											meta: (data = {}, additional = {}) => {
+												additional.propPath.push(key);
+
+												return disciplinesDotMeta(data, { ...additional, clanDisciplines })
+											}
 										}
 									}), {});
 								}
 
 								return {};
 							},
-							fieldsMeta: (data = {}) => disiplinesDotMeta(data)
+							fieldsMeta: (data = {}, additional = {}) => (fieldName) => {
+								const clan = data?.details?.vampire?.clan;
+								const clanDisciplines = Object.keys(clans[clan]?.disciplines || {});
+								additional.propPath.push(fieldName);
+
+								return disciplinesDotMeta(data, { ...additional, clanDisciplines })
+							}
 						},
 						keyOptions: Object.keys(disciplines).reduce((acc, key) => ({
 							...acc,
@@ -83,7 +101,7 @@ export default {
 					type: "dynamicField",
 					meta: {
 						params: {
-							fieldsMeta: (data = {}) => ({
+							fieldsMeta: (data = {}) => () => ({
 								params: {
 									maxDots: 5
 								}

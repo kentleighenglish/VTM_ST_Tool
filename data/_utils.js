@@ -55,6 +55,7 @@ export const getDisciplineCost = ({ current, target, clanDiscipline = false }) =
 		current++;
 	}
 
+	// console.log(current, target);
 	for (let i = current; i < target; i++) {
 		xp += i * (clanDiscipline ? 5 : 7);
 	}
@@ -71,7 +72,7 @@ export const getMaxSpend = costFunc => (data, { adminMode, xpPoints, propPath })
 	const target = get(data, propPath.join("."), 0) + 1;
 
 	const checkTarget = (t) => {
-		const xpCost = costFunc({ current, target: t });
+		const xpCost = costFunc({ current, target: t, propPath });
 
 		if (xpCost > xpPoints) {
 			return t - 1;

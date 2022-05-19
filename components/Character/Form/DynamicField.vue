@@ -98,7 +98,7 @@ export default {
 						name: key,
 						meta: {
 							...this.defaultFields[key].meta,
-							...this.fieldsMeta
+							...this.fieldsMeta(key)
 						}
 					}
 				}), {}),
@@ -112,7 +112,7 @@ export default {
 							type: this.fieldType,
 							default: null,
 							meta: {
-								...this.fieldsMeta
+								...this.fieldsMeta(key)
 							}
 						}
 					}
