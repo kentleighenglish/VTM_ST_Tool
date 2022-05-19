@@ -126,7 +126,9 @@ export default {
 					this.$emit("input", value);
 				}
 
-				this.xpSpendUpdate(this.label || this.name, value, xpCost);
+				if (!this.createMode) {
+					this.xpSpendUpdate(this.label || this.name, value, xpCost);
+				}
 			}
 		}
 	}
