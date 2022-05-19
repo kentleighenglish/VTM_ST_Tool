@@ -7,12 +7,14 @@
 					v-if="plainType"
 					v-model="model"
 					:type="type"
+					:disabled="isDisabled"
 					@input="updateValue($event.target.value)"
 					@change="handleChange($event)"
 				></input>
 				<select
 					v-if="type === 'select'"
 					v-model="model"
+					:disabled="isDisabled"
 					@input="updateValue($event.target.value)"
 					@change="handleChange($event)"
 				>
@@ -75,6 +77,10 @@ export default {
 				...acc,
 				{ key, label: this.options[key] }
 			]), []);
+		},
+		isDisabled () {
+			const canEdit = this.meta?.params?.canEdit;
+			return this.disabled || canEdit === undefined ? false : !canEdit;
 		}
 	},
 	watch: {

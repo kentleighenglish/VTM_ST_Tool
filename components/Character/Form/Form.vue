@@ -21,6 +21,10 @@ export default {
 			default: () => ({})
 		},
 		createMode: Boolean,
+		xp: {
+			type: Object,
+			default: () => ({})
+		},
 		xpCheck: {
 			type: Function,
 			default: () => {}
@@ -62,7 +66,13 @@ export default {
 			const updateParams = (params) => {
 				return Object.keys(params).reduce((acc, key) => ({
 					...acc,
-					[key]: params[key](this.model)
+					[key]: params[key](
+						this.model,
+						{
+							createMode: this.createMode,
+							xpPoints: (this.xp?.availablePoints || 0)
+						}
+					)
 				}), {});
 			}
 

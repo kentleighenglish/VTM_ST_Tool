@@ -15,7 +15,10 @@ export default {
 					type: "text",
 					default: null,
 					meta: {
-						description: "Your character's name"
+						description: "Your character's name",
+						params: {
+							canEdit: (m, { createMode }) => !createMode
+						}
 					}
 				},
 				player: {

@@ -4,7 +4,7 @@
 			Character Sheet
 		</h1>
 		<div class="characterSheet__fields">
-			<CharacterForm v-model="model.sheet" :create-mode="createMode" @input="updateValue('sheet', $event)" />
+			<CharacterForm v-model="model.sheet" :xp="model.xp" :create-mode="createMode" @input="updateValue('sheet', $event)" />
 		</div>
 		<div class="characterSheet__actions">
 			<CommonSticky :offset-top="80">
