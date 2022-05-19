@@ -63,22 +63,26 @@ export default {
 			this.updateCharacterFormData();
 		},
 		updateCharacterFormData () {
-			const updateParams = (params) => {
+			const updateParams = (params, propPath = []) => {
+				const parsedPropPath = propPath.filter(key => key !== "meta" && key !== "fields");
+
 				return Object.keys(params).reduce((acc, key) => ({
 					...acc,
 					[key]: params[key](
 						this.model,
 						{
 							createMode: this.createMode,
-							xpPoints: (this.xp?.availablePoints || 0)
+							xpPoints: (this.xp?.availablePoints || 0),
+							propPath: parsedPropPath
 						}
 					)
 				}), {});
 			}
 
-			const parseObject = (obj) => {
+			const parseObject = (obj, propPath = []) => {
 				return Object.keys(obj).reduce((acc, key) => {
 					const prop = obj[key];
+					const newPropPath = [...propPath];
 
 					if (
 						(typeof prop !== "object" || Array.isArray(prop)) ||
@@ -91,14 +95,16 @@ export default {
 					}
 
 					if (key === "params") {
+						newPropPath.pop();
 						return {
 							...acc,
-							[key]: updateParams(prop)
+							[key]: updateParams(prop, newPropPath)
 						};
 					} else {
+						newPropPath.push(key);
 						return {
 							...acc,
-							[key]: parseObject(prop)
+							[key]: parseObject(prop, newPropPath)
 						};
 					}
 				}, {});
