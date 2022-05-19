@@ -123,10 +123,16 @@ export default {
 			this.formData = { ...(this.loadedCharacter || {}) };
 		},
 		xpCheck (cost) {
-			return (this.formData?.xp?.avalablePoints || 0) >= cost;
+			return (this.formData?.xp?.availablePoints || 0) >= cost;
 		},
 		xpSpendUpdate (fieldName, cost) {
+			const updatedXp = (this.formData?.xp?.availablePoints || 0) - cost;
+			console.log(fieldName);
 
+			this.formData.xp = {
+				...this.formData.xp,
+				availablePoints: updatedXp
+			}
 		},
 		async onSaveCharacter () {
 			if (!this.createMode && this.characterId) {

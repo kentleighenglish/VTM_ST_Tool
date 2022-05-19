@@ -94,11 +94,16 @@ export default {
 			}, this);
 		},
 		setDotHover (i) {
-			const { description } = this.meta;
+			const { description, getXpCost } = this.meta;
 			if (description) {
 				const text = typeof description === "function" ? description(this.name, i) : description;
 
 				this.updateMetaField({ text });
+			}
+			if (getXpCost) {
+				const xpCost = getXpCost(this.model || 0, i);
+
+				console.log(this.model, i, xpCost);
 			}
 
 			this.hoverDot = i;
@@ -107,10 +112,21 @@ export default {
 			this.hoverDot = null;
 		},
 		updateValue (e, value) {
-			if (value === 1 && this.model === 1) {
-				this.$emit("input", 0);
-			} else {
-				this.$emit("input", value);
+			const { getXpCost } = this.meta
+			let xpCost = 0;
+
+			if (getXpCost) {
+				xpCost = getXpCost(this.model || 0, value);
+			}
+
+			if (this.xpCheck(xpCost)) {
+				if (value === 1 && this.model === 1) {
+					this.$emit("input", 0);
+				} else {
+					this.$emit("input", value);
+				}
+
+				this.xpSpendUpdate(this.label || this.name, xpCost);
 			}
 		}
 	}
