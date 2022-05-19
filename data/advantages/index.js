@@ -1,11 +1,11 @@
-import { calculateDisciplineRating } from "../_utils";
+import { getDisciplineDots } from "../_utils";
 import * as clans from "../details/clans";
 import * as disciplines from "./disciplines";
 import * as backgrounds from "./backgrounds";
 
 const disiplinesDotMeta = data => ({
 	params: {
-		maxDots: calculateDisciplineRating(data)
+		maxDots: getDisciplineDots(data)
 	},
 	description: (name, dotIndex) => {
 		let desc = null;

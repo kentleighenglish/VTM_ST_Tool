@@ -1,11 +1,11 @@
-import { calculateTraitRating } from "@/data/_utils";
+import { getTraitDots } from "@/data/_utils";
 
 export default {
 	label: "Computer",
 	type: "dots",
 	meta: {
 		params: {
-			maxDots: calculateTraitRating
+			maxDots: getTraitDots
 		},
 		description: "raw physical strength"
 	}

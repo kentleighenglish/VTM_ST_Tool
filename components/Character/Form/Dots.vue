@@ -1,5 +1,6 @@
 <template>
 	<div class="dotsInput">
+		{{ maxSpendDots }}
 		<span class="dotsInput__label">{{ label }}</span>
 		<div v-if="maxDots" class="dots">
 			<div
@@ -58,6 +59,10 @@ export default {
 		maxDots () {
 			const { maxDots = 5 } = (this.meta?.params || {});
 			return maxDots;
+		},
+		maxSpendDots () {
+			const { maxSpendDots = 0 } = (this.meta?.params || {});
+			return maxSpendDots;
 		}
 	},
 	watch: {

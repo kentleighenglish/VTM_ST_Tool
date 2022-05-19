@@ -1,11 +1,12 @@
-import { calculateTraitRating } from "@/data/_utils";
+import { getTraitDots, getAttributeCost, getMaxSpend } from "@/data/_utils";
 
 export default {
 	label: "Dexterity",
 	type: "dots",
 	meta: {
 		params: {
-			maxDots: calculateTraitRating
+			maxDots: getTraitDots,
+			maxSpendDots: getMaxSpend(getAttributeCost)
 		},
 		description: (name, dotIndex) => {
 			let desc = description;
