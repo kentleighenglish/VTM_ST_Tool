@@ -35,7 +35,7 @@ export default {
 <style lang="scss">
 .toastContainer {
 	display: flex;
-	position: absolute;
+	position: fixed;
 	z-index: 6;
 	overflow: hidden;
 	pointer-events: none;
