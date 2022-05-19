@@ -132,7 +132,7 @@ export default {
 		},
 		xpSpendUpdate (name, value, cost) {
 			const xp = (this.formData?.xp?.availablePoints || 0);
-			const history = (this.formData?.xp?.history || []);
+			const history = [...(this.formData?.xp?.history || [])];
 
 			const date = new Date();
 			const updatedXp = this.adminMode ? xp : (xp - cost);
