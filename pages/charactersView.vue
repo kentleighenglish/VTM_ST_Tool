@@ -5,6 +5,7 @@
 				<CharacterSheet
 					v-model="formData"
 					:create-mode="createModeParsed"
+					:admin-mode="adminMode"
 					:xp-check="xpCheck"
 					:xp-spend-update="xpSpendUpdate"
 				/>
@@ -51,7 +52,7 @@ export default {
 			}
 		}),
 		createModeParsed () {
-			return (!this.characterId || this.createMode) || !this.adminMode;
+			return (!this.characterId || this.createMode);
 		},
 		tabs () {
 			const tabs = [

@@ -8,6 +8,7 @@
 				v-model="model.sheet"
 				:xp="model.xp"
 				:create-mode="createMode"
+				:admin-mode="adminMode"
 				:xp-check="xpCheck"
 				:xp-spend-update="xpSpendUpdate"
 				@input="updateValue('sheet', $event)"
@@ -37,6 +38,7 @@ export default {
 	name: "CharacterSheet",
 	props: {
 		createMode: Boolean,
+		adminMode: Boolean,
 		value: {
 			type: Object,
 			default: () => ({})

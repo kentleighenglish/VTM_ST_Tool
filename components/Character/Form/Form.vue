@@ -21,6 +21,7 @@ export default {
 			default: () => ({})
 		},
 		createMode: Boolean,
+		adminMode: Boolean,
 		xp: {
 			type: Object,
 			default: () => ({})
@@ -72,6 +73,7 @@ export default {
 						this.model,
 						{
 							createMode: this.createMode,
+							adminMode: this.adminMode,
 							xpPoints: (this.xp?.availablePoints || 0),
 							propPath: parsedPropPath
 						}
