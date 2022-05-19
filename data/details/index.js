@@ -2,10 +2,7 @@
 import * as archetypes from "./archetypes";
 import * as clans from "./clans";
 
-const canEdit = (m, { adminMode, createMode }) => {
-	console.log(createMode, adminMode);
-	return (!!createMode || !!adminMode)
-};
+const canEdit = (m, { adminMode, createMode }) => (!!createMode || !!adminMode);
 
 export default {
 	label: null,
