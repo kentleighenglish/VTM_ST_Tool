@@ -23,7 +23,7 @@ export default {
 	},
 	computed: {
 		parsedHistory () {
-			return (this.data?.history || []).sort((a, b) =>
+			return [...(this.data?.history || [])].sort((a, b) =>
 				a.date.toString() < b.date.toString() ? 1 : -1
 			);
 		}

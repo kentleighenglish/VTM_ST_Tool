@@ -4,13 +4,13 @@ import { run } from "./_utils";
 
 const COLLECTION = "characters";
 
-export const create = async ({ sheet }) => {
+export const create = async ({ sheet, xp }) => {
 	try {
 		const response = await run(
 			db =>
 				new Promise((resolve, reject) =>
 					db.collection(COLLECTION).insertOne(
-						{ sheet },
+						{ sheet, xp },
 						(err, result) => (err ? reject(err) : resolve(result.insertedId))
 					)
 				)
@@ -27,10 +27,10 @@ export const create = async ({ sheet }) => {
 	}
 };
 
-export const update = async ({ _id, sheet }) => {
+export const update = async ({ _id, sheet, xp }) => {
 	try {
 		const response = await run(db =>
-			db.collection(COLLECTION).updateOne({ _id: ObjectID(_id) }, { $set: { sheet } })
+			db.collection(COLLECTION).updateOne({ _id: ObjectID(_id) }, { $set: { sheet, xp } })
 		);
 
 		if (response) {

@@ -1,9 +1,9 @@
 import * as m from "../mongo";
 import { updateRoom } from "./rooms";
 
-export const create = async ({ socket, callback, data = {} }) => {
+export const create = async ({ socket, callback, data: { sheet, xp } = { sheet: {}, xp: {} } }) => {
 	try {
-		const response = await m.characters.create(data);
+		const response = await m.characters.create({ sheet, xp });
 
 		if (response) {
 			callback(null, { id: response });
@@ -15,9 +15,9 @@ export const create = async ({ socket, callback, data = {} }) => {
 	}
 }
 
-export const update = async ({ data: { _id, sheet }, socket, io, callback }) => {
+export const update = async ({ data: { _id, sheet, xp }, socket, io, callback }) => {
 	try {
-		const response = await m.characters.update({ _id, sheet });
+		const response = await m.characters.update({ _id, sheet, xp });
 
 		if (response) {
 			callback(null, { id: response });

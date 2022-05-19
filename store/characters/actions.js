@@ -13,11 +13,11 @@ export const updateMetaField = ({ commit }, { text }) => {
 	commit(updateMetaFieldType, { text });
 };
 
-export const create = ({ dispatch, commit, rootState }, { sheet }) => {
+export const create = ({ dispatch, commit, rootState }, { ...fields }) => {
 	const { socket, events } = rootState.socket;
 
 	return new Promise((resolve, reject) => {
-		socket().emit(events.characters.create, { sheet }, (error, { id }) => {
+		socket().emit(events.characters.create, { fields }, (error, { id }) => {
 			if (id) {
 				resolve({ id });
 			} else {
@@ -31,11 +31,11 @@ export const create = ({ dispatch, commit, rootState }, { sheet }) => {
 	});
 };
 
-export const update = ({ dispatch, commit, rootState }, { _id, sheet }) => {
+export const update = ({ dispatch, commit, rootState }, { _id, ...fields }) => {
 	const { socket, events } = rootState.socket;
 
 	return new Promise((resolve, reject) => {
-		socket().emit(events.characters.update, { _id, sheet }, (error, { id }) => {
+		socket().emit(events.characters.update, { _id, ...fields }, (error, { id }) => {
 			if (error) {
 				globalPushMessage(dispatch)({
 					type: "error",
