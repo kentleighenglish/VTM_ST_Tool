@@ -1,6 +1,6 @@
 <template>
 	<div class="characterTabs">
-		<CommonSticky :offset-top="20">
+		<CommonSticky :offset-top="20" :z-index="3">
 			<div class="characterTabs__list">
 				<div
 					v-for="tab in tabs"
@@ -68,6 +68,7 @@ export default {
 </script>
 <style lang="scss">
 .characterTabs {
+	position: relative;
 
 	> .stickyBlock {
 		z-index: 2;

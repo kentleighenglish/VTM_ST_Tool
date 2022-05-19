@@ -12,7 +12,8 @@ export default {
 		offsetTop: {
 			type: Number,
 			default: 0
-		}
+		},
+		zIndex: Number
 	},
 	data: () => ({
 		scrollPos: 1,
@@ -34,7 +35,8 @@ export default {
 				// maxHeight: `${this.maxHeight}px`,
 				position: this.positionState,
 				transform: `translateY(${this.positionState === "fixed" ? this.offsetTop : 0}px)`,
-				top: 0
+				top: 0,
+				zIndex: (this.zIndex || null)
 			}
 		}
 	},
