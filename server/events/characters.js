@@ -15,14 +15,14 @@ export const create = async ({ socket, callback, data: { sheet, xp } = { sheet: 
 	}
 }
 
-export const update = async ({ data: { _id, sheet, xp }, socket, io, callback }) => {
+export const update = async ({ data: { id, sheet, xp }, socket, io, callback }) => {
 	try {
-		const response = await m.characters.update({ _id, sheet, xp });
+		const response = await m.characters.update({ id, sheet, xp });
 
 		if (response) {
 			callback(null, { id: response });
 
-			updateRoom({ socket, io, data: { id: _id, updateAvailable: true } });
+			updateRoom({ socket, io, data: { id, updateAvailable: true } });
 		} else {
 			callback(new Error("Could not update character sheet").message, {});
 		}
@@ -32,7 +32,7 @@ export const update = async ({ data: { _id, sheet, xp }, socket, io, callback })
 }
 
 export const fetch = async ({ data, callback }) => {
-	const character = await m.characters.fetch(data.id);
+	const character = await m.characters.fetch({ id: data.id });
 
 	if (character) {
 		callback(null, { character });
@@ -55,7 +55,7 @@ export const rewardXp = async ({ socket, io, data = {}, callback }) => {
 	const { id, amount } = data;
 
 	if (id && amount) {
-		await m.characters.rewardXp({ _id: id, amount });
+		await m.characters.rewardXp({ id, amount });
 
 		updateRoom({ socket, io, data: { id, xpUpdateAvailable: true } });
 
@@ -67,7 +67,7 @@ export const removeXp = async ({ socket, io, data = {}, callback }) => {
 	const { id, amount } = data;
 
 	if (id && amount) {
-		await m.characters.removeXp({ _id: id, amount });
+		await m.characters.removeXp({ id, amount });
 
 		updateRoom({ socket, io, data: { id, xpUpdateAvailable: true } });
 

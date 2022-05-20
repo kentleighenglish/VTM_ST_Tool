@@ -23,10 +23,10 @@ export default {
 			}
 		}),
 		parsedCharacters () {
-			return (this.characters || []).reduce((acc, { _id, sheet }) => ([
+			return (this.characters || []).reduce((acc, { id, sheet }) => ([
 				...acc,
 				{
-					id: _id,
+					id,
 					characterName: sheet?.details?.info?.name,
 					clan: sheet?.details?.vampire?.clan,
 					generation: sheet?.details?.vampire?.generation

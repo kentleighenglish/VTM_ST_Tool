@@ -15,7 +15,7 @@ export default {
 	},
 	[loadCompleteType] (state, { character, id }) {
 		Vue.set(state, "currentCharacter", character);
-		Vue.set(state, "currentCharacterId", character._id);
+		Vue.set(state, "currentCharacterId", character.id);
 		Vue.set(state.loading, id, false);
 	},
 	[loadAllType] (state) {

@@ -17,7 +17,7 @@ export const create = ({ dispatch, commit, rootState }, { ...fields }) => {
 	const { socket, events } = rootState.socket;
 
 	return new Promise((resolve, reject) => {
-		socket().emit(events.characters.create, { fields }, (error, { id }) => {
+		socket().emit(events.characters.create, { ...fields }, (error, { id }) => {
 			if (id) {
 				resolve({ id });
 			} else {
@@ -31,11 +31,11 @@ export const create = ({ dispatch, commit, rootState }, { ...fields }) => {
 	});
 };
 
-export const update = ({ dispatch, commit, rootState }, { _id, ...fields }) => {
+export const update = ({ dispatch, commit, rootState }, { id, ...fields }) => {
 	const { socket, events } = rootState.socket;
 
 	return new Promise((resolve, reject) => {
-		socket().emit(events.characters.update, { _id, ...fields }, (error, { id }) => {
+		socket().emit(events.characters.update, { id, ...fields }, (error, { id }) => {
 			if (error) {
 				globalPushMessage(dispatch)({
 					type: "error",

@@ -190,7 +190,7 @@ export default {
 		},
 		async onSaveCharacter () {
 			if (!this.createMode && this.characterId) {
-				await this.updateCharacter({ _id: this.characterId, ...this.formData });
+				await this.updateCharacter({ id: this.characterId, ...this.formData });
 			} else {
 				const { id } = await this.createCharacter({ ...this.formData });
 
