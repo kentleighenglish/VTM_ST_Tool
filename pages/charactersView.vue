@@ -29,7 +29,7 @@ export default {
 		formData: {}
 	}),
 	head () {
-		const charName = this.loadedCharacter?.details?.info?.name;
+		const charName = this.loadedCharacter?.sheet?.details?.info?.name;
 		const createMode = this.createMode;
 
 		return {
