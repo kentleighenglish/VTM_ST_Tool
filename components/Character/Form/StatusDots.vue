@@ -1,24 +1,26 @@
 <template>
-	<div class="statusDotsInput">
-		<span v-if="label" class="statusDotsInput__label">{{ label }}</span>
-		<div v-if="maxDots" class="statusDots">
-			<div
-				v-for="i in maxDots"
-				:key="i"
-				:class="{
-					'statusDots__dot': true,
-					'statusDots__dot--filled': isDotFilled(i),
-					'statusDots__dot--interstitial': isDotInterstitial(i)
-				}"
-				@mouseover="dotHover(i)"
-				@mouseleave="clearDotHover()"
-				@click="updateValue($event, i)"
-			>
-				<div class="statusDots__dotInner" />
+	<CharacterFormRootModel>
+		<div class="statusDotsInput">
+			<span v-if="label" class="statusDotsInput__label">{{ label }}</span>
+			<div v-if="maxDots" class="statusDots">
+				<div
+					v-for="i in maxDots"
+					:key="i"
+					:class="{
+						'statusDots__dot': true,
+						'statusDots__dot--filled': isDotFilled(i),
+						'statusDots__dot--interstitial': isDotInterstitial(i)
+					}"
+					@mouseover="dotHover(i)"
+					@mouseleave="clearDotHover()"
+					@click="updateValue($event, i)"
+				>
+					<div class="statusDots__dotInner" />
+				</div>
 			</div>
+			<div v-if="showClear" class="statusDotsInput__clear" />
 		</div>
-		<div v-if="showClear" class="statusDotsInput__clear" />
-	</div>
+	</CharacterFormRootModel>
 </template>
 <script>
 import { mapActions } from "vuex";
@@ -53,6 +55,10 @@ export default {
 			default: () => {}
 		},
 		xpSpendUpdate: {
+			type: Function,
+			default: () => {}
+		},
+		xpSpendReset: {
 			type: Function,
 			default: () => {}
 		}

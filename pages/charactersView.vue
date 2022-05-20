@@ -9,6 +9,7 @@
 					:admin-mode="adminMode"
 					:xp-check="xpCheck"
 					:xp-spend-update="xpSpendUpdate"
+					:xp-spend-reset="xpSpendReset"
 				/>
 			</template>
 			<template #powers>
@@ -131,7 +132,7 @@ export default {
 
 			return (this.formData?.xp?.availablePoints || 0) >= cost;
 		},
-		xpSpendUpdate (name, value, cost) {
+		xpSpendUpdate (name, label, value, cost) {
 			const xp = (this.formData?.xp?.availablePoints || 0);
 			const history = [...(this.formData?.xp?.history || [])];
 
@@ -140,6 +141,7 @@ export default {
 
 			history.push({
 				name,
+				label,
 				value,
 				cost,
 				date,
@@ -150,6 +152,27 @@ export default {
 				...this.formData.xp,
 				availablePoints: updatedXp,
 				history
+			}
+		},
+		xpSpendReset (name) {
+			const xp = (this.formData?.xp?.availablePoints || 0);
+			const history = [...(this.formData?.xp?.history || [])];
+
+			let updatedXp = xp;
+
+			const newHistory = [...history].reduce((acc, item) => {
+				if (item.name === name) {
+					updatedXp += item.cost;
+				} else {
+					acc.push(item);
+				}
+				return acc;
+			}, []);
+
+			this.formData.xp = {
+				...this.formData.xp,
+				availablePoints: updatedXp,
+				history: newHistory
 			}
 		},
 		async onSaveCharacter () {

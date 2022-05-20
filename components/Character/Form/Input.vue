@@ -1,28 +1,30 @@
 <template>
-	<div class="formInput" @mouseover="onHover">
-		<label :for="name">
-			<span v-if="label" class="formInput__label">{{ label }}</span>
-			<div class="formInput__field">
-				<input
-					v-if="plainType"
-					v-model="model"
-					:type="type"
-					:disabled="isDisabled"
-					@input="updateValue($event.target.value)"
-					@change="handleChange($event)"
-				></input>
-				<select
-					v-if="type === 'select'"
-					v-model="model"
-					:disabled="isDisabled"
-					@input="updateValue($event.target.value)"
-					@change="handleChange($event)"
-				>
-					<option v-for="o in parsedOptions" :key="o.key" :value="o.key">{{ o.label }}</option>
-				</select>
-			</div>
-		</label>
-	</div>
+	<CharacterFormRootModel>
+		<div class="formInput" @mouseover="onHover">
+			<label :for="name">
+				<span v-if="label" class="formInput__label">{{ label }}</span>
+				<div class="formInput__field">
+					<input
+						v-if="plainType"
+						v-model="model"
+						:type="type"
+						:disabled="isDisabled"
+						@input="updateValue($event.target.value)"
+						@change="handleChange($event)"
+					></input>
+					<select
+						v-if="type === 'select'"
+						v-model="model"
+						:disabled="isDisabled"
+						@input="updateValue($event.target.value)"
+						@change="handleChange($event)"
+					>
+						<option v-for="o in parsedOptions" :key="o.key" :value="o.key">{{ o.label }}</option>
+					</select>
+				</div>
+			</label>
+		</div>
+	</CharacterFormRootModel>
 </template>
 <script>
 import { mapActions } from "vuex";
@@ -65,6 +67,10 @@ export default {
 			default: () => {}
 		},
 		xpSpendUpdate: {
+			type: Function,
+			default: () => {}
+		},
+		xpSpendReset: {
 			type: Function,
 			default: () => {}
 		}

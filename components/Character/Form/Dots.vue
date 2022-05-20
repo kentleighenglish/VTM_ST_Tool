@@ -1,22 +1,25 @@
 <template>
-	<div :class="componentClass">
-		<span class="dotsInput__label">{{ label }}</span>
-		<div v-if="maxDots" class="dots">
-			<div
-				v-for="i in maxDots"
-				:key="i"
-				:class="dotClass(i)"
-				:create-mode="createMode"
-				:xp-check="xpCheck"
-				:xp-spend-update="xpSpendUpdate"
-				@mouseover="setDotHover(i)"
-				@mouseleave="clearDotHover()"
-				@click="updateValue($event, i)"
-			>
-				<div class="dots__dotInner" />
+	<CharacterFormRootModel>
+		<div :class="componentClass">
+			<span class="dotsInput__label">{{ label }}</span>
+			<div v-if="maxDots" class="dots">
+				<div
+					v-for="i in maxDots"
+					:key="i"
+					:class="dotClass(i)"
+					:create-mode="createMode"
+					:xp-check="xpCheck"
+					:xp-spend-update="xpSpendUpdate"
+					:xp-spend-reset="xpSpendReset"
+					@mouseover="setDotHover(i)"
+					@mouseleave="clearDotHover()"
+					@click="updateValue(i)"
+				>
+					<div class="dots__dotInner" />
+				</div>
 			</div>
 		</div>
-	</div>
+	</CharacterFormRootModel>
 </template>
 <script>
 import { mapActions } from "vuex";
@@ -59,6 +62,10 @@ export default {
 			default: () => {}
 		},
 		xpSpendUpdate: {
+			type: Function,
+			default: () => {}
+		},
+		xpSpendReset: {
 			type: Function,
 			default: () => {}
 		}
@@ -117,7 +124,11 @@ export default {
 		clearDotHover () {
 			this.hoverDot = null;
 		},
-		updateValue (e, value) {
+		resetValue () {
+			this.$emit("input", this.originalValue);
+			this.xpSpendReset(this.name);
+		},
+		updateValue (value) {
 			const { getXpCost } = this.meta
 			let xpCost = 0;
 
@@ -133,7 +144,7 @@ export default {
 				}
 
 				if (!this.createMode) {
-					this.xpSpendUpdate(this.label || this.name, value, xpCost);
+					this.xpSpendUpdate(this.name, this.label || this.name, value, xpCost);
 				}
 			} else if (!this.xpCheck(xpCost)) {
 				this.pushToastMessage({

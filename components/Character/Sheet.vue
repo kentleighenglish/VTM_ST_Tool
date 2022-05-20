@@ -11,6 +11,7 @@
 				:admin-mode="adminMode"
 				:xp-check="xpCheck"
 				:xp-spend-update="xpSpendUpdate"
+				:xp-spend-reset="xpSpendReset"
 				:original-value="originalValue.sheet"
 				@input="updateValue('sheet', $event)"
 			/>

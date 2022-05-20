@@ -13,6 +13,7 @@
 			:admin-mode="adminMode"
 			:xp-check="xpCheck"
 			:xp-spend-update="xpSpendUpdate"
+			:xp-spend-reset="xpSpendReset"
 			@input="handleChange"
 		/>
 	</div>
@@ -48,6 +49,10 @@ export default {
 			default: () => {}
 		},
 		xpSpendUpdate: {
+			type: Function,
+			default: () => {}
+		},
+		xpSpendReset: {
 			type: Function,
 			default: () => {}
 		}

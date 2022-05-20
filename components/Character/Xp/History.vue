@@ -1,7 +1,7 @@
 <template>
 	<div class="xpHistory">
 		<div v-for="item in parsedHistory" :key="item.id" class="xpHistory__item">
-			<strong>[{{ item.name }}]: {{ item.value }}</strong> ({{ item.cost }}xp) - <small>{{ item.date | date }}</small>
+			<strong>[{{ item.label || item.name }}]: {{ item.value }}</strong> ({{ item.cost }}xp) - <small>{{ item.date | date }}</small>
 		</div>
 	</div>
 </template>

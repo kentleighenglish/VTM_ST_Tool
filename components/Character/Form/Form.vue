@@ -7,6 +7,7 @@
 			:admin-mode="adminMode"
 			:xp-check="xpCheck"
 			:xp-spend-update="xpSpendUpdate"
+			:xp-spend-reset="xpSpendReset"
 			:original-value="originalValue"
 			@input="updateValue($event)"
 		/>
@@ -37,6 +38,10 @@ export default {
 			default: () => {}
 		},
 		xpSpendUpdate: {
+			type: Function,
+			default: () => {}
+		},
+		xpSpendReset: {
 			type: Function,
 			default: () => {}
 		}
