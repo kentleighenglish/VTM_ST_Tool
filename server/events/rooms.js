@@ -37,7 +37,8 @@ export const updateRoom = async ({ socket, io, data = {} }) => {
 
 		const sockets = await getRoomSockets(io)(room);
 		const updateAvailable = data.updateAvailable || false;
+		const xpUpdateAvailable = data.xpUpdateAvailable || false;
 
-		socket.to(room).emit("updateTriggered", { sockets, updateAvailable });
+		socket.to(room).emit("updateTriggered", { sockets, updateAvailable, xpUpdateAvailable });
 	}
 }

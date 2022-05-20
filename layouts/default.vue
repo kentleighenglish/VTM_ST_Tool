@@ -36,8 +36,36 @@ export default {
 	methods: {
 		...mapActions({
 			setAdminMode: "setAdminMode",
-			addSocket: "socket/addSocket"
-		})
+			addSocket: "socket/addSocket",
+			addEvents: "socket/addEvents",
+			updateSocketStatus: "socket/updateSocketStatus",
+			pushMessage: "toast/pushMessage"
+		}),
+		bindEvents (socketIo) {
+			socketIo.on("connect", () => {
+				this.updateSocketStatus({ connected: true });
+			});
+			socketIo.on("connect_error", (error) => {
+				this.updateSocketStatus({ connected: false, error });
+				this.pushMessage({
+					type: "error",
+					body: error
+				});
+			});
+			socketIo.on("disconnect", (reason) => {
+				this.updateSocketStatus({ connected: false, error: reason });
+				this.pushMessage({
+					type: "error",
+					body: reason
+				});
+			});
+			socketIo.on("connectResponse", ({ events }) => {
+				this.addEvents({ events });
+			});
+			socketIo.on("updateTriggered", ({ sockets = [], updateAvailable = false, xpUpdateAvailable = false }) => {
+				this.triggerUpdate({ sockets, updateAvailable, xpUpdateAvailable });
+			});
+		}
 	}
 };
 </script>

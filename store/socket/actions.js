@@ -18,35 +18,17 @@ export const addSocket = ({ commit, dispatch }, { socket }) => {
 	dispatch("bindEvents", socketIo);
 };
 
-export const bindEvents = ({ commit, dispatch }, socketIo) => {
-	socketIo.on("connect", () => {
-		commit(updateSocketStatusType, {
-			connected: true
-		});
-	});
-	socketIo.on("connect_error", (error) => {
-		commit(updateSocketStatusType, {
-			connected: false,
-			error
-		});
-		globalPushMessage(dispatch)({
-			type: "error",
-			body: error
-		});
-	});
-	socketIo.on("disconnect", (reason) => {
-		commit(updateSocketStatusType, {
-			connected: false,
-			error: reason
-		});
-	});
-	socketIo.on("connectResponse", ({ events }) => {
-		commit(addEventsType, { events });
-	});
-	socketIo.on("updateTriggered", ({ sockets = [], updateAvailable = false }) => {
-		commit(updateTriggeredType, { sockets, updateAvailable });
-	});
-};
+export const addEvents = ({ commit }, { events }) => {
+	commit(addEventsType, { events });
+}
+
+export const updateSocketStatus = ({ commit }, { connected, error }) => {
+	commit(updateSocketStatusType, { connected, error });
+}
+
+export const triggerUpdate = ({ commit }, { sockets = [], updateAvailable = false, xpUpdateAvailable = false }) => {
+	commit(updateTriggeredType, { sockets, updateAvailable, xpUpdateAvailable });
+}
 
 export const joinRoom = async ({ dispatch, commit, rootState }, { id }) => {
 	const { socket, events } = rootState.socket;
