@@ -11,6 +11,7 @@
 				:admin-mode="adminMode"
 				:xp-check="xpCheck"
 				:xp-spend-update="xpSpendUpdate"
+				:original-value="originalValue.sheet"
 				@input="updateValue('sheet', $event)"
 			/>
 		</div>
@@ -34,6 +35,10 @@ export default {
 		createMode: Boolean,
 		adminMode: Boolean,
 		value: {
+			type: Object,
+			default: () => ({})
+		},
+		originalValue: {
 			type: Object,
 			default: () => ({})
 		},

@@ -48,6 +48,10 @@ export default {
 			type: Number,
 			default: null
 		},
+		originalValue: {
+			type: Number,
+			default: null
+		},
 		createMode: Boolean,
 		adminMode: Boolean,
 		xpCheck: {

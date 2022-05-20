@@ -54,6 +54,10 @@ export default {
 			type: [Number, String],
 			default: null
 		},
+		originalValue: {
+			type: [Number, String],
+			default: null
+		},
 		createMode: Boolean,
 		adminMode: Boolean,
 		xpCheck: {

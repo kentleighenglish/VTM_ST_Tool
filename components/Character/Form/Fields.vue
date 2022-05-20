@@ -6,6 +6,7 @@
 			:key="field.data.name"
 			v-bind="field.data"
 			v-model="field.value"
+			:original-value="field.originalValue"
 			:create-mode="createMode"
 			:admin-mode="adminMode"
 			:xp-check="xpCheck"
@@ -54,6 +55,10 @@ export default {
 			type: [Object, Number, String],
 			default: null
 		},
+		originalValue: {
+			type: [Object, Number, String],
+			default: null
+		},
 		createMode: Boolean,
 		adminMode: Boolean,
 		xpCheck: {
@@ -75,6 +80,7 @@ export default {
 				.map(key => ({
 					component: types[this.fields[key].type],
 					value: this.model ? this.model[key] : null,
+					originalValue: this.originalValue ? this.originalValue[key] : null,
 					data: {
 						name: key,
 						...this.fields[key]

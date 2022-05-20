@@ -3,6 +3,7 @@
 		<CharacterFormFields
 			v-if="generatedFields"
 			v-model="model"
+			:original-value="originalValue"
 			:fields="generatedFields"
 			class-name="dynamicField__fields"
 			:create-mode="createMode"
@@ -47,7 +48,10 @@ export default {
 			type: Object,
 			default: null
 		},
-		// eslint-disable-next-line vue/prop-name-casing
+		originalValue: {
+			type: Object,
+			default: null
+		},
 		meta: {
 			type: Object,
 			default: () => ({})

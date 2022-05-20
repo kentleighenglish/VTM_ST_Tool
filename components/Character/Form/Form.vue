@@ -7,6 +7,7 @@
 			:admin-mode="adminMode"
 			:xp-check="xpCheck"
 			:xp-spend-update="xpSpendUpdate"
+			:original-value="originalValue"
 			@input="updateValue($event)"
 		/>
 	</div>
@@ -18,6 +19,10 @@ export default {
 	name: "CharacterForm",
 	props: {
 		value: {
+			type: Object,
+			default: () => ({})
+		},
+		originalValue: {
 			type: Object,
 			default: () => ({})
 		},

@@ -7,6 +7,7 @@
 			v-if="fields"
 			v-model="model"
 			:fields="fields"
+			:original-value="originalValue"
 			class-name="formSectionColumn__content"
 			:create-mode="createMode"
 			:admin-mode="adminMode"
@@ -33,6 +34,10 @@ export default {
 			default: () => ({})
 		},
 		value: {
+			type: Object,
+			default: () => ({})
+		},
+		originalValue: {
 			type: Object,
 			default: () => ({})
 		},

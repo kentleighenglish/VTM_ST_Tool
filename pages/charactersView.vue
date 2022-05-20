@@ -4,6 +4,7 @@
 			<template #sheet>
 				<CharacterSheet
 					v-model="formData"
+					:original-value="loadedCharacter"
 					:create-mode="createModeParsed"
 					:admin-mode="adminMode"
 					:xp-check="xpCheck"

@@ -6,6 +6,7 @@
 		<CharacterFormFields
 			v-if="fields"
 			v-model="model"
+			:original-value="originalValue"
 			:fields="fields"
 			class-name="formSection__content"
 			:create-mode="createMode"
@@ -33,6 +34,10 @@ export default {
 			default: () => ({})
 		},
 		value: {
+			type: Object,
+			default: () => ({})
+		},
+		originalValue: {
 			type: Object,
 			default: () => ({})
 		},
