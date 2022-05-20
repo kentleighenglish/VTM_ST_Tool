@@ -143,7 +143,7 @@ export default {
 				name,
 				label,
 				value,
-				cost,
+				cost: this.adminMode ? 0 : cost,
 				date,
 				admin: !!this.adminMode
 			});
@@ -161,6 +161,7 @@ export default {
 			let updatedXp = xp;
 
 			const newHistory = [...history].reduce((acc, item) => {
+				console.log(name, item);
 				if (item.name === name) {
 					updatedXp += item.cost;
 				} else {

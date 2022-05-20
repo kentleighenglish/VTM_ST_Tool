@@ -50,6 +50,10 @@ export default {
 		xpSpendUpdate: {
 			type: Function,
 			default: () => {}
+		},
+		xpSpendReset: {
+			type: Function,
+			default: () => {}
 		}
 	},
 	data: () => ({
