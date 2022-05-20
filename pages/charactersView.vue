@@ -80,13 +80,13 @@ export default {
 			if (this.adminMode) {
 				tabs.unshift({
 					key: "removeXp",
-					label: "Remove 1 XP",
+					label: "-1 XP",
 					action: () => this.onRemoveXp(1),
 					state: "danger"
 				});
 				tabs.unshift({
 					key: "rewardXp",
-					label: "Reward 1 XP",
+					label: "+1 XP",
 					action: () => this.onGiveXp(1),
 					state: "primary"
 				});
