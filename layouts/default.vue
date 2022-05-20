@@ -27,11 +27,13 @@ export default {
 	mounted () {
 		this.addSocket({ socket: this.$socket });
 
-		this.$socket().connect();
+		const socketIo = this.$socket().connect();
 
 		const adminMode = localStorage.getItem("admin");
 
 		this.setAdminMode(!!adminMode);
+
+		this.bindEvents(socketIo);
 	},
 	methods: {
 		...mapActions({

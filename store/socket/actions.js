@@ -15,7 +15,7 @@ export const addSocket = ({ commit, dispatch }, { socket }) => {
 
 	const socketIo = socket();
 
-	dispatch("bindEvents", socketIo);
+	return socketIo;
 };
 
 export const addEvents = ({ commit }, { events }) => {
