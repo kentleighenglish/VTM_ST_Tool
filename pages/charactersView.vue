@@ -20,6 +20,7 @@
 </template>
 <script>
 import { mapActions, mapState } from "vuex";
+import { uniqBy } from "lodash";
 
 export default {
 	name: "CharactersViewPage",
@@ -163,12 +164,13 @@ export default {
 		},
 		xpSpendReset (name) {
 			const xp = (this.formData?.xp?.availablePoints || 0);
-			const history = [...(this.formData?.xp?.history || [])];
+			const history = [...(this.formData?.xp?.history || [])].filter(
+				item => !(this.loadedCharacter?.xp?.history || []).includes(item)
+			);
 
 			let updatedXp = xp;
 
 			const newHistory = [...history].reduce((acc, item) => {
-				console.log(name, item);
 				if (item.name === name) {
 					updatedXp += item.cost;
 				} else {
@@ -180,7 +182,10 @@ export default {
 			this.formData.xp = {
 				...this.formData.xp,
 				availablePoints: updatedXp,
-				history: newHistory
+				history: uniqBy([
+					...newHistory,
+					...(this.loadedCharacter?.xp?.history || [])
+				], "date")
 			}
 		},
 		async onSaveCharacter () {
