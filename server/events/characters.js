@@ -62,3 +62,15 @@ export const rewardXp = async ({ socket, io, data = {}, callback }) => {
 		await fetch({ data: { id }, callback });
 	}
 }
+
+export const removeXp = async ({ socket, io, data = {}, callback }) => {
+	const { id, amount } = data;
+
+	if (id && amount) {
+		await m.characters.removeXp({ _id: id, amount });
+
+		updateRoom({ socket, io, data: { id, xpUpdateAvailable: true } });
+
+		await fetch({ data: { id }, callback });
+	}
+}

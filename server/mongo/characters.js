@@ -96,3 +96,23 @@ export const rewardXp = async ({ _id, amount }) => {
 		return null;
 	}
 };
+
+export const removeXp = async ({ _id, amount }) => {
+	try {
+		const response = await run(db =>
+			db.collection(COLLECTION).updateOne(
+				{ _id: ObjectID(_id) },
+				{ $inc: { "xp.availablePoints": amount * -1 } },
+				{ upsert: true }
+			)
+		);
+
+		if (response) {
+			return response;
+		}
+
+		return null;
+	} catch (e) {
+		return null;
+	}
+};

@@ -78,6 +78,12 @@ export default {
 
 			if (this.adminMode) {
 				tabs.unshift({
+					key: "removeXp",
+					label: "Remove 1 XP",
+					action: () => this.onRemoveXp(1),
+					state: "danger"
+				});
+				tabs.unshift({
 					key: "rewardXp",
 					label: "Reward 1 XP",
 					action: () => this.onGiveXp(1),
@@ -119,6 +125,7 @@ export default {
 			updateCharacter: "characters/update",
 			loadCharacter: "characters/load",
 			rewardXp: "characters/rewardXp",
+			removeXp: "characters/removeXp",
 			joinRoom: "socket/joinRoom",
 			leaveRoom: "socket/leaveRoom"
 		}),
@@ -187,6 +194,9 @@ export default {
 		},
 		async onGiveXp (amount) {
 			await this.rewardXp({ id: this.characterId, amount });
+		},
+		async onRemoveXp (amount) {
+			await this.removeXp({ id: this.characterId, amount });
 		}
 	}
 }

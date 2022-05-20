@@ -107,3 +107,21 @@ export const rewardXp = async ({ commit, dispatch, rootState }, { id, amount }) 
 		});
 	});
 }
+
+export const removeXp = async ({ commit, dispatch, rootState }, { id, amount }) => {
+	const { socket, events } = rootState.socket;
+
+	await new Promise((resolve) => {
+		socket().emit(events.characters.removeXp, { id, amount }, (error, { character }) => {
+			if (error) {
+				globalPushMessage(dispatch)({
+					type: "error",
+					body: error.message
+				});
+			} else if (character) {
+				commit(loadCompleteType, { id, character });
+				resolve();
+			}
+		});
+	});
+}
