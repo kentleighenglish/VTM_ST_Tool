@@ -9,6 +9,7 @@
 					@click="onTabClick(tab)"
 				>
 					{{ tab.label }}
+					<CommonLoading v-if="tabsLoading[tab.key]" inline vsmall h-fade colour="white" />
 				</div>
 			</div>
 		</CommonSticky>
@@ -18,6 +19,7 @@
 	</div>
 </template>
 <script>
+import Vue from "vue";
 import { makeClassMods } from "@/mixins/classModsMixin";
 
 export default {
@@ -32,6 +34,9 @@ export default {
 			default: null
 		}
 	},
+	data: () => ({
+		tabsLoading: {}
+	}),
 	computed: {
 		currentTab () {
 			const hash = (this.$route.hash || "").replace("#", "");
@@ -46,7 +51,9 @@ export default {
 			const hash = (this.$route.hash || "").replace("#", "");
 
 			if (tab.action) {
+				Vue.set(this.tabsLoading, tab.key, true);
 				await tab.action();
+				Vue.set(this.tabsLoading, tab.key, false);
 
 				return;
 			}
@@ -60,7 +67,8 @@ export default {
 
 			return makeClassMods("characterTabs__item", {
 				state: tab => tab.state,
-				active: tab => tab.key === hash
+				active: tab => tab.key === hash,
+				loading: tab => !!this.tabsLoading[tab.key]
 			}, tab);
 		}
 	}
@@ -87,6 +95,8 @@ export default {
 		position: relative;
 		padding: math.div($gap, 4) $gap;
 		margin: 0 math.div($gap, 2);
+		white-space: nowrap;
+		vertical-align: middle;
 
 		border: 1px solid $grey;
 		border-radius: 100px;
@@ -115,6 +125,10 @@ export default {
 			border-color: $grey-darker;
 			color: white;
 			cursor: default;
+		}
+
+		&--loading {
+			opacity: 0.7;
 		}
 
 		&:hover:not(&--active) {

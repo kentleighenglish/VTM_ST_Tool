@@ -17,6 +17,8 @@ export default {
 		modifiers: {
 			inline: vm => !!vm.inline,
 			small: vm => !!vm.small,
+			vsmall: vm => !!vm.vsmall,
+			colour: vm => vm.colour,
 			"h-fade": vm => !!vm.hFade
 		}
 	},
@@ -33,9 +35,17 @@ export default {
 			type: Boolean,
 			default: false
 		},
+		vsmall: {
+			type: Boolean,
+			default: false
+		},
 		hFade: {
 			type: Boolean,
 			default: false
+		},
+		colour: {
+			type: String,
+			default: "primary"
 		}
 	}
 }
@@ -107,17 +117,35 @@ export default {
 		}
 
 		&:before {
-			border-color: $primary transparent;
+			border-color: transparent;
 		}
 
 		&:after {
 			position: absolute;
 			border-width: 2px;
 			margin-top: 4px;
-			border-color: transparent $primary;
+			border-color: transparent;
 
 			animation-duration: 1.5s;
 			// animation-direction: reverse;
+		}
+
+		&--primary {
+			&:before {
+				border-color: $primary transparent;
+			}
+			&:after {
+				border-color: transparent $primary;
+			}
+		}
+
+		&--white {
+			&:before {
+				border-color: white transparent;
+			}
+			&:after {
+				border-color: transparent white;
+			}
 		}
 
 		&--inline {
@@ -131,6 +159,17 @@ export default {
 			&:before, &:after {
 				width: 20px;
 				height: 20px;
+				border-width: 3px;
+			}
+			&:after {
+				border-width: 1px;
+				margin-top: 2px;
+			}
+		}
+		&--vsmall {
+			&:before, &:after {
+				width: 14px;
+				height: 14px;
 				border-width: 3px;
 			}
 			&:after {
