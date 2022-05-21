@@ -54,7 +54,7 @@ export default {
 	},
 	mounted () {
 		const wps = 0.00333;
-		const match = this.body.match(/[\S]+/g);
+		const match = (this.body || "").match(/[\S]+/g);
 		let wpsTimeout = 3000;
 
 		if (match && match.length) {

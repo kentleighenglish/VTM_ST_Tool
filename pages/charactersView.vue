@@ -23,29 +23,28 @@ import { mapActions, mapState } from "vuex";
 import { uniqBy, set } from "lodash";
 
 const flattenObject = (object, path = []) => {
-	return Object.keys(object).reduce((acc, key) => {
-		const prop = object[key];
-
+	const parseProp = (prop, path) => {
 		if (typeof prop === "object" && !Array.isArray(prop)) {
-			return {
+			return Object.keys(prop).reduce((acc, key) => ({
 				...acc,
-				...flattenObject(prop, [...path, key])
-			};
+				...parseProp(prop[key], [...path, key])
+			}), {});
 		} else if (Array.isArray(prop)) {
+			const key = path.pop();
 			return {
-				...acc,
-				...prop.reduce((acc2, arrVal, index) => ({
-					...acc2,
-					[[...path, key, index].join(".")]: arrVal
+				...prop.reduce((acc, arrVal, index) => ({
+					...acc,
+					...parseProp(arrVal, [...path, `${key}[${index}]`])
 				}), {})
 			}
 		} else {
 			return {
-				...acc,
-				[[...path, key].join(".")]: prop
+				[path.join(".")]: prop
 			}
 		}
-	}, {});
+	}
+
+	return parseProp(object, []);
 }
 
 export default {
@@ -218,19 +217,19 @@ export default {
 		},
 		async onSaveCharacter () {
 			if (!this.createMode && this.characterId) {
-				const existingData = flattenObject(this.loadedCharacter);
-				const updatedData = flattenObject(this.formData);
-				const payloadData = {};
+				const existingSheet = flattenObject(this.loadedCharacter.sheet);
+				const updatedSheet = flattenObject(this.formData.sheet);
+				const payloadSheet = {};
 
-				Object.keys(updatedData).forEach((key) => {
-					const value = updatedData[key];
+				Object.keys(updatedSheet).forEach((key) => {
+					const value = updatedSheet[key];
 
-					if (!existingData[key] || (existingData[key] && existingData[key] !== value)) {
-						set(payloadData, key, value);
+					if (existingSheet[key] === undefined || (existingSheet[key] !== undefined && existingSheet[key] !== value)) {
+						set(payloadSheet, key, value);
 					}
 				});
 
-				await this.updateCharacter({ id: this.characterId, ...payloadData });
+				await this.updateCharacter({ id: this.characterId, sheet: payloadSheet, xp: this.formData.xp });
 			} else {
 				const { id } = await this.createCharacter({ ...this.formData });
 
