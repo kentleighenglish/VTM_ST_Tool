@@ -9,6 +9,15 @@ const getHumanityCost = ({ current, target }) => {
 	return xp;
 }
 
+const getWillpowerCost = ({ current, target }) => {
+	let xp = 0;
+	for (let i = current; i < target; i++) {
+		xp += i;
+	}
+
+	return xp;
+}
+
 export default {
 	label: null,
 	type: "section",
@@ -43,8 +52,10 @@ export default {
 					type: "dots",
 					meta: {
 						params: {
-							maxDots: () => 10
-						}
+							maxDots: () => 10,
+							maxSpendDots: getMaxSpend(getWillpowerCost)
+						},
+						getXpCost: getWillpowerCost
 					}
 				},
 				willpowerStatus: {
