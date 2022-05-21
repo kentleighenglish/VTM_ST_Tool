@@ -1,3 +1,14 @@
+import { getMaxSpend } from "../_utils";
+
+const getHumanityCost = ({ current, target }) => {
+	let xp = 0;
+	for (let i = current; i < target; i++) {
+		xp += i * 2;
+	}
+
+	return xp;
+}
+
 export default {
 	label: null,
 	type: "section",
@@ -16,8 +27,10 @@ export default {
 					type: "dots",
 					meta: {
 						params: {
-							maxDots: () => 10
-						}
+							maxDots: () => 10,
+							maxSpendDots: getMaxSpend(getHumanityCost)
+						},
+						getXpCost: getHumanityCost
 					}
 				},
 				bearing: {

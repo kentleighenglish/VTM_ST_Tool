@@ -6,7 +6,7 @@ export const create = async ({ socket, callback, data: { sheet, xp } = { sheet: 
 		const response = await m.characters.create({ sheet, xp });
 
 		if (response) {
-			callback(null, { id: response });
+			callback(null, response);
 		} else {
 			callback(new Error("Could not create character sheet").message, {});
 		}
@@ -20,7 +20,7 @@ export const update = async ({ data: { id, sheet, xp }, socket, io, callback }) 
 		const response = await m.characters.update({ id, sheet, xp });
 
 		if (response) {
-			callback(null, { id: response });
+			callback(null, response);
 
 			updateRoom({ socket, io, data: { id, updateAvailable: true } });
 		} else {
