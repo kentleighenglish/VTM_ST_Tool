@@ -9,7 +9,7 @@
 		<CommonLoading v-else mode="page" />
 	</div>
 </template>
-<script lang="ts">
+<script>
 import { mapState, mapActions } from "vuex";
 
 export default {

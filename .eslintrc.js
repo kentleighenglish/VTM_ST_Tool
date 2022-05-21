@@ -5,22 +5,22 @@ module.exports = {
 		node: true
 	},
 	parserOptions: {
-		parser: '@babel/eslint-parser',
+		parser: "@babel/eslint-parser",
 		requireConfigFile: false
 	},
 	extends: [
-		'@nuxtjs',
-		'plugin:nuxt/recommended'
+		"@nuxtjs",
+		"plugin:nuxt/recommended"
 	],
 	plugins: [
 	],
 	// add your custom rules here
 	rules: {
-		"semi": "off",
+		semi: "off",
 		"no-tabs": "off",
-		"indent": ["error", "tab"],
+		indent: ["error", "tab"],
 		"vue/html-indent": ["error", "tab"],
-		"quotes": ["error", "double"],
+		quotes: ["error", "double"],
 		"import/namespace": ["error", { allowComputed: true }],
 		"vue/no-v-html": "off"
 	}
