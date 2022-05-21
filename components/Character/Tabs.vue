@@ -48,6 +48,10 @@ export default {
 	},
 	methods: {
 		async onTabClick (tab) {
+			if (this.tabsLoading[tab.key]) {
+				return;
+			}
+
 			const hash = (this.$route.hash || "").replace("#", "");
 
 			if (tab.action) {
@@ -129,6 +133,7 @@ export default {
 
 		&--loading {
 			opacity: 0.7;
+			cursor: default;
 		}
 
 		&:hover:not(&--active) {
