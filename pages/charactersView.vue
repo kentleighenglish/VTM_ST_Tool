@@ -20,7 +20,33 @@
 </template>
 <script>
 import { mapActions, mapState } from "vuex";
-import { uniqBy } from "lodash";
+import { uniqBy, set } from "lodash";
+
+const flattenObject = (object, path = []) => {
+	return Object.keys(object).reduce((acc, key) => {
+		const prop = object[key];
+
+		if (typeof prop === "object" && !Array.isArray(prop)) {
+			return {
+				...acc,
+				...flattenObject(prop, [...path, key])
+			};
+		} else if (Array.isArray(prop)) {
+			return {
+				...acc,
+				...prop.reduce((acc2, arrVal, index) => ({
+					...acc2,
+					[[...path, key, index].join(".")]: arrVal
+				}), {})
+			}
+		} else {
+			return {
+				...acc,
+				[[...path, key].join(".")]: prop
+			}
+		}
+	}, {});
+}
 
 export default {
 	name: "CharactersViewPage",
@@ -29,7 +55,8 @@ export default {
 	},
 	data: () => ({
 		characterId: null,
-		formData: {}
+		formData: {},
+		modifiedData: {}
 	}),
 	head () {
 		const charName = this.loadedCharacter?.sheet?.details?.info?.name;
@@ -132,6 +159,7 @@ export default {
 		}),
 		reset () {
 			this.formData = { ...(this.loadedCharacter || {}) };
+			this.modifiedData = {};
 		},
 		xpCheck (cost) {
 			if (this.adminMode) {
@@ -190,7 +218,19 @@ export default {
 		},
 		async onSaveCharacter () {
 			if (!this.createMode && this.characterId) {
-				await this.updateCharacter({ id: this.characterId, ...this.formData });
+				const existingData = flattenObject(this.loadedCharacter);
+				const updatedData = flattenObject(this.formData);
+				const payloadData = {};
+
+				Object.keys(updatedData).forEach((key) => {
+					const value = updatedData[key];
+
+					if (!existingData[key] || (existingData[key] && existingData[key] !== value)) {
+						set(payloadData, key, value);
+					}
+				});
+
+				await this.updateCharacter({ id: this.characterId, ...payloadData });
 			} else {
 				const { id } = await this.createCharacter({ ...this.formData });
 

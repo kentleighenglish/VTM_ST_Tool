@@ -1,4 +1,5 @@
 import { v4 as uuidv4 } from "uuid";
+import { merge } from "lodash";
 import debug from "../debug";
 import { run } from "./_utils";
 
@@ -56,23 +57,21 @@ export const update = async ({ id, sheet, xp }) => {
 export const fetch = async ({ id }) => {
 	try {
 		const response = await run(db =>
-			db.collection(COLLECTION).aggregate(
-				[
-					{ $match: { id } },
-					{
-						$group: {
-							_id: "$id",
-							sheet: { $mergeObjects: "$sheet" },
-							xp: { $mergeObjects: "$xp" },
-							revisionNumber: { $last: "$revisionNumber" }
-						}
-					}
-				]
-			).toArray()
+			db.collection(COLLECTION).find({ id }).toArray()
 		);
 
 		if (response.length) {
-			return response[0];
+			const id = response[0].id;
+			const sheet = response.reduce((acc, rev) => merge(acc, rev.sheet), {});
+			const xp = response.reduce((acc, rev) => merge(acc, rev.xp), {});
+			const revisionNumber = response[response.length - 1].revisionNumber;
+
+			return {
+				id,
+				sheet,
+				xp,
+				revisionNumber
+			}
 		}
 
 		return null;
