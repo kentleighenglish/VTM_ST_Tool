@@ -5,6 +5,16 @@ import { run } from "./_utils";
 
 const COLLECTION = "characters";
 
+const groupRevisions = (items = []) => Object.values(items.reduce((acc, item) => ({
+	...acc,
+	[item.id]: {
+		id: item.id,
+		revisionNumber: item.revisionNumber,
+		sheet: merge(acc[item.id]?.sheet || {}, item.sheet),
+		xp: merge(acc[item.id]?.xp || {}, item.xp)
+	}
+}), {}));
+
 export const create = async ({ sheet, xp }) => {
 	try {
 		const id = uuidv4();
@@ -61,17 +71,9 @@ export const fetch = async ({ id }) => {
 		);
 
 		if (response.length) {
-			const id = response[0].id;
-			const sheet = response.reduce((acc, rev) => merge(acc, rev.sheet), {});
-			const xp = response.reduce((acc, rev) => merge(acc, rev.xp), {});
-			const revisionNumber = response[response.length - 1].revisionNumber;
+			const grouped = groupRevisions(response);
 
-			return {
-				id,
-				sheet,
-				xp,
-				revisionNumber
-			}
+			return grouped[0];
 		}
 
 		return null;
@@ -85,8 +87,10 @@ export const fetchAll = async () => {
 	try {
 		const response = await run(db => db.collection(COLLECTION).find({}).toArray());
 
-		if (response) {
-			return response;
+		const groupedResponse = groupRevisions(response);
+
+		if (groupedResponse) {
+			return groupedResponse;
 		}
 
 		return [];
