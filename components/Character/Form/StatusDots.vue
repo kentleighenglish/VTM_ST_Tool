@@ -18,7 +18,6 @@
 					<div class="statusDots__dotInner" />
 				</div>
 			</div>
-			<div v-if="showClear" class="statusDotsInput__clear" />
 		</div>
 	</CharacterFormRootModel>
 </template>
@@ -64,8 +63,7 @@ export default {
 		}
 	},
 	data: () => ({
-		model: null,
-		showClear: false
+		model: null
 	}),
 	computed: {
 		maxDots () {

@@ -72,7 +72,13 @@ export default {
 		health: {
 			label: "Health",
 			type: "sectionColumn",
-			fields: {}
+			fields: {
+				health: {
+					label: null,
+					type: "healthDots",
+					meta: {}
+				}
+			}
 		}
 	}
 }

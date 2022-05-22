@@ -33,6 +33,7 @@ const types = {
 	sectionColumn: "CharacterFormSectionColumn",
 	dots: "CharacterFormDots",
 	statusDots: "CharacterFormStatusDots",
+	healthDots: "CharacterFormHealthDots",
 	dynamicField: "CharacterFormDynamicField",
 	...inputTypes.reduce((acc, k) => ({ ...acc, [k]: "CharacterFormInput" }), {})
 }
