@@ -144,7 +144,8 @@ export default {
 	}
 
 	.statusDots {
-		display: flex;
+		display: grid;
+		grid-template-columns: repeat(10, minmax(0, 1fr));
 
 		&__dot {
 			cursor: pointer;

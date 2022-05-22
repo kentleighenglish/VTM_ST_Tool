@@ -66,6 +66,15 @@ export default {
 							maxDots: data => data?.status?.condition?.willpower || 10
 						}
 					}
+				},
+				bloodPool: {
+					label: "Blood Pool",
+					type: "statusDots",
+					meta: {
+						params: {
+							maxDots: () => 40
+						}
+					}
 				}
 			}
 		},
