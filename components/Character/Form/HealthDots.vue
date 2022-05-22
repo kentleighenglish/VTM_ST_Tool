@@ -224,17 +224,18 @@ export default {
 
 				&--bashing {
 					.healthDot__dotInner {
-						background: $success;
+						background: linear-gradient(to left top, transparent 0%,transparent 49.9%,$grey-darkest 50%,$grey-darkest 51%,transparent 51.1%,transparent 100%);
 					}
 				}
 				&--lethal {
 					.healthDot__dotInner {
-						background: $warning;
+						background: linear-gradient(to left top, transparent 0%,transparent 49.9%,$grey-darkest 50%,$grey-darkest 51%,transparent 51.1%,transparent 100%),
+						linear-gradient(to right top, transparent 0%,transparent 49.9%,$grey-darkest 50%,$grey-darkest 51%,transparent 51.1%,transparent 100%);
 					}
 				}
 				&--agg {
 					.healthDot__dotInner {
-						background: $danger;
+						background-color: $danger;
 					}
 				}
 			}
