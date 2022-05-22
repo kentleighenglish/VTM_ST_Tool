@@ -112,11 +112,14 @@ export default {
 					label: null,
 					type: "dynamicField",
 					meta: {
+						getXpAddCost: () => 1000,
 						params: {
 							fieldsMeta: (data = {}) => () => ({
 								params: {
-									maxDots: 5
-								}
+									maxDots: 5,
+									maxSpendDots: 0
+								},
+								getXpCost: () => 1000
 							})
 						},
 						keyOptions: Object.keys(backgrounds).reduce((acc, key) => ({
