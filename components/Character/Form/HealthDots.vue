@@ -146,12 +146,14 @@ export default {
 				return acc;
 			}, 0);
 		},
+		resetValue (value) {
+			this.$emit("input", value);
+		},
 		updateValue (e, value) {
 			const index = Math.max(value, 0);
 			const currentValue = this.decodeValue();
 			const healthState = (currentValue[index] || null);
 			let newState = null;
-			console.log(index, healthState);
 
 			if (healthState === null) {
 				newState = "bashing";
