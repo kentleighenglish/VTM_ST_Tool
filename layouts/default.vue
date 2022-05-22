@@ -41,6 +41,7 @@ export default {
 			addSocket: "socket/addSocket",
 			addEvents: "socket/addEvents",
 			updateSocketStatus: "socket/updateSocketStatus",
+			triggerUpdate: "socket/triggerUpdate",
 			pushMessage: "toast/pushMessage"
 		}),
 		bindEvents (socketIo) {

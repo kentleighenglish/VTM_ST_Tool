@@ -39,6 +39,15 @@ const disciplinesDotMeta = (data, additional) => ({
 	}
 });
 
+const getVirtueCost = ({ current, target }) => {
+	let xp = 0;
+	for (let i = current; i < target; i++) {
+		xp += i * 2;
+	}
+
+	return xp;
+}
+
 export default {
 	label: "Advantages",
 	type: "section",
@@ -129,8 +138,10 @@ export default {
 					type: "dots",
 					meta: {
 						params: {
-							maxDots: () => 5
-						}
+							maxDots: () => 5,
+							maxSpendDots: getMaxSpend(getVirtueCost)
+						},
+						getXpCost: getVirtueCost
 					}
 				},
 				selfControl: {
@@ -138,8 +149,10 @@ export default {
 					type: "dots",
 					meta: {
 						params: {
-							maxDots: () => 5
-						}
+							maxDots: () => 5,
+							maxSpendDots: getMaxSpend(getVirtueCost)
+						},
+						getXpCost: getVirtueCost
 					}
 				},
 				courage: {
@@ -147,8 +160,10 @@ export default {
 					type: "dots",
 					meta: {
 						params: {
-							maxDots: () => 5
-						}
+							maxDots: () => 5,
+							maxSpendDots: getMaxSpend(getVirtueCost)
+						},
+						getXpCost: getVirtueCost
 					}
 				}
 			}
