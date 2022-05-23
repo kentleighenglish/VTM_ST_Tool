@@ -1,15 +1,18 @@
 <template>
-	<div class="metaContainer">
-		<div v-if="meta.description" class="metaContainer__shortDescription">
-			<CommonMarkdown>{{ meta.shortDescription }}</CommonMarkdown>
+	<div :class="componentClass">
+		<div class="metaContainer__inner">
+			<div v-if="meta.description" class="metaContainer__shortDescription">
+				<CommonMarkdown>{{ meta.shortDescription }}</CommonMarkdown>
+				<CommonButton block inline @click="openMetaFullDescriptionModal">Read More</CommonButton>
+			</div>
+			<div v-if="meta.system" class="metaContainer__system">
+				<CommonMarkdown>{{ meta.system }}</CommonMarkdown>
+			</div>
+			<div v-if="meta.xp" class="metaContainer__xp">
+				{{ meta.xp }}
+			</div>
 		</div>
-		<div v-if="meta.system" class="metaContainer__system">
-			<CommonMarkdown>{{ meta.system }}</CommonMarkdown>
-		</div>
-		<div v-if="meta.xp" class="metaContainer__xp">
-			{{ meta.xp }}
-		</div>
-		<CommonModal name="metaFullDescription">
+		<CommonModal name="metaFullDescription" :confirm-hidden="true">
 			<CommonMarkdown>
 				{{ meta.description }}
 			</CommonMarkdown>
@@ -18,15 +21,31 @@
 </template>
 <script>
 import { mapActions, mapState } from "vuex";
+import classModsMixin from "@/mixins/classModsMixin";
 
 export default {
 	name: "CharacterMetaContainer",
+	mixins: [classModsMixin],
+	classMod: {
+		baseClass: "metaContainer",
+		modifiers: {
+			locked: vm => vm.isLocked
+		}
+	},
 	computed: {
 		...mapState({
-			meta ({ characters: { metaDisplay = {} } }) {
-				// return (characters.metaDisplay.text || "").replaceAll(/[\n\r]/g, "<br>");
+			isLocked ({ metaDisplayLocked }) {
+				return metaDisplayLocked;
+			},
+			meta ({ metaDisplay = {} }) {
+				const { description = "", system = "", xp = {} } = metaDisplay;
 				return {
-					description: "xs"
+					description: description || "",
+					shortDescription: (description || "").length > 200
+						? this.clampText(description || "")
+						: description || "",
+					system: system || "",
+					xp: xp || {}
 				};
 			}
 		})
@@ -35,9 +54,12 @@ export default {
 		...mapActions({
 			openModal: "openModal"
 		}),
+		openMetaFullDescriptionModal () {
+			this.openModal({ modal: "metaFullDescription" });
+		},
 		clampText (content = "") {
 			let collapsed = "";
-			content.split(/\n/).forEach((line, lineIndex) => {
+			(content || "").split(/\n/).forEach((line, lineIndex) => {
 				if (lineIndex < 3) {
 					collapsed = `${collapsed}\n`;
 					line.split(" ").forEach((word) => {
@@ -55,15 +77,46 @@ export default {
 </script>
 <style lang="scss">
 .metaContainer {
+	height: 100%;
 	max-height: 100%;
 	overflow: hidden;
-	display: grid;
+	padding: $gap;
 
-	grid-auto-columns: minmax(0, 1fr);
+	&--locked {
+		border: 3px solid $primary;
+		border-radius: $global-border-radius;
+	}
 
 	&__inner {
+		grid-auto-columns: minmax(0, 1fr);
+		grid-auto-rows: repeat(3, 1fr);
+		display: grid;
 		padding: $gap;
-		overflow-x: auto;
+	}
+
+	&__shortDescription, &__system {
+		border-radius: $global-border-radius;
+		background: $grey-lighter;
+		padding: $gap;
+	}
+
+	&__shortDescription {
+		display: flex;
+		flex-direction: column;
+		height: 200px;
+
+		.markdown {
+			display: block;
+			overflow: hidden;
+		}
+	}
+
+	&__system {
+
+	}
+
+	&__xp {
+
 	}
 }
 </style>

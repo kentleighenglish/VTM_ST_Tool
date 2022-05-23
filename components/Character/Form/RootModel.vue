@@ -14,11 +14,19 @@
 	</div>
 </template>
 <script>
-import { mapActions } from "vuex";
+import { mapState, mapActions } from "vuex";
 
 export default {
 	name: "CharacterFormRootModel",
 	computed: {
+		...mapState({
+			metaDisplayLocked ({ metaDisplayLocked }) {
+				return metaDisplayLocked;
+			},
+			metaDisplay ({ metaDisplay }) {
+				return metaDisplay;
+			}
+		}),
 		childComponent () {
 			return this.$slots?.default[0]?.context || {};
 		},
@@ -42,29 +50,32 @@ export default {
 			}
 		},
 		updateMeta () {
-			const { name, meta = {}, value, hoverDot = null } = this.childComponent;
+			if (!this.metaDisplayLocked) {
+				const { name, meta = {}, value, hoverDot = null } = this.childComponent;
 
-			let metaDisplay = {
-				description: (meta.description || ""),
-				system: "",
-				xp: {}
+				let metaDisplay = {
+					description: (meta.description || ""),
+					system: "",
+					xp: {}
+				}
+
+				if (meta.getMetaDisplay) {
+					metaDisplay = meta.getMetaDisplay({ name, meta, value, hoverDot });
+				}
+
+				this.updateMetaDisplay({ ...metaDisplay });
 			}
-
-			if (meta.getMetaDisplay) {
-				metaDisplay = meta.getMetaDisplay({ name, meta, value, hoverDot });
-			}
-
-			this.updateMetaDisplay({ ...metaDisplay });
 		},
 		onHover ($event) {
-
+			this.updateMeta();
 		},
 		onMouseLeave ($event) {
-			console.log($event);
+			this.updateMetaDisplay({});
 		},
 		onMetaLock ($event) {
-			console.log("lock");
-			this.setMetaDisplayLock(true);
+			if (!this.metaDisplayLocked) {
+				this.setMetaDisplayLock(true);
+			}
 		}
 	}
 }

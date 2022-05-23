@@ -216,6 +216,7 @@ export default {
 
 	&__footer {
 		display: flex;
+		justify-content: flex-end;
 		padding: math.div($gap, 2) $gap;
 	}
 }

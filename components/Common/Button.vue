@@ -14,10 +14,10 @@ export default {
 	classMod: {
 		baseClass: "button",
 		modifiers: {
-			disabled: vm => !!vm.disabled
-			// block: vm => !!vm.block,
-			// state: vm => vm.state,
-			// inline: vm => !!vm.inline,
+			disabled: vm => !!vm.disabled,
+			block: vm => !!vm.block,
+			state: vm => vm.state,
+			inline: vm => !!vm.inline
 			// nomargin: vm => !!vm.nomargin
 		}
 	},
@@ -34,7 +34,7 @@ export default {
 			type: Boolean,
 			default: false
 		},
-		blocks: {
+		block: {
 			type: Boolean,
 			default: false
 		},
@@ -82,6 +82,21 @@ export default {
 				color: $grey;
 				box-shadow: none;
 				cursor: default;
+			}
+		}
+
+		&--block {
+			button {
+				width: 100%;
+				margin: math.div($gap, 2) 0;
+			}
+		}
+
+		&--inline {
+			button {
+				background: none;
+				box-shadow: none;
+				border-color: transparent;
 			}
 		}
 	}
