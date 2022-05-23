@@ -77,7 +77,8 @@ export default {
 		["@/server/socket", { socketPath }],
 		"@nuxtjs/axios",
 		// ["@/server/socket", { socketPath }],
-		"@nuxtjs/style-resources"
+		"@nuxtjs/style-resources",
+		"portal-vue/nuxt"
 	],
 	// Modules: https://go.nuxtjs.dev/config-modules
 

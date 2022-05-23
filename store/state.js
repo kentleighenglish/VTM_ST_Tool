@@ -1,4 +1,6 @@
 
 export default () => ({
-	adminMode: false
+	adminMode: false,
+	visibleModal: null,
+	modalData: {}
 })

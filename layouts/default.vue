@@ -7,6 +7,7 @@
 			<Nuxt />
 		</div>
 		<CommonLoading v-else mode="page" />
+		<portal-target v-show="visibleModal" name="modal" class="modalContainer" />
 	</div>
 </template>
 <script>
@@ -21,6 +22,12 @@ export default {
 			},
 			hasEvents ({ socket: { events } }) {
 				return events && Object.keys(events).length;
+			},
+			visibleModal ({ visibleModal }) {
+				return !!visibleModal
+			},
+			modalData ({ modalData = {} }) {
+				return modalData;
 			}
 		})
 	},
@@ -80,5 +87,14 @@ export default {
 	.content {
 		padding: $gap ($gap * 2);
 	}
+}
+
+.modalContainer {
+	position: fixed;
+	z-index: 9999;
+	top: 0;
+	left: 0;
+	width: 100%;
+	height: 100%;
 }
 </style>

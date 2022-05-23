@@ -49,6 +49,6 @@ const dots = [
 	},
 	{
 		dot: 5,
-		description: "<b>Outstanding:</b> You can lift 650 lbs (nearly 300 kgs) and crush skulls like grapes"
+		description: "<b>Outstanding:</b> Your constitution is truly herculean."
 	}
 ];
