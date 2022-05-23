@@ -3,6 +3,8 @@ import Vue from "vue";
 export const setAdminModeType = "@setAdminMode";
 export const openModalType = "@openModal";
 export const closeModalType = "@closeModal";
+export const updateMetaDisplayType = "@updateMetaDisplay";
+export const setMetaDisplayLockType = "@setMetaDisplayLock";
 
 export default {
 	[setAdminModeType] (state, { mode }) {
@@ -15,5 +17,13 @@ export default {
 	[closeModalType]: (state) => {
 		state.visibleModal = null;
 		state.modalData = {};
+	},
+	[updateMetaDisplayType] (state, { description, system, xp }) {
+		Vue.set(state.metaDisplay, "description", description);
+		Vue.set(state.metaDisplay, "system", system);
+		Vue.set(state.metaDisplay, "xp", xp);
+	},
+	[setMetaDisplayLockType] (state, locked) {
+		Vue.set(state, "metaDisplayLocked", !!locked);
 	}
 }

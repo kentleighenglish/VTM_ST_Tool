@@ -1,5 +1,10 @@
 <template>
-	<div class="rootModel">
+	<div
+		class="rootModel"
+		@mouseout="onMouseLeave($event)"
+		@mouseover="onHover($event)"
+		@click.middle.prevent="onMetaLock($event)"
+	>
 		<div v-if="fieldModified" class="rootModel__reset" @click="resetModel()">
 			<CommonIcon>refresh</CommonIcon>
 		</div>
@@ -9,6 +14,8 @@
 	</div>
 </template>
 <script>
+import { mapActions } from "vuex";
+
 export default {
 	name: "CharacterFormRootModel",
 	computed: {
@@ -19,13 +26,45 @@ export default {
 			return this.childComponent.model !== this.childComponent.originalValue;
 		}
 	},
+	updated () {
+		this.updateMeta();
+	},
 	methods: {
+		...mapActions({
+			updateMetaDisplay: "updateMetaDisplay",
+			setMetaDisplayLock: "setMetaDisplayLock"
+		}),
 		resetModel () {
 			if (this.childComponent.resetValue) {
 				this.childComponent.resetValue();
 			} else {
 				this.childComponent.updateValue(this.childComponent.originalValue);
 			}
+		},
+		updateMeta () {
+			const { name, meta = {}, value, hoverDot = null } = this.childComponent;
+
+			let metaDisplay = {
+				description: (meta.description || ""),
+				system: "",
+				xp: {}
+			}
+
+			if (meta.getMetaDisplay) {
+				metaDisplay = meta.getMetaDisplay({ name, meta, value, hoverDot });
+			}
+
+			this.updateMetaDisplay({ ...metaDisplay });
+		},
+		onHover ($event) {
+
+		},
+		onMouseLeave ($event) {
+			console.log($event);
+		},
+		onMetaLock ($event) {
+			console.log("lock");
+			this.setMetaDisplayLock(true);
 		}
 	}
 }

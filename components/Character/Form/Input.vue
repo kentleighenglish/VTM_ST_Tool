@@ -1,6 +1,6 @@
 <template>
 	<CharacterFormRootModel>
-		<div :class="componentClass" @mouseover="onHover">
+		<div :class="componentClass">
 			<label :for="name">
 				<span v-if="label" class="formInput__label">{{ label }}</span>
 				<div class="formInput__field">
@@ -34,7 +34,6 @@
 	</CharacterFormRootModel>
 </template>
 <script>
-import { mapActions } from "vuex";
 import classModsMixin from "@/mixins/classModsMixin";
 
 export default {
@@ -121,9 +120,6 @@ export default {
 		this.model = this.value;
 	},
 	methods: {
-		...mapActions({
-			updateMetaField: "characters/updateMetaField"
-		}),
 		updateValue (value) {
 			if (this.type === "checkbox") {
 				this.$emit("input", !this.model);
@@ -133,14 +129,6 @@ export default {
 		},
 		handleChange (e) {
 			this.$emit("change", e);
-		},
-		onHover (i) {
-			const { description } = this.meta;
-			if (description) {
-				const text = typeof description === "function" ? description(this.name, i) : description;
-
-				this.updateMetaField({ text });
-			}
 		}
 	}
 }

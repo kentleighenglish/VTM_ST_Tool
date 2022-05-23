@@ -1,15 +1,11 @@
 import Vue from "vue";
 
-export const updateMetaFieldType = "@characters/updateMetaField";
 export const loadType = "@characters/load";
 export const loadCompleteType = "@characters/loadComplete";
 export const loadAllType = "@characters/loadAll";
 export const loadAllCompleteType = "@characters/loadAllComplete";
 
 export default {
-	[updateMetaFieldType] (state, { text }) {
-		Vue.set(state.metaDisplay, "text", text);
-	},
 	[loadType] (state, { id }) {
 		Vue.set(state.loading, id, true);
 	},

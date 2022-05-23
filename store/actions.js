@@ -1,7 +1,9 @@
 import {
 	setAdminModeType,
 	openModalType,
-	closeModalType
+	closeModalType,
+	updateMetaDisplayType,
+	setMetaDisplayLockType
 } from "./mutations";
 
 export const setAdminMode = ({ commit }, mode) => {
@@ -18,4 +20,12 @@ export const openModal = ({ commit, state }, modal) => {
 
 export const closeModal = ({ commit, state }, modal) => {
 	commit(closeModalType);
+};
+
+export const updateMetaDisplay = ({ commit }, { description = "", system = "", xp = {} }) => {
+	commit(updateMetaDisplayType, { description, system, xp });
+};
+
+export const setMetaDisplayLock = ({ commit }, locked) => {
+	commit(setMetaDisplayLockType, locked);
 };

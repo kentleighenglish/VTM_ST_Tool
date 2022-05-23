@@ -1,5 +1,4 @@
 import {
-	updateMetaFieldType,
 	loadType,
 	loadCompleteType,
 	loadAllType,
@@ -8,10 +7,6 @@ import {
 import {
 	globalPushMessage
 } from "@/store/toast/actions";
-
-export const updateMetaField = ({ commit }, { text }) => {
-	commit(updateMetaFieldType, { text });
-};
 
 export const create = ({ dispatch, commit, rootState }, { ...fields }) => {
 	const { socket, events } = rootState.socket;

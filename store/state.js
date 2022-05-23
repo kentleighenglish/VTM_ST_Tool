@@ -2,5 +2,11 @@
 export default () => ({
 	adminMode: false,
 	visibleModal: null,
-	modalData: {}
-})
+	modalData: {},
+	metaDisplay: {
+		description: null,
+		system: null,
+		xp: {}
+	},
+	metaDisplayLocked: false
+});

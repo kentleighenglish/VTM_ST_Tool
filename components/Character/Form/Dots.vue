@@ -97,7 +97,6 @@ export default {
 	},
 	methods: {
 		...mapActions({
-			updateMetaField: "characters/updateMetaField",
 			pushToastMessage: "toast/pushMessage"
 		}),
 		dotClass (dotIndex) {
@@ -107,18 +106,6 @@ export default {
 			}, this);
 		},
 		setDotHover (i) {
-			const { description, getXpCost } = this.meta;
-			if (description) {
-				const text = typeof description === "function" ? description(this.name, i) : description;
-
-				this.updateMetaField({ text });
-			}
-			if (getXpCost) {
-				const xpCost = getXpCost({ current: this.model || 0, target: i, propPath: [this.name] });
-
-				console.log("This will cost", xpCost);
-			}
-
 			this.hoverDot = i;
 		},
 		clearDotHover () {

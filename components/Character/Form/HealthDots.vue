@@ -20,7 +20,6 @@
 	</CharacterFormRootModel>
 </template>
 <script>
-import { mapActions } from "vuex";
 import { makeClassMods } from "@/mixins/classModsMixin";
 
 export default {
@@ -104,25 +103,12 @@ export default {
 		this.model = this.value;
 	},
 	methods: {
-		...mapActions({
-			updateMetaField: "characters/updateMetaField"
-		}),
 		dotMod (dot) {
 			return makeClassMods("healthDot__dot", {
 				bashing: vm => vm.bashing,
 				lethal: vm => vm.lethal,
 				agg: vm => vm.agg
 			}, dot);
-		},
-		dotHover (i) {
-			const { description } = this.meta;
-			if (description) {
-				const text = typeof description === "function" ? description(this.name, i) : description;
-
-				this.updateMetaField({ text });
-			}
-		},
-		clearDotHover () {
 		},
 		decodeValue () {
 			const splitVal = String(this.model || 0).split("").reverse();
