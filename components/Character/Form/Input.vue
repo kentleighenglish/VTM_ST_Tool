@@ -1,6 +1,6 @@
 <template>
 	<CharacterFormRootModel>
-		<div class="formInput" @mouseover="onHover">
+		<div :class="componentClass" @mouseover="onHover">
 			<label :for="name">
 				<span v-if="label" class="formInput__label">{{ label }}</span>
 				<div class="formInput__field">
@@ -12,6 +12,13 @@
 						@input="updateValue($event.target.value)"
 						@change="handleChange($event)"
 					></input>
+					<textarea
+						v-if="type === 'textarea'"
+						v-model="model"
+						:disabled="isDisabled"
+						@input="updateValue($event.target.value)"
+						@change="handleChange($event)"
+					/>
 					<select
 						v-if="type === 'select'"
 						v-model="model"
@@ -28,9 +35,17 @@
 </template>
 <script>
 import { mapActions } from "vuex";
+import classModsMixin from "@/mixins/classModsMixin";
 
 export default {
 	name: "FormInput",
+	mixins: [classModsMixin],
+	classMod: {
+		baseClass: "formInput",
+		modifiers: {
+			type: vm => vm.type
+		}
+	},
 	props: {
 		meta: {
 			type: Object,
@@ -136,6 +151,12 @@ export default {
 		width: 100%;
 		margin: math.div($gap, 2) 0;
 
+		&--textarea {
+			label {
+				flex-wrap: wrap;
+			}
+		}
+
 		label {
 			display: flex;
 			width: 100%;
@@ -151,9 +172,11 @@ export default {
 			max-width: 400px;
 			border-bottom: 1px solid $grey;
 			background: $grey-lighter;
+			overflow: hidden;
 
-			input, select {
+			input, select, textarea {
 				width: 100%;
+				max-width: 100%;
 				background: none;
 				border: none;
 				margin: 0;

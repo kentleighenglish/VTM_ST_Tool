@@ -21,6 +21,7 @@
 const inputTypes = [
 	"text",
 	"select",
+	"textarea",
 	"checkbox",
 	"password",
 	"date",

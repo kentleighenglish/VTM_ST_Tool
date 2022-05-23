@@ -78,14 +78,18 @@ export default {
 				}
 			}
 		},
-		health: {
-			label: "Health",
+		other: {
+			label: null,
 			type: "sectionColumn",
 			fields: {
 				health: {
-					label: null,
+					label: "Health",
 					type: "healthDots",
 					meta: {}
+				},
+				weakness: {
+					label: "Weakness",
+					type: "textarea"
 				}
 			}
 		}
