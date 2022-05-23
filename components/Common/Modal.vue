@@ -6,10 +6,9 @@
 					<div class="modal__contentInner">
 						<slot />
 					</div>
-					<alert-container v-if="errorGroup" :group="errorGroup" />
 					<div class="modal__footer">
 						<div v-if="!confirmHidden" class="le-flex le-padding-h">
-							<le-button
+							<CommonButton
 								:state="confirmState"
 								block
 								:disabled="submitting || confirmDisabled"
@@ -17,12 +16,12 @@
 								@click="onConfirm()"
 							>
 								{{ confirmLabel }}
-							</le-button>
+							</CommonButton>
 						</div>
 						<div v-if="!closeHidden" class="le-flex le-padding-h">
-							<le-button inline block :state="closeState" :disabled="submitting || closeDisabled" @click="onClose()">
+							<CommonButton inline block :state="closeState" :disabled="submitting || closeDisabled" @click="onClose()">
 								{{ closeLabel }}
-							</le-button>
+							</CommonButton>
 						</div>
 					</div>
 				</div>
@@ -36,10 +35,6 @@ import { mapState, mapActions } from "vuex";
 
 export default {
 	name: "CommonModal",
-	components: {
-		// "le-button": () => import('shared/components/Common/Button/Button'),
-		// "alert-container": () => import("shared/components/Global/Alerts/AlertContainer"),
-	},
 	props: {
 		name: {
 			type: String,
@@ -108,10 +103,10 @@ export default {
 	computed: {
 		...mapState({
 			visible (state) {
-				return state.global.visibleModal === this.name;
+				return state.visibleModal === this.name;
 			},
 			modalData (state) {
-				return state.global.modalData;
+				return state.modalData;
 			}
 		})
 	},
@@ -120,7 +115,7 @@ export default {
 	},
 	methods: {
 		...mapActions({
-			closeModal: "global/closeModal"
+			closeModal: "closeModal"
 		}),
 		overlayClick () {
 			if (this.closeWithOverlay) {
@@ -232,6 +227,7 @@ export default {
 	width: 100%;
 	height: 100%;
 	background: fade-out(black, .6);
+	backdrop-filter: blur(3px) grayscale(50%);
 	z-index: 1;
 }
 
