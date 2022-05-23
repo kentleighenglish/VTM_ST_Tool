@@ -18,7 +18,8 @@ export default {
 		state.visibleModal = null;
 		state.modalData = {};
 	},
-	[updateMetaDisplayType] (state, { description, system, xp }) {
+	[updateMetaDisplayType] (state, { name, description = null, system = null, xp = {} }) {
+		Vue.set(state.metaDisplay, "name", name);
 		Vue.set(state.metaDisplay, "description", description);
 		Vue.set(state.metaDisplay, "system", system);
 		Vue.set(state.metaDisplay, "xp", xp);

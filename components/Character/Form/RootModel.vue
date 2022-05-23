@@ -3,7 +3,7 @@
 		class="rootModel"
 		@mouseout="onMouseLeave($event)"
 		@mouseover="onHover($event)"
-		@click.middle.prevent="onMetaLock($event)"
+		@click.middle.stop.prevent="onMetaLock($event)"
 	>
 		<div v-if="fieldModified" class="rootModel__reset" @click="resetModel()">
 			<CommonIcon>refresh</CommonIcon>
@@ -63,18 +63,22 @@ export default {
 					metaDisplay = meta.getMetaDisplay({ name, meta, value, hoverDot });
 				}
 
-				this.updateMetaDisplay({ ...metaDisplay });
+				this.updateMetaDisplay({ name, ...metaDisplay });
 			}
 		},
 		onHover ($event) {
 			this.updateMeta();
 		},
 		onMouseLeave ($event) {
-			this.updateMetaDisplay({});
+			if (!this.metaDisplayLocked) {
+				this.updateMetaDisplay({});
+			}
 		},
 		onMetaLock ($event) {
 			if (!this.metaDisplayLocked) {
 				this.setMetaDisplayLock(true);
+			} else {
+				this.setMetaDisplayLock(false);
 			}
 		}
 	}

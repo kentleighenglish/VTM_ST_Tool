@@ -22,10 +22,16 @@ export const closeModal = ({ commit, state }, modal) => {
 	commit(closeModalType);
 };
 
-export const updateMetaDisplay = ({ commit }, { description = "", system = "", xp = {} }) => {
-	commit(updateMetaDisplayType, { description, system, xp });
+export const updateMetaDisplay = ({ commit }, { name = null, description = "", system = "", xp = {} }) => {
+	commit(updateMetaDisplayType, { name, description, system, xp });
 };
 
-export const setMetaDisplayLock = ({ commit }, locked) => {
-	commit(setMetaDisplayLockType, locked);
+export const setMetaDisplayLock = ({ state, commit }, locked) => {
+	if (!locked || (locked && state.metaDisplay.name)) {
+		commit(setMetaDisplayLockType, locked);
+	}
+
+	if (!locked) {
+		commit(updateMetaDisplayType, {});
+	}
 };

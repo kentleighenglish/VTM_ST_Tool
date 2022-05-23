@@ -82,11 +82,6 @@ export default {
 	overflow: hidden;
 	padding: $gap;
 
-	&--locked {
-		border: 3px solid $primary;
-		border-radius: $global-border-radius;
-	}
-
 	&__inner {
 		grid-auto-columns: minmax(0, 1fr);
 		grid-auto-rows: repeat(3, 1fr);
@@ -96,8 +91,16 @@ export default {
 
 	&__shortDescription, &__system {
 		border-radius: $global-border-radius;
+		border: 1px solid transparent;
 		background: $grey-lighter;
 		padding: $gap;
+		transition: box-shadow 0.3s, border-color 0.1s;
+
+		@include realShadow();
+
+		.metaContainer--locked & {
+			border-color: $grey-dark;
+		}
 	}
 
 	&__shortDescription {

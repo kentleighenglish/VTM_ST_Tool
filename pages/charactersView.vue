@@ -1,5 +1,5 @@
 <template>
-	<div class="characterView">
+	<div class="characterView" @click.middle="resetMetaDisplayLock($event)">
 		<CharacterTabs :tabs="tabs" default-tab="sheet">
 			<template #sheet>
 				<CharacterSheet
@@ -78,6 +78,9 @@ export default {
 			},
 			loadedCharacter ({ characters: { currentCharacter = {} } }) {
 				return { ...currentCharacter };
+			},
+			metaDisplayLocked ({ metaDisplayLocked }) {
+				return metaDisplayLocked;
 			}
 		}),
 		createModeParsed () {
@@ -148,6 +151,7 @@ export default {
 	},
 	methods: {
 		...mapActions({
+			setMetaDisplayLock: "setMetaDisplayLock",
 			createCharacter: "characters/create",
 			updateCharacter: "characters/update",
 			loadCharacter: "characters/load",
@@ -156,6 +160,12 @@ export default {
 			joinRoom: "socket/joinRoom",
 			leaveRoom: "socket/leaveRoom"
 		}),
+		resetMetaDisplayLock ($event) {
+			if (this.metaDisplayLocked) {
+				$event.preventDefault();
+				this.setMetaDisplayLock(false);
+			}
+		},
 		reset () {
 			this.formData = { ...(this.loadedCharacter || {}) };
 			this.modifiedData = {};
