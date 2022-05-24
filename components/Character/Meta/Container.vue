@@ -89,6 +89,7 @@ export default {
 		grid-auto-columns: minmax(0, 1fr);
 		grid-auto-rows: repeat(3, 1fr);
 		display: grid;
+		grid-gap: $gap;
 		padding: $gap;
 	}
 
