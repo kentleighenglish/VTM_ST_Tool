@@ -2,7 +2,7 @@
 	<div
 		class="rootModel"
 		@mouseout="onMouseLeave($event)"
-		@mouseover="onHover($event)"
+		@mousemove="onHover($event)"
 		@click.middle.stop.prevent="onMetaLock($event)"
 	>
 		<div v-if="fieldModified" class="rootModel__reset" @click="resetModel()">

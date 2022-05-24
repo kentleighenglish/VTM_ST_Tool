@@ -32,6 +32,7 @@ export const setMetaDisplayLock = ({ state, commit }, locked) => {
 	}
 
 	if (!locked) {
+		// document.dispatchEvent(new Event("mousemove"));
 		commit(updateMetaDisplayType, {});
 	}
 };
