@@ -115,7 +115,8 @@ export default {
 	},
 	methods: {
 		...mapActions({
-			closeModal: "closeModal"
+			closeModal: "closeModal",
+			pushToastMessage: "toast/pushMessage"
 		}),
 		overlayClick () {
 			if (this.closeWithOverlay) {
@@ -133,7 +134,10 @@ export default {
 					this.closeModal();
 				}
 			} catch (e) {
-				console.error(e);
+				this.pushToastMessage({
+					type: "error",
+					body: e.getMessage
+				});
 				this.submitting = false;
 				this.error = e;
 			}
@@ -190,6 +194,7 @@ export default {
 		max-width: 100%;
 		max-height: 100%;
 		flex-direction: column;
+		overflow: auto;
 
 		background: $grey-lightest;
 		border-radius: $global-border-radius;

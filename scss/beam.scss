@@ -1,0 +1,99 @@
+@mixin beam-states($direction: 'right') {
+	&.#{$prefix}-beam {
+		@include generateStateModifiers() using ($color) {
+			&:before {
+				@include radiant-gradient($color, $direction);
+			}
+		}
+	}
+}
+
+.#{$prefix}-beam {
+
+	&--top, &--bottom {
+		position: relative;
+
+		&:before, &:after {
+			display: block;
+			content: "";
+			position: absolute;
+			width: 100%;
+			height: 4px;
+			left: 0;
+
+
+			@include radiant-gradient($primary);
+		}
+
+		@include beam-states();
+	}
+
+	&--top {
+		&:before {
+			bottom: 100%;
+			border-top-left-radius: 1px;
+			border-top-right-radius: 1px;
+		}
+		&:not(.#{$prefix}-beam-bottom) {
+			&:after {
+				display: none;
+			}
+		}
+	}
+
+	&--bottom {
+		&:after {
+			top: 100%;
+			border-bottom-left-radius: 1px;
+			border-bottom-right-radius: 1px;
+		}
+		&:not(.#{$prefix}-beam-top) {
+			&:before {
+				display: none;
+			}
+		}
+	}
+
+	&--left, &--right {
+		position: relative;
+
+		&:before, &:after {
+			display: block;
+			content: "";
+			position: absolute;
+			height: 100%;
+			width: 4px;
+			top: 0;
+
+			@include radiant-gradient($primary, 'down');
+		}
+
+		@include beam-states('down');
+	}
+
+	&--left {
+		&:before {
+			right: 100%;
+			border-top-left-radius: 1px;
+			border-bottom-left-radius: 1px;
+		}
+		&:not(.#{$prefix}-beam-right) {
+			&:after {
+				display: none;
+			}
+		}
+	}
+
+	&--right {
+		&:after {
+			left: 100%;
+			border-top-right-radius: 1px;
+			border-bottom-right-radius: 1px;
+		}
+		&:not(.#{$prefix}-beam-left) {
+			&:before {
+				display: none;
+			}
+		}
+	}
+}

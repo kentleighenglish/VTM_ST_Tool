@@ -9,21 +9,23 @@ export default {
 			maxSpendDots: getMaxSpend(getAttributeCost)
 		},
 		getXpCost: getAttributeCost,
-		description: (name, dotIndex) => {
-			let desc = description;
+		getMetaDisplay: ({ value, hoverDot }) => {
+			const output = { description }
 
-			if (dotIndex) {
-				const dotDesc = dots
-					.filter(d => d.dot === dotIndex)
-					.reduce((acc, dot) => ([
-						...acc,
-						`\n${dot.description}`
-					]), []).join("\n");
+			if (hoverDot !== null) {
+				const currentDot = dots.find(dot => dot.dot === hoverDot);
+				if (currentDot) {
+					output.system = currentDot.description;
+				}
 
-				desc += `\n\n${dotDesc}`;
+				const xpCost = getAttributeCost(value, hoverDot);
+
+				output.xp = {
+					cost: xpCost
+				}
 			}
 
-			return desc;
+			return output;
 		}
 	}
 }
@@ -33,22 +35,22 @@ const description = "Strength is the raw, brute power of a character. It governs
 const dots = [
 	{
 		dot: 1,
-		description: "<b>Poor:</b> You can lift 40 lbs (about 20 kgs)"
+		description: "**Poor:** You can lift 40 lbs (about 20 kgs)"
 	},
 	{
 		dot: 2,
-		description: "<b>Average:</b> You can lift 100 lbs (close to 50 kgs)."
+		description: "**Average:** You can lift 100 lbs (close to 50 kgs)."
 	},
 	{
 		dot: 3,
-		description: "<b>Good:</b> You can lift 250 lbs (a little over 100 kgs)"
+		description: "**Good:** You can lift 250 lbs (a little over 100 kgs)"
 	},
 	{
 		dot: 4,
-		description: "<b>Exceptional:</b> You can lift 400 lbs (close to 200 kgs)"
+		description: "**Exceptional:** You can lift 400 lbs (close to 200 kgs)"
 	},
 	{
 		dot: 5,
-		description: "<b>Outstanding:</b> You can lift 650 lbs (nearly 300 kgs) and crush skulls like grapes"
+		description: "**Outstanding:** You can lift 650 lbs (nearly 300 kgs) and crush skulls like grapes"
 	}
 ];

@@ -15,8 +15,11 @@
 				{{ meta.xp }}
 			</div>
 		</div>
-		<CommonModal name="metaFullDescription" :confirm-hidden="true">
-			<CommonMarkdown>
+		<CommonModal
+			name="metaFullDescription"
+			:confirm-hidden="true"
+		>
+			<CommonMarkdown style="max-width:700px">
 				{{ meta.description }}
 			</CommonMarkdown>
 		</CommonModal>

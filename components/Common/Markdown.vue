@@ -33,7 +33,7 @@ export default {
 
 		const parsed = this.parse(content);
 
-		return h("span", { class: "markdown", domProps: { innerHTML: parsed } });
+		return h("div", { class: "markdown", domProps: { innerHTML: parsed } });
 	}
 }
 </script>
