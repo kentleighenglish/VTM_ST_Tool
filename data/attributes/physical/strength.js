@@ -18,7 +18,7 @@ export default {
 					output.system = currentDot.description;
 				}
 
-				const xpCost = getAttributeCost(value, hoverDot);
+				const xpCost = getAttributeCost({ current: value, target: hoverDot });
 
 				output.xp = {
 					cost: xpCost

@@ -6,13 +6,17 @@
 		<div class="metaContainer__inner">
 			<div v-if="meta.description" class="metaContainer__shortDescription">
 				<CommonMarkdown>{{ meta.shortDescription }}</CommonMarkdown>
-				<CommonButton block inline @click="openMetaFullDescriptionModal">Read More</CommonButton>
+				<CommonButton block inline @click="openMetaFullDescriptionModal">
+					Read More
+				</CommonButton>
 			</div>
 			<div v-if="meta.system" class="metaContainer__system">
 				<CommonMarkdown>{{ meta.system }}</CommonMarkdown>
 			</div>
 			<div v-if="meta.xp" class="metaContainer__xp">
-				{{ meta.xp }}
+				<div v-if="typeof meta.xp.cost === 'number'" class="metaContainer__xpCost">
+					{{ meta.xp.cost }}xp
+				</div>
 			</div>
 		</div>
 		<CommonModal
@@ -146,6 +150,10 @@ export default {
 
 	&__xp {
 
+		&Cost {
+			font-size: 2em;
+			font-weight: 800;
+		}
 	}
 }
 </style>
