@@ -1,34 +1,4 @@
-import { getTraitDots, getAttributeCost, getMaxSpend } from "@/data/_utils";
-
-export default {
-	label: "Strength",
-	type: "dots",
-	meta: {
-		params: {
-			maxDots: getTraitDots,
-			maxSpendDots: getMaxSpend(getAttributeCost)
-		},
-		getXpCost: getAttributeCost,
-		getMetaDisplay: ({ value, hoverDot }) => {
-			const output = { description }
-
-			if (hoverDot !== null) {
-				const currentDot = dots.find(dot => dot.dot === hoverDot);
-				if (currentDot) {
-					output.system = currentDot.description;
-				}
-
-				const xpCost = getAttributeCost({ current: value, target: hoverDot });
-
-				output.xp = {
-					cost: xpCost
-				}
-			}
-
-			return output;
-		}
-	}
-}
+import { getTraitDots, getAttributeCost, getMaxSpend, getDotsMetaDisplay } from "@/data/_utils";
 
 const description = "Strength is the raw, brute power of a character. It governs how much weight a character can lift, how much he can physically push, and how hard he can hit another character or object. The Strength Trait is added to a character’s damage dice pool when he hits his opponent in hand-to-hand combat. It is also used when a character wishes to break, lift, or carry something, as well as when a character tries to jump a distance.";
 
@@ -54,3 +24,16 @@ const dots = [
 		description: "**Outstanding:** You can lift 650 lbs (nearly 300 kgs) and crush skulls like grapes"
 	}
 ];
+
+export default {
+	label: "Strength",
+	type: "dots",
+	meta: {
+		params: {
+			maxDots: getTraitDots,
+			maxSpendDots: getMaxSpend(getAttributeCost)
+		},
+		getXpCost: getAttributeCost,
+		getMetaDisplay: getDotsMetaDisplay({ dots, description })
+	}
+}

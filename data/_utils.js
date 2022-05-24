@@ -83,3 +83,22 @@ export const getMaxSpend = costFunc => (data, { adminMode, xpPoints, propPath })
 
 	return checkTarget(target);
 }
+
+export const getDotsMetaDisplay = ({ dots, description }) => ({ value, meta, hoverDot }) => {
+	const output = { description };
+
+	if (hoverDot !== null) {
+		const currentDot = dots.find(dot => dot.dot === hoverDot);
+		if (currentDot) {
+			output.system = currentDot.description;
+		}
+
+		const xpCost = meta.getXpCost({ current: value, target: hoverDot });
+
+		output.xp = {
+			cost: xpCost
+		}
+	}
+
+	return output;
+}

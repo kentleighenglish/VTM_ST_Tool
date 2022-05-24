@@ -14,7 +14,7 @@
 				<CommonMarkdown>{{ meta.system }}</CommonMarkdown>
 			</div>
 			<div v-if="meta.xp" class="metaContainer__xp">
-				<div v-if="typeof meta.xp.cost === 'number'" class="metaContainer__xpCost">
+				<div v-if="meta.xp.cost" class="metaContainer__xpCost">
 					{{ meta.xp.cost }}xp
 				</div>
 			</div>
