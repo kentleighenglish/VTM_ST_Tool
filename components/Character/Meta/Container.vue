@@ -1,5 +1,8 @@
 <template>
 	<div :class="componentClass">
+		<div class="metaContainer__lockedIcon">
+			<CommonIcon>lock</CommonIcon>
+		</div>
 		<div class="metaContainer__inner">
 			<div v-if="meta.description" class="metaContainer__shortDescription">
 				<CommonMarkdown>{{ meta.shortDescription }}</CommonMarkdown>
@@ -89,6 +92,22 @@ export default {
 		padding: $gap;
 	}
 
+	&__lockedIcon {
+		display: flex;
+		justify-content: flex-end;
+		padding: 0 $gap;
+
+		color: lighten($primary, 15%);
+		text-shadow: 3px 3px 6px fade-out($grey, 0.7);
+
+		opacity: 0;
+		transition: opacity 0.2s;
+
+		.metaContainer--locked & {
+			opacity: 1;
+		}
+	}
+
 	&__shortDescription, &__system {
 		border-radius: $global-border-radius;
 		border: 1px solid transparent;
@@ -96,10 +115,12 @@ export default {
 		padding: $gap;
 		transition: box-shadow 0.3s, border-color 0.1s;
 
-		@include realShadow();
+		@include realShadow($grey-darkest);
 
 		.metaContainer--locked & {
-			border-color: $grey-dark;
+			border-color: $primary;
+
+			@include realShadow($grey-light, false, 0.5);
 		}
 	}
 
@@ -110,6 +131,7 @@ export default {
 
 		.markdown {
 			display: block;
+			height: 100%;
 			overflow: hidden;
 		}
 	}
