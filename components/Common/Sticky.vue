@@ -50,7 +50,7 @@ export default {
 				maxHeight: `${this.windowHeight - this.offsetTop - 40}px`,
 				zIndex: (this.zIndex || null),
 				overflowY: this.overflowScroll ? "auto" : "initial",
-				overflowX: "hidden"
+				overflowX: "clip"
 			}
 		}
 	},
