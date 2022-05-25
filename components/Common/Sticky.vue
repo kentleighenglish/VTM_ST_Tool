@@ -17,7 +17,10 @@ export default {
 			type: Boolean,
 			default: false
 		},
-		zIndex: Number
+		zIndex: {
+			type: Number,
+			default: null
+		}
 	},
 	data: () => ({
 		scrollPos: 1,
@@ -46,13 +49,14 @@ export default {
 				maxWidth: `${this.containerWidth}px`,
 				maxHeight: `${this.windowHeight - this.offsetTop - 40}px`,
 				zIndex: (this.zIndex || null),
-				overflow: this.overflowScroll ? "auto" : "initial"
+				overflowY: this.overflowScroll ? "auto" : "initial",
+				overflowX: "hidden"
 			}
 		}
 	},
 	mounted () {
-		window.addEventListener("resize", () => this.updateSize());
-		window.addEventListener("scroll", () => this.updateScroll());
+		this.stickyResizeListener = window.addEventListener("resize", () => this.updateSize());
+		this.stickyScrollListener = window.addEventListener("scroll", () => this.updateScroll());
 
 		this.updateSize();
 		this.updateScroll();
@@ -73,6 +77,8 @@ export default {
 			this.windowHeight = window.innerHeight;
 		},
 		updateScroll () {
+			this.updateSize();
+
 			this.scrollPos = (window.scrollY || 0);
 		},
 		getScrollOffset () {

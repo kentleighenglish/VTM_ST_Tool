@@ -1,6 +1,6 @@
 <template>
 	<div :class="componentClass">
-		<div class="metaContainer__lockedIcon">
+		<div v-if="isLocked" class="metaContainer__lockedIcon">
 			<CommonIcon>lock</CommonIcon>
 		</div>
 		<div class="metaContainer__inner">
@@ -90,20 +90,22 @@ export default {
 	height: 100%;
 	max-height: 100%;
 	overflow: hidden;
-	padding: $gap;
+	padding: 0 $gap;
 
 	&__inner {
 		grid-auto-columns: minmax(0, 1fr);
 		grid-auto-rows: repeat(3, 1fr);
 		display: grid;
 		grid-gap: $gap;
-		padding: $gap;
+		padding: math.div($gap, 2) $gap;
 	}
 
 	&__lockedIcon {
+		position: absolute;
 		display: flex;
+		width: 100%;
 		justify-content: flex-end;
-		padding: 0 $gap;
+		padding: math.div($gap, 2) $gap;
 
 		color: lighten($primary, 15%);
 		text-shadow: 3px 3px 6px fade-out($grey, 0.7);
