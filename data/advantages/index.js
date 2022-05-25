@@ -1,4 +1,4 @@
-import { getDisciplineDots, getMaxSpend, getDisciplineCost } from "../_utils";
+import { getDisciplineDots, getMaxSpend, getDisciplineCost, getDotsMetaDisplay } from "../_utils";
 import * as clans from "../details/clans";
 import * as disciplines from "./disciplines";
 import * as backgrounds from "./backgrounds";
@@ -16,27 +16,10 @@ const disciplinesDotMeta = (data, additional) => ({
 		maxSpendDots: getMaxSpend(getDisciplineCostClan(additional.clanDisciplines))(data, additional)
 	},
 	getXpCost: getDisciplineCostClan(additional.clanDisciplines),
-	description: (name, dotIndex) => {
-		let desc = null;
-		const discipline = disciplines[name];
-
-		if (discipline) {
-			desc = discipline.description;
-		}
-
-		if (dotIndex) {
-			const powerDesc = discipline.dots
-				.filter(d => d.dot === dotIndex)
-				.reduce((acc, dot) => ([
-					...acc,
-					`${dot.label}: ${dot.description}`
-				]), []).join("\n");
-
-			desc += `\n\n${powerDesc}`;
-		}
-
-		return desc;
-	}
+	getMetaDisplay: ({ name, ...payload }) => getDotsMetaDisplay({
+		description: disciplines[name]?.description || "",
+		dots: disciplines[name]?.dots || []
+	})({ name, ...payload })
 });
 
 const getVirtueCost = ({ current, target }) => {

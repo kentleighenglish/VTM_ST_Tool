@@ -84,7 +84,7 @@ export const getMaxSpend = costFunc => (data, { adminMode, xpPoints, propPath })
 	return checkTarget(target);
 }
 
-export const getDotsMetaDisplay = ({ dots, description }) => ({ value, meta, hoverDot }) => {
+export const getDotsMetaDisplay = ({ dots, description }) => ({ name, value, meta, hoverDot }) => {
 	const output = { description };
 
 	if (hoverDot !== null) {
@@ -93,7 +93,7 @@ export const getDotsMetaDisplay = ({ dots, description }) => ({ value, meta, hov
 			output.system = currentDot.description;
 		}
 
-		const xpCost = meta.getXpCost({ current: value, target: hoverDot });
+		const xpCost = meta.getXpCost({ current: value, target: hoverDot, propPath: [name] });
 
 		output.xp = {
 			cost: xpCost

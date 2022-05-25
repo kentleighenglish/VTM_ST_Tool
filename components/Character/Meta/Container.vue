@@ -5,13 +5,16 @@
 		</div>
 		<div class="metaContainer__inner">
 			<div v-if="meta.description" class="metaContainer__shortDescription">
-				<CommonMarkdown>{{ meta.shortDescription }}</CommonMarkdown>
-				<CommonButton block inline @click="openMetaFullDescriptionModal">
+				<CommonMarkdown>{{ meta.shortDescription || meta.description }}</CommonMarkdown>
+				<CommonButton v-if="meta.shortDescription" block inline @click="openMetaFullDescriptionModal">
 					Read More
 				</CommonButton>
 			</div>
 			<div v-if="meta.system" class="metaContainer__system">
-				<CommonMarkdown>{{ meta.system }}</CommonMarkdown>
+				<CommonMarkdown>{{ meta.shortSystem || meta.system }}</CommonMarkdown>
+				<CommonButton v-if="meta.shortSystem" block inline @click="openMetaFullSystemModal">
+					Read More
+				</CommonButton>
 			</div>
 			<div v-if="meta.xp" class="metaContainer__xp">
 				<div v-if="meta.xp.cost" class="metaContainer__xpCost">
@@ -25,6 +28,14 @@
 		>
 			<CommonMarkdown style="max-width:700px">
 				{{ meta.description }}
+			</CommonMarkdown>
+		</CommonModal>
+		<CommonModal
+			name="metaFullSystem"
+			:confirm-hidden="true"
+		>
+			<CommonMarkdown style="max-width:700px">
+				{{ meta.system }}
 			</CommonMarkdown>
 		</CommonModal>
 	</div>
@@ -53,8 +64,11 @@ export default {
 					description: description || "",
 					shortDescription: (description || "").length > 200
 						? this.clampText(description || "")
-						: description || "",
+						: null,
 					system: system || "",
+					shortSystem: (system || "").length > 200
+						? this.clampText(system || "")
+						: null,
 					xp: xp || {}
 				};
 			}
@@ -66,6 +80,9 @@ export default {
 		}),
 		openMetaFullDescriptionModal () {
 			this.openModal({ modal: "metaFullDescription" });
+		},
+		openMetaFullSystemModal () {
+			this.openModal({ modal: "metaFullSystem" });
 		},
 		clampText (content = "") {
 			let collapsed = "";
