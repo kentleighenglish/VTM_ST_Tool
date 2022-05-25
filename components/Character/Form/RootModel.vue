@@ -34,8 +34,10 @@ export default {
 			return this.childComponent.model !== this.childComponent.originalValue;
 		}
 	},
-	updated () {
-		this.updateMeta();
+	updated (a, b, c) {
+		if (this.childComponent && typeof this.childComponent.hoverDot === "number") {
+			this.updateMeta();
+		}
 	},
 	methods: {
 		...mapActions({
