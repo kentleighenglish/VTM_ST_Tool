@@ -18,6 +18,12 @@
 				<div class="powerItem__label">
 					{{ power.label }}
 				</div>
+				<CommonDots
+					:small="true"
+					:read-only="true"
+					:max-dots="power.dot"
+					:current-value="power.dot"
+				/>
 				<div class="powerItem__description">
 					{{ power.description }}
 				</div>

@@ -2,21 +2,13 @@
 	<CharacterFormRootModel>
 		<div :class="componentClass">
 			<span class="dotsInput__label">{{ label }}</span>
-			<div v-if="maxDots" class="dots">
-				<div
-					v-for="i in maxDots"
-					:key="i"
-					:class="dotClass(i)"
-					:create-mode="createMode"
-					:xp-check="xpCheck"
-					:xp-spend-update="xpSpendUpdate"
-					:xp-spend-reset="xpSpendReset"
-					@mouseover="setDotHover(i)"
-					@mouseleave="clearDotHover()"
-					@click="updateValue(i)"
-				>
-					<div class="dots__dotInner" />
-				</div>
+			<div v-if="maxDots" class="dotsInput__dots">
+				<CommonDots
+					:max-dots="maxDots"
+					:max-allowed="maxSpendDots"
+					:current-value="model"
+					@click="updateValue"
+				/>
 			</div>
 		</div>
 	</CharacterFormRootModel>
@@ -152,44 +144,6 @@ export default {
 
 	.dotsInput__label {
 		display: flex;
-	}
-
-	&--overspend {
-		.dots {
-			.dots__dot--filled {
-				.dots__dotInner {
-					background: darken($danger, 10%);
-					border-color: darken($danger, 10%);
-				}
-			}
-		}
-	}
-
-	.dots {
-		display: flex;
-
-		&__dot {
-			cursor: pointer;
-			padding: 4px;
-
-			&--filled {
-				.dots__dotInner {
-					background: $grey-dark;
-				}
-			}
-
-			&--inactive:not(&--filled) {
-				opacity: 0.2;
-			}
-		}
-
-		&__dotInner {
-			width: 12px;
-			height: 12px;
-			border: 1px solid $grey-dark;
-
-			border-radius: 50%;
-		}
 	}
 }
 </style>

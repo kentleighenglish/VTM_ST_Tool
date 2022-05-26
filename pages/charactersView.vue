@@ -15,6 +15,9 @@
 			<template #powers>
 				<CharacterPowers :data="formData.sheet" />
 			</template>
+			<template #actions>
+				ACTIONS
+			</template>
 		</CharacterTabs>
 	</div>
 </template>
@@ -92,17 +95,25 @@ export default {
 					key: "saveCharacter",
 					label: this.createMode ? "Create Character" : "Save Character",
 					action: () => this.onSaveCharacter(),
-					state: "primary"
+					state: "primary",
+					weight: 2
 				},
 				{
 					key: "resetCharacter",
 					label: "Reset",
 					action: () => this.reset(),
-					state: "warning"
+					state: "warning",
+					weight: 3
 				},
 				{
 					key: "sheet",
-					label: "Character Sheet"
+					label: "Character Sheet",
+					weight: 4
+				},
+				{
+					key: "actions",
+					label: "Actions",
+					weight: 6
 				}
 			];
 
@@ -111,24 +122,27 @@ export default {
 					key: "removeXp",
 					label: "-1 XP",
 					action: () => this.onRemoveXp(1),
-					state: "danger"
+					state: "danger",
+					weight: 1
 				});
 				tabs.unshift({
 					key: "rewardXp",
 					label: "+1 XP",
 					action: () => this.onGiveXp(1),
-					state: "primary"
+					state: "primary",
+					weight: 0
 				});
 			}
 
 			if (this.formData?.sheet?.details?.vampire?.clan) {
 				tabs.push({
 					key: "powers",
-					label: "Powers"
+					label: "Powers",
+					weight: 5
 				});
 			}
 
-			return tabs;
+			return tabs.sort((a, b) => a.weight > b.weight ? 1 : -1);
 		}
 	},
 	watch: {
