@@ -8,6 +8,8 @@
 					:max-allowed="maxSpendDots"
 					:current-value="model"
 					@click="updateValue"
+					@hover="onDotHover"
+					@leave="onDotLeave"
 				/>
 			</div>
 		</div>
@@ -91,17 +93,17 @@ export default {
 		...mapActions({
 			pushToastMessage: "toast/pushMessage"
 		}),
+		onDotHover (i) {
+			this.hoverDot = i;
+		},
+		onDotLeave () {
+			this.hoverDot = null;
+		},
 		dotClass (dotIndex) {
 			return makeClassMods("dots__dot", {
 				filled: vm => (vm.hoverDot >= vm.model ? vm.hoverDot : vm.model) >= dotIndex,
 				inactive: vm => vm.maxSpendDots < dotIndex
 			}, this);
-		},
-		setDotHover (i) {
-			this.hoverDot = i;
-		},
-		clearDotHover () {
-			this.hoverDot = null;
 		},
 		resetValue () {
 			this.$emit("input", this.originalValue);

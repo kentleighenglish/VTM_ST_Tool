@@ -18,6 +18,16 @@ const getWillpowerCost = ({ current, target }) => {
 	return xp;
 }
 
+export const healthLevels = [
+	{ label: "Bruised", dicePoolMod: 0 },
+	{ label: "Hurt", dicePoolMod: -1 },
+	{ label: "Injured", dicePoolMod: -1 },
+	{ label: "Wounded", dicePoolMod: -2 },
+	{ label: "Mauled", dicePoolMod: -2 },
+	{ label: "Crippled", dicePoolMod: -5 },
+	{ label: "Incapacitated", dicePoolMod: 0 }
+];
+
 export default {
 	label: null,
 	type: "section",

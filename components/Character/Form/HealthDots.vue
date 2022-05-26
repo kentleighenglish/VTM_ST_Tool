@@ -22,6 +22,7 @@
 <script>
 import { makeClassMods } from "@/mixins/classModsMixin";
 import { encodeHealthValue, decodeHealthValue } from "@/utils/parsers";
+import { healthLevels } from "@/data/status";
 
 export default {
 	name: "CharacterFormHealthDots",
@@ -63,19 +64,11 @@ export default {
 	},
 	data: () => ({
 		model: null,
-		healthLevels: [
-			{ label: "Bruised", dicePoolMod: 0 },
-			{ label: "Hurt", dicePoolMod: -1 },
-			{ label: "Injured", dicePoolMod: -1 },
-			{ label: "Wounded", dicePoolMod: -2 },
-			{ label: "Mauled", dicePoolMod: -2 },
-			{ label: "Crippled", dicePoolMod: -5 },
-			{ label: "Incapacitated", dicePoolMod: 0 }
-		]
+		healthLevels
 	}),
 	computed: {
 		parsedDots () {
-			const healthStatus = this.decodeValue();
+			const healthStatus = decodeHealthValue(this.model);
 
 			return this.healthLevels.reduce((acc, level, index) => ([
 				...acc,

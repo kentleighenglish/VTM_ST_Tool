@@ -69,9 +69,13 @@ export default {
 			if (!this.readOnly) {
 				this.hoverDot = i;
 			}
+
+			this.$emit("hover", i);
 		},
 		clearDotHover () {
 			this.hoverDot = null;
+
+			this.$emit("leave");
 		}
 	}
 }
