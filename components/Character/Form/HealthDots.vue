@@ -8,8 +8,6 @@
 					<span v-if="level.dicePoolMod" class="healthDot__mod">{{ level.dicePoolMod }}</span>
 					<div
 						:class="dotMod(level)"
-						@mouseover="dotHover(index)"
-						@mouseleave="clearDotHover()"
 						@click="updateValue($event, index)"
 					>
 						<div class="healthDot__dotInner" />
