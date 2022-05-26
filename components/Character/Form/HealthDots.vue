@@ -21,6 +21,7 @@
 </template>
 <script>
 import { makeClassMods } from "@/mixins/classModsMixin";
+import { encodeHealthValue, decodeHealthValue } from "@/utils/parsers";
 
 export default {
 	name: "CharacterFormHealthDots",
@@ -110,34 +111,12 @@ export default {
 				agg: vm => vm.agg
 			}, dot);
 		},
-		decodeValue () {
-			const splitVal = String(this.model || 0).split("").reverse();
-
-			return [
-				...Array(Number(splitVal[2] || 0)).fill("agg"),
-				...Array(Number(splitVal[1] || 0)).fill("lethal"),
-				...Array(Number(splitVal[0] || 0)).fill("bashing")
-			];
-		},
-		encodeValue (array = []) {
-			return array.reduce((acc, val) => {
-				if (val === "agg") {
-					return acc + 100;
-				} else if (val === "lethal") {
-					return acc + 10;
-				} else if (val === "bashing") {
-					return acc + 1;
-				}
-
-				return acc;
-			}, 0);
-		},
 		resetValue (value) {
 			this.$emit("input", value);
 		},
 		updateValue (e, value) {
 			const index = Math.max(value, 0);
-			const currentValue = this.decodeValue();
+			const currentValue = decodeHealthValue(this.model);
 			const healthState = (currentValue[index] || null);
 			let newState = null;
 
@@ -150,7 +129,7 @@ export default {
 			}
 
 			currentValue[index] = newState;
-			const updatedValue = this.encodeValue(currentValue);
+			const updatedValue = encodeHealthValue(currentValue);
 
 			this.$emit("input", updatedValue);
 		}

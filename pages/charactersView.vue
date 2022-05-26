@@ -16,7 +16,7 @@
 				<CharacterPowers :data="formData.sheet" />
 			</template>
 			<template #actions>
-				ACTIONS
+				<CharacterActions :data="formData.sheet" />
 			</template>
 		</CharacterTabs>
 	</div>
