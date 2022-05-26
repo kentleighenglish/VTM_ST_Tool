@@ -77,7 +77,8 @@ export default {
 						...acc,
 						...powers.filter(power => power.dot <= dotLevel)
 					];
-				}, []);
+				}, [])
+				.sort((a, b) => a.dot > b.dot ? 1 : -1);
 		}
 	},
 	methods: {
