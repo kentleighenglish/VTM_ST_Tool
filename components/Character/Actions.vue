@@ -1,11 +1,18 @@
 <template>
 	<div class="characterActions">
-		{{ stats }}
+		<div v-for="(actionSection, key) in actions" :key="key" class="characterActions__column">
+			<div v-for="(action, actionKey) in actionSection" :key="actionKey" class="characterActions__action">
+				{{ actionKey }}
+			</div>
+		</div>
+		<div class="characterActions__output">
+		</div>
 	</div>
 </template>
 <script>
 import { decodeHealthValue } from "@/utils/parsers";
 import { healthLevels } from "@/data/status";
+import actions from "@/data/actions";
 
 export default {
 	name: "SheetActions",
@@ -13,6 +20,11 @@ export default {
 		data: {
 			type: Object,
 			default: () => ({})
+		}
+	},
+	data () {
+		return {
+			actions
 		}
 	},
 	computed: {
@@ -77,6 +89,24 @@ export default {
 </script>
 <style lang="scss">
 .characterActions {
+	display: flex;
+	height: 100%;
 	padding: $gap * 2 $gap;
+
+	&__column {
+		display: flex;
+		flex-direction: column;
+		width: 100%;
+	}
+
+	&__output {
+		width: 500px;
+		height: 100%;
+		flex-shrink: 0;
+
+		@include realShadow($grey-dark);
+		background: $grey-lighter;
+		border-radius: $global-border-radius;
+	}
 }
 </style>

@@ -81,11 +81,21 @@ export default {
 </script>
 <style lang="scss">
 .layout__default {
-	min-height: 100%;
+	display: flex;
+	min-height: 100vmin;
 	position: relative;
+	flex-direction: column;
 
 	.content {
+		display: flex;
+		height: 100%;
 		padding: $gap ($gap * 2);
+		flex-grow: 1;
+
+		> div {
+			width: 100%;
+			flex-grow: 1;
+		}
 	}
 }
 

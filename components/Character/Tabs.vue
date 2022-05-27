@@ -80,14 +80,18 @@ export default {
 </script>
 <style lang="scss">
 .characterTabs {
+	display: flex;
+	height: 100%;
+	flex-direction: column;
 	// position: relative;
 
 	> .stickyBlock {
 		z-index: 2;
 	}
 
-	> &__content {
+	> .characterTabs__content {
 		z-index: 1;
+		flex-grow: 1;
 	}
 
 	&__list {
