@@ -1,6 +1,6 @@
 import moment from "moment-timezone";
 
-const defaultFormat = "DD/MM/YYYY HH:ss"
+const defaultFormat = "DD/MM/YYYY HH:mm"
 
 export default (date, format = defaultFormat, displayCountdown = false) => {
 	if (!date) {

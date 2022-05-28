@@ -1,11 +1,12 @@
 
 export const movement = {
+	type: "custom",
 	usedStats: ["dexterity"],
-	getDicePool: (stats, mods) => {
+	getOutput: (stats, mods) => {
 		let base = 20;
 
 		base += (stats?.dexterity || 0) * 3;
 
-		return base;
+		return `${base} yard${base > 1 ? "s" : ""}`;
 	}
 }

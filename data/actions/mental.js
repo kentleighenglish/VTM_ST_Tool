@@ -1,5 +1,7 @@
+import { rollDice } from "./_utils";
 
 export const tracking = {
+	type: "diceRoll",
 	usedStats: ["perception", "investigation"],
-	getDicePool: (stats, mods) => stats.perception + stats.investigation
+	getOutput: (stats, mods) => rollDice(stats.perception + stats.investigation)
 }

@@ -5,15 +5,26 @@
 				{{ key | humanize }}
 			</div>
 			<div v-for="(action, actionKey) in actionSection" :key="actionKey" class="characterActions__action">
-				<CommonButton state="success" gradient @click="onRoll(action)">
+				<CommonButton state="success" gradient @click="onActionClick(actionKey, action)">
 					{{ actionKey | humanize }}
 				</CommonButton>
 			</div>
 		</div>
 		<div class="characterActions__output">
-			<div v-if="output.diceResult.length" class="diceResult">
-				<div v-for="(d, i) in output.diceResult" :key="i" :class="diceResultClassMod(d)">
-					{{ d }}
+			<div v-if="output.length" class="outputList">
+				<div v-for="(item, index) in output" :key="index" class="outputList__item">
+					<div class="outputList__itemName">
+						{{ item.name | humanize }}
+						<span class="outputList__itemTimestamp">{{ item.timestamp | date('HH:mm:ss') }}</span>
+					</div>
+					<div v-if="item.type === 'diceRoll'" class="outputList__diceRoll">
+						<div v-for="(d, i) in item.result" :key="i" :class="diceResultClassMod(d)">
+							{{ d }}
+						</div>
+					</div>
+					<div v-else class="outputList__customOutput">
+						{{ item.result }}
+					</div>
 				</div>
 			</div>
 		</div>
@@ -25,12 +36,14 @@ import { makeClassMods } from "@/mixins/classModsMixin";
 import { decodeHealthValue } from "@/utils/parsers";
 import { healthLevels } from "@/data/status";
 import humanize from "@/filters/humanize";
+import date from "@/filters/date";
 import actions from "@/data/actions";
 
 export default {
 	name: "SheetActions",
 	filters: {
-		humanize
+		humanize,
+		date
 	},
 	props: {
 		data: {
@@ -41,10 +54,7 @@ export default {
 	data () {
 		return {
 			actions,
-			output: {
-				resultType: null,
-				diceResult: []
-			}
+			output: []
 		}
 	},
 	computed: {
@@ -98,7 +108,7 @@ export default {
 	},
 	methods: {
 		diceResultClassMod (roll) {
-			return makeClassMods("diceResult__roll", {
+			return makeClassMods("outputList__diceRollItem", {
 				crit: vm => vm === 10,
 				fail: vm => vm === 1
 			}, roll);
@@ -110,14 +120,16 @@ export default {
 
 			return healthStatus.dicePoolMod || 0;
 		},
-		onRoll (action) {
-			const dicePool = action.getDicePool(this.stats, {});
-			this.output.diceResult = [];
-			this.output.resultType = null;
+		onActionClick (name, action) {
+			const result = action.getOutput(this.stats, {});
+			const type = action.type;
 
-			for (let i = 0; i < dicePool; i++) {
-				this.output.diceResult.push(Math.ceil(Math.random() * 10));
-			}
+			this.output.unshift({
+				name,
+				type,
+				result,
+				timestamp: new Date()
+			});
 		}
 	}
 }
@@ -150,9 +162,31 @@ export default {
 		border-radius: $global-border-radius;
 	}
 
-	.diceResult {
+	.outputList {
 
-		&__roll {
+		&__item {
+			padding: math.div($gap, 2) 0;
+
+			&:not(:last-child) {
+				border-bottom: 2px solid $grey;
+			}
+
+			&Name {
+				font-size: 1.1em;
+			}
+
+			&Timestamp {
+				font-size: 0.7em;
+				color: $grey;
+			}
+		}
+
+		&__customOutput {
+			font-size: 1.2em;
+			font-weight: 700;
+		}
+
+		&__diceRollItem {
 			display: inline-block;
 			font-size: 1.2em;
 			font-weight: 700;
