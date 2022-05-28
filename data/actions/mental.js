@@ -1,5 +1,5 @@
 
 export const tracking = {
 	usedStats: ["perception", "investigation"],
-	roll: (stats, mods) => stats.perception + stats.investigation
+	getDicePool: (stats, mods) => stats.perception + stats.investigation
 }

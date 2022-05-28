@@ -1,5 +1,6 @@
 <template>
-	<div class="characterView" @click.middle="resetMetaDisplayLock($event)">
+	<CommonLoading v-if="loading" />
+	<div v-else class="characterView" @click.middle="resetMetaDisplayLock($event)">
 		<CharacterTabs :tabs="tabs" default-tab="sheet">
 			<template #sheet>
 				<CharacterSheet
@@ -77,7 +78,7 @@ export default {
 				return (characters.metaDisplay.text || "").replaceAll(/[\n\r]/g, "<br>");
 			},
 			loading ({ characters: { loading } }) {
-				return !!loading;
+				return !!loading[this.characterId];
 			},
 			loadedCharacter ({ characters: { currentCharacter = {} } }) {
 				return { ...currentCharacter };
