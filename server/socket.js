@@ -3,6 +3,7 @@ import { Server } from "socket.io";
 import { get, each } from "lodash";
 import debugFunc from "debug";
 import * as socketEvents from "./events";
+import * as discord from "./discord";
 
 const debug = debugFunc("app:socket");
 
@@ -59,6 +60,10 @@ export default function (options) {
 		io.on("connection", (socket) => {
 			debug("Socket connection");
 
+			// discord.sendMessage({
+			// 	payload: "HELLO"
+			// });
+
 			// const {
 			// 	query: { platform = "", userAgent = "" }
 			// } = socket.handshake;
@@ -71,5 +76,7 @@ export default function (options) {
 				events: eventTypes
 			});
 		});
+
+		discord.login();
 	});
 }

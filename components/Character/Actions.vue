@@ -118,6 +118,7 @@ export default {
 		width: 500px;
 		height: 100%;
 		flex-shrink: 0;
+		padding: $gap * 2;
 
 		@include realShadow($grey-dark);
 		background: $grey-lighter;
