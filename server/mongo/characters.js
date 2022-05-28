@@ -4,6 +4,7 @@ import debug from "../debug";
 import { run } from "./_utils";
 
 const COLLECTION = "characters";
+const MERGED_COLLECTION = "charactersMerged";
 
 const groupRevisions = (items = []) => Object.values(items.reduce((acc, item) => ({
 	...acc,
@@ -14,6 +15,33 @@ const groupRevisions = (items = []) => Object.values(items.reduce((acc, item) =>
 		xp: merge(acc[item.id]?.xp || {}, item.xp)
 	}
 }), {}));
+
+const updateMergedCharacter = async ({ id }) => {
+	const response = await run(db =>
+		db.collection(COLLECTION).find({ id }).toArray()
+	);
+
+	let grouped;
+	if (response.length) {
+		grouped = groupRevisions(response);
+	} else {
+		return;
+	}
+
+	const { _id, ...newChar } = grouped[0];
+
+	await run(
+		db =>
+			new Promise((resolve, reject) =>
+				db.collection(MERGED_COLLECTION).updateOne(
+					{ id },
+					{ $set: newChar },
+					{ upsert: true },
+					(err, result) => (err ? reject(err) : resolve(result.insertedId))
+				)
+			)
+	);
+}
 
 export const create = async ({ sheet, xp }) => {
 	try {
@@ -55,6 +83,8 @@ export const update = async ({ id, sheet, xp }) => {
 		);
 
 		if (response) {
+			await updateMergedCharacter({ id });
+
 			return await fetch({ id });
 		}
 
@@ -66,14 +96,24 @@ export const update = async ({ id, sheet, xp }) => {
 
 export const fetch = async ({ id }) => {
 	try {
-		const response = await run(db =>
-			db.collection(COLLECTION).find({ id }).toArray()
+		const mergedResponse = await run(db =>
+			db.collection(MERGED_COLLECTION).find({ id }).toArray()
 		);
 
-		if (response.length) {
-			const grouped = groupRevisions(response);
+		if (mergedResponse.length) {
+			return mergedResponse[0];
+		} else {
+			const response = await run(db =>
+				db.collection(COLLECTION).find({ id }).toArray()
+			);
 
-			return grouped[0];
+			if (response.length) {
+				await updateMergedCharacter({ id });
+
+				const grouped = groupRevisions(response);
+
+				return grouped[0];
+			}
 		}
 
 		return null;
