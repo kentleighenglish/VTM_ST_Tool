@@ -5,7 +5,7 @@
 				{{ key | humanize }}
 			</div>
 			<div v-for="(action, actionKey) in actionSection" :key="actionKey" class="characterActions__action">
-				<CommonButton>
+				<CommonButton state="success" gradient>
 					{{ actionKey | humanize }}
 				</CommonButton>
 			</div>

@@ -17,7 +17,8 @@ export default {
 			disabled: vm => !!vm.disabled,
 			block: vm => !!vm.block,
 			state: vm => vm.state,
-			inline: vm => !!vm.inline
+			inline: vm => !!vm.inline,
+			gradient: vm => !!vm.gradient
 			// nomargin: vm => !!vm.nomargin
 		}
 	},
@@ -41,6 +42,14 @@ export default {
 		inline: {
 			type: Boolean,
 			default: false
+		},
+		gradient: {
+			type: Boolean,
+			default: false
+		},
+		state: {
+			type: String,
+			default: null
 		}
 	},
 	methods: {
@@ -97,6 +106,37 @@ export default {
 				background: none;
 				box-shadow: none;
 				border-color: transparent;
+			}
+		}
+
+		@include generateStateModifiers() using ($color) {
+			button {
+				border-color: $color;
+			}
+
+			&.button--gradient {
+				button {
+					position: relative;
+					background-clip: padding-box;
+					border: solid 1px transparent;
+
+					@include realShadow(saturate(lighten($color, 15%), 25%));
+
+					&:hover {
+						color: darken($color, 20%);
+					}
+
+					&:before {
+						display: block;
+						content: "";
+						position: absolute;
+						top: 0; right: 0; bottom: 0; left: 0;
+						z-index: -1;
+						margin: -1px;
+						border-radius: inherit;
+						@include radiant-gradient($color);
+					}
+				}
 			}
 		}
 	}
