@@ -123,14 +123,14 @@ export default {
 					key: "removeXp",
 					label: "-1 XP",
 					action: () => this.onRemoveXp(1),
-					state: "danger",
+					state: "special",
 					weight: 1
 				});
 				tabs.unshift({
 					key: "rewardXp",
 					label: "+1 XP",
 					action: () => this.onGiveXp(1),
-					state: "primary",
+					state: "special",
 					weight: 0
 				});
 			}

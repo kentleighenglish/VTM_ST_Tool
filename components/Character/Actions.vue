@@ -11,7 +11,6 @@
 			</div>
 		</div>
 		<div class="characterActions__output">
-			OUTPUT
 			<div v-if="output.diceResult.length" class="diceResult">
 				<div v-for="(d, i) in output.diceResult" :key="i" :class="diceResultClassMod(d)">
 					{{ d }}
@@ -43,6 +42,7 @@ export default {
 		return {
 			actions,
 			output: {
+				resultType: null,
 				diceResult: []
 			}
 		}
@@ -113,6 +113,7 @@ export default {
 		onRoll (action) {
 			const dicePool = action.getDicePool(this.stats, {});
 			this.output.diceResult = [];
+			this.output.resultType = null;
 
 			for (let i = 0; i < dicePool; i++) {
 				this.output.diceResult.push(Math.ceil(Math.random() * 10));
@@ -157,10 +158,19 @@ export default {
 			font-weight: 700;
 
 			&--crit {
-				color: $success;
+				color: darken(saturate($success, 30%), 15%);
 			}
 			&--fail {
 				color: $danger;
+			}
+
+			&:not(:last-child) {
+				&:after {
+					display: inline-block;
+					content: "+";
+					margin: 0 math.div($gap, 2);
+					color: $grey-darkest;
+				}
 			}
 		}
 	}

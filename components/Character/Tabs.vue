@@ -118,7 +118,7 @@ export default {
 			top: 0;
 			left: 0;
 			content: "";
-			background: black;
+			background: $grey-dark;
 			width: 100%;
 			height: 100%;
 
@@ -148,6 +148,10 @@ export default {
 		@include generateStateModifiers() using ($color) {
 			border-color: $color;
 			color: darken($color, 15%);
+
+			&:before {
+				background: $color;
+			}
 
 			&:hover:not(&--active) {
 				background: $color;
