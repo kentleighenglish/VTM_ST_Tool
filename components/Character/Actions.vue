@@ -1,21 +1,31 @@
 <template>
 	<div class="characterActions">
 		<div v-for="(actionSection, key) in actions" :key="key" class="characterActions__column">
+			<div class="characterActions__columnLabel">
+				{{ key | humanize }}
+			</div>
 			<div v-for="(action, actionKey) in actionSection" :key="actionKey" class="characterActions__action">
-				{{ actionKey }}
+				<CommonButton>
+					{{ actionKey | humanize }}
+				</CommonButton>
 			</div>
 		</div>
 		<div class="characterActions__output">
+			OUTPUT
 		</div>
 	</div>
 </template>
 <script>
 import { decodeHealthValue } from "@/utils/parsers";
 import { healthLevels } from "@/data/status";
+import humanize from "@/filters/humanize";
 import actions from "@/data/actions";
 
 export default {
 	name: "SheetActions",
+	filters: {
+		humanize
+	},
 	props: {
 		data: {
 			type: Object,
@@ -97,6 +107,11 @@ export default {
 		display: flex;
 		flex-direction: column;
 		width: 100%;
+	}
+
+	&__columnLabel {
+		font-size: 1.2em;
+		font-weight: 700;
 	}
 
 	&__output {
