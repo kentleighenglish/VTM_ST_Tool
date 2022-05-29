@@ -12,7 +12,8 @@ const groupRevisions = (items = []) => Object.values(items.reduce((acc, item) =>
 		id: item.id,
 		revisionNumber: item.revisionNumber,
 		sheet: merge(acc[item.id]?.sheet || {}, item.sheet),
-		xp: merge(acc[item.id]?.xp || {}, item.xp)
+		xp: merge(acc[item.id]?.xp || {}, item.xp),
+		image: item?.image || acc[item.id]?.image
 	}
 }), {}));
 
@@ -68,7 +69,7 @@ export const create = async ({ sheet, xp }) => {
 	}
 };
 
-export const update = async ({ id, sheet, xp }) => {
+export const update = async ({ id, sheet, xp, image }) => {
 	try {
 		const { revisionNumber } = await fetch({ id });
 
@@ -76,7 +77,7 @@ export const update = async ({ id, sheet, xp }) => {
 			db =>
 				new Promise((resolve, reject) =>
 					db.collection(COLLECTION).insertOne(
-						{ id, sheet, xp, revisionNumber: revisionNumber + 1 },
+						{ id, sheet, xp, image, revisionNumber: revisionNumber + 1 },
 						(err, result) => (err ? reject(err) : resolve(result.insertedId))
 					)
 				)
@@ -164,6 +165,20 @@ export const removeXp = async ({ id, amount }) => {
 		const availablePoints = current?.xp?.availablePoints || 0;
 
 		const response = await update({ id, xp: { availablePoints: Math.max(availablePoints - 0, 0) } });
+
+		if (response) {
+			return response;
+		}
+
+		return null;
+	} catch (e) {
+		return null;
+	}
+};
+
+export const uploadAvatar = async ({ id, image }) => {
+	try {
+		const response = await update({ id, image });
 
 		if (response) {
 			return response;

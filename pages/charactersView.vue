@@ -20,6 +20,10 @@
 				<CharacterActions :data="formData.sheet" />
 			</template>
 		</CharacterTabs>
+		<CommonModal name="uploadAvatarModal" :confirm="onUploadAvatar" confirm-label="Upload">
+			<img :src="avatar.preview" />
+			<FormInput type="file" accept="image/*" @change="addAvatarImage" disable-meta-display />
+		</CommonModal>
 	</div>
 </template>
 <script>
@@ -59,7 +63,8 @@ export default {
 	data: () => ({
 		characterId: null,
 		formData: {},
-		modifiedData: {}
+		modifiedData: {},
+		avatar: {}
 	}),
 	head () {
 		const charName = this.loadedCharacter?.sheet?.details?.info?.name;
@@ -119,20 +124,27 @@ export default {
 			];
 
 			if (this.adminMode) {
-				tabs.unshift({
+				tabs.push({
 					key: "removeXp",
 					label: "-1 XP",
 					action: () => this.onRemoveXp(1),
 					state: "special",
-					weight: 1
+					weight: -2
 				});
-				tabs.unshift({
+				tabs.push({
 					key: "rewardXp",
 					label: "+1 XP",
 					action: () => this.onGiveXp(1),
 					state: "special",
-					weight: 0
+					weight: -3
 				});
+				tabs.push({
+					key: "uploadAvatar",
+					label: "Upload Avatar",
+					action: () => this.openUploadAvatarModal(),
+					state: "special",
+					weight: -1
+				})
 			}
 
 			if (this.formData?.sheet?.details?.vampire?.clan) {
@@ -172,9 +184,33 @@ export default {
 			loadCharacter: "characters/load",
 			rewardXp: "characters/rewardXp",
 			removeXp: "characters/removeXp",
+			uploadAvatar: "characters/uploadAvatar",
 			joinRoom: "socket/joinRoom",
-			leaveRoom: "socket/leaveRoom"
+			leaveRoom: "socket/leaveRoom",
+			openModal: "openModal"
 		}),
+		openUploadAvatarModal () {
+			this.openModal("uploadAvatarModal");
+		},
+		addAvatarImage ($event) {
+			const file = $event.target.files[0];
+
+			this.avatar = {
+				preview: URL.createObjectURL(file),
+				file
+			};
+		},
+		onUploadAvatar () {
+			if (this.avatar.file) {
+				const reader = new FileReader();
+
+				reader.onload = () => {
+					const bytes = new Uint8Array(reader.result);
+					this.uploadAvatar({ id: this.characterId, image: bytes });
+				};
+				reader.readAsArrayBuffer(this.avatar.file);
+			}
+		},
 		resetMetaDisplayLock ($event) {
 			if (this.metaDisplayLocked) {
 				$event.preventDefault();

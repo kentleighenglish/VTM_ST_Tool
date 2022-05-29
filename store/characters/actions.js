@@ -16,7 +16,7 @@ export const create = ({ dispatch, commit, rootState }, { ...fields }) => {
 			if (error) {
 				globalPushMessage(dispatch)({
 					type: "error",
-					body: error.message
+					body: error.message || error
 				});
 				resolve({ id: null });
 			} else {
@@ -35,7 +35,7 @@ export const update = ({ dispatch, commit, rootState }, { id, ...fields }) => {
 			if (error) {
 				globalPushMessage(dispatch)({
 					type: "error",
-					body: error.message
+					body: error.message || error
 				});
 				resolve({ id: null });
 			} else if (id) {
@@ -76,7 +76,7 @@ export const loadAll = async ({ commit, dispatch, rootState }, { filter }) => {
 			if (error) {
 				globalPushMessage(dispatch)({
 					type: "error",
-					body: error.message
+					body: error.message || error
 				});
 			} else if (characters) {
 				commit(loadAllCompleteType, { characters });
@@ -95,7 +95,7 @@ export const rewardXp = async ({ commit, dispatch, rootState }, { id, amount }) 
 			if (error) {
 				globalPushMessage(dispatch)({
 					type: "error",
-					body: error.message
+					body: error.message || error
 				});
 			} else if (character) {
 				commit(loadCompleteType, { id, character });
@@ -113,7 +113,7 @@ export const removeXp = async ({ commit, dispatch, rootState }, { id, amount }) 
 			if (error) {
 				globalPushMessage(dispatch)({
 					type: "error",
-					body: error.message
+					body: error.message || error
 				});
 			} else if (character) {
 				commit(loadCompleteType, { id, character });
@@ -131,9 +131,27 @@ export const saveAction = async ({ commit, dispatch, rootState }, { action }) =>
 			if (error) {
 				globalPushMessage(dispatch)({
 					type: "error",
-					body: error.message
+					body: error.message || error
 				});
 			} else if (savedAction) {
+				resolve();
+			}
+		});
+	});
+}
+
+export const uploadAvatar = async ({ commit, dispatch, rootState }, { id, image }) => {
+	const { socket, events } = rootState.socket;
+
+	await new Promise((resolve) => {
+		socket().emit(events.characters.uploadAvatar, { id, image }, (error, { character }) => {
+			if (error) {
+				globalPushMessage(dispatch)({
+					type: "error",
+					body: error.message || error
+				});
+			} else if (character) {
+				commit(loadCompleteType, { id, character });
 				resolve();
 			}
 		});

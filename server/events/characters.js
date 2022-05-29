@@ -114,3 +114,17 @@ export const saveAction = async ({ socket, io, data = {}, callback }) => {
 
 	callback(null, { action });
 }
+
+export const uploadAvatar = async ({ socket, io, data = {}, callback }) => {
+	const { id, image } = data;
+
+	try {
+		const bufferImage = Buffer.from(image);
+
+		const updatedCharacter = await m.characters.uploadAvatar({ id, image: bufferImage });
+
+		callback(null, { character: updatedCharacter });
+	} catch (err) {
+		callback(err, null);
+	}
+}
