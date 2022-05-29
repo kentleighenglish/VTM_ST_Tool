@@ -9,7 +9,7 @@
 import classModsMixin from "@/mixins/classModsMixin";
 
 export default {
-	name: "CharacterFormButton",
+	name: "FormButton",
 	mixins: [classModsMixin],
 	classMod: {
 		baseClass: "formButton",

@@ -1,5 +1,5 @@
 <template>
-	<CharacterFormRootModel>
+	<FormRootModel>
 		<div class="statusDotsInput">
 			<span v-if="label" class="statusDotsInput__label">{{ label }}</span>
 			<div v-if="maxDots" class="statusDots">
@@ -19,13 +19,13 @@
 				</div>
 			</div>
 		</div>
-	</CharacterFormRootModel>
+	</FormRootModel>
 </template>
 <script>
 import { mapActions } from "vuex";
 
 export default {
-	name: "CharacterFormStatusDots",
+	name: "FormStatusDots",
 	props: {
 		meta: {
 			type: Object,

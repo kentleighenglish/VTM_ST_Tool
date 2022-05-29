@@ -1,5 +1,5 @@
 <template>
-	<CharacterFormRootModel>
+	<FormRootModel>
 		<div class="healthDotsInput">
 			<span v-if="label" class="healthDotsInput__label">{{ label }}</span>
 			<div v-if="parsedDots" class="healthDots">
@@ -15,7 +15,7 @@
 				</div>
 			</div>
 		</div>
-	</CharacterFormRootModel>
+	</FormRootModel>
 </template>
 <script>
 import { makeClassMods } from "@/mixins/classModsMixin";
@@ -23,7 +23,7 @@ import { encodeHealthValue, decodeHealthValue } from "@/utils/parsers";
 import { healthLevels } from "@/data/status";
 
 export default {
-	name: "CharacterFormHealthDots",
+	name: "FormHealthDots",
 	props: {
 		meta: {
 			type: Object,

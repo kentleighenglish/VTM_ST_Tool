@@ -17,7 +17,7 @@
 import { mapState, mapActions } from "vuex";
 
 export default {
-	name: "CharacterFormRootModel",
+	name: "FormRootModel",
 	computed: {
 		...mapState({
 			metaDisplayLocked ({ metaDisplayLocked }) {

@@ -1,26 +1,26 @@
 <template>
-	<div class="formSectionColumn">
-		<h4 v-if="label" class="formSectionColumn__title">
+	<div class="formSection">
+		<h3 v-if="label" class="formSection__title">
 			{{ label }}
-		</h4>
-		<CharacterFormFields
+		</h3>
+		<FormFields
 			v-if="fields"
 			v-model="model"
-			:fields="fields"
 			:original-value="originalValue"
-			class-name="formSectionColumn__content"
+			:fields="fields"
+			class-name="formSection__content"
 			:create-mode="createMode"
 			:admin-mode="adminMode"
 			:xp-check="xpCheck"
 			:xp-spend-update="xpSpendUpdate"
 			:xp-spend-reset="xpSpendReset"
-			@input="handleChange"
+			@input="handleChange($event)"
 		/>
 	</div>
 </template>
 <script>
 export default {
-	name: "CharacterFormSectionColumn",
+	name: "FormSection",
 	props: {
 		name: {
 			type: String,
@@ -75,14 +75,25 @@ export default {
 		handleChange (value) {
 			this.$emit("input", {
 				...(this.model || {}),
-				...(value || {})
+				...value
 			});
 		}
 	}
 }
 </script>
 <style lang="scss">
-	.formSectionColumn {
-		padding: 0 $gap;
+	.formSection {
+		display: flex;
+		flex-direction: column;
+
+		&__title {
+			text-align: center;
+		}
+
+		&__content {
+			display: grid;
+			grid-template-areas: ". . .";
+			grid-template-columns: repeat(3, minmax(0, 1fr));
+		}
 	}
 </style>

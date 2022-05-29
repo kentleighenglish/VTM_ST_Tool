@@ -1,6 +1,6 @@
 <template>
 	<div class="dynamicField">
-		<CharacterFormFields
+		<FormFields
 			v-if="generatedFields"
 			v-model="model"
 			:original-value="originalValue"
@@ -14,7 +14,7 @@
 			@input="handleChange($event)"
 		/>
 		<div class="dynamicField__customAdd">
-			<CharacterFormInput
+			<FormInput
 				v-if="keyOptions"
 				v-model="customAdd"
 				name="dynamicFieldCustom"
@@ -26,13 +26,13 @@
 				:xp-spend-update="xpSpendUpdate"
 				:xp-spend-reset="xpSpendReset"
 			/>
-			<CharacterFormButton
+			<FormButton
 				:disabled="isAddDisabled"
 				@click="addCustom($event)"
 				@disabledClick="addCustomFailed($event)"
 			>
 				Add
-			</CharacterFormButton>
+			</FormButton>
 		</div>
 	</div>
 </template>
@@ -40,7 +40,7 @@
 import { mapActions } from "vuex";
 
 export default {
-	name: "CharacterFormDynamicField",
+	name: "FormDynamicField",
 	props: {
 		name: {
 			type: String,

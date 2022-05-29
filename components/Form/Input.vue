@@ -1,5 +1,5 @@
 <template>
-	<CharacterFormRootModel>
+	<FormRootModel>
 		<div :class="componentClass">
 			<label :for="name">
 				<span v-if="label" class="formInput__label">{{ label }}</span>
@@ -9,6 +9,7 @@
 						v-model="model"
 						:type="type"
 						:disabled="isDisabled"
+						:accept="accept"
 						@input="updateValue($event.target.value)"
 						@change="handleChange($event)"
 					></input>
@@ -31,7 +32,7 @@
 				</div>
 			</label>
 		</div>
-	</CharacterFormRootModel>
+	</FormRootModel>
 </template>
 <script>
 import classModsMixin from "@/mixins/classModsMixin";
@@ -61,6 +62,10 @@ export default {
 		type: {
 			type: String,
 			default: "text"
+		},
+		accept: {
+			type: String,
+			default: null
 		},
 		options: {
 			type: Object,

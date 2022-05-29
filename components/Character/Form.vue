@@ -1,6 +1,6 @@
 <template>
-	<div class="characterCharacterForm">
-		<CharacterFormFields
+	<div class="characterForm">
+		<FormFields
 			v-model="model"
 			:fields="sheetData"
 			:create-mode="createMode"

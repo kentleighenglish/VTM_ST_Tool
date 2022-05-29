@@ -30,17 +30,17 @@ const inputTypes = [
 ];
 
 const types = {
-	section: "CharacterFormSection",
-	sectionColumn: "CharacterFormSectionColumn",
-	dots: "CharacterFormDots",
-	statusDots: "CharacterFormStatusDots",
-	healthDots: "CharacterFormHealthDots",
-	dynamicField: "CharacterFormDynamicField",
-	...inputTypes.reduce((acc, k) => ({ ...acc, [k]: "CharacterFormInput" }), {})
+	section: "FormSection",
+	sectionColumn: "FormSectionColumn",
+	dots: "FormDots",
+	statusDots: "FormStatusDots",
+	healthDots: "FormHealthDots",
+	dynamicField: "FormDynamicField",
+	...inputTypes.reduce((acc, k) => ({ ...acc, [k]: "FormInput" }), {})
 }
 
 export default {
-	name: "CharacterFormFields",
+	name: "FormFields",
 	props: {
 		fields: {
 			type: Object,

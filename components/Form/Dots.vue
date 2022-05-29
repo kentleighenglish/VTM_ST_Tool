@@ -1,5 +1,5 @@
 <template>
-	<CharacterFormRootModel>
+	<FormRootModel>
 		<div :class="componentClass">
 			<span class="dotsInput__label">{{ label }}</span>
 			<div v-if="maxDots" class="dotsInput__dots">
@@ -13,14 +13,14 @@
 				/>
 			</div>
 		</div>
-	</CharacterFormRootModel>
+	</FormRootModel>
 </template>
 <script>
 import { mapActions } from "vuex";
 import classModsMixin, { makeClassMods } from "@/mixins/classModsMixin";
 
 export default {
-	name: "CharacterFormDots",
+	name: "FormDots",
 	mixins: [classModsMixin],
 	classMod: {
 		baseClass: "dotsInput",
