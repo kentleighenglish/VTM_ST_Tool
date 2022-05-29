@@ -19,3 +19,11 @@ export const soak = {
 		return rollDice(stats.stamina + stats.fortitude);
 	}
 }
+
+export const dodge = {
+	type: "diceRoll",
+	usedStats: ["stamina", "athletics"],
+	getOutput: (stats) => {
+		return rollDice(stats.stamina + stats.athletics);
+	}
+}
