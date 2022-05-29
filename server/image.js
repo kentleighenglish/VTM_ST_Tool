@@ -1,3 +1,5 @@
+import fs from "fs";
+import path from "path";
 import * as m from "./mongo";
 
 const getContentType = (image) => {
@@ -14,19 +16,25 @@ const getContentType = (image) => {
 export default async (req, res) => {
 	// req is the Node.js http request object
 	const id = req.url.replace(/^\//, "");
+	let image;
 
 	if (id) {
-		const image = await m.characters.getAvatar({ id });
+		image = await m.characters.getAvatar({ id });
+	}
 
-		const parsedImage = Buffer.from(image, "base64");
+	if (!image) {
+		const imageFile = fs.readFileSync(path.resolve("static/missingAvatar.png"));
+		image = Buffer.from(imageFile).toString("base64");
+	}
 
-		const contentType = getContentType(image);
+	const parsedImage = Buffer.from(image, "base64");
 
-		if (parsedImage && contentType) {
-			res.setHeader("Content-Type", contentType);
-			res.setHeader("Content-Length", parsedImage.length);
-			return res.end(parsedImage);
-		}
+	const contentType = getContentType(image);
+
+	if (parsedImage && contentType) {
+		res.setHeader("Content-Type", contentType);
+		res.setHeader("Content-Length", parsedImage.length);
+		return res.end(parsedImage);
 	}
 
 	res.end("HELLO");
