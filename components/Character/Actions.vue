@@ -4,10 +4,12 @@
 			<div class="characterActions__columnLabel">
 				{{ key | humanize }}
 			</div>
-			<div v-for="(action, actionKey) in actionSection" :key="actionKey" class="characterActions__action">
-				<CommonButton state="success" gradient @click="onActionClick(actionKey, action)">
-					{{ actionKey | humanize }}
-				</CommonButton>
+			<div class="characterActions__actions">
+				<div v-for="(action, actionKey) in actionSection" :key="actionKey" class="characterActions__action">
+					<CommonButton :state="action.type === 'custom' ? 'special' : 'primary'" gradient @click="onActionClick(actionKey, action)">
+						{{ actionKey | humanize }}
+					</CommonButton>
+				</div>
 			</div>
 		</div>
 		<div class="characterActions__output">
@@ -35,6 +37,7 @@ import { get } from "lodash";
 import { makeClassMods } from "@/mixins/classModsMixin";
 import { decodeHealthValue } from "@/utils/parsers";
 import { healthLevels } from "@/data/status";
+import * as disciplines from "@/data/advantages/disciplines";
 import humanize from "@/filters/humanize";
 import date from "@/filters/date";
 import actions from "@/data/actions";
@@ -99,10 +102,10 @@ export default {
 				politics: get(this.data, "abilities.knowledges.politics", 0),
 				science: get(this.data, "abilities.knowledges.science", 0),
 				technology: get(this.data, "abilities.knowledges.technology", 0),
-				...Object.keys(get(this.data, "advantages.disciplines.list", {})).reduce((acc, key) => (key === "_custom"
-					? acc
-					: { ...acc, [key]: get(this.data, `advantages.disciplines.list.${key}`, 0) }
-				), {})
+				...Object.keys(disciplines).reduce((acc, key) => ({
+					...acc,
+					[key]: get(this.data, `advantages.disciplines.list.${key}`, 0)
+				}), {})
 			}
 		}
 	},
@@ -149,6 +152,15 @@ export default {
 	&__columnLabel {
 		font-size: 1.2em;
 		font-weight: 700;
+	}
+
+	&__actions {
+		display: flex;
+		flex-wrap: wrap;
+	}
+
+	&__action {
+		display: inline-block;
 	}
 
 	&__output {
