@@ -32,6 +32,9 @@ export default {
 		},
 		fieldModified () {
 			return this.childComponent.model !== this.childComponent.originalValue;
+		},
+		metaDisabled () {
+			return this.childComponent.disableMetaDisplay || false;
 		}
 	},
 	updated (a, b, c) {
@@ -52,7 +55,7 @@ export default {
 			}
 		},
 		updateMeta () {
-			if (!this.metaDisplayLocked) {
+			if (!this.metaDisplayLocked && !this.metaDisabled) {
 				const { name, meta = {}, value, hoverDot = null } = this.childComponent;
 
 				let metaDisplay = {
@@ -72,7 +75,7 @@ export default {
 			this.updateMeta();
 		},
 		onMouseLeave ($event) {
-			if (!this.metaDisplayLocked) {
+			if (!this.metaDisplayLocked && !this.metaDisabled) {
 				this.updateMetaDisplay({});
 			}
 		},
