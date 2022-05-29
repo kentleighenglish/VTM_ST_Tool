@@ -53,6 +53,7 @@ export default {
 		date
 	},
 	props: {
+		characterId: String,
 		data: {
 			type: Object,
 			default: () => ({})
@@ -170,9 +171,11 @@ export default {
 				success = this.getSuccesses(result);
 			}
 			const characterName = this.characterName;
+			const characterId = this.characterId;
 
 			const actionPayload = {
 				characterName,
+				characterId,
 				name,
 				type,
 				result,

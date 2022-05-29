@@ -17,7 +17,7 @@
 				<CharacterPowers :data="formData.sheet" />
 			</template>
 			<template #actions>
-				<CharacterActions :data="formData.sheet" />
+				<CharacterActions :character-id="characterId" :data="formData.sheet" />
 			</template>
 		</CharacterTabs>
 		<CommonModal name="uploadAvatarModal" :confirm="onUploadAvatar" confirm-label="Upload">

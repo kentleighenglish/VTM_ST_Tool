@@ -97,11 +97,16 @@ export const saveAction = async ({ socket, io, data = {}, callback }) => {
 		successOutput = "```yaml\n" + action.successOutput + "```";
 	}
 
+	const id = action.characterId;
+
 	await discord.sendMessage({
 		embeds: [{
 			title: name,
 			author: {
 				name: action.characterName
+			},
+			thumbnail: {
+				url: `https://vtm.ikengainnovations/image/${id}`
 			},
 			fields: [{
 				name: "Result",
