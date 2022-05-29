@@ -7,6 +7,7 @@
 			v-bind="field.data"
 			v-model="field.value"
 			:original-value="field.originalValue"
+			:disable-meta-display="disableMetaDisplay"
 			:create-mode="createMode"
 			:admin-mode="adminMode"
 			:xp-check="xpCheck"
@@ -62,6 +63,7 @@ export default {
 			type: [Object, Number, String],
 			default: null
 		},
+		disableMetaDisplay: Boolean,
 		createMode: Boolean,
 		adminMode: Boolean,
 		xpCheck: {

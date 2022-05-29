@@ -6,6 +6,7 @@
 			:original-value="originalValue"
 			:fields="generatedFields"
 			class-name="dynamicField__fields"
+			:disable-meta-display="disableMetaDisplay"
 			:create-mode="createMode"
 			:admin-mode="adminMode"
 			:xp-check="xpCheck"
@@ -20,6 +21,7 @@
 				name="dynamicFieldCustom"
 				:type="keyOptions ? 'select' : 'text'"
 				:options="keyOptions"
+				:disable-meta-display="disableMetaDisplay"
 				:create-mode="createMode"
 				:admin-mode="adminMode"
 				:xp-check="xpCheck"
@@ -58,6 +60,7 @@ export default {
 			type: Object,
 			default: () => ({})
 		},
+		disableMetaDisplay: Boolean,
 		createMode: Boolean,
 		adminMode: Boolean,
 		xpCheck: {

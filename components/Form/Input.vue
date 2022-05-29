@@ -79,6 +79,7 @@ export default {
 			type: [Number, String],
 			default: null
 		},
+		disableMetaDisplay: Boolean,
 		createMode: Boolean,
 		adminMode: Boolean,
 		xpCheck: {

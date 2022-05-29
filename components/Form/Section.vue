@@ -9,6 +9,7 @@
 			:original-value="originalValue"
 			:fields="fields"
 			class-name="formSection__content"
+			:disable-meta-display="disableMetaDisplay"
 			:create-mode="createMode"
 			:admin-mode="adminMode"
 			:xp-check="xpCheck"
@@ -42,6 +43,7 @@ export default {
 			type: Object,
 			default: () => ({})
 		},
+		disableMetaDisplay: Boolean,
 		createMode: Boolean,
 		adminMode: Boolean,
 		xpCheck: {

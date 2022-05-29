@@ -49,6 +49,7 @@ export default {
 			type: Number,
 			default: null
 		},
+		disableMetaDisplay: Boolean,
 		createMode: Boolean,
 		adminMode: Boolean,
 		xpCheck: {
