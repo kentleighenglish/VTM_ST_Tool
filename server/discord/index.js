@@ -3,6 +3,7 @@ import debugFunc from "../debug";
 
 const debug = debugFunc("discord");
 
+const botDisabled = process.env.DISCORD_BOT_DISABLED === "1";
 const botToken = process.env.DISCORD_BOT_TOKEN;
 const channelId = process.env.DISCORD_BOT_CHANNEL;
 
@@ -13,7 +14,7 @@ client.on("ready", () => {
 });
 
 export const login = () => {
-	if (botToken) {
+	if (botToken && !botDisabled) {
 		client.login(botToken);
 	}
 };
@@ -21,6 +22,10 @@ export const login = () => {
 const hexToDecimal = hex => parseInt(hex.replace(/#/g, ""), 16);
 
 export const sendMessage = async (payload = {}) => {
+	if (botDisabled) {
+		return;
+	}
+
 	const channel = await client.channels.fetch(channelId);
 
 	if (channel) {
