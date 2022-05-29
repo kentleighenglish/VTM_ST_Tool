@@ -24,8 +24,11 @@
 							{{ d }}
 						</div>
 					</div>
-					<div v-else class="outputList__customOutput">
+					<div v-if="item.type === 'custom'" class="outputList__customOutput">
 						{{ item.result }}
+					</div>
+					<div :class="successesClassMod(item.successStatus)">
+						{{ item.successOutput }}
 					</div>
 				</div>
 			</div>
@@ -33,6 +36,7 @@
 	</div>
 </template>
 <script>
+import { mapActions } from "vuex";
 import { get } from "lodash";
 import { makeClassMods } from "@/mixins/classModsMixin";
 import { decodeHealthValue } from "@/utils/parsers";
@@ -61,6 +65,9 @@ export default {
 		}
 	},
 	computed: {
+		characterName () {
+			return get(this.data, "details.info.name", null);
+		},
 		stats () {
 			return {
 				strength: get(this.data, "attributes.physical.strength", 0),
@@ -110,11 +117,20 @@ export default {
 		}
 	},
 	methods: {
+		...mapActions({
+			saveAction: "characters/saveAction"
+		}),
 		diceResultClassMod (roll) {
 			return makeClassMods("outputList__diceRollItem", {
 				crit: vm => vm === 10,
 				fail: vm => vm === 1
 			}, roll);
+		},
+		successesClassMod (val) {
+			return makeClassMods("outputList__successes", {
+				crit: vm => vm === "crit",
+				fail: vm => vm === "botch"
+			}, val);
 		},
 		getHealthMod () {
 			const healthArray = decodeHealthValue(get(this.data, "status.other.health", null));
@@ -123,16 +139,51 @@ export default {
 
 			return healthStatus.dicePoolMod || 0;
 		},
-		onActionClick (name, action) {
+		getSuccesses (diceResult, difficulty = 6) {
+			const successes = diceResult.reduce((acc, roll) => {
+				if (roll === 10) {
+					acc += 2;
+				} else if (roll === 1) {
+					acc--;
+				} else if (roll >= difficulty) {
+					acc++;
+				}
+
+				return acc;
+			}, 0);
+
+			const crit = successes > 5;
+			const botch = successes < 0;
+
+			return {
+				count: successes,
+				status: (!crit && !botch) ? null : (crit ? "crit" : "botch"),
+				output: successes < 0 ? "Botch" : `${successes} Success${successes === 1 ? "" : "es"}`
+			};
+		},
+		async onActionClick (name, action) {
 			const result = action.getOutput(this.stats, {});
 			const type = action.type;
 
-			this.output.unshift({
+			let success = null;
+			if (type === "diceRoll") {
+				success = this.getSuccesses(result);
+			}
+			const characterName = this.characterName;
+
+			const actionPayload = {
+				characterName,
 				name,
 				type,
 				result,
+				successCount: success.count,
+				successStatus: success.status,
+				successOutput: success.output,
 				timestamp: new Date()
-			});
+			};
+
+			await this.saveAction({ action: actionPayload });
+			this.output.unshift(actionPayload);
 		}
 	}
 }
@@ -198,6 +249,17 @@ export default {
 			font-weight: 700;
 		}
 
+		&__successes {
+			font-weight: 700;
+
+			&--crit {
+				color: darken(saturate($success, 30%), 15%);
+			}
+			&--fail {
+				color: $danger;
+			}
+		}
+
 		&__diceRollItem {
 			display: inline-block;
 			font-size: 1.2em;
@@ -210,7 +272,7 @@ export default {
 				color: $danger;
 			}
 
-			&:not(:last-child) {
+			&:not(:last-of-type) {
 				&:after {
 					display: inline-block;
 					content: "+";

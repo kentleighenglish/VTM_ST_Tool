@@ -122,3 +122,20 @@ export const removeXp = async ({ commit, dispatch, rootState }, { id, amount }) 
 		});
 	});
 }
+
+export const saveAction = async ({ commit, dispatch, rootState }, { action }) => {
+	const { socket, events } = rootState.socket;
+
+	await new Promise((resolve) => {
+		socket().emit(events.characters.saveAction, { action }, (error, { action: savedAction }) => {
+			if (error) {
+				globalPushMessage(dispatch)({
+					type: "error",
+					body: error.message
+				});
+			} else if (savedAction) {
+				resolve();
+			}
+		});
+	});
+}

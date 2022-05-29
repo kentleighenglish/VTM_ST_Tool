@@ -60,10 +60,6 @@ export default function (options) {
 		io.on("connection", (socket) => {
 			debug("Socket connection");
 
-			// discord.sendMessage({
-			// 	payload: "HELLO"
-			// });
-
 			// const {
 			// 	query: { platform = "", userAgent = "" }
 			// } = socket.handshake;
