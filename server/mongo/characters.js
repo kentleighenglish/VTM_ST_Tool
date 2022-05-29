@@ -189,3 +189,17 @@ export const uploadAvatar = async ({ id, image }) => {
 		return null;
 	}
 };
+
+export const getAvatar = async ({ id }) => {
+	try {
+		const response = await fetch({ id });
+
+		if (response) {
+			return response.image;
+		}
+
+		return null;
+	} catch (e) {
+		return null;
+	}
+};

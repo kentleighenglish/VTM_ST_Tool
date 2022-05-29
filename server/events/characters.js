@@ -119,9 +119,9 @@ export const uploadAvatar = async ({ socket, io, data = {}, callback }) => {
 	const { id, image } = data;
 
 	try {
-		const bufferImage = Buffer.from(image);
+		const base64Image = Buffer.from(image).toString("base64");
 
-		const updatedCharacter = await m.characters.uploadAvatar({ id, image: bufferImage });
+		const updatedCharacter = await m.characters.uploadAvatar({ id, image: base64Image });
 
 		callback(null, { character: updatedCharacter });
 	} catch (err) {

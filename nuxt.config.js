@@ -97,5 +97,8 @@ export default {
 	build: {
 	},
 	server: {
-	}
+	},
+	serverMiddleware: [
+		{ path: "/image", handler: "@/server/image.js", prefix: false }
+	]
 }
