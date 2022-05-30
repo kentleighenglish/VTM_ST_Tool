@@ -46,7 +46,10 @@ export default function (options) {
 	this.nuxt.hook("render:before", () => {
 		const server = http.createServer(this.nuxt.renderer.app);
 
-		const io = new Server(server, { path: options.socketPath });
+		const io = new Server(server, {
+			path: options.socketPath,
+			maxHttpBufferSize: 1e12
+		});
 		const { host = "localhost", port = 3000 } = this.nuxt.options.server;
 
 		this.nuxt.server.listen = () => new Promise(resolve =>
