@@ -23,10 +23,11 @@ export default {
 			}
 		}),
 		parsedCharacters () {
-			return (this.characters || []).reduce((acc, { id, sheet }) => ([
+			return (this.characters || []).reduce((acc, { id, sheet, image }) => ([
 				...acc,
 				{
 					id,
+					image: `/image/${id}`,
 					characterName: sheet?.details?.info?.name,
 					clan: sheet?.details?.vampire?.clan,
 					generation: sheet?.details?.vampire?.generation
@@ -37,6 +38,17 @@ export default {
 			return {
 				id: {
 					label: "ID"
+				},
+				image: {
+					label: "Avatar",
+					parser (val, item, h) {
+						return h("img", {
+							attrs: {
+								src: val,
+								width: 100
+							}
+						});
+					}
 				},
 				characterName: {
 					label: "Character Name"
