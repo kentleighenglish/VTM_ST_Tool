@@ -110,6 +110,11 @@ export default {
 				politics: get(this.data, "abilities.knowledges.politics", 0),
 				science: get(this.data, "abilities.knowledges.science", 0),
 				technology: get(this.data, "abilities.knowledges.technology", 0),
+				humanity: get(this.data, "status.condition.humanityPath", 0),
+				willpower: get(this.data, "status.condition.willpowerStatus", 0),
+				conscience: get(this.data, "advantages.virtues.conscienceConviction", 0),
+				courage: get(this.data, "advantages.virtues.courage", 0),
+				selfControl: get(this.data, "advantages.virtues.selfControl", 0),
 				...Object.keys(disciplines).reduce((acc, key) => ({
 					...acc,
 					[key]: get(this.data, `advantages.disciplines.list.${key}`, 0)
