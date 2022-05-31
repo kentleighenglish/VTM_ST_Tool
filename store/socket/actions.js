@@ -39,7 +39,7 @@ export const joinRoom = async ({ dispatch, commit, rootState }, { id }) => {
 			if (error) {
 				globalPushMessage(dispatch)({
 					type: "error",
-					body: error
+					body: error.message || error
 				});
 			}
 			commit(updateTriggeredType, { sockets });

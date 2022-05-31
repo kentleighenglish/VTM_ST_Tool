@@ -59,14 +59,14 @@ export default {
 				this.updateSocketStatus({ connected: false, error });
 				this.pushMessage({
 					type: "error",
-					body: error
+					body: `Reconnecting: ${error.message || error}`
 				});
 			});
 			socketIo.on("disconnect", (reason) => {
 				this.updateSocketStatus({ connected: false, error: reason });
 				this.pushMessage({
 					type: "error",
-					body: reason
+					body: `Connection Lost: ${reason}`
 				});
 			});
 			socketIo.on("connectResponse", ({ events }) => {
