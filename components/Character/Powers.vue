@@ -39,7 +39,7 @@ import { makeClassMods } from "@/mixins/classModsMixin";
 import * as disciplines from "@/data/advantages/disciplines";
 
 export default {
-	name: "SheetPowers",
+	name: "CharacterPowers",
 	props: {
 		data: {
 			type: Object,

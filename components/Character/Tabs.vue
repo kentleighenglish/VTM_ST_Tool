@@ -23,7 +23,7 @@ import Vue from "vue";
 import { makeClassMods } from "@/mixins/classModsMixin";
 
 export default {
-	name: "SheetTabs",
+	name: "CharacterTabs",
 	props: {
 		tabs: {
 			type: Array,
