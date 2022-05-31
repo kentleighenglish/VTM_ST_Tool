@@ -12,45 +12,22 @@
 				</div>
 			</div>
 		</div>
-		<div class="characterActions__output">
-			<div v-if="output.length" class="outputList">
-				<div v-for="(item, index) in output" :key="index" class="outputList__item">
-					<div class="outputList__itemName">
-						{{ item.name | humanize }}
-						<span class="outputList__itemTimestamp">{{ item.timestamp | date('HH:mm:ss') }}</span>
-					</div>
-					<div v-if="item.type === 'diceRoll'" class="outputList__diceRoll">
-						<div v-for="(d, i) in item.result" :key="i" :class="diceResultClassMod(d)">
-							{{ d }}
-						</div>
-					</div>
-					<div v-if="item.type === 'custom'" class="outputList__customOutput">
-						{{ item.result }}
-					</div>
-					<div :class="successesClassMod(item.successStatus)">
-						{{ item.successOutput }}
-					</div>
-				</div>
-			</div>
-		</div>
+		<CharacterActionsOutput :output="output" />
 	</div>
 </template>
 <script>
 import { mapActions } from "vuex";
 import { get } from "lodash";
-import { makeClassMods } from "@/mixins/classModsMixin";
 import { decodeHealthValue } from "@/utils/parsers";
 import { healthLevels } from "@/data/status";
 import * as disciplines from "@/data/advantages/disciplines";
 import humanize from "@/filters/humanize";
-import date from "@/filters/date";
 import actions from "@/data/actions";
 
 export default {
-	name: "SheetActions",
+	name: "CharacterActions",
 	filters: {
-		humanize,
-		date
+		humanize
 	},
 	props: {
 		characterId: String,
@@ -126,18 +103,6 @@ export default {
 		...mapActions({
 			saveAction: "characters/saveAction"
 		}),
-		diceResultClassMod (roll) {
-			return makeClassMods("outputList__diceRollItem", {
-				crit: vm => vm === 10,
-				fail: vm => vm === 1
-			}, roll);
-		},
-		successesClassMod (val) {
-			return makeClassMods("outputList__successes", {
-				crit: vm => vm === "crit",
-				fail: vm => vm === "botch"
-			}, val);
-		},
 		getHealthMod () {
 			const healthArray = decodeHealthValue(get(this.data, "status.other.health", null));
 
@@ -171,7 +136,7 @@ export default {
 			const result = action.getOutput(this.stats, {});
 			const type = action.type;
 
-			let success = null;
+			let success = {};
 			if (type === "diceRoll") {
 				success = this.getSuccesses(result);
 			}
@@ -220,75 +185,6 @@ export default {
 
 	&__action {
 		display: inline-block;
-	}
-
-	&__output {
-		width: 500px;
-		height: 100%;
-		flex-shrink: 0;
-		padding: $gap * 2;
-
-		@include realShadow($grey-dark);
-		background: $grey-lighter;
-		border-radius: $global-border-radius;
-	}
-
-	.outputList {
-
-		&__item {
-			padding: math.div($gap, 2) 0;
-
-			&:not(:last-child) {
-				border-bottom: 2px solid $grey;
-			}
-
-			&Name {
-				font-size: 1.1em;
-			}
-
-			&Timestamp {
-				font-size: 0.7em;
-				color: $grey;
-			}
-		}
-
-		&__customOutput {
-			font-size: 1.2em;
-			font-weight: 700;
-		}
-
-		&__successes {
-			font-weight: 700;
-
-			&--crit {
-				color: darken(saturate($success, 30%), 15%);
-			}
-			&--fail {
-				color: $danger;
-			}
-		}
-
-		&__diceRollItem {
-			display: inline-block;
-			font-size: 1.2em;
-			font-weight: 700;
-
-			&--crit {
-				color: darken(saturate($success, 30%), 15%);
-			}
-			&--fail {
-				color: $danger;
-			}
-
-			&:not(:last-of-type) {
-				&:after {
-					display: inline-block;
-					content: "+";
-					margin: 0 math.div($gap, 2);
-					color: $grey-darkest;
-				}
-			}
-		}
 	}
 }
 </style>
