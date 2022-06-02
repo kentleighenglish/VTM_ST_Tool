@@ -161,6 +161,10 @@ export default {
 
 			if (action.onTrigger) {
 				await action.onTrigger(rollPayload);
+				this.customRoll = {
+					stat1: null,
+					stat2: null
+				};
 				return;
 			}
 
