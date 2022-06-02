@@ -13,6 +13,15 @@
 			</div>
 		</div>
 		<CharacterActionsOutput :output="output" />
+		<CommonModal
+			name="customRollModal"
+			confirm-label="Roll"
+			:confirm="onCustomRoll"
+			:confirm-disabled="!customRoll.stat1 || !customRoll.stat2"
+		>
+			<FormInput v-model="customRoll.stat1" type="select" :options="statsOptions" />
+			<FormInput v-model="customRoll.stat2" type="select" :options="statsOptions" />
+		</CommonModal>
 	</div>
 </template>
 <script>
@@ -39,7 +48,11 @@ export default {
 	data () {
 		return {
 			actions,
-			output: []
+			output: [],
+			customRoll: {
+				stat1: null,
+				stat2: null
+			}
 		}
 	},
 	computed: {
@@ -97,10 +110,17 @@ export default {
 					[key]: get(this.data, `advantages.disciplines.list.${key}`, 0)
 				}), {})
 			}
+		},
+		statsOptions () {
+			return Object.keys(this.stats).reduce((acc, key) => ({
+				...acc,
+				[key]: humanize(key)
+			}), {});
 		}
 	},
 	methods: {
 		...mapActions({
+			openModal: "openModal",
 			saveAction: "characters/saveAction"
 		}),
 		getHealthMod () {
@@ -133,7 +153,18 @@ export default {
 			};
 		},
 		async onActionClick (name, action) {
-			const result = action.getOutput(this.stats, {});
+			const rollPayload = {
+				stats: this.stats,
+				mods: {},
+				parent: this
+			};
+
+			if (action.onTrigger) {
+				await action.onTrigger(rollPayload);
+				return;
+			}
+
+			const result = action.getOutput(rollPayload);
 			const type = action.type;
 
 			let success = {};
@@ -157,6 +188,9 @@ export default {
 
 			await this.saveAction({ action: actionPayload });
 			this.output.unshift(actionPayload);
+		},
+		onCustomRoll () {
+
 		}
 	}
 }
