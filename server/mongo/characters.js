@@ -6,7 +6,7 @@ import { run } from "./_utils";
 const COLLECTION = "characters";
 const MERGED_COLLECTION = "charactersMerged";
 
-const groupRevisions = (items = []) => Object.values(items.reduce((acc, item) => ({
+const groupRevisions = (items = []) => items.reduce((acc, item) => ({
 	...acc,
 	[item.id]: {
 		id: item.id,
@@ -15,7 +15,7 @@ const groupRevisions = (items = []) => Object.values(items.reduce((acc, item) =>
 		xp: merge(acc[item.id]?.xp || {}, item.xp),
 		image: item?.image || acc[item.id]?.image
 	}
-}), {}));
+}), {});
 
 const updateMergedCharacter = async ({ id }) => {
 	const response = await run(db =>
@@ -29,7 +29,7 @@ const updateMergedCharacter = async ({ id }) => {
 		return;
 	}
 
-	const { _id, ...newChar } = grouped[0];
+	const { ...newChar } = (grouped[id] || {});
 
 	await run(
 		db =>
@@ -95,25 +95,29 @@ export const update = async ({ id, sheet, xp, image }) => {
 	}
 };
 
-export const fetch = async ({ id }) => {
+export const fetch = async ({ id, fields }, retry = true) => {
 	try {
+		const projectedFields = (fields || {
+			_id: 1,
+			id: 1,
+			sheet: 1,
+			xp: 1,
+			revisionNumber: 1,
+			image: 1
+		});
+
 		const mergedResponse = await run(db =>
-			db.collection(MERGED_COLLECTION).find({ id }).toArray()
+			db.collection(MERGED_COLLECTION).findOne({ id }, projectedFields)
 		);
 
-		if (mergedResponse.length) {
-			return mergedResponse[0];
+		if (false && mergedResponse) {
+			return mergedResponse;
 		} else {
-			const response = await run(db =>
-				db.collection(COLLECTION).find({ id }).toArray()
-			);
+			await updateMergedCharacter({ id });
+			const response = await run(db => db.collection(MERGED_COLLECTION).findOne({ id }, projectedFields));
 
-			if (response.length) {
-				await updateMergedCharacter({ id });
-
-				const grouped = groupRevisions(response);
-
-				return grouped[0];
+			if (response) {
+				return response
 			}
 		}
 
@@ -126,12 +130,10 @@ export const fetch = async ({ id }) => {
 
 export const fetchAll = async () => {
 	try {
-		const response = await run(db => db.collection(COLLECTION).find({}).toArray());
+		const response = await run(db => db.collection(MERGED_COLLECTION).find({}).toArray());
 
-		const groupedResponse = groupRevisions(response);
-
-		if (groupedResponse) {
-			return groupedResponse;
+		if (response && response.length) {
+			return response;
 		}
 
 		return [];
@@ -192,7 +194,7 @@ export const uploadAvatar = async ({ id, image }) => {
 
 export const getAvatar = async ({ id }) => {
 	try {
-		const response = await fetch({ id });
+		const response = await fetch({ id }, { image: 1 });
 
 		if (response) {
 			return response.image;
