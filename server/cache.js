@@ -1,9 +1,13 @@
-const NodeCache = require("node-cache");
+import path from "path";
+import Cache from "file-system-cache";
 
 const caches = {};
 
 export const createCache = name => {
-	caches[name] = new NodeCache();
+	caches[name] = Cache({
+		basePath: path.resolve("./.cache"),
+		ns: name
+	});
 }
 
 export const getCache = name => {
@@ -14,14 +18,14 @@ export const getCache = name => {
 	throw `Cache not found ${name}`;
 }
 
-export const get = (cacheName, key) => {
-	return getCache(cacheName).get(key);
+export const get = async (cacheName, key) => {
+	return await getCache(cacheName).get(key);
 }
 
-export const set = (cacheName, key, val) => {
-	return getCache(cacheName).set(key, val);
+export const set = async (cacheName, key, val) => {
+	return await getCache(cacheName).set(key, val);
 }
 
-export const del = (cacheName, key) => {
-	return getCache(cacheName).del(key);
+export const del = async (cacheName, key) => {
+	return await getCache(cacheName).remove(key);
 }

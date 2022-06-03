@@ -89,7 +89,8 @@ export const update = async ({ id, sheet, xp, image }) => {
 
 		if (response) {
 			await updateMergedCharacter({ id });
-			cache.del(CACHE_NAME, cacheKey);
+			await cache.del(CACHE_NAME, `character_${id}}`);
+			await cache.del(CACHE_NAME, "characters");
 
 			return await fetch({ id });
 		}
@@ -100,36 +101,27 @@ export const update = async ({ id, sheet, xp, image }) => {
 	}
 };
 
-export const fetch = async ({ id, fields }, retry = true) => {
+export const fetch = async ({ id }, retry = true) => {
 	try {
-		const projectedFields = (fields || {
-			_id: 1,
-			id: 1,
-			sheet: 1,
-			xp: 1,
-			revisionNumber: 1,
-			image: 1
-		});
-
-		const cacheKey = `character_${id}_${JSON.stringify(projectedFields)}`;
-		const hit = cache.get(CACHE_NAME, cacheKey);
+		const cacheKey = `character_${id}}`;
+		const hit = await cache.get(CACHE_NAME, cacheKey);
 		if (hit) {
 			return hit;
 		}
 
 		const mergedResponse = await run(db =>
-			db.collection(MERGED_COLLECTION).findOne({ id }, projectedFields)
+			db.collection(MERGED_COLLECTION).findOne({ id })
 		);
 
 		if (false && mergedResponse) {
-			cache.set(CACHE_NAME, cacheKey, mergedResponse);
+			await cache.set(CACHE_NAME, cacheKey, mergedResponse);
 
 			return mergedResponse;
 		} else {
 			await updateMergedCharacter({ id });
-			const response = await run(db => db.collection(MERGED_COLLECTION).findOne({ id }, projectedFields));
+			const response = await run(db => db.collection(MERGED_COLLECTION).findOne({ id }));
 
-			cache.set(CACHE_NAME, cacheKey, response);
+			await cache.set(CACHE_NAME, cacheKey, response);
 
 			if (response) {
 				return response
@@ -145,7 +137,7 @@ export const fetch = async ({ id, fields }, retry = true) => {
 
 export const fetchAll = async () => {
 	try {
-		const hit = cache.get(CACHE_NAME, "characters");
+		const hit = await cache.get(CACHE_NAME, "characters");
 		if (hit) {
 			return hit;
 		}
@@ -153,7 +145,7 @@ export const fetchAll = async () => {
 		const response = await run(db => db.collection(MERGED_COLLECTION).find({}).toArray());
 
 		if (response && response.length) {
-			cache.set(CACHE_NAME, "characters", response);
+			await cache.set(CACHE_NAME, "characters", response);
 
 			return response;
 		}
@@ -203,7 +195,7 @@ export const removeXp = async ({ id, amount }) => {
 export const uploadAvatar = async ({ id, image }) => {
 	try {
 		const response = await update({ id, image });
-		cache.del(CACHE_NAME, `avatar_${id}`);
+		await cache.del(CACHE_NAME, `avatar_${id}`);
 
 		if (response) {
 			return response;
@@ -217,15 +209,15 @@ export const uploadAvatar = async ({ id, image }) => {
 
 export const getAvatar = async ({ id }) => {
 	try {
-		const hit = cache.get(CACHE_NAME, `avatar_${id}`);
+		const hit = await cache.get(CACHE_NAME, `avatar_${id}`);
 		if (hit) {
 			return hit;
 		}
 
-		const response = await fetch({ id }, { image: 1 });
+		const response = await fetch({ id });
 
 		if (response) {
-			cache.set(CACHE_NAME, `avatar_${id}`, response.image);
+			await cache.set(CACHE_NAME, `avatar_${id}`, response.image);
 
 			return response.image;
 		}
