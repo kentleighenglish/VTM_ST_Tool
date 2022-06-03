@@ -1,10 +1,14 @@
 import { v4 as uuidv4 } from "uuid";
 import { merge } from "lodash";
 import debug from "../debug";
+import * as cache from "../cache";
 import { run } from "./_utils";
 
 const COLLECTION = "characters";
 const MERGED_COLLECTION = "charactersMerged";
+const CACHE_NAME = "characters";
+
+cache.createCache(CACHE_NAME);
 
 const groupRevisions = (items = []) => items.reduce((acc, item) => ({
 	...acc,
@@ -85,6 +89,7 @@ export const update = async ({ id, sheet, xp, image }) => {
 
 		if (response) {
 			await updateMergedCharacter({ id });
+			cache.del(CACHE_NAME, cacheKey);
 
 			return await fetch({ id });
 		}
@@ -106,15 +111,25 @@ export const fetch = async ({ id, fields }, retry = true) => {
 			image: 1
 		});
 
+		const cacheKey = `character_${id}_${JSON.stringify(projectedFields)}`;
+		const hit = cache.get(CACHE_NAME, cacheKey);
+		if (hit) {
+			return hit;
+		}
+
 		const mergedResponse = await run(db =>
 			db.collection(MERGED_COLLECTION).findOne({ id }, projectedFields)
 		);
 
 		if (false && mergedResponse) {
+			cache.set(CACHE_NAME, cacheKey, mergedResponse);
+
 			return mergedResponse;
 		} else {
 			await updateMergedCharacter({ id });
 			const response = await run(db => db.collection(MERGED_COLLECTION).findOne({ id }, projectedFields));
+
+			cache.set(CACHE_NAME, cacheKey, response);
 
 			if (response) {
 				return response
@@ -130,9 +145,16 @@ export const fetch = async ({ id, fields }, retry = true) => {
 
 export const fetchAll = async () => {
 	try {
+		const hit = cache.get(CACHE_NAME, "characters");
+		if (hit) {
+			return hit;
+		}
+
 		const response = await run(db => db.collection(MERGED_COLLECTION).find({}).toArray());
 
 		if (response && response.length) {
+			cache.set(CACHE_NAME, "characters", response);
+
 			return response;
 		}
 
@@ -181,6 +203,7 @@ export const removeXp = async ({ id, amount }) => {
 export const uploadAvatar = async ({ id, image }) => {
 	try {
 		const response = await update({ id, image });
+		cache.del(CACHE_NAME, `avatar_${id}`);
 
 		if (response) {
 			return response;
@@ -194,9 +217,16 @@ export const uploadAvatar = async ({ id, image }) => {
 
 export const getAvatar = async ({ id }) => {
 	try {
+		const hit = cache.get(CACHE_NAME, `avatar_${id}`);
+		if (hit) {
+			return hit;
+		}
+
 		const response = await fetch({ id }, { image: 1 });
 
 		if (response) {
+			cache.set(CACHE_NAME, `avatar_${id}`, response.image);
+
 			return response.image;
 		}
 
