@@ -5,4 +5,11 @@ export const type = "social";
 
 export const cost = -2;
 
-export const description = "";
+export const relatedStats = [];
+
+export const rollModifier = {
+	difficulty: 0,
+	pool: 0
+};
+
+export const description = "You once held a title in the city, but failed catastrophically in your duties. Now you are branded incompetent, excluded from circles of power and responsibility,and generally ostracized by those on their way up. Yourexclusion may make you a target for recruitment bythe Sect’s enemies (or so the whispers run, making youeven more distrusted). Conversely, the consequencesof your error might come back to haunt you.";

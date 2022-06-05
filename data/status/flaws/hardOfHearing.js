@@ -5,4 +5,11 @@ export const type = "physical";
 
 export const cost = -1;
 
-export const description = "";
+export const relatedStats = [];
+
+export const rollModifier = {
+	difficulty: 0,
+	pool: 0
+};
+
+export const description = "Your hearing is defective. The difficulties of any rolls involving the use of hearing are increased by two.";

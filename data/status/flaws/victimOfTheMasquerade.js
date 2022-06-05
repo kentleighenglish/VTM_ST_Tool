@@ -5,4 +5,11 @@ export const type = "mental";
 
 export const cost = -2;
 
-export const description = "";
+export const relatedStats = [];
+
+export const rollModifier = {
+	difficulty: 0,
+	pool: 0
+};
+
+export const description = "The Camarilla’s propaganda machine did too good ajob on you. Even after your Embrace you refused to believe you were a vampire. You remain convinced thatthere is some logical explanation for your condition,and spend as much time as you can searching for it.You also have problems feeding, and may insist on trying to eat regular food. None of these habits makes youparticularly pleasant company for other Kindred. ThisFlaw must be roleplayed at all times, and is generallytaken by Camarilla vampires.";

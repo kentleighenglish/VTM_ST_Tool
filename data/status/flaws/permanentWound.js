@@ -5,4 +5,11 @@ export const type = "physical";
 
 export const cost = -3;
 
-export const description = "";
+export const relatedStats = [];
+
+export const rollModifier = {
+	difficulty: 0,
+	pool: 0
+};
+
+export const description = "You suffered injuries during your Embrace which yourtransformation somehow failed to repair. At the beginning of each night, you rise from sleep at the Wounded health level, though this may be healed by spendingblood points.";
