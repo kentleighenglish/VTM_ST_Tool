@@ -10,6 +10,8 @@
 						:type="type"
 						:disabled="isDisabled"
 						:accept="accept"
+						:max="max"
+						:min="min"
 						@input="updateValue($event.target.value)"
 						@change="handleChange($event)"
 					></input>
@@ -71,6 +73,14 @@ export default {
 			type: Object,
 			default: () => ({})
 		},
+		max: {
+			type: Number,
+			default: null
+		},
+		min: {
+			type: Number,
+			default: null
+		},
 		value: {
 			type: [Number, String],
 			default: null
@@ -80,6 +90,7 @@ export default {
 			default: null
 		},
 		disableMetaDisplay: Boolean,
+		disableReset: Boolean,
 		createMode: Boolean,
 		adminMode: Boolean,
 		xpCheck: {

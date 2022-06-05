@@ -14,13 +14,23 @@
 		</div>
 		<CharacterActionsOutput :output="output" />
 		<CommonModal
-			name="customRollModal"
+			name="diceRollModal"
 			confirm-label="Roll"
-			:confirm="onCustomRoll"
-			:confirm-disabled="!customRoll.stat1 || !customRoll.stat2"
+			:confirm="onRoll"
+			:close="onRollCancel"
+			:confirm-disabled="!rollConfig.stat1 || !rollConfig.stat2 || !rollConfig.difficulty"
 		>
-			<FormInput v-model="customRoll.stat1" type="select" :options="statsOptions" />
-			<FormInput v-model="customRoll.stat2" type="select" :options="statsOptions" />
+			<div class="st-flex">
+				<div class="st-flex st-padding-h">
+					<FormInput v-model="rollConfig.stat1" type="select" :options="statsOptions" disable-reset />
+				</div>
+				<div class="st-flex st-padding-h">
+					<FormInput v-model="rollConfig.stat2" type="select" :options="statsOptions" disable-reset />
+				</div>
+			</div>
+			<div class="st-padding">
+				<FormInput v-model="rollConfig.difficulty" type="number" :max="9" :min="1" disable-reset />
+			</div>
 		</CommonModal>
 	</div>
 </template>
@@ -32,6 +42,16 @@ import { healthLevels } from "@/data/status";
 import * as disciplines from "@/data/advantages/disciplines";
 import humanize from "@/filters/humanize";
 import actions from "@/data/actions";
+import { rollDice } from "@/data/actions/_utils";
+
+const defaultRollConfig = {
+	name: null,
+	action: {},
+	stat1: null,
+	stat2: null,
+	difficulty: 6,
+	mods: []
+};
 
 export default {
 	name: "CharacterActions",
@@ -49,9 +69,8 @@ export default {
 		return {
 			actions,
 			output: [],
-			customRoll: {
-				stat1: null,
-				stat2: null
+			rollConfig: {
+				...defaultRollConfig
 			}
 		}
 	},
@@ -152,29 +171,35 @@ export default {
 				output: successes < 0 ? "Botch" : `${successes} Success${successes === 1 ? "" : "es"}`
 			};
 		},
-		async onActionClick (name, action) {
-			const rollPayload = {
-				stats: this.stats,
-				mods: {},
-				parent: this
-			};
+		onActionClick (name, action) {
+			const difficulty = (action.difficulty || defaultRollConfig.difficulty);
+			const stat1 = (action.rollStats[0] || null);
+			const stat2 = (action.rollStats[1] || null);
 
-			if (action.onTrigger) {
-				await action.onTrigger(rollPayload);
-				this.customRoll = {
-					stat1: null,
-					stat2: null
-				};
-				return;
+			this.rollConfig = { ...this.rollConfig, stat1, stat2, difficulty, action, name };
+
+			if (action.type === "custom") {
+				return this.onRoll();
+			} else {
+				return this.openModal("diceRollModal");
 			}
+		},
+		async onRoll () {
+			const { stat1, stat2, difficulty, action: { type, ...action }, name } = this.rollConfig;
 
-			const result = action.getOutput(rollPayload);
-			const type = action.type;
+			const dicePool = this.stats[stat1] + this.stats[stat2];
 
 			let success = {};
-			if (type === "diceRoll") {
-				success = this.getSuccesses(result);
+			let result;
+
+			if (type === "custom") {
+				result = action.getOutput({ stats: this.stats });
+			} else {
+				result = rollDice(dicePool);
+
+				success = this.getSuccesses(result, difficulty);
 			}
+
 			const characterName = this.characterName;
 			const characterId = this.characterId;
 
@@ -193,8 +218,10 @@ export default {
 			await this.saveAction({ action: actionPayload });
 			this.output.unshift(actionPayload);
 		},
-		onCustomRoll () {
-
+		onRollCancel () {
+			this.rollConfig = {
+				...defaultRollConfig
+			}
 		}
 	}
 }

@@ -1,8 +1,6 @@
-import { rollDice } from "./_utils";
-
 export const movement = {
 	type: "custom",
-	usedStats: ["dexterity"],
+	rollStats: ["dexterity"],
 	getOutput: ({ stats, mods }) => {
 		let base = 20;
 
@@ -14,160 +12,100 @@ export const movement = {
 
 export const soak = {
 	type: "diceRoll",
-	usedStats: ["stamina", "fortitude"],
-	getOutput: ({ stats }) => {
-		return rollDice(stats.stamina + stats.fortitude);
-	}
+	rollStats: ["stamina", "fortitude"]
 }
 
 export const dodge = {
 	type: "diceRoll",
-	usedStats: ["stamina", "athletics"],
-	getOutput: ({ stats }) => {
-		return rollDice(stats.stamina + stats.athletics);
-	}
+	rollStats: ["stamina", "athletics"]
 }
 
 export const climbing = {
 	type: "diceRoll",
-	usedStats: ["dexterity", "athletics"],
-	getOutput: ({ stats }) => {
-		return rollDice(stats.dexterity + stats.athletics);
-	}
+	rollStats: ["dexterity", "athletics"]
 }
 
 export const driving = {
 	type: "diceRoll",
-	usedStats: ["dexterity", "drive"],
-	getOutput: ({ stats }) => {
-		return rollDice(stats.dexterity + stats.drive);
-	}
+	rollStats: ["dexterity", "drive"]
 }
 
 export const drivingQuick = {
 	type: "diceRoll",
-	usedStats: ["wits", "drive"],
-	getOutput: ({ stats }) => {
-		return rollDice(stats.wits + stats.drive);
-	}
+	rollStats: ["wits", "drive"]
 }
 
 export const hunting = {
 	type: "diceRoll",
-	usedStats: ["perception", "survival"],
-	getOutput: ({ stats }) => {
-		return rollDice(stats.perception + stats.survival);
-	}
+	rollStats: ["perception", "survival"]
 }
 
 export const featOfStrength = {
 	type: "diceRoll",
-	usedStats: ["willpower"],
-	getOutput: ({ stats }) => {
-		return rollDice(stats.willpower);
-	}
+	rollStats: ["willpower"]
 }
 
 export const breakingAndEntering = {
 	type: "diceRoll",
-	usedStats: ["dexterity", "larceny"],
-	getOutput: ({ stats }) => {
-		return rollDice(stats.dexterity + stats.larceny);
-	}
+	rollStats: ["dexterity", "larceny"]
 }
 
 export const securityIntrusion = {
 	type: "diceRoll",
-	usedStats: ["intelligence", "larceny"],
-	getOutput: ({ stats }) => {
-		return rollDice(stats.intelligence + stats.technology);
-	}
+	rollStats: ["intelligence", "larceny"]
 }
 
 export const standingJump = {
 	type: "diceRoll",
-	usedStats: ["strength"],
-	getOutput: ({ stats }) => {
-		return rollDice(stats.strength);
-	}
+	rollStats: ["strength"]
 }
 
 export const runningJump = {
 	type: "diceRoll",
-	usedStats: ["strength", "athletics"],
-	getOutput: ({ stats }) => {
-		return rollDice(stats.strength + stats.athletics);
-	}
+	rollStats: ["strength", "athletics"]
 }
 
 export const longRunning = {
 	type: "diceRoll",
-	usedStats: ["stamina", "athletics"],
-	getOutput: ({ stats }) => {
-		return rollDice(stats.stamina + stats.athletics);
-	}
+	rollStats: ["stamina", "athletics"]
 }
 
 export const forceOpen = {
 	type: "diceRoll",
-	usedStats: ["strength"],
-	getOutput: ({ stats }) => {
-		return rollDice(stats.strength);
-	}
+	rollStats: ["strength"]
 }
 
 export const pursuit = {
 	type: "diceRoll",
-	usedStats: ["dexterity", "athletics"],
-	getOutput: ({ stats }) => {
-		return rollDice(stats.dexterity + stats.athletics);
-	}
+	rollStats: ["dexterity", "athletics"]
 }
 
 export const vehiclePursuit = {
 	type: "diceRoll",
-	usedStats: ["dexterity", "drive"],
-	getOutput: ({ stats }) => {
-		return rollDice(stats.dexterity + stats.drive);
-	}
+	rollStats: ["dexterity", "drive"]
 }
 
 export const shadowing = {
 	type: "diceRoll",
-	usedStats: ["dexterity", "stealth"],
-	getOutput: ({ stats }) => {
-		return rollDice(stats.dexterity + stats.stealth);
-	}
+	rollStats: ["dexterity", "stealth"]
 }
 
 export const vehicleShadowing = {
 	type: "diceRoll",
-	usedStats: ["dexterity", "drive"],
-	getOutput: ({ stats }) => {
-		return rollDice(stats.dexterity + stats.drive);
-	}
+	rollStats: ["dexterity", "drive"]
 }
 
 export const sneaking = {
 	type: "diceRoll",
-	usedStats: ["stamina", "stealth"],
-	getOutput: ({ stats }) => {
-		return rollDice(stats.stamina + stats.stealth);
-	}
+	rollStats: ["stamina", "stealth"]
 }
 
 export const swimming = {
 	type: "diceRoll",
-	usedStats: ["dexterity", "athletics"],
-	getOutput: ({ stats }) => {
-		return rollDice(stats.dexterity + stats.athletics);
-	}
+	rollStats: ["dexterity", "athletics"]
 }
 
 export const throwing = {
 	type: "diceRoll",
-	usedStats: ["dexterity", "athletics"],
-	getOutput: ({ stats }) => {
-		return rollDice(stats.dexterity + stats.athletics);
-	}
+	rollStats: ["dexterity", "athletics"]
 }

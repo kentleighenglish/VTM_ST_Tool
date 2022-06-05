@@ -31,6 +31,10 @@ export default {
 			return this.$slots?.default[0]?.context || {};
 		},
 		fieldModified () {
+			if (this.childComponent.disableReset) {
+				return false;
+			}
+
 			return this.childComponent.model !== this.childComponent.originalValue;
 		},
 		metaDisabled () {
