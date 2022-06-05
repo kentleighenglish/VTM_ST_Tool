@@ -37,6 +37,7 @@ const types = {
 	statusDots: "FormStatusDots",
 	healthDots: "FormHealthDots",
 	dynamicField: "FormDynamicField",
+	static: "FormStatic",
 	...inputTypes.reduce((acc, k) => ({ ...acc, [k]: "FormInput" }), {})
 }
 

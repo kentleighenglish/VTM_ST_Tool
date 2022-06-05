@@ -1,4 +1,12 @@
 import { getMaxSpend } from "../_utils";
+import * as merits from "./merits";
+import * as flaws from "./flaws";
+import humanize from "@/filters/humanize";
+
+const meritsFlaws = {
+	...merits,
+	...flaws
+};
 
 const getHumanityCost = ({ current, target }) => {
 	let xp = 0;
@@ -35,7 +43,39 @@ export default {
 		meritsFlaws: {
 			label: "Merits & Flaws",
 			type: "sectionColumn",
-			fields: {}
+			fields: {
+				list: {
+					label: null,
+					type: "dynamicField",
+					meta: {
+						getXpAddCost: () => 0,
+						params: {
+							defaultFields: () => ({}),
+							fieldsMeta: (data, additional) => fieldName => ({
+								params: {
+									staticValue: () => {
+										const meritFlaw = meritsFlaws[fieldName];
+										const type = humanize(meritFlaw.type);
+										const cost = meritFlaw.cost;
+
+										return `${meritFlaw.label} - ${type} (${cost}xp)`;
+									}
+								},
+								getXpCost: 1000,
+								getMetaDisplay: ({ name, ...payload }) => ({
+									description: meritsFlaws[fieldName]?.description
+								})
+							})
+						},
+						keyOptions: Object.keys(meritsFlaws).reduce((acc, key) => ({
+							...acc,
+							[key]: meritsFlaws[key].label
+						}), {}),
+						fieldType: "static",
+						description: null
+					}
+				}
+			}
 		},
 		condition: {
 			label: "Humanity/Path",
