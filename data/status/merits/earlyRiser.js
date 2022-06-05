@@ -1,7 +1,7 @@
 
 export const label = "Early Riser";
 
-export const type = "supernatural";
+export const type = "physical";
 
 export const cost = 1;
 
