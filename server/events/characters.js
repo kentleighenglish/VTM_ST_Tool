@@ -5,10 +5,10 @@ import { updateRoom } from "./rooms";
 
 export const create = async ({ socket, callback, data: { sheet, xp } = { sheet: {}, xp: {} } }) => {
 	try {
-		const response = await m.characters.create({ sheet, xp });
+		const id = await m.characters.create({ sheet, xp });
 
-		if (response) {
-			callback(null, response);
+		if (id) {
+			callback(null, { id });
 		} else {
 			callback(new Error("Could not create character sheet").message, {});
 		}

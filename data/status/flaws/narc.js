@@ -5,7 +5,7 @@ export const type = "social";
 
 export const cost = -3;
 
-export const relatedStats = ["charisma" , "manipulation", "appearance"];
+export const relatedStats = ["charisma", "manipulation", "appearance"];
 
 export const rollModifier = {
 	difficulty: 1,

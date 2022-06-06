@@ -57,7 +57,7 @@ export const create = async ({ sheet, xp }) => {
 				new Promise((resolve, reject) =>
 					db.collection(COLLECTION).insertOne(
 						{ id, sheet, xp, revisionNumber: 1 },
-						(err, result) => (err ? reject(err) : resolve(result.insertedId))
+						(err, result) => (err ? reject(err) : resolve(id))
 					)
 				)
 		);
