@@ -12,4 +12,4 @@ export const rollModifier = {
 	pool: 0
 };
 
-export const description = "You are extremely territorial, staking out a particulararea as your hunting ground and reacting aggressivelyto trespassers. If another vampire enters your territoryuninvited, you must make a frenzy roll. If you fail, youimmediately attack the interloper and continue attacking until the intruder is dead or has left your hunting grounds. You are reluctant to leave your territoryexcept in desperate circumstances.";
+export const description = "You are extremely territorial, staking out a particular area as your hunting ground and reacting aggressively to trespassers. If another vampire enters your territory uninvited, you must make a frenzy roll. If you fail, you immediately attack the interloper and continue attacking until the intruder is dead or has left your hunting grounds. You are reluctant to leave your territory except in desperate circumstances.";

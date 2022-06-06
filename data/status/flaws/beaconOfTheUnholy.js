@@ -12,4 +12,4 @@ export const rollModifier = {
 	pool: 0
 };
 
-export const description = "You radiate palpable evil. Clergy and devout mortals know instinctively that there is something horriblywrong with you, and react accordingly.";
+export const description = "You radiate palpable evil. Clergy and devout mortals know instinctively that there is something horribly wrong with you, and react accordingly.";

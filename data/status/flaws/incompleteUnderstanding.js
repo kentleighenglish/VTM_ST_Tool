@@ -12,4 +12,4 @@ export const rollModifier = {
 	pool: 0
 };
 
-export const description = "The whole matter has been explained to you, butyou’re still not quite sure how things in your Sect work.Your imperfect understanding of the rules and regulations of your new existence means that sooner or later,you’re going to make a mistake. It’s only a matter oftime….";
+export const description = "The whole matter has been explained to you, butyou’re still not quite sure how things in your Sect work. Your imperfect understanding of the rules and regulations of your new existence means that sooner or later, you’re going to make a mistake. It’s only a matter of time...";

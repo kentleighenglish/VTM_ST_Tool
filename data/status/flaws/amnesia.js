@@ -12,4 +12,4 @@ export const rollModifier = {
 	pool: 0
 };
 
-export const description = "You are unable to remember anything about yourpast, yourself, or your family (whether mortal or vampiric), though your past might well come back to hauntyou. Your origins and the circumstances behind youramnesia are for the Storyteller to determine, and she isencouraged to make it as interesting as possible.";
+export const description = "You are unable to remember anything about your past, yourself, or your family (whether mortal or vampiric), though your past might well come back to haunt you. Your origins and the circumstances behind your amnesia are for the Storyteller to determine, and she is encouraged to make it as interesting as possible.";

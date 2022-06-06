@@ -12,4 +12,4 @@ export const rollModifier = {
 	pool: 0
 };
 
-export const description = "You cannot abide garlic, and the smallest whiff of itsscent will drive you from a room unless you make a successful Willpower roll (difficulty based on the strengthof the odor).";
+export const description = "You cannot abide garlic, and the smallest whiff of its scent will drive you from a room unless you make a successful Willpower roll (difficulty based on the strength of the odor).";

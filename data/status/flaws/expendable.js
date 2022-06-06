@@ -12,4 +12,4 @@ export const rollModifier = {
 	pool: 0
 };
 
-export const description = "Someone in power doesn’t want you around. Maybeshe wants territory you possess, or is jealous of the attention you’re getting from a prize mortal retainer —the details are irrelevant. What does matter is that shehas the power to maneuver you into dangerous situations “for the good of the Sect,” and has no compunctions about doing so.";
+export const description = "Someone in power doesn’t want you around. Maybe she wants territory you possess, or is jealous of the attention you’re getting from a prize mortal retainer — the details are irrelevant. What does matter is that she has the power to maneuver you into dangerous situations “for the good of the Sect,” and has no compunctions about doing so.";

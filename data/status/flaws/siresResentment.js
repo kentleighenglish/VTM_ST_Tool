@@ -12,4 +12,4 @@ export const rollModifier = {
 	pool: 0
 };
 
-export const description = "Your sire dislikes you and wishes you ill. Given thesmallest opportunity, she will actively seek to do youharm. Your sire’s allies also work against you, and manyelders may resent you.";
+export const description = "Your sire dislikes you and wishes you ill. Given the smallest opportunity, she will actively seek to do you harm. Your sire’s allies also work against you, and many elders may resent you.";

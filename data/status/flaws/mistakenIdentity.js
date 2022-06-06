@@ -12,4 +12,4 @@ export const rollModifier = {
 	pool: 0
 };
 
-export const description = "You look similar to descriptions of another Kindred, which cause cases of mistaken identity. This canprompt numerous awkward or even dangerous situations, especially if your “twin” has a terrible reputationor is wanted for some crime.";
+export const description = "You look similar to descriptions of another Kindred, which cause cases of mistaken identity. This can prompt numerous awkward or even dangerous situations, especially if your “twin” has a terrible reputationor is wanted for some crime.";

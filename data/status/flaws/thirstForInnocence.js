@@ -12,4 +12,4 @@ export const rollModifier = {
 	pool: 0
 };
 
-export const description = "The sight of innocence — of any sort — arouses inyou a terrible bloodlust. Roll Self-Control or Instincts,or else frenzy and attack the source of your hunger.";
+export const description = "The sight of innocence — of any sort — arouses in you a terrible bloodlust. Roll Self-Control or Instincts, or else frenzy and attack the source of your hunger.";

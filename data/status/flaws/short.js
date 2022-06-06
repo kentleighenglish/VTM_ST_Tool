@@ -12,4 +12,5 @@ export const rollModifier = {
 	pool: 0
 };
 
-export const description = "You are well below average height — four and a halffeet (1.5 meters) tall or less. You have difficulty reaching or manipulating objects designed for normal adultsize, and your running speed is one-half that of an average human.";
+// @todo movement modifier
+export const description = "You are well below average height — four and a half feet (1.5 meters) tall or less. You have difficulty reaching or manipulating objects designed for normal adult size, and your running speed is one-half that of an average human.";

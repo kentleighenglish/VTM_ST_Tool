@@ -12,4 +12,4 @@ export const rollModifier = {
 	pool: 0
 };
 
-export const description = "You are easily angered. Difficulties to avoid frenzy aretwo greater. Brujah vampires cannot take this Flaw, asthey already suffer from a similar weakness.";
+export const description = "You are easily angered. Difficulties to avoid frenzy are two greater. Brujah vampires cannot take this Flaw, as they already suffer from a similar weakness.";

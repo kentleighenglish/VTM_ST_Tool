@@ -12,4 +12,4 @@ export const rollModifier = {
 	pool: 0
 };
 
-export const description = "Your sire was, and perhaps still is, distrusted and disliked by many of the city’s Kindred. As a result, you aredistrusted and disliked as well.";
+export const description = "Your sire was, and perhaps still is, distrusted and disliked by many of the city’s Kindred. As a result, you are distrusted and disliked as well.";

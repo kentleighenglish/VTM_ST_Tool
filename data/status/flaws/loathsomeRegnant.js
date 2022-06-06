@@ -12,4 +12,4 @@ export const rollModifier = {
 	pool: 0
 };
 
-export const description = "Not only are you blood bound, but you are also inthrall to a vampire who mistreats you hideously. Perhaps you are publicly abused or humiliated; perhapsyour master forces you to commit unspeakable acts forhim. In any case, existence under the bond is a neverending nightmare, with your regnant serving to conduct the symphony of malice. Sabbat vampires cannottake this Flaw.";
+export const description = "Not only are you blood bound, but you are also in thrall to a vampire who mistreats you hideously. Perhaps you are publicly abused or humiliated; perhaps your master forces you to commit unspeakable acts for him. In any case, existence under the bond is a neverending nightmare, with your regnant serving to conduct the symphony of malice. Sabbat vampires cannot take this Flaw.";

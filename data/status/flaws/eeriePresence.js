@@ -12,4 +12,4 @@ export const rollModifier = {
 	pool: 0
 };
 
-export const description = "Mortals have an unconscious awareness of your undead nature, which makes then anxious and ill at easein your presence. Because of this, difficulties of all rollsrelating to social interaction with mortals are increasedby two.";
+export const description = "Mortals have an unconscious awareness of your undead nature, which makes then anxious and ill at easein your presence. Because of this, difficulties of all rolls relating to social interaction with mortals are increased by two.";

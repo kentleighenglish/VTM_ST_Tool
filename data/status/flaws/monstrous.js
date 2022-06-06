@@ -12,4 +12,4 @@ export const rollModifier = {
 	pool: 0
 };
 
-export const description = "Your physical form was twisted during the Embrace,and now reflects the Beast that rages inside you. Characters with this Flaw appear to be savage monsters andhave Appearance ratings of zero. Nosferatu and otherbloodlines whose weaknesses cause them to start offwith Appearance zero cannot take this Flaw.";
+export const description = "Your physical form was twisted during the Embrace, and now reflects the Beast that rages inside you. Characters with this Flaw appear to be savage monsters and have Appearance ratings of zero. Nosferatu and other bloodlines whose weaknesses cause them to start off with Appearance zero cannot take this Flaw.";

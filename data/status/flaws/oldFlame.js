@@ -12,4 +12,4 @@ export const rollModifier = {
 	pool: 0
 };
 
-export const description = "Someone you once cared deeply for is now with theenemy. He still attempts to play on your sympathies“for old times’ sake” while working against you. Unlessyou succeed on a contested Manipulation + Expressionroll against your former friend, you cannot act againsthim unless the situation becomes life-threatening.";
+export const description = "Someone you once cared deeply for is now with the enemy. He still attempts to play on your sympathies “for old times’ sake” while working against you. Unless you succeed on a contested Manipulation + Expression roll against your former friend, you cannot act against him unless the situation becomes life-threatening.";

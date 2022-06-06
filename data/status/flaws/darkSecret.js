@@ -12,4 +12,4 @@ export const rollModifier = {
 	pool: 0
 };
 
-export const description = "You have some sort of secret that, if uncovered,would be of immense embarrassment to you and wouldmake you a pariah in the local Kindred community.This could be anything from having murdered an elderto being a member of the Anarchs.";
+export const description = "You have some sort of secret that, if uncovered, would be of immense embarrassment to you and would make you a pariah in the local Kindred community. This could be anything from having murdered an elder to being a member of the Anarchs.";

@@ -12,4 +12,4 @@ export const rollModifier = {
 	pool: 0
 };
 
-export const description = "You have a score to settle, incurred either duringyour mortal days or after the Embrace. You are obsessedwith taking your revenge on an individual or group,and it is your overriding priority in any situation whereyou encounter the object of your revenge. You maytemporarily resist your need for vengeance by spendinga Willpower point.";
+export const description = "You have a score to settle, incurred either during your mortal days or after the Embrace. You are obsessed with taking your revenge on an individual or group, and it is your overriding priority in any situation where you encounter the object of your revenge. You may temporarily resist your need for vengeance by spending a Willpower point.";

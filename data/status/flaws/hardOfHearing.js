@@ -5,10 +5,10 @@ export const type = "physical";
 
 export const cost = -1;
 
-export const relatedStats = [];
+export const relatedStats = ["perception", "investigation", "empathy"];
 
 export const rollModifier = {
-	difficulty: 0,
+	difficulty: 2,
 	pool: 0
 };
 
