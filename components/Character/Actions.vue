@@ -161,14 +161,15 @@ export default {
 			}), {});
 		},
 		modsOptions () {
-			const meritsFlawsList = get(this.data, "status.meritsFlaws.list._custom", []);
+			const meritsFlawsList = get(this.data, "status.meritsFlaws.list._custom", {});
 
-			const meritsFlawsOptions = meritsFlawsList.reduce((acc, key) => {
+			const meritsFlawsOptions = Object.keys(meritsFlawsList).reduce((acc, key) => {
 				const meritFlaw = meritsFlaws[key];
 
 				if (meritFlaw) {
 					const { relatedStats } = meritFlaw;
 
+					console.log(meritFlaw);
 					if (
 						relatedStats.includes(this.rollConfig.stat1) ||
 						relatedStats.includes(this.rollConfig.stat2)

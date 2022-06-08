@@ -195,7 +195,7 @@ export default {
 				height: 26px;
 			}
 
-			textarea {
+			textarea, select[multiple] {
 				height: initial;
 			}
 		}
