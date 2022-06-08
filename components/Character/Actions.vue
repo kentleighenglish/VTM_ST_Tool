@@ -38,6 +38,16 @@
 					disable-reset
 				/>
 			</div>
+			<div class="st-padding">
+				<FormInput
+					v-model="rollConfig.mods"
+					label="Modifiers"
+					type="select"
+					multiple
+					disable-reset
+					:options="modsOptions"
+				/>
+			</div>
 		</CommonModal>
 	</div>
 </template>
@@ -47,9 +57,16 @@ import { get } from "lodash";
 import { decodeHealthValue } from "@/utils/parsers";
 import { healthLevels } from "@/data/status";
 import * as disciplines from "@/data/advantages/disciplines";
+import * as merits from "@/data/status/merits";
+import * as flaws from "@/data/status/flaws";
 import humanize from "@/filters/humanize";
 import actions from "@/data/actions";
 import { rollDice } from "@/data/actions/_utils";
+
+const meritsFlaws = {
+	...merits,
+	...flaws
+};
 
 const defaultRollConfig = {
 	name: null,
@@ -142,6 +159,28 @@ export default {
 				...acc,
 				[key]: humanize(key)
 			}), {});
+		},
+		modsOptions () {
+			const meritsFlawsList = get(this.data, "status.meritsFlaws.list._custom", []);
+
+			const meritsFlawsOptions = meritsFlawsList.reduce((acc, key) => {
+				const meritFlaw = meritsFlaws[key];
+
+				if (meritFlaw) {
+					const { relatedStats } = meritFlaw;
+
+					if (
+						relatedStats.includes(this.rollConfig.stat1) ||
+						relatedStats.includes(this.rollConfig.stat2)
+					) {
+						acc[key] = humanize(key);
+					}
+				}
+
+				return acc;
+			}, {});
+
+			return meritsFlawsOptions;
 		}
 	},
 	methods: {

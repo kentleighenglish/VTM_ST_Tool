@@ -26,6 +26,7 @@
 						v-if="type === 'select'"
 						v-model="model"
 						:disabled="isDisabled"
+						:multiple="multiple"
 						@input="updateValue($event.target.value)"
 						@change="handleChange($event)"
 					>
@@ -81,12 +82,16 @@ export default {
 			type: Number,
 			default: null
 		},
+		multiple: {
+			type: Boolean,
+			default: false
+		},
 		value: {
-			type: [Number, String],
+			type: [Number, String, Array],
 			default: null
 		},
 		originalValue: {
-			type: [Number, String],
+			type: [Number, String, Array],
 			default: null
 		},
 		disableMetaDisplay: Boolean,

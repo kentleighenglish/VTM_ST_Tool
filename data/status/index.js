@@ -48,7 +48,7 @@ export default {
 					label: null,
 					type: "dynamicField",
 					meta: {
-						getXpAddCost: () => 0,
+						getXpAddCost: () => 1000,
 						params: {
 							defaultFields: () => ({}),
 							fieldsMeta: (data, additional) => fieldName => ({
