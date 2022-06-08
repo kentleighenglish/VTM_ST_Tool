@@ -1,7 +1,9 @@
 <template>
-	<div class="formStatic">
-		{{ staticText }}
-	</div>
+	<FormRootModel>
+		<div class="formStatic">
+			{{ staticText }}
+		</div>
+	</FormRootModel>
 </template>
 <script>
 export default {

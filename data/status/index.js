@@ -62,9 +62,18 @@ export default {
 									}
 								},
 								getXpCost: 1000,
-								getMetaDisplay: ({ name, ...payload }) => ({
-									description: meritsFlaws[fieldName]?.description
-								})
+								getMetaDisplay: ({ name, ...payload }) => {
+									const meritFlaw = meritsFlaws[fieldName];
+									const relatedStats = meritFlaw.relatedStats.map(humanize).join(", ")
+
+									return {
+										description: meritFlaw.description,
+										system: `
+											**Type:** ${humanize(meritFlaw.type)}
+											**Related:** ${relatedStats}
+										`
+									};
+								}
 							})
 						},
 						keyOptions: Object.keys(meritsFlaws).reduce((acc, key) => ({

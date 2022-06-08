@@ -187,6 +187,11 @@ export default {
 				border: none;
 				margin: 0;
 				padding: math.div($gap, 4);
+				height: 26px;
+			}
+
+			textarea {
+				height: initial;
 			}
 		}
 	}
