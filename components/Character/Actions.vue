@@ -167,14 +167,33 @@ export default {
 				const meritFlaw = meritsFlaws[key];
 
 				if (meritFlaw) {
-					const { relatedStats } = meritFlaw;
+					const { relatedStats, rollModifier } = meritFlaw;
 
-					console.log(meritFlaw);
 					if (
 						relatedStats.includes(this.rollConfig.stat1) ||
 						relatedStats.includes(this.rollConfig.stat2)
 					) {
-						acc[key] = humanize(key);
+						const mods = [];
+						const { difficulty, pool, success, botch } = rollModifier;
+
+						const addPlus = num => num > 0 ? `+${num}` : num;
+
+						if (difficulty) {
+							mods.push(`${addPlus(difficulty)} Difficulty`);
+						}
+						if (pool) {
+							mods.push(`${addPlus(pool)} Dice Pool`);
+						}
+						if (success) {
+							mods.push(`${addPlus(success)} Success`);
+						}
+						if (botch) {
+							mods.push(`Remove ${botch} Botch`);
+						}
+
+						const name = humanize(key);
+						const modsOutput = mods.length ? `(${mods.join(", ")})` : "";
+						acc[key] = `${name} ${modsOutput}`.trim();
 					}
 				}
 
