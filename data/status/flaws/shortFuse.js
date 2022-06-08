@@ -1,5 +1,5 @@
 
-export const label = "Short Fus";
+export const label = "Short Fuse";
 
 export const type = "mental";
 

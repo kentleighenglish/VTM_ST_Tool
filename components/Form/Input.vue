@@ -26,7 +26,7 @@
 						v-if="type === 'select'"
 						v-model="model"
 						:disabled="isDisabled"
-						:multiple="multiple"
+						:multiple="!!multiple"
 						@input="updateValue($event.target.value)"
 						@change="handleChange($event)"
 					>

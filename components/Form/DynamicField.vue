@@ -100,7 +100,7 @@ export default {
 
 			return Object.keys(options)
 				.filter((key) => {
-					return (!this.defaultFields[key] && !(this.model?._custom || []).includes(key));
+					return (!this.defaultFields[key] && !Object.keys(this.model?._custom || {}).includes(key));
 				})
 				.reduce((acc, key) => ({
 					...acc,
@@ -111,7 +111,7 @@ export default {
 			return this.meta?.params?.defaultFields || {};
 		},
 		generatedFields () {
-			const { _custom = [] } = (this.model || {});
+			const { _custom = {} } = (this.model || {});
 			const options = this.meta?.keyOptions;
 
 			return {
@@ -126,7 +126,7 @@ export default {
 						}
 					}
 				}), {}),
-				..._custom.reduce((acc, key) => {
+				...Object.keys(_custom).reduce((acc, key) => {
 					if (!this.defaultFields[key]) {
 						const label = options ? options[key] : key;
 
@@ -150,7 +150,7 @@ export default {
 		value (v) {
 			this.model = {
 				...v,
-				_custom: (v._custom || [])
+				_custom: (v._custom || {})
 			};
 		}
 	},
@@ -167,7 +167,7 @@ export default {
 		updateValue (value) {
 			this.$emit("input", {
 				...value,
-				_custom: (value._custom || [])
+				_custom: (value._custom || {})
 			});
 		},
 		handleChange (e) {
@@ -177,10 +177,10 @@ export default {
 		},
 		addCustom (e) {
 			if (this.customAdd) {
-				const _custom = [
-					...(this?.model?._custom || []),
-					this.customAdd
-				];
+				const _custom = {
+					...(this?.model?._custom || {}),
+					[this.customAdd]: 1
+				};
 
 				this.updateValue({
 					...this.model,
