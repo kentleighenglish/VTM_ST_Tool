@@ -1,6 +1,6 @@
 <template>
 	<portal v-if="visible" to="modal">
-		<div class="modal">
+		<div :class="componentClass">
 			<div class="modal__content" :class="modalClass">
 				<div class="modal__contentInner">
 					<slot />
@@ -30,9 +30,19 @@
 </template>
 <script>
 import { mapState, mapActions } from "vuex";
+import classModsMixin from "@/mixins/classModsMixin";
 
 export default {
 	name: "CommonModal",
+	mixins: [classModsMixin],
+	classMod: {
+		baseClass: "modal",
+		modifiers: {
+			entering: vm => vm.entering,
+			leaving: vm => vm.leaving,
+			loaded: vm => vm.loaded
+		}
+	},
 	props: {
 		name: {
 			type: String,
@@ -96,7 +106,10 @@ export default {
 		}
 	},
 	data: () => ({
-		submitting: false
+		submitting: false,
+		entering: false,
+		leaving: false,
+		loaded: false
 	}),
 	computed: {
 		...mapState({
@@ -108,8 +121,22 @@ export default {
 			}
 		})
 	},
-	beforeDestroy () {
-		this.closeModal();
+	watch: {
+		visible (isVisible) {
+			if (isVisible) {
+				setTimeout(() => {
+					this.entering = true;
+				}, 100);
+				setTimeout(() => {
+					this.entering = false;
+					this.loaded = true;
+				}, 1000);
+			} else {
+				this.entering = false;
+				this.loaded = false;
+				this.leaving = false;
+			}
+		}
 	},
 	methods: {
 		...mapActions({
@@ -118,7 +145,7 @@ export default {
 		}),
 		overlayClick () {
 			if (this.closeWithOverlay) {
-				this.closeModal();
+				this.onCloseModal();
 			}
 		},
 		async onConfirm () {
@@ -129,7 +156,7 @@ export default {
 				this.submitting = false;
 
 				if (result !== false) {
-					this.closeModal();
+					this.onCloseModal();
 				}
 			} catch (e) {
 				this.pushToastMessage({
@@ -143,32 +170,24 @@ export default {
 		async onClose () {
 			await this.close(this);
 
-			this.closeModal();
+			this.onCloseModal();
+		},
+		onCloseModal () {
+			this.entering = false;
+			this.leaving = true;
+
+			setTimeout(() => {
+				this.entering = false;
+				this.loaded = false;
+				this.leaving = false;
+
+				this.closeModal();
+			}, 200);
 		}
 	}
 }
 </script>
 <style lang="scss">
-
-.modal-load-enter-active, .modal-load-leave-active {
-	.modal__content {
-		overflow: hidden;
-		transition: 2s ease;
-	}
-}
-.modal-load-enter, .modal-load-leave-to {
-	.modal__content {
-		// transform: scaleX(0) scaleY(.5);
-		transform: translateY(-100%);
-		opacity: 0;
-	}
-}
-.modal-load-enter-to, .modal-load-leave {
-	.modal__content {
-		transform: translateY(0%);
-		opacity: 1;
-	}
-}
 
 .modal {
 	position: absolute;
@@ -179,6 +198,24 @@ export default {
 	align-items: center;
 	padding: ($gap * 2) 0;
 
+	&--entering {
+		.modal__content {
+			transform: translateY(0%);
+		}
+	}
+
+	&--loaded {
+		.modal__content {
+			transform: translateY(0%);
+		}
+	}
+
+	&--leaving {
+		.modal__content {
+			transform: translateY(-300%);
+		}
+	}
+
 	&__content {
 		position: relative;
 		display: flex;
@@ -188,6 +225,8 @@ export default {
 		max-height: 100%;
 		flex-direction: column;
 		overflow: auto;
+		transition: transform 0.2s;
+		transform: translateY(-300%);
 
 		background: $grey-lightest;
 		border-radius: $global-border-radius;
