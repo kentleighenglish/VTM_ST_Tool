@@ -22,14 +22,21 @@
 		>
 			<div class="st-flex">
 				<div class="st-flex st-padding-h">
-					<FormInput v-model="rollConfig.stat1" type="select" :options="statsOptions" disable-reset />
+					<FormInput v-model="rollConfig.stat1" label="Stat 1" type="select" :options="statsOptions" disable-reset />
 				</div>
 				<div class="st-flex st-padding-h">
-					<FormInput v-model="rollConfig.stat2" type="select" :options="statsOptions" disable-reset />
+					<FormInput v-model="rollConfig.stat2" label="Stat 2" type="select" :options="statsOptions" disable-reset />
 				</div>
 			</div>
 			<div class="st-padding">
-				<FormInput v-model="rollConfig.difficulty" type="number" :max="9" :min="1" disable-reset />
+				<FormInput
+					v-model="rollConfig.difficulty"
+					label="Difficulty"
+					type="number"
+					:max="9"
+					:min="1"
+					disable-reset
+				/>
 			</div>
 		</CommonModal>
 	</div>

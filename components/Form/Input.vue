@@ -165,6 +165,7 @@ export default {
 		label {
 			display: flex;
 			width: 100%;
+			flex-direction: column;
 		}
 
 		.formInput__label {
