@@ -1,33 +1,31 @@
 <template>
 	<portal v-if="visible" to="modal">
-		<transition appear name="modal-load" @leave="onLeave">
-			<div class="modal">
-				<div class="modal__content" :class="modalClass">
-					<div class="modal__contentInner">
-						<slot />
+		<div class="modal">
+			<div class="modal__content" :class="modalClass">
+				<div class="modal__contentInner">
+					<slot />
+				</div>
+				<div class="modal__footer">
+					<div v-if="!confirmHidden" class="le-flex le-padding-h">
+						<CommonButton
+							:state="confirmState"
+							block
+							:disabled="submitting || confirmDisabled"
+							:loading="submitting"
+							@click="onConfirm()"
+						>
+							{{ confirmLabel }}
+						</CommonButton>
 					</div>
-					<div class="modal__footer">
-						<div v-if="!confirmHidden" class="le-flex le-padding-h">
-							<CommonButton
-								:state="confirmState"
-								block
-								:disabled="submitting || confirmDisabled"
-								:loading="submitting"
-								@click="onConfirm()"
-							>
-								{{ confirmLabel }}
-							</CommonButton>
-						</div>
-						<div v-if="!closeHidden" class="le-flex le-padding-h">
-							<CommonButton inline block :state="closeState" :disabled="submitting || closeDisabled" @click="onClose()">
-								{{ closeLabel }}
-							</CommonButton>
-						</div>
+					<div v-if="!closeHidden" class="le-flex le-padding-h">
+						<CommonButton inline block :state="closeState" :disabled="submitting || closeDisabled" @click="onClose()">
+							{{ closeLabel }}
+						</CommonButton>
 					</div>
 				</div>
-				<div v-if="overlay" class="overlay" @click="overlayClick()" />
 			</div>
-		</transition>
+			<div v-if="overlay" class="overlay" @click="overlayClick()" />
+		</div>
 	</portal>
 </template>
 <script>
@@ -146,11 +144,6 @@ export default {
 			await this.close(this);
 
 			this.closeModal();
-		},
-		onLeave (el, done) {
-			setTimeout(() => {
-				done();
-			}, 800);
 		}
 	}
 }
