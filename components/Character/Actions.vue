@@ -1,18 +1,37 @@
 <template>
 	<div class="characterActions">
-		<div v-for="(actionSection, key) in actions" :key="key" class="characterActions__column">
-			<div class="characterActions__columnLabel">
-				{{ key | humanize }}
-			</div>
-			<div class="characterActions__actions">
-				<div v-for="(action, actionKey) in actionSection" :key="actionKey" class="characterActions__action">
-					<CommonButton :state="action.type === 'custom' ? 'special' : 'primary'" gradient @click="onActionClick(actionKey, action)">
-						{{ actionKey | humanize }}
-					</CommonButton>
+		<div class="characterActions__filter">
+			<FormInput
+				v-model.trim="actionFilter"
+				name="actionFilter"
+				label="Filter"
+				:original-value="null"
+			/>
+		</div>
+		<div class="st-flex">
+			<div v-for="(actionSection, key) in actions" :key="key" class="characterActions__column">
+				<div class="characterActions__columnLabel">
+					{{ key | humanize }}
+				</div>
+				<div class="characterActions__actions">
+					<div
+						v-for="(action, actionKey) in actionSection"
+						:key="actionKey"
+						class="characterActions__action"
+					>
+						<CommonButton
+							:disabled="!action.highlight"
+							:state="action.type === 'custom' ? 'special' : 'primary'"
+							gradient
+							@click="onActionClick(actionKey, action)"
+						>
+							{{ action.label }}
+						</CommonButton>
+					</div>
 				</div>
 			</div>
+			<CharacterActionsOutput :output="output" />
 		</div>
-		<CharacterActionsOutput :output="output" />
 		<CommonModal
 			name="diceRollModal"
 			confirm-label="Roll"
@@ -53,7 +72,7 @@
 </template>
 <script>
 import { mapActions } from "vuex";
-import { get } from "lodash";
+import { get, reduce } from "lodash";
 import { decodeHealthValue } from "@/utils/parsers";
 import { healthLevels } from "@/data/status";
 import * as disciplines from "@/data/advantages/disciplines";
@@ -91,8 +110,8 @@ export default {
 	},
 	data () {
 		return {
-			actions,
 			output: [],
+			actionFilter: null,
 			rollConfig: {
 				...defaultRollConfig
 			}
@@ -101,6 +120,34 @@ export default {
 	computed: {
 		characterName () {
 			return get(this.data, "details.info.name", null);
+		},
+		actions () {
+			const filterRegex = new RegExp(this.actionFilter, "i");
+
+			return reduce(actions, (acc, actionGroup, key) => ({
+				...acc,
+				[key]: reduce(actionGroup, (acc2, action, actionKey) => {
+					let label = humanize(actionKey);
+					let highlight = true;
+
+					if (this.actionFilter) {
+						if (filterRegex.test(label)) {
+							label = label.replace(filterRegex, m => `**${m}**`);
+						} else {
+							highlight = false;
+						}
+					}
+
+					return {
+						...acc2,
+						[actionKey]: {
+							...action,
+							label,
+							highlight
+						}
+					};
+				}, {})
+			}), {});
 		},
 		stats () {
 			return {
@@ -300,6 +347,7 @@ export default {
 <style lang="scss">
 .characterActions {
 	display: flex;
+	flex-direction: column;
 	height: 100%;
 	padding: $gap * 2 $gap;
 

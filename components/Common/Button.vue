@@ -1,7 +1,9 @@
 <template>
 	<div :class="componentClass">
 		<button :type="type" :disabled="disabled" @click="onClick">
-			<slot />
+			<CommonMarkdown>
+				<slot />
+			</CommonMarkdown>
 		</button>
 	</div>
 </template>
@@ -65,6 +67,14 @@ export default {
 </script>
 <style lang="scss">
 	.button {
+		&--disabled {
+			opacity: 0.8;
+
+			button:before {
+				opacity: 0.5;
+			}
+		}
+
 		button {
 			background: none;
 			padding: math.div($gap, 2) $gap;
@@ -87,10 +97,13 @@ export default {
 			}
 
 			&:disabled {
-				opacity: 0.8;
 				color: $grey;
 				box-shadow: none;
 				cursor: default;
+			}
+
+			p {
+				margin: 0;
 			}
 		}
 
