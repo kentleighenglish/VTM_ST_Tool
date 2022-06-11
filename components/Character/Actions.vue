@@ -148,10 +148,15 @@ export default {
 				conscience: get(this.data, "advantages.virtues.conscienceConviction", 0),
 				courage: get(this.data, "advantages.virtues.courage", 0),
 				selfControl: get(this.data, "advantages.virtues.selfControl", 0),
-				...Object.keys(disciplines).reduce((acc, key) => ({
-					...acc,
-					[key]: get(this.data, `advantages.disciplines.list.${key}`, 0)
-				}), {})
+				...Object.keys(disciplines)
+					.filter((key) => {
+						const { _custom = {}, ...charDisciplines } = get(this.data, "advantages.disciplines.list", []);
+						return [...Object.keys(charDisciplines), ...Object.keys(_custom)].includes(key);
+					})
+					.reduce((acc, key) => ({
+						...acc,
+						[key]: get(this.data, `advantages.disciplines.list.${key}`, 0)
+					}), {})
 			}
 		},
 		statsOptions () {
