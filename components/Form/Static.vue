@@ -12,6 +12,10 @@ export default {
 		meta: {
 			type: Object,
 			default: () => ({})
+		},
+		name: {
+			type: String,
+			default: null
 		}
 	},
 	computed: {
