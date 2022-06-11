@@ -20,7 +20,8 @@ export default {
 		items: [
 			{ label: "Home", path: "/" },
 			{ label: "Characters", path: "/characters" },
-			{ label: "Create Character", path: "/characters/create" }
+			{ label: "Create Character", path: "/characters/create" },
+			{ label: "Scene", path: "/scene" }
 		]
 	}),
 	computed: {
