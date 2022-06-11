@@ -104,7 +104,7 @@ export default {
 			}, dot);
 		},
 		resetValue (value) {
-			this.$emit("input", value);
+			this.$emit("input", this.originalValue);
 		},
 		updateValue (e, value) {
 			const index = Math.max(value, 0);
