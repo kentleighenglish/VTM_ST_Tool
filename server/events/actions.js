@@ -4,21 +4,12 @@ import humanize from "../../filters/humanize";
 import * as m from "../mongo";
 import debug from "../debug";
 
-import { decodeHealthValue, getStats } from "@/utils/parsers";
-import { healthLevels } from "@/data/status";
+import { getHealthMod, getStats } from "@/utils/parsers";
 import { rollDice } from "@/data/actions/_utils";
 // import * as disciplines from "@/data/advantages/disciplines";
 // import * as merits from "@/data/status/merits";
 // import * as flaws from "@/data/status/flaws";
 import actions from "@/data/actions";
-
-const getHealthMod = (sheet) => {
-	const healthArray = decodeHealthValue(get(sheet, "status.other.health", null));
-
-	const healthStatus = (healthLevels[healthArray.length - 1] || {});
-
-	return healthStatus.dicePoolMod || 0;
-};
 
 const getSuccesses = (diceResult, difficulty = 6) => {
 	const successes = diceResult.reduce((acc, roll) => {
@@ -50,10 +41,10 @@ export const triggerAction = async ({ socket, io, data = {}, callback }) => {
 			group,
 			name,
 			type,
-			stat1 = "",
-			stat2 = "nonexistantvalue",
-			difficulty
-			// mods = []
+			stat1,
+			stat2,
+			difficulty,
+			mods = []
 		} = data;
 
 		const character = await m.characters.fetch({ id: characterId });
@@ -77,7 +68,7 @@ export const triggerAction = async ({ socket, io, data = {}, callback }) => {
 		dicePool = Math.max(dicePool + healthMod, 1);
 
 		if (type === "custom") {
-			result = action.getOutput({ stats });
+			result = action.getOutput({ sheet: character.sheet, stats, mods });
 		} else {
 			result = rollDice(dicePool);
 

@@ -1,12 +1,39 @@
+import { getHealthStatus } from "@/utils/parsers";
+
 export const movement = {
 	type: "custom",
 	rollStats: ["dexterity"],
-	getOutput: ({ stats, mods }) => {
-		let base = 20;
+	getOutput: ({ stats, sheet, mods }) => {
+		const base = 20;
+		const healthStatus = getHealthStatus(sheet);
 
-		base += (stats.dexterity || 0) * 3;
+		let dots = stats.dexterity;
+		if (stats.celerity) {
+			dots += stats.celerity;
+		}
 
-		return `${base} yard${base > 1 ? "s" : ""}`;
+		let moveSpeed = base + (dots || 0) * 3;
+		console.log(healthStatus);
+
+		switch (healthStatus.label) {
+		case "Injured":
+			moveSpeed = Math.floor(base / 2);
+			break;
+		case "Wounded":
+			moveSpeed = 7;
+			break;
+		case "Mauled":
+			moveSpeed = 3;
+			break;
+		case "Crippled":
+			moveSpeed = 1;
+			break;
+		case "Incapacitated":
+			moveSpeed = 0;
+			break;
+		}
+
+		return `${moveSpeed} yard${moveSpeed > 1 ? "s" : ""}`;
 	}
 }
 

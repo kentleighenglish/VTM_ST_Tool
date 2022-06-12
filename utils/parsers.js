@@ -1,5 +1,6 @@
 import { get } from "lodash";
-import * as disciplines from "../data/advantages/disciplines";
+import * as disciplines from "@/data/advantages/disciplines";
+import { healthLevels } from "@/data/status";
 
 export const decodeHealthValue = (value) => {
 	const splitVal = String(value || 0).split("").reverse();
@@ -24,6 +25,16 @@ export const encodeHealthValue = (array = []) => {
 		return acc;
 	}, 0);
 }
+
+export const getHealthStatus = (sheet) => {
+	const healthArray = decodeHealthValue(get(sheet, "status.other.health", null));
+
+	const healthStatus = (healthLevels[healthArray.length - 1] || {});
+
+	return healthStatus;
+}
+
+export const getHealthMod = sheet => getHealthStatus(sheet).dicePoolMod || 0;
 
 export const getStats = charSheet => ({
 	strength: get(charSheet, "attributes.physical.strength", 0),
