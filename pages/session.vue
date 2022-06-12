@@ -1,7 +1,15 @@
 <template>
 	<div class="sessionPage">
 		<div class="sessionPage__characters">
-			<div v-for="c in sessionCharacters" :key="c.id" :class="characterClass(c)" @click="selectCharacter(c.id)">
+			<div v-if="!sessionCharacters.length">
+				No characters in session
+			</div>
+			<div
+				v-for="c in sessionCharacters"
+				:key="c.id"
+				:class="characterClass([selectedCharacterId], c)"
+				@click="selectCharacter(c.id)"
+			>
 				<div class="character__avatar">
 					<img :src="c.image" :width="40">
 				</div>
@@ -18,11 +26,39 @@
 				{{ selectedCharacter.name }}
 			</h2>
 		</div>
+		<div class="sessionPage__controls">
+			<CommonButton state="primary" @click="openModal('addSessionCharacter')">
+				Add Characters
+			</CommonButton>
+			<CommonButton state="primary">
+				Reset Scene
+			</CommonButton>
+		</div>
 		<div class="sessionPage__actions">
 			<GlobalActions v-if="selectedCharacter" :character-id="selectedCharacterId" />
 		</div>
 
-		<CommonModal name="addSessionCharacter">
+		<CommonModal
+			name="addSessionCharacter"
+			confirm-label="Add Characters"
+			:confirm="addCharacters"
+			:close="resetAddCharacters"
+		>
+			<div class="addCharactersList">
+				<div
+					v-for="c in sessionAddCharacters"
+					:key="c.id"
+					:class="characterClass(charactersToAdd, c)"
+					@click="toggleCharacterToAdd(c.id)"
+				>
+					<div class="character__avatar">
+						<img :src="c.image" :width="40">
+					</div>
+					<div class="character__name">
+						<span>{{ c.name }}</span>
+					</div>
+				</div>
+			</div>
 		</CommonModal>
 	</div>
 </template>
@@ -35,7 +71,8 @@ export default {
 	name: "SessionPage",
 	data: () => ({
 		filter: {},
-		selectedCharacterId: null
+		selectedCharacterId: null,
+		charactersToAdd: []
 	}),
 	computed: {
 		...mapState({
@@ -76,28 +113,42 @@ export default {
 	},
 	methods: {
 		...mapActions({
+			openModal: "openModal",
 			loadAll: "characters/loadAll",
+			loadSession: "session/fetchSession",
 			addSessionCharacter: "session/addSessionCharacter",
 			removeSessionCharacter: "session/removeSessionCharacter"
 		}),
 		onLoad () {
 			this.loadAll({ filter: this.filter });
+			this.loadSession();
 		},
-		characterClass (char) {
+		characterClass (selected = [], char) {
 			return makeClassMods("sessionPage__character", {
-				selected: char => char.id === this.selectedCharacter
+				selected: char => selected.includes(char.id)
 			}, char)
 		},
 		selectCharacter (id) {
 			this.selectedCharacterId = id;
 		},
-		addCharacter (id) {
-			this.addSessionCharacter({ id });
+		resetAddCharacters () {
+			this.charactersToAdd = [];
 		},
-		removeCharacter ($event, id) {
-			console.log($event);
-
+		addCharacters () {
+			this.addSessionCharacter({ id: this.charactersToAdd });
+			this.resetAddCharacters();
+		},
+		removeCharacter (id) {
 			this.removeSessionCharacter({ id });
+		},
+		toggleCharacterToAdd (id) {
+			const index = this.charactersToAdd.indexOf(id);
+
+			if (index === -1) {
+				this.charactersToAdd.push(id);
+			} else {
+				this.charactersToAdd.splice(index, 1);
+			}
 		}
 	}
 }
@@ -110,6 +161,7 @@ export default {
 	"characters actions";
 	grid-template-columns: 400px minmax(0, 1fr);
 	grid-template-rows: auto minmax(0, 1fr);
+	grid-gap: $gap;
 
 	&__characters {
 		display: flex;
@@ -125,6 +177,11 @@ export default {
 		@include realShadow($grey-dark);
 		background: $grey-lighter;
 		border-radius: $global-border-radius;
+	}
+
+	&__controls {
+		display: flex;
+		grid-area: controls;
 	}
 
 	&__character {

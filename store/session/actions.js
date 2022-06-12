@@ -44,3 +44,21 @@ export const removeSessionCharacter = async ({ commit, dispatch, rootState }, { 
 		});
 	});
 }
+
+export const fetchSession = async ({ commit, dispatch, rootState }) => {
+	const { socket, events } = rootState.socket;
+
+	await new Promise((resolve) => {
+		socket().emit(events.rooms.fetchSession, {}, (error, { session }) => {
+			if (error) {
+				globalPushMessage(dispatch)({
+					type: "error",
+					body: error.message || error
+				});
+			}
+			commit(updateSessionType, { session });
+
+			resolve();
+		});
+	});
+}

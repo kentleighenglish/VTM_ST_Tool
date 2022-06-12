@@ -15,22 +15,19 @@ const defaultSession = {
 
 export const updateSession = async (session = {}) => {
 	try {
-		const response = await run(
+		await run(
 			db =>
 				new Promise((resolve, reject) =>
 					db.collection(COLLECTION).updateOne(
 						{ ref: "session" },
 						{ $set: session },
+						{ upsert: true },
 						(err, result) => (err ? reject(err) : resolve(result.insertedId))
 					)
 				)
 		);
 
-		if (response) {
-			return await fetchSession();
-		}
-
-		return null;
+		return await fetchSession();
 	} catch (e) {
 		return null;
 	}
