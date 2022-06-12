@@ -2,21 +2,15 @@
 	<FormRootModel>
 		<div class="statusDotsInput">
 			<span v-if="label" class="statusDotsInput__label">{{ label }}</span>
-			<div v-if="maxDots" class="statusDots">
-				<div
-					v-for="i in maxDots"
-					:key="i"
-					:class="{
-						'statusDots__dot': true,
-						'statusDots__dot--filled': isDotFilled(i),
-						'statusDots__dot--interstitial': isDotInterstitial(i)
-					}"
-					@mouseover="dotHover(i)"
-					@mouseleave="clearDotHover()"
-					@click="updateValue($event, i)"
-				>
-					<div class="statusDots__dotInner" />
-				</div>
+			<div v-if="maxDots" class="statusDots__Dots">
+				<CommonStatusDots
+					:max-dots="maxDots"
+					:max-allowed="maxDots"
+					:current-value="model"
+					@click="updateValue"
+					@hover="onDotHover"
+					@leave="onDotLeave"
+				/>
 			</div>
 		</div>
 	</FormRootModel>
@@ -93,7 +87,7 @@ export default {
 		isDotInterstitial (i) {
 			return this.model >= i;
 		},
-		dotHover (i) {
+		onDotHover (i) {
 			const { description } = this.meta;
 			if (description) {
 				const text = typeof description === "function" ? description(this.name, i) : description;
@@ -101,9 +95,9 @@ export default {
 				this.updateMetaField({ text });
 			}
 		},
-		clearDotHover () {
+		onDotLeave () {
 		},
-		updateValue (e, value) {
+		updateValue (value) {
 			if (value === 1 && this.model === 1) {
 				this.$emit("input", 0);
 			} else {
@@ -123,47 +117,6 @@ export default {
 
 	&__label {
 		display: flex;
-	}
-
-	&__clear {
-		position: absolute;
-		top: 0;
-		left: 0;
-		width: 12px;
-		height: 12px;
-		margin: math.div($gap, 4);
-		background: $grey-lightest;
-		cursor: pointer;
-
-		&:before {
-			display: block;
-			content: "X";
-			position: absolute;
-			font-size: 18px;
-			line-height: 15px;
-		}
-	}
-
-	.statusDots {
-		display: grid;
-		grid-template-columns: repeat(10, minmax(0, 1fr));
-
-		&__dot {
-			cursor: pointer;
-			padding: 4px;
-
-			&--filled {
-				.statusDots__dotInner {
-					background: $grey-dark;
-				}
-			}
-		}
-
-		&__dotInner {
-			width: 12px;
-			height: 12px;
-			border: 1px solid $grey-dark;
-		}
 	}
 }
 </style>

@@ -33,7 +33,7 @@
 		</div>
 		<div class="globalActions__output">
 			<CommonSticky :offset-top="80">
-				<GlobalActionsMods />
+				<GlobalActionsMods :character-id="characterId" />
 				<GlobalActionsOutput :output="output" />
 			</CommonSticky>
 		</div>
