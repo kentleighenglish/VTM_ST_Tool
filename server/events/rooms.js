@@ -1,3 +1,4 @@
+import * as m from "../mongo";
 
 const roomId = id => `sheet_${id}`;
 
@@ -41,4 +42,24 @@ export const updateRoom = async ({ socket, io, data = {} }) => {
 
 		socket.to(room).emit("updateTriggered", { sockets, updateAvailable, xpUpdateAvailable });
 	}
+}
+
+export const addSessionCharacter = async ({ socket, io, data = {} }) => {
+	const session = await m.rooms.fetchSession();
+
+	const characters = (session.characters || []);
+	characters.push(data.id);
+
+	await m.rooms.updateSession({ ...session, characters });
+}
+
+export const removeSessionCharacter = async ({ socket, io, data = {} }) => {
+	const session = await m.rooms.fetchSession();
+
+	const characters = (session.characters || []);
+	const index = characters.indexOf(data.id);
+
+	characters.splice(index, 1);
+
+	await m.rooms.updateSession({ ...session, characters });
 }
