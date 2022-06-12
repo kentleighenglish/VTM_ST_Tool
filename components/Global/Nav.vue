@@ -21,7 +21,7 @@ export default {
 			{ label: "Home", path: "/" },
 			{ label: "Characters", path: "/characters" },
 			{ label: "Create Character", path: "/characters/create" },
-			{ label: "Scene", path: "/scene" }
+			{ label: "Session", path: "/session" }
 		]
 	}),
 	computed: {

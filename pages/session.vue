@@ -1,7 +1,7 @@
 <template>
-	<div class="scenePage">
-		<div class="scenePage__characters">
-			<div v-for="c in sceneCharacters" :key="c.id" :class="characterClass(c)" @click="selectedCharacter = c.id">
+	<div class="sessionPage">
+		<div class="sessionPage__characters">
+			<div v-for="c in sessionCharacters" :key="c.id" :class="characterClass(c)" @click="selectedCharacter = c.id">
 				<div class="character__avatar">
 					<img :src="c.image" :width="40">
 				</div>
@@ -10,12 +10,14 @@
 				</div>
 			</div>
 		</div>
-		<div class="scenePage__charName">
+		<div class="sessionPage__charName">
 			<h2 v-if="selectedCharacter">{{ parsedCharacters.find(c => c.id === selectedCharacter).name }}</h2>
 		</div>
-		<div class="scenePage__actions">
+		<div class="sessionPage__actions">
 			<GlobalActions v-if="selectedCharacter" :character-id="selectedCharacter" />
 		</div>
+		<CommonModal name="addSessionCharacter">
+		</CommonModal>
 	</div>
 </template>
 <script>
@@ -24,7 +26,7 @@ import { mapState, mapActions } from "vuex";
 import { makeClassMods } from "@/mixins/classModsMixin";
 
 export default {
-	name: "ScenePage",
+	name: "SessionPage",
 	data: () => ({
 		filter: {},
 		selectedCharacter: null
@@ -46,7 +48,12 @@ export default {
 				}
 			]), []);
 		},
-		sceneCharacters () {
+		sessionCharacters () {
+			return this.parsedCharacters.filter((char) => {
+				return !!char.id;
+			});
+		},
+		sessionAddCharacters () {
 			return this.parsedCharacters.filter((char) => {
 				return !!char.id;
 			});
@@ -63,7 +70,7 @@ export default {
 			this.loadAll({ filter: this.filter });
 		},
 		characterClass (char) {
-			return makeClassMods("scenePage__character", {
+			return makeClassMods("sessionPage__character", {
 				selected: char => char.id === this.selectedCharacter
 			}, char)
 		}
@@ -71,7 +78,7 @@ export default {
 }
 </script>
 <style lang="scss">
-.scenePage {
+.sessionPage {
 	display: grid;
 	grid-template-areas: "characters controls"
 	"characters charName"
