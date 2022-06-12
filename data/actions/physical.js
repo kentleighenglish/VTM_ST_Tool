@@ -13,7 +13,6 @@ export const movement = {
 		}
 
 		let moveSpeed = base + (dots || 0) * 3;
-		console.log(healthStatus);
 
 		switch (healthStatus.label) {
 		case "Injured":
