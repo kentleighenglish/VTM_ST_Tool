@@ -1,14 +1,31 @@
-export * as assamite from "./assamite";
-export * as brujah from "./brujah";
-export * as followersOfSet from "./followersOfSet";
-export * as gangrel from "./gangrel";
-export * as giovanni from "./giovanni";
-export * as lasombra from "./lasombra";
-export * as malkavian from "./malkavian";
-export * as nosferatu from "./nosferatu";
-export * as ravnos from "./ravnos";
-export * as salubri from "./salubri";
-export * as toreador from "./toreador";
-export * as tremere from "./tremere";
-export * as tzimisce from "./tzimisce";
-export * as ventrue from "./ventrue";
+import * as assamite from "./assamite";
+import * as brujah from "./brujah";
+import * as followersOfSet from "./followersOfSet";
+import * as gangrel from "./gangrel";
+import * as giovanni from "./giovanni";
+import * as lasombra from "./lasombra";
+import * as malkavian from "./malkavian";
+import * as nosferatu from "./nosferatu";
+import * as ravnos from "./ravnos";
+import * as salubri from "./salubri";
+import * as toreador from "./toreador";
+import * as tremere from "./tremere";
+import * as tzimisce from "./tzimisce";
+import * as ventrue from "./ventrue";
+
+export {
+	assamite,
+	brujah,
+	followersOfSet,
+	gangrel,
+	giovanni,
+	lasombra,
+	malkavian,
+	nosferatu,
+	ravnos,
+	salubri,
+	toreador,
+	tremere,
+	tzimisce,
+	ventrue
+}

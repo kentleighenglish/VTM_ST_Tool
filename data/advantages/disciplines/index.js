@@ -1,19 +1,41 @@
-export * as animalism from "./animalism";
-export * as auspex from "./auspex";
-export * as celerity from "./celerity";
-export * as chimerstry from "./chimerstry";
-export * as dementation from "./dementation";
-export * as dominate from "./dominate";
-export * as fortitude from "./fortitude";
-export * as necromancy from "./necromancy";
-export * as obeah from "./obeah";
-export * as obfuscate from "./obfuscate";
-export * as obtenebration from "./obtenebration";
-export * as potence from "./potence";
-export * as presence from "./presence";
-export * as protean from "./protean";
-export * as quietus from "./quietus";
-export * as serpentis from "./serpentis";
-export * as thaumaturgy from "./thaumaturgy";
-export * as valeren from "./valeren";
-export * as vicissitude from "./vicissitude";
+import * as animalism from "./animalism";
+import * as auspex from "./auspex";
+import * as celerity from "./celerity";
+import * as chimerstry from "./chimerstry";
+import * as dementation from "./dementation";
+import * as dominate from "./dominate";
+import * as fortitude from "./fortitude";
+import * as necromancy from "./necromancy";
+import * as obeah from "./obeah";
+import * as obfuscate from "./obfuscate";
+import * as obtenebration from "./obtenebration";
+import * as potence from "./potence";
+import * as presence from "./presence";
+import * as protean from "./protean";
+import * as quietus from "./quietus";
+import * as serpentis from "./serpentis";
+import * as thaumaturgy from "./thaumaturgy";
+import * as valeren from "./valeren";
+import * as vicissitude from "./vicissitude";
+
+export {
+	animalism,
+	auspex,
+	celerity,
+	chimerstry,
+	dementation,
+	dominate,
+	fortitude,
+	necromancy,
+	obeah,
+	obfuscate,
+	obtenebration,
+	potence,
+	presence,
+	protean,
+	quietus,
+	serpentis,
+	thaumaturgy,
+	valeren,
+	vicissitude
+}
