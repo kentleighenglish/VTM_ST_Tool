@@ -44,16 +44,18 @@ export const updateRoom = async ({ socket, io, data = {} }) => {
 	}
 }
 
-export const addSessionCharacter = async ({ socket, io, data = {} }) => {
+export const addSessionCharacter = async ({ socket, io, data = {}, callback }) => {
 	const session = await m.rooms.fetchSession();
 
 	const characters = (session.characters || []);
 	characters.push(data.id);
 
-	await m.rooms.updateSession({ ...session, characters });
+	const updatedSession = await m.rooms.updateSession({ ...session, characters });
+
+	callback(null, { session: updatedSession });
 }
 
-export const removeSessionCharacter = async ({ socket, io, data = {} }) => {
+export const removeSessionCharacter = async ({ socket, io, data = {}, callback }) => {
 	const session = await m.rooms.fetchSession();
 
 	const characters = (session.characters || []);
@@ -61,5 +63,7 @@ export const removeSessionCharacter = async ({ socket, io, data = {} }) => {
 
 	characters.splice(index, 1);
 
-	await m.rooms.updateSession({ ...session, characters });
+	const updatedSession = await m.rooms.updateSession({ ...session, characters });
+
+	callback(null, { session: updatedSession });
 }

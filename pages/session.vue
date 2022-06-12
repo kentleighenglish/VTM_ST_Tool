@@ -1,12 +1,15 @@
 <template>
 	<div class="sessionPage">
 		<div class="sessionPage__characters">
-			<div v-for="c in sessionCharacters" :key="c.id" :class="characterClass(c)" @click="selectedCharacterId = c.id">
+			<div v-for="c in sessionCharacters" :key="c.id" :class="characterClass(c)" @click="selectCharacter(c.id)">
 				<div class="character__avatar">
 					<img :src="c.image" :width="40">
 				</div>
 				<div class="character__name">
 					<span>{{ c.name }}</span>
+				</div>
+				<div class="character__remove" @click.stop="removeCharacter(c.id)">
+					<CommonIcon>cancel</CommonIcon>
 				</div>
 			</div>
 		</div>
@@ -16,7 +19,7 @@
 			</h2>
 		</div>
 		<div class="sessionPage__actions">
-			<GlobalActions v-if="selectedCharacter" :character-id="selectedCharacter" />
+			<GlobalActions v-if="selectedCharacter" :character-id="selectedCharacterId" />
 		</div>
 
 		<CommonModal name="addSessionCharacter">
@@ -38,6 +41,9 @@ export default {
 		...mapState({
 			characters ({ characters: { characters = [] } }) {
 				return characters;
+			},
+			session ({ session: { session } }) {
+				return session;
 			}
 		}),
 		parsedCharacters () {
@@ -56,12 +62,12 @@ export default {
 		},
 		sessionCharacters () {
 			return this.parsedCharacters.filter((char) => {
-				return !!char.id;
+				return this.session.characters.includes(char.id);
 			});
 		},
 		sessionAddCharacters () {
 			return this.parsedCharacters.filter((char) => {
-				return !!char.id;
+				return !this.session.characters.includes(char.id);
 			});
 		}
 	},
@@ -70,7 +76,9 @@ export default {
 	},
 	methods: {
 		...mapActions({
-			loadAll: "characters/loadAll"
+			loadAll: "characters/loadAll",
+			addSessionCharacter: "session/addSessionCharacter",
+			removeSessionCharacter: "session/removeSessionCharacter"
 		}),
 		onLoad () {
 			this.loadAll({ filter: this.filter });
@@ -79,6 +87,17 @@ export default {
 			return makeClassMods("sessionPage__character", {
 				selected: char => char.id === this.selectedCharacter
 			}, char)
+		},
+		selectCharacter (id) {
+			this.selectedCharacterId = id;
+		},
+		addCharacter (id) {
+			this.addSessionCharacter({ id });
+		},
+		removeCharacter ($event, id) {
+			console.log($event);
+
+			this.removeSessionCharacter({ id });
 		}
 	}
 }
@@ -122,7 +141,27 @@ export default {
 		}
 
 		.character__name {
+			display: flex;
+			width: 100%;
 			margin-left: math.div($gap, 2);
+		}
+
+		.character__remove {
+			cursor: pointer;
+			opacity: 0;
+			pointer-events: none;
+
+			.icon {
+				z-index: 10;
+				color: $danger;
+			}
+		}
+
+		&:hover {
+			.character__remove {
+				opacity: 1;
+				pointer-events: all;
+			}
 		}
 
 		&--selected {
