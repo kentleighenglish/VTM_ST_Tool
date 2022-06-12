@@ -1,6 +1,6 @@
 <template>
-	<div class="characterActions">
-		<div class="characterActions__filter">
+	<div class="globalActions">
+		<div class="globalActions__filter">
 			<FormInput
 				v-model.trim="actionFilter"
 				name="actionFilter"
@@ -9,15 +9,15 @@
 			/>
 		</div>
 		<div class="st-flex">
-			<div v-for="(actionSection, key) in actions" :key="key" class="characterActions__column">
-				<div class="characterActions__columnLabel">
+			<div v-for="(actionSection, key) in actions" :key="key" class="globalActions__column">
+				<div class="globalActions__columnLabel">
 					{{ key | humanize }}
 				</div>
-				<div class="characterActions__actions">
+				<div class="globalActions__actions">
 					<div
 						v-for="(action, actionKey) in actionSection"
 						:key="actionKey"
-						class="characterActions__action"
+						class="globalActions__action"
 					>
 						<CommonButton
 							:disabled="!action.highlight"
@@ -30,14 +30,14 @@
 					</div>
 				</div>
 			</div>
-			<CharacterActionsOutput :output="output" />
+			<GlobalActionsOutput :output="output" />
 		</div>
 		<CommonModal
 			name="diceRollModal"
 			confirm-label="Roll"
 			:confirm="onRoll"
 			:close="onRollCancel"
-			:confirm-disabled="!rollConfig.stat1 || !rollConfig.stat2 || !rollConfig.difficulty"
+			:confirm-disabled="!(rollConfig.stat1 || rollConfig.stat2) || !rollConfig.difficulty"
 		>
 			<div class="st-flex">
 				<div class="st-flex st-padding-h">
@@ -100,7 +100,10 @@ export default {
 		humanize
 	},
 	props: {
-		characterId: String
+		characterId: {
+			type: String,
+			default: null
+		}
 	},
 	data () {
 		return {
@@ -251,7 +254,7 @@ export default {
 }
 </script>
 <style lang="scss">
-.characterActions {
+.globalActions {
 	display: flex;
 	flex-direction: column;
 	height: 100%;

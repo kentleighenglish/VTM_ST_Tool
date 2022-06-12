@@ -27,7 +27,7 @@ import date from "@/filters/date";
 import humanize from "@/filters/humanize";
 
 export default {
-	name: "CharacterActionsOutput",
+	name: "GlobalActionsOutput",
 	filters: {
 		date,
 		humanize
