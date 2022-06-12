@@ -2,6 +2,8 @@ import { get } from "lodash";
 import * as discord from "../discord";
 import humanize from "../../filters/humanize";
 import * as m from "../mongo";
+import debug from "../debug";
+
 import { decodeHealthValue, getStats } from "@/utils/parsers";
 import { healthLevels } from "@/data/status";
 import { rollDice } from "@/data/actions/_utils";
@@ -48,8 +50,8 @@ export const triggerAction = async ({ socket, io, data = {}, callback }) => {
 			group,
 			name,
 			type,
-			stat1,
-			stat2,
+			stat1 = "",
+			stat2 = "nonexistantvalue",
 			difficulty
 			// mods = []
 		} = data;
@@ -65,7 +67,7 @@ export const triggerAction = async ({ socket, io, data = {}, callback }) => {
 
 		const stats = getStats(character.sheet || {});
 
-		let dicePool = stats[stat1] + stats[stat2];
+		let dicePool = get(stats, stat1, 0) + get(stats, stat2, 0);
 
 		let success = {};
 		let result;
@@ -75,7 +77,7 @@ export const triggerAction = async ({ socket, io, data = {}, callback }) => {
 		dicePool = Math.max(dicePool + healthMod, 1);
 
 		if (type === "custom") {
-			result = action.getOutput({ stats: this.stats });
+			result = action.getOutput({ stats });
 		} else {
 			result = rollDice(dicePool);
 
@@ -136,6 +138,7 @@ export const triggerAction = async ({ socket, io, data = {}, callback }) => {
 
 		callback(null, { action: actionResponse });
 	} catch (e) {
+		debug("events:actions", true)("ERROR", e);
 		callback(e.message, null);
 	}
 }
