@@ -169,6 +169,7 @@ export default {
 		if (!this.createMode && this.characterId) {
 			this.loadCharacter({ id: this.characterId });
 			this.joinRoom({ id: this.characterId });
+			this.loadSession();
 		}
 	},
 	beforeDestroy () {
@@ -182,6 +183,7 @@ export default {
 			createCharacter: "characters/create",
 			updateCharacter: "characters/update",
 			loadCharacter: "characters/load",
+			loadSession: "session/fetchSession",
 			rewardXp: "characters/rewardXp",
 			removeXp: "characters/removeXp",
 			uploadAvatar: "characters/uploadAvatar",

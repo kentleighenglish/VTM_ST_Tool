@@ -56,7 +56,6 @@ export default {
 </script>
 <style lang="scss">
 .actionsOutput {
-	width: 500px;
 	height: 100%;
 	flex-shrink: 0;
 	padding: $gap * 2;

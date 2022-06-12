@@ -8,7 +8,7 @@
 				:original-value="null"
 			/>
 		</div>
-		<div class="st-flex">
+		<div class="globalActions__actionsContainer">
 			<div v-for="(actionSection, key) in actions" :key="key" class="globalActions__column">
 				<div class="globalActions__columnLabel">
 					{{ key | humanize }}
@@ -30,7 +30,12 @@
 					</div>
 				</div>
 			</div>
-			<GlobalActionsOutput :output="output" />
+		</div>
+		<div class="globalActions__output">
+			<CommonSticky :offset-top="80">
+				<GlobalActionsMods />
+				<GlobalActionsOutput :output="output" />
+			</CommonSticky>
 		</div>
 		<CommonModal
 			name="diceRollModal"
@@ -255,10 +260,29 @@ export default {
 </script>
 <style lang="scss">
 .globalActions {
-	display: flex;
-	flex-direction: column;
+	display: grid;
+	grid-template-columns: repeat(4, minmax(0, 1fr));
+	grid-template-rows: auto minmax(0, 1fr);
+
+	grid-template-areas: "filter filter filter output"
+	"actions actions actions output"
+	"actions actions actions output";
+
 	height: 100%;
 	padding: $gap * 2 $gap;
+
+	&__filter {
+		grid-area: filter;
+	}
+
+	&__actionsContainer {
+		grid-area: actions;
+		display: flex;
+	}
+
+	&__output {
+		grid-area: output;
+	}
 
 	&__column {
 		display: flex;
