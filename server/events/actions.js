@@ -8,7 +8,7 @@ import { rollDice } from "@/data/actions/_utils";
 // import * as disciplines from "@/data/advantages/disciplines";
 // import * as merits from "@/data/status/merits";
 // import * as flaws from "@/data/status/flaws";
-import * as actions from "@/data/actions";
+import actions from "@/data/actions";
 
 const getHealthMod = (sheet) => {
 	const healthArray = decodeHealthValue(get(sheet, "status.other.health", null));
@@ -42,93 +42,100 @@ const getSuccesses = (diceResult, difficulty = 6) => {
 };
 
 export const triggerAction = async ({ socket, io, data = {}, callback }) => {
-	const {
-		characterId,
-		group,
-		name,
-		type,
-		stat1,
-		stat2,
-		difficulty
-		// mods = []
-	} = data;
+	try {
+		const {
+			characterId,
+			group,
+			name,
+			type,
+			stat1,
+			stat2,
+			difficulty
+			// mods = []
+		} = data;
 
-	const character = await m.characters.fetch({ id: characterId });
-	const action = get(actions, `${group}.${name}`, null);
+		const character = await m.characters.fetch({ id: characterId });
+		const action = get(actions, `${group}.${name}`, null);
 
-	if (!character || !action) {
-		callback(new Error("Could not find character"), null);
+		if (!character || !action) {
+			const msg = character ? "No matching action found" : "Could not find character";
+			callback(new Error(msg).message, null);
+			return;
+		}
+
+		const stats = getStats(character.sheet || {});
+
+		let dicePool = stats[stat1] + stats[stat2];
+
+		let success = {};
+		let result;
+
+		const healthMod = getHealthMod(character.sheet);
+
+		dicePool = Math.max(dicePool + healthMod, 1);
+
+		if (type === "custom") {
+			result = action.getOutput({ stats: this.stats });
+		} else {
+			result = rollDice(dicePool);
+
+			success = getSuccesses(result, difficulty);
+		}
+
+		const characterName = get(character.sheet, "details.info.name", null);
+
+		const actionName = humanize(name);
+
+		const description = type === "diceRoll"
+			? result.reduce((acc, num) => ([
+				...acc,
+				`**${num}**`
+			]), []).join(" + ")
+			: result;
+
+		let successOutput = "```\n" + success.output + "```";
+
+		if (success.status === "botch") {
+			successOutput = "```arm\n" + success.output + "```";
+		} else if (success.status === "crit") {
+			successOutput = "```yaml\n" + success.output + "```";
+		}
+
+		const thumbnailUrl = `https://vtm.ikengainnovations.com/image/${characterId}`;
+		const timestamp = new Date();
+
+		await discord.sendMessage({
+			embeds: [{
+				title: actionName,
+				author: {
+					name: characterName
+				},
+				thumbnail: {
+					url: thumbnailUrl
+				},
+				fields: [{
+					name: "Result",
+					value: `**${successOutput}**`
+				}],
+				description,
+				timestamp
+			}]
+		});
+
+		const actionResponse = {
+			characterName,
+			characterId,
+			name,
+			type,
+			result,
+			successCount: success.count,
+			successStatus: success.status,
+			successOutput: success.output,
+			timestamp
+		};
+
+		callback(null, { action: actionResponse });
+	} catch (e) {
+		callback(e.message, null);
 	}
-
-	const stats = getStats(character.sheet || {});
-
-	let dicePool = stats[stat1] + stats[stat2];
-
-	let success = {};
-	let result;
-
-	const healthMod = getHealthMod(character.sheet);
-
-	dicePool = dicePool + healthMod;
-
-	if (type === "custom") {
-		result = action.getOutput({ stats: this.stats });
-	} else {
-		result = rollDice(dicePool);
-
-		success = getSuccesses(result, difficulty);
-	}
-
-	const characterName = get(character.sheet, "details.info.name", null);
-
-	const actionPayload = {
-		characterName,
-		characterId,
-		name,
-		type,
-		result,
-		successCount: success.count,
-		successStatus: success.status,
-		successOutput: success.output,
-		timestamp: new Date()
-	};
-
-	const actionName = humanize(action.name);
-
-	const description = action.type === "diceRoll"
-		? action.result.reduce((acc, num) => ([
-			...acc,
-			`**${num}**`
-		]), []).join(" + ")
-		: action.result;
-
-	let successOutput = "```\n" + action.successOutput + "```";
-
-	if (action.successStatus === "botch") {
-		successOutput = "```arm\n" + action.successOutput + "```";
-	} else if (action.successStatus === "crit") {
-		successOutput = "```yaml\n" + action.successOutput + "```";
-	}
-
-	const thumbnailUrl = `https://vtm.ikengainnovations.com/image/${characterId}`;
-
-	await discord.sendMessage({
-		embeds: [{
-			title: actionName,
-			author: {
-				name: action.characterName
-			},
-			thumbnail: {
-				url: thumbnailUrl
-			},
-			fields: [{
-				name: "Result",
-				value: `**${successOutput}**`
-			}],
-			description,
-			timestamp: action.date
-		}]
-	});
-
-	callback(null, { action: actionPayload });
 }

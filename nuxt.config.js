@@ -95,7 +95,7 @@ export default {
 
 	// Build Configuration: https://go.nuxtjs.dev/config-build
 	build: {
-		// watch: ["./server/socket.js"]
+		watch: ["server/socket.js"]
 	},
 	server: {
 	},

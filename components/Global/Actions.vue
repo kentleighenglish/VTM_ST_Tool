@@ -238,7 +238,9 @@ export default {
 
 			const action = await this.triggerAction({ ...actionPayload });
 
-			this.output.unshift(action);
+			if (action) {
+				this.output.unshift(action);
+			}
 		},
 		onRollCancel () {
 			this.rollConfig = {
