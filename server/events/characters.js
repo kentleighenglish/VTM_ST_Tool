@@ -1,6 +1,4 @@
 import * as m from "../mongo";
-import humanize from "../../filters/humanize";
-import * as discord from "../discord";
 import { updateRoom } from "./rooms";
 
 export const create = async ({ socket, callback, data: { sheet, xp } = { sheet: {}, xp: {} } }) => {
@@ -75,50 +73,6 @@ export const removeXp = async ({ socket, io, data = {}, callback }) => {
 
 		await fetch({ data: { id }, callback });
 	}
-}
-
-export const saveAction = async ({ socket, io, data = {}, callback }) => {
-	const { action } = data;
-
-	const name = humanize(action.name);
-
-	const description = action.type === "diceRoll"
-		? action.result.reduce((acc, num) => ([
-			...acc,
-			`**${num}**`
-		]), []).join(" + ")
-		: action.result;
-
-	let successOutput = "```\n" + action.successOutput + "```";
-
-	if (action.successStatus === "botch") {
-		successOutput = "```arm\n" + action.successOutput + "```";
-	} else if (action.successStatus === "crit") {
-		successOutput = "```yaml\n" + action.successOutput + "```";
-	}
-
-	const id = action.characterId;
-	const thumbnailUrl = `https://vtm.ikengainnovations.com/image/${id}`;
-
-	await discord.sendMessage({
-		embeds: [{
-			title: name,
-			author: {
-				name: action.characterName
-			},
-			thumbnail: {
-				url: thumbnailUrl
-			},
-			fields: [{
-				name: "Result",
-				value: `**${successOutput}**`
-			}],
-			description,
-			timestamp: action.date
-		}]
-	});
-
-	callback(null, { action });
 }
 
 export const uploadAvatar = async ({ socket, io, data = {}, callback }) => {

@@ -12,6 +12,17 @@ export default {
 	[loadCompleteType] (state, { character, id }) {
 		Vue.set(state, "currentCharacter", character);
 		Vue.set(state, "currentCharacterId", character.id);
+
+		const characters = state.characters;
+		const index = characters.findIndex(c => c.id === character.id);
+
+		if (index === -1) {
+			characters.push(character);
+		} else {
+			characters[index] = character;
+		}
+
+		Vue.set(state, "characters", characters);
 		Vue.set(state.loading, id, false);
 	},
 	[loadAllType] (state) {
