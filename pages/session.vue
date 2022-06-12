@@ -1,7 +1,7 @@
 <template>
 	<div class="sessionPage">
 		<div class="sessionPage__characters">
-			<div v-for="c in sessionCharacters" :key="c.id" :class="characterClass(c)" @click="selectedCharacter = c.id">
+			<div v-for="c in sessionCharacters" :key="c.id" :class="characterClass(c)" @click="selectedCharacterId = c.id">
 				<div class="character__avatar">
 					<img :src="c.image" :width="40">
 				</div>
@@ -11,11 +11,14 @@
 			</div>
 		</div>
 		<div class="sessionPage__charName">
-			<h2 v-if="selectedCharacter">{{ parsedCharacters.find(c => c.id === selectedCharacter).name }}</h2>
+			<h2 v-if="selectedCharacter">
+				{{ selectedCharacter.name }}
+			</h2>
 		</div>
 		<div class="sessionPage__actions">
 			<GlobalActions v-if="selectedCharacter" :character-id="selectedCharacter" />
 		</div>
+
 		<CommonModal name="addSessionCharacter">
 		</CommonModal>
 	</div>
@@ -29,7 +32,7 @@ export default {
 	name: "SessionPage",
 	data: () => ({
 		filter: {},
-		selectedCharacter: null
+		selectedCharacterId: null
 	}),
 	computed: {
 		...mapState({
@@ -47,6 +50,9 @@ export default {
 					name: get(character, "sheet.details.info.name", null)
 				}
 			]), []);
+		},
+		selectedCharacter () {
+			return this.parsedCharacters.find(c => c.id === this.selectedCharacterId);
 		},
 		sessionCharacters () {
 			return this.parsedCharacters.filter((char) => {
