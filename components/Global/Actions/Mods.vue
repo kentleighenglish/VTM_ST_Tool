@@ -1,6 +1,8 @@
 <template>
 	<div class="actionsMods">
-		<CommonButton state="primary">Buff Attribute</CommonButton>
+		<CommonButton state="primary" @click="openBuffModal">
+			Buff Attribute
+		</CommonButton>
 		<div class="st-padding-h">
 			<span>Blood Pool</span>
 			<CommonStatusDots
@@ -9,11 +11,44 @@
 				:current-value="bloodPool"
 			/>
 		</div>
+		<CommonModal
+			name="buffAttributeModal"
+			confirm-label="Buff"
+			:confirm="onBuffAttribute"
+			:confirm-disabled="!buffForm.attribute || !buffForm.buffLevel"
+			:close="resetBuffForm"
+		>
+			<FormInput
+				v-model="buffForm.attribute"
+				type="select"
+				:options="attributes"
+				:disableMetaDisplay="true"
+				@change="resetBuffLevel"
+			/>
+			<FormInput
+				v-model="buffForm.buffLevel"
+				type="number"
+				:max="buffMax"
+				:min="0"
+				:disabled="!buffForm.attribute"
+				:disableMetaDisplay="true"
+			/>
+			<hr />
+			<CommonDots v-if="buffAttributeField" read-only v-bind="buffAttributeField" />
+			<CommonStatusDots
+				:read-only="true"
+				:max-dots="40"
+				:current-value="bloodPool"
+				:debuff="buffForm.buffLevel"
+			/>
+		</CommonModal>
 	</div>
 </template>
 <script>
 import { get } from "lodash";
-import { mapState } from "vuex";
+import { mapState, mapActions } from "vuex";
+import humanize from "@/filters/humanize";
+import * as physicalAttributes from "@/data/attributes/physical";
 
 export default {
 	name: "GlobalActionsMods",
@@ -23,6 +58,12 @@ export default {
 			default: null
 		}
 	},
+	data: () => ({
+		buffForm: {
+			attribute: null,
+			buffLevel: null
+		}
+	}),
 	computed: {
 		...mapState({
 			characterSheet ({ characters: { characters } }) {
@@ -34,8 +75,58 @@ export default {
 				return {};
 			}
 		}),
+		attributes () {
+			const { attributes: { physical = {} } = {} } = this.characterSheet || {};
+
+			return Object.keys(physical).reduce((acc, key) => ({ ...acc, [key]: humanize(key) }), {});
+		},
+		buffAttributeField () {
+			if (this.buffForm.attribute) {
+				const { attribute } = this.buffForm;
+
+				const field = physicalAttributes[attribute];
+				const value = this.characterSheet.attributes.physical[attribute];
+
+				const { maxDots } = field.meta.params;
+
+				return {
+					maxDots: maxDots(this.characterSheet),
+					currentValue: value
+				}
+			}
+
+			return {};
+		},
+		buffMax () {
+			const buffField = this.buffAttributeField;
+			const bloodPool = this.bloodPool;
+
+			return Math.min(bloodPool, buffField.maxDots - buffField.currentValue);
+		},
 		bloodPool () {
 			return get(this.characterSheet, "status.condition.bloodPool", 0);
+		}
+	},
+	methods: {
+		...mapActions({
+			openModal: "openModal",
+			buffAttribute: "session/buffAttribute"
+		}),
+		resetBuffLevel () {
+			this.buffForm.buffLevel = null;
+		},
+		resetBuffForm () {
+			this.buffForm.attribute = null;
+			this.buffForm.buffLevel = null;
+		},
+		openBuffModal () {
+			this.openModal("buffAttributeModal")
+		},
+		async onBuffAttribute () {
+			const { attribute, buffLevel } = this.buffForm;
+			if (attribute && buffLevel) {
+				await this.buffAttribute({ attribute, buffLevel });
+			}
 		}
 	}
 }

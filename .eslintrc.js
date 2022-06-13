@@ -22,6 +22,7 @@ module.exports = {
 		"vue/html-indent": ["error", "tab"],
 		quotes: ["error", "double"],
 		"import/namespace": ["error", { allowComputed: true }],
-		"vue/no-v-html": "off"
+		"vue/no-v-html": "off",
+		"vue/html-self-closing": "off"
 	}
 }

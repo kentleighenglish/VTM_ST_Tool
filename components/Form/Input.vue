@@ -94,6 +94,10 @@ export default {
 			type: [Number, String, Array],
 			default: null
 		},
+		disabled: {
+			type: Boolean,
+			default: false
+		},
 		disableMetaDisplay: Boolean,
 		disableReset: Boolean,
 		createMode: Boolean,
@@ -127,7 +131,7 @@ export default {
 		},
 		isDisabled () {
 			const canEdit = this.meta?.params?.canEdit;
-			return this.disabled || canEdit === undefined ? false : !canEdit;
+			return this.disabled || (canEdit === undefined ? false : !canEdit);
 		}
 	},
 	watch: {
