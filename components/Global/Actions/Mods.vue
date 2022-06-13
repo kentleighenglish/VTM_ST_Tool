@@ -34,12 +34,17 @@
 				:disableMetaDisplay="true"
 			/>
 			<hr />
-			<CommonDots v-if="buffAttributeField" read-only v-bind="buffAttributeField" />
+			<CommonDots
+				v-if="buffAttributeField"
+				read-only
+				:buff="Number(buffForm.buffLevel)"
+				v-bind="buffAttributeField"
+			/>
 			<CommonStatusDots
 				:read-only="true"
 				:max-dots="40"
 				:current-value="bloodPool"
-				:debuff="buffForm.buffLevel"
+				:debuff="Number(buffForm.buffLevel)"
 			/>
 		</CommonModal>
 	</div>
@@ -87,10 +92,11 @@ export default {
 				const field = physicalAttributes[attribute];
 				const value = this.characterSheet.attributes.physical[attribute];
 
-				const { maxDots } = field.meta.params;
+				const maxDots = field.meta.params.maxDots(this.characterSheet);
 
 				return {
-					maxDots: maxDots(this.characterSheet),
+					maxDots,
+					maxAllowed: maxDots,
 					currentValue: value
 				}
 			}

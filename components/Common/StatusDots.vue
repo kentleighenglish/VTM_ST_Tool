@@ -23,7 +23,6 @@ export default {
 	classMod: {
 		baseClass: "statusDots",
 		modifiers: {
-			overspend: vm => vm.hoverDot > vm.maxAllowed,
 			readOnly: vm => vm.readOnly,
 			sm: vm => vm.small
 		}
@@ -48,11 +47,24 @@ export default {
 		small: {
 			type: Boolean,
 			default: false
+		},
+		buff: {
+			type: Number,
+			default: 0
+		},
+		debuff: {
+			type: Number,
+			default: 0
 		}
 	},
 	data: () => ({
 		hoverDot: null
 	}),
+	computed: {
+		dotValue () {
+			return this.currentValue + this.buff
+		}
+	},
 	methods: {
 		onClick (i) {
 			if (!this.readOnly) {
@@ -61,8 +73,10 @@ export default {
 		},
 		dotClass (dotIndex) {
 			return makeClassMods("statusDots__dot", {
-				filled: vm => (vm.hoverDot >= vm.currentValue ? vm.hoverDot : vm.currentValue) >= dotIndex,
-				inactive: vm => vm.maxAllowed < dotIndex
+				filled: vm => vm.currentValue >= dotIndex,
+				inactive: vm => vm.maxAllowed < dotIndex,
+				buff: vm => dotIndex > vm.currentValue && dotIndex <= vm.currentValue + vm.buff,
+				debuff: vm => (dotIndex > (vm.currentValue - vm.debuff)) && dotIndex <= vm.currentValue
 			}, this);
 		},
 		setDotHover (i) {
@@ -100,15 +114,6 @@ export default {
 		}
 	}
 
-	&--overspend {
-		.statusDots__dot--filled {
-			.statusDots__dotInner {
-				background: darken($danger, 10%);
-				border-color: darken($danger, 10%);
-			}
-		}
-	}
-
 	.statusDots {
 		display: grid;
 		grid-template-columns: repeat(10, minmax(0, 1fr));
@@ -120,6 +125,18 @@ export default {
 			&--filled {
 				.statusDots__dotInner {
 					background: $grey-dark;
+				}
+			}
+
+			&--buff {
+				.statusDots__dotInner {
+					background-color: $special-light;;
+				}
+			}
+
+			&--debuff {
+				.statusDots__dotInner {
+					background-color: $danger;
 				}
 			}
 		}

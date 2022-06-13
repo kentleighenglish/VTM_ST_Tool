@@ -48,6 +48,14 @@ export default {
 		small: {
 			type: Boolean,
 			default: false
+		},
+		buff: {
+			type: Number,
+			default: 0
+		},
+		debuff: {
+			type: Number,
+			default: 0
 		}
 	},
 	data: () => ({
@@ -62,7 +70,9 @@ export default {
 		dotClass (dotIndex) {
 			return makeClassMods("dots__dot", {
 				filled: vm => (vm.hoverDot >= vm.currentValue ? vm.hoverDot : vm.currentValue) >= dotIndex,
-				inactive: vm => vm.maxAllowed < dotIndex
+				inactive: vm => vm.maxAllowed < dotIndex,
+				buff: vm => dotIndex > vm.currentValue && dotIndex <= vm.currentValue + vm.buff,
+				debuff: vm => (dotIndex > (vm.currentValue - vm.debuff)) && dotIndex <= vm.currentValue
 			}, this);
 		},
 		setDotHover (i) {
@@ -119,6 +129,19 @@ export default {
 			&--filled {
 				.dots__dotInner {
 					background: $grey-dark;
+				}
+			}
+
+			&--buff {
+				.dots__dotInner {
+					background: $special-light;
+					border-color: $special;
+				}
+			}
+
+			&--debuff {
+				.dots__dotInner {
+					background-color: $danger;
 				}
 			}
 

@@ -6,6 +6,7 @@
 				name="actionFilter"
 				label="Filter"
 				:original-value="null"
+				:disableMetaDisplay="true"
 			/>
 		</div>
 		<div class="globalActions__actionsContainer">

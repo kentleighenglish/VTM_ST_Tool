@@ -22,6 +22,7 @@ $danger: #C95454;
 $warning: #DDA158;
 $success: #9DB260;
 $special: #2E86AB;
+$special-light: lighten($special, 25%);
 
 $bg: $grey-darkest;
 
