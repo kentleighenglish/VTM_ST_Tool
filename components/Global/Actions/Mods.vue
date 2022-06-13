@@ -22,7 +22,7 @@
 				v-model="buffForm.attribute"
 				type="select"
 				:options="attributes"
-				:disableMetaDisplay="true"
+				:disable-meta-display="true"
 				@change="resetBuffLevel"
 			/>
 			<FormInput
@@ -31,7 +31,7 @@
 				:max="buffMax"
 				:min="0"
 				:disabled="!buffForm.attribute"
-				:disableMetaDisplay="true"
+				:disable-meta-display="true"
 			/>
 			<hr />
 			<CommonDots

@@ -22,7 +22,7 @@
 		</CharacterTabs>
 		<CommonModal name="uploadAvatarModal" :confirm="onUploadAvatar" confirm-label="Upload">
 			<img :src="avatar.preview" />
-			<FormInput type="file" accept="image/*" @change="addAvatarImage" disable-meta-display />
+			<FormInput type="file" accept="image/*" disable-meta-display @change="addAvatarImage" />
 		</CommonModal>
 	</div>
 </template>

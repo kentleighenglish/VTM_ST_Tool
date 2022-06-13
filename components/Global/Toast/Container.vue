@@ -1,6 +1,6 @@
 <template>
 	<div class="toastContainer">
-		<div class="toastContainer__messages" v-if="messages.length">
+		<div v-if="messages.length" class="toastContainer__messages">
 			<GlobalToastMessage
 				v-for="message in messages"
 				:key="message.id"
