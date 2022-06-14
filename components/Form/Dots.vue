@@ -7,6 +7,8 @@
 					:max-dots="maxDots"
 					:max-allowed="maxSpendDots"
 					:current-value="model"
+					:buff="buff"
+					:debuff="debuff"
 					@click="updateValue"
 					@hover="onDotHover"
 					@leave="onDotLeave"
@@ -63,6 +65,10 @@ export default {
 		xpSpendReset: {
 			type: Function,
 			default: () => {}
+		},
+		activeMods: {
+			type: Object,
+			default: () => {}
 		}
 	},
 	data: () => ({
@@ -77,6 +83,14 @@ export default {
 		maxSpendDots () {
 			const { maxSpendDots = 0 } = (this.meta?.params || {});
 			return maxSpendDots;
+		},
+		buff () {
+			const mod = this.activeMods[this.name] || 0;
+			return mod > 0 ? mod : 0;
+		},
+		debuff () {
+			const mod = this.activeMods[this.name] || 0;
+			return mod < 0 ? (mod * -1) : 0;
 		}
 	},
 	watch: {

@@ -11,6 +11,7 @@
 					:xp-check="xpCheck"
 					:xp-spend-update="xpSpendUpdate"
 					:xp-spend-reset="xpSpendReset"
+					:active-mods="activeMods"
 				/>
 			</template>
 			<template #powers>
@@ -90,6 +91,9 @@ export default {
 			},
 			metaDisplayLocked ({ metaDisplayLocked }) {
 				return metaDisplayLocked;
+			},
+			activeMods ({ session: { session: { activeMods = {} } } }) {
+				return activeMods[this.characterId] || {};
 			}
 		}),
 		createModeParsed () {
@@ -163,18 +167,18 @@ export default {
 			this.formData = { ...this.loadedCharacter };
 		}
 	},
-	mounted () {
+	async mounted () {
 		this.characterId = this.$route.params.id;
 
 		if (!this.createMode && this.characterId) {
-			this.loadCharacter({ id: this.characterId });
-			this.joinRoom({ id: this.characterId });
-			this.loadSession();
+			await this.loadCharacter({ id: this.characterId });
+			await this.joinRoom({ id: this.characterId });
+			await this.loadSession();
 		}
 	},
-	beforeDestroy () {
+	async beforeDestroy () {
 		if (this.characterId) {
-			this.leaveRoom({ id: this.characterId })
+			await this.leaveRoom({ id: this.characterId })
 		}
 	},
 	methods: {

@@ -13,6 +13,7 @@
 			:xp-check="xpCheck"
 			:xp-spend-update="xpSpendUpdate"
 			:xp-spend-reset="xpSpendReset"
+			:active-mods="activeMods"
 			@input="handleChange(field.data.name, $event)"
 		/>
 	</div>
@@ -77,6 +78,10 @@ export default {
 		},
 		xpSpendReset: {
 			type: Function,
+			default: () => {}
+		},
+		activeMods: {
+			type: Object,
 			default: () => {}
 		}
 	},

@@ -10,6 +10,7 @@
 				:max-dots="40"
 				:current-value="bloodPool"
 			/>
+			{{ activeBuffs }}
 		</div>
 		<CommonModal
 			name="buffAttributeModal"
@@ -73,11 +74,15 @@ export default {
 		...mapState({
 			characterSheet ({ characters: { characters } }) {
 				const char = characters.find(c => c.id === this.characterId);
+				console.log(char);
 
 				if (char) {
 					return (char.sheet || {});
 				}
 				return {};
+			},
+			activeBuffs ({ session: { session } }) {
+				return (session.activeMods || {})[this.characterId];
 			}
 		}),
 		attributes () {
@@ -116,7 +121,8 @@ export default {
 	methods: {
 		...mapActions({
 			openModal: "openModal",
-			buffAttribute: "session/buffAttribute"
+			buffAttribute: "session/buffAttribute",
+			updateCharacter: "characters/update"
 		}),
 		resetBuffLevel () {
 			this.buffForm.buffLevel = null;
@@ -134,6 +140,14 @@ export default {
 				const id = this.characterId;
 
 				await this.buffAttribute({ id, attribute, buffLevel });
+				const updatedSheet = {
+					status: {
+						condition: {
+							bloodPool: this.bloodPool - buffLevel
+						}
+					}
+				}
+				await this.updateCharacter({ id, sheet: updatedSheet });
 			}
 		}
 	}
