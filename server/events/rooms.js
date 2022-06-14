@@ -1,3 +1,4 @@
+import { get, set } from "lodash";
 import * as m from "../mongo";
 
 const roomId = id => `sheet_${id}`;
@@ -71,4 +72,19 @@ export const fetchSession = async ({ callback }) => {
 	const session = await m.rooms.fetchSession();
 
 	callback(null, { session });
+}
+
+export const buffAttribute = async ({ data = {}, callback }) => {
+	const session = await m.rooms.fetchSession();
+	const { id, attribute, buffLevel } = data;
+
+	const { activeMods = {} } = session;
+	const currentLevel = get(activeMods, `${id}.${attribute}`, 0);
+	const newLevel = Number(currentLevel) + Number(buffLevel);
+
+	const newMods = set(activeMods, `${id}.${attribute}`, newLevel);
+
+	const updatedSession = await m.rooms.updateSession({ ...session, activeMods: newMods });
+
+	callback(null, { session: updatedSession });
 }

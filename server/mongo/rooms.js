@@ -1,13 +1,7 @@
 import { merge } from "lodash";
-// import debug from "../debug";
-// import * as cache from "../cache";
 import { run } from "./_utils";
 
 const COLLECTION = "rooms";
-// const CACHE_NAME = "rooms";
-
-// cache.createCache(CACHE_NAME);
-
 const defaultSession = {
 	characters: [],
 	activeMods: {}

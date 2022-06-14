@@ -63,11 +63,11 @@ export const fetchSession = async ({ commit, dispatch, rootState }) => {
 	});
 }
 
-export const buffAttribute = async ({ commit, dispatch, rootState }, { attribute, buffLevel }) => {
+export const buffAttribute = async ({ commit, dispatch, rootState }, { id, attribute, buffLevel }) => {
 	const { socket, events } = rootState.socket;
 
 	await new Promise((resolve) => {
-		socket().emit(events.rooms.buffAttribute, { attribute, buffLevel }, (error, { session }) => {
+		socket().emit(events.rooms.buffAttribute, { id, attribute, buffLevel: Number(buffLevel) }, (error, { session }) => {
 			if (error) {
 				globalPushMessage(dispatch)({
 					type: "error",

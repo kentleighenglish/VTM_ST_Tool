@@ -131,7 +131,9 @@ export default {
 		async onBuffAttribute () {
 			const { attribute, buffLevel } = this.buffForm;
 			if (attribute && buffLevel) {
-				await this.buffAttribute({ attribute, buffLevel });
+				const id = this.characterId;
+
+				await this.buffAttribute({ id, attribute, buffLevel });
 			}
 		}
 	}
