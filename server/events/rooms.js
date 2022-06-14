@@ -61,6 +61,8 @@ export const removeSessionCharacter = async ({ socket, io, data = {}, callback }
 	const characters = (session.characters || []);
 	const index = characters.indexOf(data.id);
 
+	delete session.activeMods[data.id];
+
 	characters.splice(index, 1);
 
 	const updatedSession = await m.rooms.updateSession({ ...session, characters });

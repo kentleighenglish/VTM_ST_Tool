@@ -1,4 +1,4 @@
-import { merge } from "lodash";
+import { cloneDeep, merge } from "lodash";
 import { run } from "./_utils";
 
 const COLLECTION = "rooms";
@@ -31,14 +31,14 @@ export const fetchSession = async () => {
 	try {
 		const session = await run(db => db.collection(COLLECTION).findOne({ ref: "session" }));
 
-		const response = merge(defaultSession, session);
+		const response = merge(cloneDeep(defaultSession), session);
 
 		if (response) {
 			return await response;
 		}
 
-		return defaultSession;
+		return cloneDeep(defaultSession);
 	} catch (e) {
-		return defaultSession;
+		return cloneDeep(defaultSession);
 	}
 }
