@@ -49,6 +49,7 @@ export default {
 			addEvents: "socket/addEvents",
 			updateSocketStatus: "socket/updateSocketStatus",
 			triggerUpdate: "socket/triggerUpdate",
+			updateSession: "session/updateSession",
 			pushMessage: "toast/pushMessage"
 		}),
 		bindEvents (socketIo) {
@@ -74,6 +75,9 @@ export default {
 			});
 			socketIo.on("updateTriggered", ({ sockets = [], updateAvailable = false, xpUpdateAvailable = false }) => {
 				this.triggerUpdate({ sockets, updateAvailable, xpUpdateAvailable });
+			});
+			socketIo.on("sessionUpdated", ({ session }) => {
+				this.updateSession({ session });
 			});
 		}
 	}

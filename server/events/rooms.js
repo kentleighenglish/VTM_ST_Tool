@@ -45,14 +45,15 @@ export const updateRoom = async ({ socket, io, data = {} }) => {
 	}
 }
 
-export const addSessionCharacter = async ({ socket, io, data = {}, callback }) => {
+export const addSessionCharacter = async ({ io, data = {}, callback }) => {
 	const session = await m.rooms.fetchSession();
 
 	const characters = (session.characters || []).concat(data.id || []);
 
 	const updatedSession = await m.rooms.updateSession({ ...session, characters });
 
-	callback(null, { session: updatedSession });
+	io.to("global").emit("sessionUpdated", { session: updatedSession });
+	callback(null, {});
 }
 
 export const removeSessionCharacter = async ({ socket, io, data = {}, callback }) => {
@@ -67,7 +68,8 @@ export const removeSessionCharacter = async ({ socket, io, data = {}, callback }
 
 	const updatedSession = await m.rooms.updateSession({ ...session, characters });
 
-	callback(null, { session: updatedSession });
+	io.to("global").emit("sessionUpdated", { session: updatedSession });
+	callback(null, {});
 }
 
 export const fetchSession = async ({ callback }) => {
@@ -76,15 +78,16 @@ export const fetchSession = async ({ callback }) => {
 	callback(null, { session });
 }
 
-export const resetScene = async ({ callback }) => {
+export const resetScene = async ({ io, callback }) => {
 	const session = await m.rooms.fetchSession();
 
 	const updatedSession = await m.rooms.updateSession({ ...session, activeMods: {} });
 
-	callback(null, { session: updatedSession });
+	io.to("global").emit("sessionUpdated", { session: updatedSession });
+	callback(null, {});
 }
 
-export const buffAttribute = async ({ data = {}, callback }) => {
+export const buffAttribute = async ({ io, data = {}, callback }) => {
 	const session = await m.rooms.fetchSession();
 	const { id, attribute, buffLevel } = data;
 
@@ -96,5 +99,6 @@ export const buffAttribute = async ({ data = {}, callback }) => {
 
 	const updatedSession = await m.rooms.updateSession({ ...session, activeMods: newMods });
 
-	callback(null, { session: updatedSession });
+	io.to("global").emit("sessionUpdated", { session: updatedSession });
+	callback(null, {});
 }

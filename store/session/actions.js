@@ -13,14 +13,13 @@ export const addSessionCharacter = async ({ commit, dispatch, rootState }, { id 
 	const { socket, events } = rootState.socket;
 
 	await new Promise((resolve) => {
-		socket().emit(events.rooms.addSessionCharacter, { id }, (error, { session }) => {
+		socket().emit(events.rooms.addSessionCharacter, { id }, (error) => {
 			if (error) {
 				globalPushMessage(dispatch)({
 					type: "error",
 					body: error.message || error
 				});
 			}
-			commit(updateSessionType, { session });
 
 			resolve();
 		});
@@ -31,14 +30,13 @@ export const removeSessionCharacter = async ({ commit, dispatch, rootState }, { 
 	const { socket, events } = rootState.socket;
 
 	await new Promise((resolve) => {
-		socket().emit(events.rooms.removeSessionCharacter, { id }, (error, { session }) => {
+		socket().emit(events.rooms.removeSessionCharacter, { id }, (error) => {
 			if (error) {
 				globalPushMessage(dispatch)({
 					type: "error",
 					body: error.message || error
 				});
 			}
-			commit(updateSessionType, { session });
 
 			resolve();
 		});
@@ -67,14 +65,13 @@ export const resetScene = async ({ commit, dispatch, rootState }) => {
 	const { socket, events } = rootState.socket;
 
 	await new Promise((resolve) => {
-		socket().emit(events.rooms.resetScene, {}, (error, { session }) => {
+		socket().emit(events.rooms.resetScene, {}, (error) => {
 			if (error) {
 				globalPushMessage(dispatch)({
 					type: "error",
 					body: error.message || error
 				});
 			}
-			commit(updateSessionType, { session });
 
 			resolve();
 		});
@@ -85,16 +82,19 @@ export const buffAttribute = async ({ commit, dispatch, rootState }, { id, attri
 	const { socket, events } = rootState.socket;
 
 	await new Promise((resolve) => {
-		socket().emit(events.rooms.buffAttribute, { id, attribute, buffLevel: Number(buffLevel) }, (error, { session }) => {
+		socket().emit(events.rooms.buffAttribute, { id, attribute, buffLevel: Number(buffLevel) }, (error) => {
 			if (error) {
 				globalPushMessage(dispatch)({
 					type: "error",
 					body: error.message || error
 				});
 			}
-			commit(updateSessionType, { session });
 
 			resolve();
 		});
 	});
+}
+
+export const updateSession = ({ commit }, { session }) => {
+	commit(updateSessionType, { session });
 }

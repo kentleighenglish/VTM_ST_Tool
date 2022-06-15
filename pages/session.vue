@@ -108,12 +108,24 @@ export default {
 			});
 		}
 	},
+	watch: {
+		selectedCharacterId (newId, oldId) {
+			if (newId) {
+				this.joinRoom({ id: newId });
+			}
+			if (oldId) {
+				this.leaveRoom({ id: oldId });
+			}
+		}
+	},
 	mounted () {
 		this.onLoad();
 	},
 	methods: {
 		...mapActions({
 			openModal: "openModal",
+			joinRoom: "socket/joinRoom",
+			leaveRoom: "socket/leaveRoom",
 			loadAll: "characters/loadAll",
 			loadSession: "session/fetchSession",
 			addSessionCharacter: "session/addSessionCharacter",
