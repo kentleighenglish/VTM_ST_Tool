@@ -47,8 +47,11 @@ export const triggerAction = async ({ socket, io, data = {}, callback }) => {
 			mods = []
 		} = data;
 
+		const session = await m.rooms.fetchSession();
 		const character = await m.characters.fetch({ id: characterId });
 		const action = get(actions, `${group}.${name}`, null);
+
+		const activeMods = get(session.activeMods, characterId, {});
 
 		if (!character || !action) {
 			const msg = character ? "No matching action found" : "Could not find character";
@@ -59,6 +62,13 @@ export const triggerAction = async ({ socket, io, data = {}, callback }) => {
 		const stats = getStats(character.sheet || {});
 
 		let dicePool = get(stats, stat1, 0) + get(stats, stat2, 0);
+
+		if (activeMods[stat1]) {
+			dicePool += (activeMods[stat1] || 0);
+		}
+		if (activeMods[stat2]) {
+			dicePool += (activeMods[stat2] || 0);
+		}
 
 		let success = {};
 		let result;

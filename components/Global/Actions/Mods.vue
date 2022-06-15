@@ -85,7 +85,6 @@ export default {
 		...mapState({
 			characterSheet ({ characters: { characters } }) {
 				const char = characters.find(c => c.id === this.characterId);
-				console.log(char);
 
 				if (char) {
 					return (char.sheet || {});
@@ -93,7 +92,7 @@ export default {
 				return {};
 			},
 			activeMods ({ session: { session } }) {
-				return (session.activeMods || {})[this.characterId];
+				return (session.activeMods || {})[this.characterId] || {};
 			}
 		}),
 		attributes () {
