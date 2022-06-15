@@ -76,6 +76,14 @@ export const fetchSession = async ({ callback }) => {
 	callback(null, { session });
 }
 
+export const resetScene = async ({ callback }) => {
+	const session = await m.rooms.fetchSession();
+
+	const updatedSession = await m.rooms.updateSession({ ...session, activeMods: {} });
+
+	callback(null, { session: updatedSession });
+}
+
 export const buffAttribute = async ({ data = {}, callback }) => {
 	const session = await m.rooms.fetchSession();
 	const { id, attribute, buffLevel } = data;

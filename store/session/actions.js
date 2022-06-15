@@ -63,6 +63,24 @@ export const fetchSession = async ({ commit, dispatch, rootState }) => {
 	});
 }
 
+export const resetScene = async ({ commit, dispatch, rootState }) => {
+	const { socket, events } = rootState.socket;
+
+	await new Promise((resolve) => {
+		socket().emit(events.rooms.resetScene, {}, (error, { session }) => {
+			if (error) {
+				globalPushMessage(dispatch)({
+					type: "error",
+					body: error.message || error
+				});
+			}
+			commit(updateSessionType, { session });
+
+			resolve();
+		});
+	});
+}
+
 export const buffAttribute = async ({ commit, dispatch, rootState }, { id, attribute, buffLevel }) => {
 	const { socket, events } = rootState.socket;
 

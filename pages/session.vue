@@ -30,7 +30,7 @@
 			<CommonButton state="primary" @click="openModal('addSessionCharacter')">
 				Add Characters
 			</CommonButton>
-			<CommonButton state="primary">
+			<CommonButton state="primary" @click="resetScene">
 				Reset Scene
 			</CommonButton>
 		</div>
@@ -117,7 +117,8 @@ export default {
 			loadAll: "characters/loadAll",
 			loadSession: "session/fetchSession",
 			addSessionCharacter: "session/addSessionCharacter",
-			removeSessionCharacter: "session/removeSessionCharacter"
+			removeSessionCharacter: "session/removeSessionCharacter",
+			resetScene: "session/resetScene"
 		}),
 		onLoad () {
 			this.loadAll({ filter: this.filter });
