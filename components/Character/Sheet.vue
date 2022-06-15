@@ -13,6 +13,7 @@
 				:xp-spend-update="xpSpendUpdate"
 				:xp-spend-reset="xpSpendReset"
 				:original-value="originalValue.sheet"
+				:active-mods="activeMods"
 				@input="updateValue('sheet', $event)"
 			/>
 		</div>
@@ -54,6 +55,10 @@ export default {
 		xpSpendReset: {
 			type: Function,
 			default: () => {}
+		},
+		activeMods: {
+			type: Object,
+			default: () => ({})
 		}
 	},
 	data: () => ({

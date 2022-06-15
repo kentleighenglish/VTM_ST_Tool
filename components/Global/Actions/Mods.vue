@@ -10,7 +10,18 @@
 				:max-dots="40"
 				:current-value="bloodPool"
 			/>
-			{{ activeBuffs }}
+			<div v-if="activeModsFields.length">
+				<hr />
+				<div v-for="field in activeModsFields" :key="field.key">
+					<span>{{ field.label }}</span>
+					<CommonDots
+						v-for="field in activeModsFields"
+						:key="field.key"
+						read-only
+						v-bind="field"
+					/>
+				</div>
+			</div>
 		</div>
 		<CommonModal
 			name="buffAttributeModal"
@@ -38,7 +49,7 @@
 			<CommonDots
 				v-if="buffAttributeField"
 				read-only
-				:buff="Number(buffForm.buffLevel)"
+				:buff="(activeMods[buffForm.attribute] || 0) + Number(buffForm.buffLevel)"
 				v-bind="buffAttributeField"
 			/>
 			<CommonStatusDots
@@ -81,7 +92,7 @@ export default {
 				}
 				return {};
 			},
-			activeBuffs ({ session: { session } }) {
+			activeMods ({ session: { session } }) {
 				return (session.activeMods || {})[this.characterId];
 			}
 		}),
@@ -108,11 +119,35 @@ export default {
 
 			return {};
 		},
+		activeModsFields () {
+			return Object.keys(this.activeMods).reduce((acc, key) => {
+				const field = physicalAttributes[key];
+				const value = this.characterSheet.attributes.physical[key];
+
+				const maxDots = field.meta.params.maxDots(this.characterSheet);
+				const buff = this.activeMods[key] > 0 ? this.activeMods[key] : 0;
+				const debuff = this.activeMods[key] < 0 ? this.activeMods[key] : 0;
+
+				return [
+					...acc,
+					{
+						key,
+						maxDots,
+						maxAllowed: maxDots,
+						currentValue: value,
+						label: field.label,
+						buff,
+						debuff
+					}
+				];
+			}, []);
+		},
 		buffMax () {
 			const buffField = this.buffAttributeField;
 			const bloodPool = this.bloodPool;
+			const activeMod = this.activeMods[this.buffForm.attribute] || 0;
 
-			return Math.min(bloodPool, buffField.maxDots - buffField.currentValue);
+			return Math.min(bloodPool, buffField.maxDots - buffField.currentValue - activeMod);
 		},
 		bloodPool () {
 			return get(this.characterSheet, "status.condition.bloodPool", 0);

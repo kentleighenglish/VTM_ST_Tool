@@ -82,7 +82,7 @@ export default {
 		},
 		activeMods: {
 			type: Object,
-			default: () => {}
+			default: () => ({})
 		}
 	},
 	data: () => ({
