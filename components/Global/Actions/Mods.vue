@@ -1,5 +1,10 @@
 <template>
-	<div class="actionsMods">
+	<div v-if="!characterInScene" class="actionMods">
+		<strong>Buff stats not available</strong><br />
+		<em>Character must be added to the current scene to buff stats.</em>
+		<br /><br />
+	</div>
+	<div v-else class="actionsMods">
 		<CommonButton state="primary" @click="openBuffModal">
 			Buff Attribute
 		</CommonButton>
@@ -93,6 +98,9 @@ export default {
 			},
 			activeMods ({ session: { session } }) {
 				return (session.activeMods || {})[this.characterId] || {};
+			},
+			characterInScene ({ session: { session } }) {
+				return (session.characters || []).includes(this.characterId);
 			}
 		}),
 		attributes () {
