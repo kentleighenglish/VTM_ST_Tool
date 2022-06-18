@@ -161,9 +161,11 @@ export default {
 			this.model = this.parseValue(v);
 		},
 		parsedOptions (newOpts) {
-			this.updateValue(this.model.filter((key) => {
-				return newOpts.find(opt => opt.key === key);
-			}));
+			if (this.model && this.model.length) {
+				this.updateValue(this.model.filter((key) => {
+					return newOpts.find(opt => opt.key === key);
+				}));
+			}
 		}
 	},
 	created () {

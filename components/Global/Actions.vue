@@ -329,6 +329,10 @@ export default {
 			if (action) {
 				this.output.unshift(action);
 			}
+
+			this.rollConfig = {
+				...defaultRollConfig
+			}
 		},
 		onRollCancel () {
 			this.rollConfig = {
