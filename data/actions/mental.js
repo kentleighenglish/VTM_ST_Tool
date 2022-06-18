@@ -37,3 +37,8 @@ export const tracking = {
 	type: "diceRoll",
 	rollStats: ["perception", "survival"]
 }
+
+export const lookingOut = {
+	type: "diceRoll",
+	rollStats: ["perception", "alertness"]
+}

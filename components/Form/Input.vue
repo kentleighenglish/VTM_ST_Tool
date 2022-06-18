@@ -176,14 +176,25 @@ export default {
 	},
 	methods: {
 		updateValue (value) {
-			if (this.type === "checkbox") {
+			switch (this.type) {
+			case "checkbox": {
 				this.$emit("input", !this.model);
-			} else if (this.type === "select") {
+				break;
+			}
+			case "select": {
 				let parsedModel = Array.isArray(value) ? value : [value];
 				parsedModel = parsedModel.filter(v => !!v).map(v => v.key);
 				this.$emit("input", parsedModel);
-			} else {
+				break;
+			}
+			case "number": {
+				this.$emit("input", Number(value));
+				break;
+			}
+			default: {
 				this.$emit("input", value);
+				break;
+			}
 			}
 		},
 		removeOption (option) {
