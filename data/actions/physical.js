@@ -38,7 +38,7 @@ export const movement = {
 
 export const soak = {
 	type: "diceRoll",
-	rollStats: ["stamina", "fortitude"]
+	rollStats: ["stamina"]
 }
 
 export const dodge = {

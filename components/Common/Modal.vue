@@ -207,7 +207,7 @@ export default {
 		max-width: 100%;
 		max-height: 100%;
 		flex-direction: column;
-		overflow: auto;
+		overflow: visible;
 		transition: transform 0.2s, opacity 0.2s;
 
 		background: $grey-lightest;
@@ -226,7 +226,7 @@ export default {
 		width: 100%;
 		height: 100%;
 		padding: $gap;
-		overflow: auto;
+		overflow: visible;
 
 		h2 {
 			margin: 0;

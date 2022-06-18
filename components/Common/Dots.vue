@@ -144,14 +144,14 @@ export default {
 			&--buff:not(&--filled) {
 				.dots__dotInner {
 					background: $special-alt;
-					border-color: darken($special-alt, 15%);
+					border-color: darken($special-alt, 35%);
 				}
 				&.dots__dot--inactive:not(.dot__dot--filled) {
 					opacity: 1;
 
 					.dots__dotInner {
-						background: lighten($special-alt, 15%);
-						border-color: transparent;
+						border-color: darken($special-alt, 15%);
+						background: fade-out(lighten($special-alt, 5%), 0.5);
 					}
 				}
 			}
