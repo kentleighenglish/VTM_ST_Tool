@@ -47,13 +47,27 @@
 		>
 			<div class="st-flex">
 				<div class="st-flex st-padding-h">
-					<FormInput v-model="rollConfig.stat1" label="Stat 1" type="select" :options="statsOptions" disable-reset />
+					<FormInput
+						v-model="rollConfig.stat1"
+						label="Stat 1"
+						type="select"
+						:options="statsOptions"
+						disable-reset
+						disable-meta-display
+					/>
 				</div>
 				<div class="st-flex st-padding-h">
-					<FormInput v-model="rollConfig.stat2" label="Stat 2" type="select" :options="statsOptions" disable-reset />
+					<FormInput
+						v-model="rollConfig.stat2"
+						label="Stat 2"
+						type="select"
+						:options="statsOptions"
+						disable-reset
+						disable-meta-display
+					/>
 				</div>
 			</div>
-			<div class="st-padding">
+			<div class="st-padding-h">
 				<FormInput
 					v-model="rollConfig.difficulty"
 					label="Difficulty"
@@ -61,17 +75,23 @@
 					:max="9"
 					:min="1"
 					disable-reset
+					disable-meta-display
 				/>
 			</div>
-			<div class="st-padding">
+			<div class="st-padding-h">
 				<FormInput
 					v-model="rollConfig.mods"
 					label="Modifiers"
 					type="select"
 					multiple
 					disable-reset
+					disable-meta-display
 					:options="modsOptions"
 				/>
+			</div>
+			<div class="st-padding-h">
+				<hr class="st-margin-v">
+				<span>Rolling <strong>5d10</strong></span>&nbsp;<span>(Difficulty: <strong>6</strong>)</span>
 			</div>
 		</CommonModal>
 	</div>
@@ -81,6 +101,7 @@ import { mapActions, mapState } from "vuex";
 import { get, reduce } from "lodash";
 import * as merits from "@/data/status/merits";
 import * as flaws from "@/data/status/flaws";
+import * as disciplines from "@/data/advantages/disciplines";
 import humanize from "@/filters/humanize";
 import actions from "@/data/actions";
 import { getStats } from "@/utils/parsers";
@@ -170,43 +191,50 @@ export default {
 		},
 		modsOptions () {
 			const meritsFlawsList = get(this.characterSheet, "status.meritsFlaws.list._custom", {});
+			const { _custom, ...charDisciplines } = get(this.characterSheet, "advantages.disciplines.list", {});
 
-			const meritsFlawsOptions = Object.keys(meritsFlawsList).reduce((acc, key) => {
-				const meritFlaw = meritsFlaws[key];
+			const meritsFlawsOptions = reduce(
+				{ ...charDisciplines, ...meritsFlawsList },
+				(acc, value, key) => {
+					const mod = get(Object.assign({}, meritsFlaws, disciplines), key, null);
 
-				if (meritFlaw) {
-					const { relatedStats, rollModifier } = meritFlaw;
+					if (mod) {
+						const { relatedStats = [], rollModifier = () => ({}) } = mod;
 
-					if (
-						relatedStats.includes(this.rollConfig.stat1) ||
-						relatedStats.includes(this.rollConfig.stat2)
-					) {
-						const mods = [];
-						const { difficulty, pool, success, botch } = rollModifier;
+						if (
+							relatedStats.includes(this.rollConfig.stat1) ||
+							relatedStats.includes(this.rollConfig.stat2)
+						) {
+							const mods = [];
+							const { difficulty, pool, success, botch } = rollModifier({
+								stats: [this.rollConfig.stat1, this.rollConfig.stat2]
+							});
 
-						const addPlus = num => num > 0 ? `+${num}` : num;
+							const addPlus = num => num > 0 ? `+${num}` : num;
 
-						if (difficulty) {
-							mods.push(`${addPlus(difficulty)} Difficulty`);
+							if (difficulty) {
+								mods.push(`${addPlus(difficulty)} Difficulty`);
+							}
+							if (pool) {
+								mods.push(`${addPlus(pool)} Dice Pool`);
+							}
+							if (success) {
+								mods.push(`${addPlus(success)} Success`);
+							}
+							if (botch) {
+								mods.push(`Remove ${botch} Botch`);
+							}
+
+							const name = humanize(key);
+							const modsOutput = mods.length ? `(${mods.join(", ")})` : "";
+							acc[key] = `${name} ${modsOutput}`.trim();
 						}
-						if (pool) {
-							mods.push(`${addPlus(pool)} Dice Pool`);
-						}
-						if (success) {
-							mods.push(`${addPlus(success)} Success`);
-						}
-						if (botch) {
-							mods.push(`Remove ${botch} Botch`);
-						}
-
-						const name = humanize(key);
-						const modsOutput = mods.length ? `(${mods.join(", ")})` : "";
-						acc[key] = `${name} ${modsOutput}`.trim();
 					}
-				}
 
-				return acc;
-			}, {});
+					return acc;
+				},
+				{}
+			);
 
 			return meritsFlawsOptions;
 		}
