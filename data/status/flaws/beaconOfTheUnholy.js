@@ -7,9 +7,9 @@ export const cost = -2;
 
 export const relatedStats = [];
 
-export const rollModifier = {
+export const rollModifier = () => ({
 	difficulty: 0,
 	pool: 0
-};
+});
 
 export const description = "You radiate palpable evil. Clergy and devout mortals know instinctively that there is something horribly wrong with you, and react accordingly.";

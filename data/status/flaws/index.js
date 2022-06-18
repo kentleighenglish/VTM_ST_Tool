@@ -194,4 +194,4 @@ export {
 	victimOfTheMasquerade,
 	vulnerabilityToSilver,
 	weakWilled
-}
+};

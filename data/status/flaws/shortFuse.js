@@ -7,9 +7,9 @@ export const cost = -2;
 
 export const relatedStats = [];
 
-export const rollModifier = {
+export const rollModifier = () => ({
 	difficulty: 0,
 	pool: 0
-};
+});
 
 export const description = "You are easily angered. Difficulties to avoid frenzy are two greater. Brujah vampires cannot take this Flaw, as they already suffer from a similar weakness.";
