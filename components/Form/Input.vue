@@ -161,9 +161,9 @@ export default {
 			this.model = this.parseValue(v);
 		},
 		parsedOptions (newOpts) {
-			this.model = this.model.filter((key) => {
+			this.updateValue(this.model.filter((key) => {
 				return newOpts.find(opt => opt.key === key);
-			});
+			}));
 		}
 	},
 	created () {

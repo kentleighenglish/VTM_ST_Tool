@@ -203,7 +203,7 @@ export default {
 			const meritsFlawsList = get(this.characterSheet, "status.meritsFlaws.list._custom", {});
 			const { _custom, ...charDisciplines } = get(this.characterSheet, "advantages.disciplines.list", {});
 
-			const meritsFlawsOptions = reduce(
+			const mods = reduce(
 				{ ...charDisciplines, ...meritsFlawsList },
 				(acc, value, key) => {
 					const mod = get(Object.assign({}, meritsFlaws, disciplines), key, null);
@@ -247,7 +247,7 @@ export default {
 				{}
 			);
 
-			return meritsFlawsOptions;
+			return mods;
 		}
 	},
 	methods: {
