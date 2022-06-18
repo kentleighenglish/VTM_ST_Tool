@@ -104,7 +104,7 @@
 </template>
 <script>
 import { mapActions, mapState } from "vuex";
-import { get, reduce } from "lodash";
+import { get, reduce, fromPairs, sortBy } from "lodash";
 import * as merits from "@/data/status/merits";
 import * as flaws from "@/data/status/flaws";
 import * as disciplines from "@/data/advantages/disciplines";
@@ -165,9 +165,8 @@ export default {
 		actions () {
 			const filterRegex = new RegExp(this.actionFilter, "i");
 
-			return reduce(actions, (acc, actionGroup, key) => ({
-				...acc,
-				[key]: reduce(actionGroup, (acc2, action, actionKey) => {
+			return reduce(actions, (acc, actionGroup, key) => {
+				let groupActions = reduce(actionGroup, (acc2, action, actionKey) => {
 					let label = humanize(actionKey);
 					let highlight = true;
 
@@ -179,16 +178,23 @@ export default {
 						}
 					}
 
-					return {
+					return [
 						...acc2,
-						[actionKey]: {
-							...action,
-							label,
-							highlight
-						}
-					};
-				}, {})
-			}), {});
+						[
+							actionKey,
+							{
+								...action,
+								label,
+								highlight
+							}
+						]
+					];
+				}, []);
+
+				groupActions = sortBy(groupActions.reverse(), ["[1].highlight"]).reverse();
+
+				return { ...acc, [key]: fromPairs(groupActions) };
+			}, {});
 		},
 		stats () {
 			return getStats(this.characterSheet);
