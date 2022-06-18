@@ -24,16 +24,20 @@
 					/>
 					<Multiselect
 						v-if="type === 'select'"
-						:value="selectValue"
+						:value="model"
 						:disabled="disabled"
 						:multiple="!!multiple"
 						:options="parsedOptions"
-						:searchable="false"
-						:close-on-select="!multiple"
+						:searchable="true"
+						:close-on-select="true"
+						:clear-on-select="true"
+						track-by="key"
+						label="label"
 						@input="updateValue"
+						@remove="removeOption"
 					>
-						<template #option="{ option }">
-							<span>{{ option.label }}</span>
+						<template #tags="{ option }">
+							<span class="multiselect__tag">{{ option.label }}</span>
 						</template>
 					</Multiselect>
 				</div>
@@ -140,44 +144,55 @@ export default {
 		isDisabled () {
 			const canEdit = this.meta?.params?.canEdit;
 			return this.disabled || (canEdit === undefined ? false : !canEdit);
-		},
-		selectValue () {
-			if (!this.model) {
-				return null;
-			}
-			const value = Array.isArray(this.model) ? this.model : [this.model];
-			return value.map(v => this.options[v]);
 		}
 	},
 	watch: {
 		value (v) {
-			this.model = v;
+			this.model = this.parseValue(v);
 		}
 	},
 	created () {
-		this.model = this.value;
+		this.model = this.parseValue(this.value);
 	},
 	mounted () {
-		this.model = this.value;
+		this.model = this.parseValue(this.value);
 	},
 	methods: {
 		updateValue (value) {
 			if (this.type === "checkbox") {
 				this.$emit("input", !this.model);
 			} else if (this.type === "select") {
-				this.$emit("input", Array.isArray(value) ? value.map(v => v.key) : [value.key]);
+				let parsedModel = Array.isArray(value) ? value : [value];
+				parsedModel = parsedModel.filter(v => !!v).map(v => v.key);
+				this.$emit("input", parsedModel);
 			} else {
 				this.$emit("input", value);
 			}
 		},
+		removeOption (option) {
+			this.model = this.model.filter((opt) => {
+				return opt.key !== option.key
+			});
+			this.$emit("input", this.model);
+		},
 		handleChange (e) {
 			this.$emit("change", e);
+		},
+		parseValue (value) {
+			if (this.type === "select" && value) {
+				const out = Array.isArray(value) ? value : [value];
+
+				return out.map(v => this.parsedOptions.find(opt => opt.key === v));
+			}
+
+			return value;
 		}
 	}
 }
 </script>
 <style lang="scss">
 	@import "vue-multiselect/dist/vue-multiselect.min.css";
+	$inputHeight: 26px;
 
 	.formInput {
 		display: block;
@@ -214,8 +229,11 @@ export default {
 				background: none;
 				border: none;
 				margin: 0;
-				padding: math.div($gap, 4);
-				height: 26px;
+				padding: math.div($gap, 4) math.div($gap, 2);
+				height: $inputHeight;
+				font-size: $font-size-sm;
+				font-family: $font-family-default;
+				color: $grey-darker;
 			}
 
 			textarea, select[multiple] {
@@ -225,12 +243,12 @@ export default {
 
 		&--select {
 			.multiselect {
-				min-height: 26px;
-				height: 26px;
+				min-height: $inputHeight;
+				height: $inputHeight;
 			}
 
 			.multiselect__select {
-				height: 26px;
+				height: $inputHeight;
 
 				&:before {
 					top: 80%;
@@ -240,38 +258,65 @@ export default {
 			.multiselect__tags {
 				background: $grey-lighter;
 				border-radius: 0;
-				min-height: 26px;
-				padding: 3px 40px 0 8px
+				min-height: $inputHeight;
+				height: $inputHeight;
+				padding: math.div($gap, 4) math.div($gap, 2);
+				font-size: 1em;
+				color: $grey-darker;
+
+				input {
+					margin-top: -4px;
+				}
 			}
 
 			.multiselect__single {
 				background: none;
-				font-size: 1em;
+				font-size: $font-size-sm;
 				line-height: initial;
 				min-height: initial;
 				margin: 0;
 			}
 
 			.multiselect__content-wrapper {
-				background: $grey-light;
+				background: lighten($grey-lighter, 5%);
 			}
 
 			.multiselect__placeholder {
 				padding: 0;
-				margin-bottom: 0;
+				margin: 0;
+				vertical-align: top;
+				font-size: $font-size-sm;
+				color: $grey-darker;
 			}
 
 			.multiselect__option {
-				padding: math.div($gap, 2) $gap;
+				padding: math.div($gap, 4) math.div($gap, 2);
 				min-height: initial;
+				font-size: $font-size-sm;
 
 				&--highlight {
 					background: $primary;
 				}
 
+				&--selected {
+					background: $grey-lighter;
+					&:hover {
+						color: $grey-lightest;
+						background: $primary;
+					}
+				}
+
 				&:after {
 					display: none;
 				}
+			}
+
+			.multiselect__tag {
+				font-size: $font-size-sm;
+				border-radius: 0;
+				background: $grey-light;
+				color: $grey-darker;
+				margin-top: -2px;
 			}
 		}
 	}
