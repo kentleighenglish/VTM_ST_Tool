@@ -54,6 +54,7 @@
 						:options="statsOptions"
 						disable-reset
 						disable-meta-display
+						@input="updateRollCalc"
 					/>
 				</div>
 				<div class="st-flex st-padding-h">
@@ -64,6 +65,7 @@
 						:options="statsOptions"
 						disable-reset
 						disable-meta-display
+						@input="updateRollCalc"
 					/>
 				</div>
 			</div>
@@ -76,6 +78,7 @@
 					:min="1"
 					disable-reset
 					disable-meta-display
+					@input="updateRollCalc"
 				/>
 			</div>
 			<div class="st-padding-h">
@@ -88,11 +91,13 @@
 					disable-meta-display
 					:options="modsOptions"
 					:placeholder="`Select Modifiers (${Object.keys(modsOptions).length} Available)`"
+					@input="updateRollCalc"
 				/>
 			</div>
-			<div class="st-padding-h">
+			<div class="st-padding-h" v-if="rollCalc.pool && rollCalc.difficulty">
 				<hr class="st-margin-v">
-				<span>Rolling <strong>5d10</strong></span>&nbsp;<span>(Difficulty: <strong>6</strong>)</span>
+				<span>Rolling <strong>{{rollCalc.pool}}d10</strong></span>&nbsp;
+				<span>(Difficulty: <strong>{{rollCalc.difficulty}}</strong>)</span>
 			</div>
 		</CommonModal>
 	</div>
@@ -139,6 +144,10 @@ export default {
 			actionFilter: null,
 			rollConfig: {
 				...defaultRollConfig
+			},
+			rollCalc: {
+				pool: 0,
+				difficulty: 0
 			}
 		}
 	},
@@ -244,8 +253,32 @@ export default {
 	methods: {
 		...mapActions({
 			openModal: "openModal",
-			triggerAction: "actions/triggerAction"
+			triggerAction: "actions/triggerAction",
+			getActionCalc: "actions/getActionCalc"
 		}),
+		async updateRollCalc () {
+			const { stat1, stat2, mods, difficulty, action: { type }, name, group } = this.rollConfig;
+
+			const characterId = this.characterId;
+
+			const payload = {
+				characterId,
+				group,
+				name,
+				type,
+				stat1,
+				stat2,
+				difficulty,
+				mods
+			};
+
+			const calc = await this.getActionCalc(payload);
+
+			this.rollCalc = {
+				pool: calc.dicePool,
+				difficulty: calc.difficulty
+			};
+		},
 		onActionClick (name, group, action) {
 			const difficulty = (action.difficulty || defaultRollConfig.difficulty);
 			const stat1 = (action.rollStats[0] || null);

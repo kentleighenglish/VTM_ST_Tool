@@ -11,6 +11,50 @@ import { rollDice } from "@/data/actions/_utils";
 // import * as flaws from "@/data/status/flaws";
 import actions from "@/data/actions";
 
+const getRollData = async ({
+	characterId,
+	group,
+	name,
+	type,
+	stat1,
+	stat2,
+	difficulty,
+	mods = []
+}) => {
+	const session = await m.rooms.fetchSession();
+	const character = await m.characters.fetch({ id: characterId });
+	const action = get(actions, `${group}.${name}`, null);
+
+	const activeMods = get(session.activeMods, characterId, {});
+
+	if (!character || !action) {
+		throw new Error(character ? "No matching action found" : "Could not find character");
+	}
+	const stats = getStats(character.sheet || {});
+
+	let dicePool = get(stats, stat1, 0) + get(stats, stat2, 0);
+
+	if (activeMods[stat1]) {
+		dicePool += (activeMods[stat1] || 0);
+	}
+	if (activeMods[stat2]) {
+		dicePool += (activeMods[stat2] || 0);
+	}
+
+	const healthMod = getHealthMod(character.sheet);
+
+	dicePool = Math.max(dicePool + healthMod, 1);
+
+	return {
+		character,
+		activeMods,
+		action,
+		stats,
+		dicePool,
+		difficulty
+	};
+}
+
 const getSuccesses = (diceResult, difficulty = 6) => {
 	const successes = diceResult.reduce((acc, roll) => {
 		if (roll === 10) {
@@ -38,44 +82,16 @@ export const triggerAction = async ({ socket, io, data = {}, callback }) => {
 	try {
 		const {
 			characterId,
-			group,
 			name,
 			type,
-			stat1,
-			stat2,
 			difficulty,
 			mods = []
 		} = data;
 
-		const session = await m.rooms.fetchSession();
-		const character = await m.characters.fetch({ id: characterId });
-		const action = get(actions, `${group}.${name}`, null);
-
-		const activeMods = get(session.activeMods, characterId, {});
-
-		if (!character || !action) {
-			const msg = character ? "No matching action found" : "Could not find character";
-			callback(new Error(msg).message, null);
-			return;
-		}
-
-		const stats = getStats(character.sheet || {});
-
-		let dicePool = get(stats, stat1, 0) + get(stats, stat2, 0);
-
-		if (activeMods[stat1]) {
-			dicePool += (activeMods[stat1] || 0);
-		}
-		if (activeMods[stat2]) {
-			dicePool += (activeMods[stat2] || 0);
-		}
+		const { action, character, stats, dicePool } = await getRollData(data);
 
 		let success = {};
 		let result;
-
-		const healthMod = getHealthMod(character.sheet);
-
-		dicePool = Math.max(dicePool + healthMod, 1);
 
 		if (type === "custom") {
 			result = action.getOutput({ sheet: character.sheet, stats, mods });
@@ -138,6 +154,20 @@ export const triggerAction = async ({ socket, io, data = {}, callback }) => {
 		};
 
 		callback(null, { action: actionResponse });
+	} catch (e) {
+		debug("events:actions", true)("ERROR", e);
+		callback(e.message, null);
+	}
+}
+
+export const getActionCalc = async ({ socket, io, data = {}, callback }) => {
+	try {
+		const { dicePool, difficulty } = await getRollData(data) || {};
+
+		callback(null, {
+			dicePool,
+			difficulty
+		});
 	} catch (e) {
 		debug("events:actions", true)("ERROR", e);
 		callback(e.message, null);
