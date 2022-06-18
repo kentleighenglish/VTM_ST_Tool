@@ -159,6 +159,11 @@ export default {
 	watch: {
 		value (v) {
 			this.model = this.parseValue(v);
+		},
+		parsedOptions (newOpts) {
+			this.model = this.model.filter((key) => {
+				return newOpts.find(opt => opt.key === key);
+			});
 		}
 	},
 	created () {

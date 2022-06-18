@@ -94,10 +94,10 @@
 					@input="updateRollCalc"
 				/>
 			</div>
-			<div class="st-padding-h" v-if="rollCalc.pool && rollCalc.difficulty">
+			<div v-if="rollCalc.pool && rollCalc.difficulty" class="st-padding-h">
 				<hr class="st-margin-v">
-				<span>Rolling <strong>{{rollCalc.pool}}d10</strong></span>&nbsp;
-				<span>(Difficulty: <strong>{{rollCalc.difficulty}}</strong>)</span>
+				<span>Rolling <strong>{{ rollCalc.pool }}d10</strong></span>&nbsp;
+				<span>(Difficulty: <strong>{{ rollCalc.difficulty }}</strong>)</span>
 			</div>
 		</CommonModal>
 	</div>
@@ -257,6 +257,11 @@ export default {
 			getActionCalc: "actions/getActionCalc"
 		}),
 		async updateRollCalc () {
+			this.rollCalc = {
+				pool: 0,
+				difficulty: 0
+			};
+
 			const { stat1, stat2, mods, difficulty, action: { type }, name, group } = this.rollConfig;
 
 			const characterId = this.characterId;
