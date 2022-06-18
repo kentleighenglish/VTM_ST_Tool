@@ -266,6 +266,10 @@ export default {
 
 			const characterId = this.characterId;
 
+			if ((!stat1 && !stat2) || !type || !difficulty) {
+				return;
+			}
+
 			const payload = {
 				characterId,
 				group,
@@ -294,6 +298,7 @@ export default {
 			if (action.type === "custom") {
 				return this.onRoll();
 			} else {
+				this.updateRollCalc();
 				return this.openModal("diceRollModal");
 			}
 		},
