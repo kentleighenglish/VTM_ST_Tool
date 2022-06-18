@@ -305,7 +305,7 @@ export default {
 			}
 
 			.multiselect__option {
-				padding: math.div($gap, 4) math.div($gap, 2);
+				padding: math.div($gap, 2) math.div($gap, 2);
 				min-height: initial;
 				font-size: $font-size-sm;
 
@@ -315,6 +315,8 @@ export default {
 
 				&--selected {
 					background: $grey-lighter;
+					color: $grey-darker;
+
 					&:hover {
 						color: $grey-lightest;
 						background: $primary;
