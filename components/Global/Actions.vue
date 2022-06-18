@@ -87,6 +87,7 @@
 					disable-reset
 					disable-meta-display
 					:options="modsOptions"
+					:placeholder="`Select Modifiers (${Object.keys(modsOptions).length} Available)`"
 				/>
 			</div>
 			<div class="st-padding-h">

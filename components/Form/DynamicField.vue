@@ -20,6 +20,7 @@
 				v-model="customAdd"
 				name="dynamicFieldCustom"
 				:type="keyOptions ? 'select' : 'text'"
+				:searchable="!!keyOptions"
 				:options="keyOptions"
 				:disable-meta-display="disableMetaDisplay"
 				:create-mode="createMode"

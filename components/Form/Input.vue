@@ -12,6 +12,7 @@
 						:accept="accept"
 						:max="max"
 						:min="min"
+						:placeholder="placeholder"
 						@input="updateValue($event.target.value)"
 						@change="handleChange($event)"
 					></input>
@@ -31,9 +32,9 @@
 						:searchable="searchable"
 						:close-on-select="true"
 						:clear-on-select="true"
+						:placeholder="placeholder"
 						track-by="key"
 						label="label"
-						:placeholder="`Select Modifiers (${parsedOptions.length} Available)`"
 						@input="updateValue"
 						@remove="removeOption"
 					>
@@ -102,6 +103,10 @@ export default {
 		searchable: {
 			type: Boolean,
 			default: false
+		},
+		placeholder: {
+			type: String,
+			default: undefined
 		},
 		value: {
 			type: [Number, String, Array],
