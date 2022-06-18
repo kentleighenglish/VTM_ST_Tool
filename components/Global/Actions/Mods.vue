@@ -154,7 +154,7 @@ export default {
 			const bloodPool = this.bloodPool;
 			const activeMod = this.activeMods[this.buffForm.attribute] || 0;
 
-			return Math.min(bloodPool, buffField.maxDots - buffField.currentValue - activeMod);
+			return Math.min(bloodPool, (buffField.maxDots + 1) - buffField.currentValue - activeMod);
 		},
 		bloodPool () {
 			return get(this.characterSheet, "status.condition.bloodPool", 0);

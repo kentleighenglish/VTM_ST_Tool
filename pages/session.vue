@@ -205,6 +205,7 @@ export default {
 		border: 4px solid transparent;
 		border-top-width: 0px;
 		border-bottom-width: 0px;
+		cursor: pointer;
 
 		.character__avatar {
 			display: flex;

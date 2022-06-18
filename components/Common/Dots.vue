@@ -1,8 +1,8 @@
 <template>
 	<div :class="componentClass">
-		<div v-if="maxDots" class="dots">
+		<div v-if="maxDotsParsed" class="dots">
 			<div
-				v-for="i in maxDots"
+				v-for="i in maxDotsParsed"
 				:key="i"
 				:class="dotClass(i)"
 				@mouseover="setDotHover(i)"
@@ -61,6 +61,11 @@ export default {
 	data: () => ({
 		hoverDot: null
 	}),
+	computed: {
+		maxDotsParsed () {
+			return Math.max(this.maxDots, this.currentValue + this.buff);
+		}
+	},
 	methods: {
 		onClick (i) {
 			if (!this.readOnly) {
@@ -132,10 +137,22 @@ export default {
 				}
 			}
 
+			&--inactive:not(&--filled) {
+				opacity: 0.2;
+			}
+
 			&--buff {
 				.dots__dotInner {
-					background: $special-light;
-					border-color: $special;
+					background: $special-alt;
+					border-color: darken($special-alt, 15%);
+				}
+				&.dots__dot--inactive:not(.dot__dot--filled) {
+					opacity: 1;
+
+					.dots__dotInner {
+						background: lighten($special-alt, 15%);
+						border-color: transparent;
+					}
 				}
 			}
 
@@ -143,10 +160,6 @@ export default {
 				.dots__dotInner {
 					background-color: $danger;
 				}
-			}
-
-			&--inactive:not(&--filled) {
-				opacity: 0.2;
 			}
 		}
 
