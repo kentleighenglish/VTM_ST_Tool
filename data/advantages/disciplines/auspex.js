@@ -1,3 +1,4 @@
+import { get } from "lodash";
 
 export const label = "Auspex";
 
@@ -8,9 +9,8 @@ Auspex enables Kindred to perceive many things beyond the limits of lesser sense
 • Chimerstry: Likewise, vampires with Auspex may seek to penetrate illusions created with Chimerstry. The Auspex-wielder must actively seek to pierce the illusion (i.e., the player must tell the Storyteller that his character is trying to detect an illusion). The Auspex-user and Chimerstry-wielder then compare relative ratings, per Obfuscate, above. The process is otherwise identical to piercing Obfuscate.
 • Other Powers: Since the powers of beings like magi and wraiths function differently from vampiric Disciplines, a simple comparison of relative ratings isn’t applicable. To keep things simple, both characters make a resisted roll. The vampire rolls Perception + Awareness, while the subject rolls Manipulation + Subterfuge. Again, the difficulty is 7, and the character with the most successes wins.`;
 
-// @todo change based on auspex rating
-export const rollModifier = () => ({
-	difficulty: 0,
+export const rollModifier = ({ sheet }) => ({
+	difficulty: get(sheet, "advantages.disciplines.list.auspex", 0) * -1,
 	pool: 0
 });
 

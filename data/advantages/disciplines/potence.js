@@ -1,13 +1,12 @@
+import { get } from "lodash";
 
 export const label = "Potence";
 
 export const description = `Kindred endowed with Potence possess unnatural strength. This Discipline enables vampire to leap massive distances, lift tremendous weights, and strike opponents with brutal force. Even low ranks of this power can give Kindred physical power beyond mortal bounds. More powerful Kindred can leap so far that they appear to be flying, toss cars like soda cans, and punch through walls like cardboard. While the more subtle mental Disciplines can be awe-inspiring, the brutal effectiveness of Potence is formidable in its own right. The Brujah, Giovanni, Lasombra, and Nosferatu are naturally gifted with this Discipline, but members of other Clans often make a point to find someone who can teach them the awesome power of Potence. System: Each dot that the vampire has in Potence adds one die to all Strength-related dice rolls. Further, the player can spend one blood point and change his Potence dice into an equal number of automatic successes to all Strength-related rolls for the turn. In melee and brawling combat, successes from Potence (either rolled or automatic) are applied to the damage roll results.
 While flesh and blood have their limits, undead sinews and vitae have a bit more latitude when it comes to feats of strength. Vampires who are close to Caine in descent are sometimes capable of strength-based maneuvers that awe even other vampires. A product of blood and will as much as of muscle and bone, mastery of Potence gives a vampire the ability to do far more than just lift progressively heavier objects — if the vampire himself is willing to learn an alternate way. Advanced Potence powers can be purchased in the same fashion as advanced Celerity or Fortitude powers: A character can choose to learn an alternate power instead of advancing along the Discipline’s normal progression, and can later go back and re-purchase what he’s missed.`;
 
-// @todo change based on celerity rating
-export const rollModifier = () => ({
-	difficulty: 0,
-	pool: 0
+export const rollModifier = ({ sheet }) => ({
+	pool: get(sheet, "advantages.disciplines.list.potence", 0)
 });
 
 export const relatedStats = ["strength"];

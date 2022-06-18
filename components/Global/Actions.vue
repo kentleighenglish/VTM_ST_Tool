@@ -207,7 +207,8 @@ export default {
 						) {
 							const mods = [];
 							const { difficulty, pool, success, botch } = rollModifier({
-								stats: [this.rollConfig.stat1, this.rollConfig.stat2]
+								stats: [this.rollConfig.stat1, this.rollConfig.stat2],
+								sheet: this.characterSheet
 							});
 
 							const addPlus = num => num > 0 ? `+${num}` : num;
