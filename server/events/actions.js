@@ -90,8 +90,8 @@ const getSuccesses = (diceResult, difficulty = 6, successModifier = 0, botchModi
 		if (roll === 10) {
 			acc += 2;
 		} else if (roll === 1) {
-			if (botchModifier < 0) {
-				botchModifier++;
+			if (botchModifier > 0) {
+				botchModifier--;
 			} else {
 				acc--;
 			}
