@@ -132,7 +132,7 @@ export default {
 		}),
 		overlayClick () {
 			if (this.closeWithOverlay) {
-				this.onCloseModal();
+				this.onClose();
 			}
 		},
 		async onConfirm () {
