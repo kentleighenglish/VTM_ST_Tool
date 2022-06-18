@@ -53,10 +53,10 @@ import classModsMixin from "@/mixins/classModsMixin";
 
 export default {
 	name: "FormInput",
-	mixins: [classModsMixin],
 	components: {
 		Multiselect
 	},
+	mixins: [classModsMixin],
 	classMod: {
 		baseClass: "formInput",
 		modifiers: {
