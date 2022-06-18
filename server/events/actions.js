@@ -6,10 +6,16 @@ import debug from "../debug";
 
 import { getHealthMod, getStats } from "@/utils/parsers";
 import { rollDice } from "@/data/actions/_utils";
-// import * as disciplines from "@/data/advantages/disciplines";
-// import * as merits from "@/data/status/merits";
-// import * as flaws from "@/data/status/flaws";
+import * as disciplines from "@/data/advantages/disciplines";
+import * as merits from "@/data/status/merits";
+import * as flaws from "@/data/status/flaws";
 import actions from "@/data/actions";
+
+const modsList = {
+	...disciplines,
+	...merits,
+	...flaws
+};
 
 const getRollData = async ({
 	characterId,
@@ -24,6 +30,8 @@ const getRollData = async ({
 	const session = await m.rooms.fetchSession();
 	const character = await m.characters.fetch({ id: characterId });
 	const action = get(actions, `${group}.${name}`, null);
+	let successModifier = 0;
+	let botchModifier = 0;
 
 	const activeMods = get(session.activeMods, characterId, {});
 
@@ -43,7 +51,27 @@ const getRollData = async ({
 
 	const healthMod = getHealthMod(character.sheet);
 
+	if (mods && mods.length) {
+		mods.forEach((modKey) => {
+			const mod = modsList[modKey];
+			if (mod && mod.rollModifier) {
+				const {
+					pool: poolMod = 0,
+					difficulty: diffMod = 0,
+					success: successMod = 0,
+					botch: botchMod = 0
+				} = mod.rollModifier({ sheet: character.sheet });
+
+				dicePool += poolMod;
+				difficulty += diffMod;
+				successModifier += successMod;
+				botchModifier += botchMod;
+			}
+		});
+	}
+
 	dicePool = Math.max(dicePool + healthMod, 1);
+	difficulty = Math.max(difficulty, 1);
 
 	return {
 		character,
@@ -51,17 +79,26 @@ const getRollData = async ({
 		action,
 		stats,
 		dicePool,
-		difficulty
+		difficulty,
+		successModifier,
+		botchModifier
 	};
 }
 
-const getSuccesses = (diceResult, difficulty = 6) => {
+const getSuccesses = (diceResult, difficulty = 6, successModifier = 0, botchModifier = 0) => {
 	const successes = diceResult.reduce((acc, roll) => {
 		if (roll === 10) {
 			acc += 2;
 		} else if (roll === 1) {
-			acc--;
+			if (botchModifier > 0) {
+				botchModifier--;
+			} else {
+				acc--;
+			}
 		} else if (roll >= difficulty) {
+			acc++;
+		} else if (roll < difficulty && successModifier > 0) {
+			successModifier--;
 			acc++;
 		}
 
@@ -88,7 +125,14 @@ export const triggerAction = async ({ socket, io, data = {}, callback }) => {
 			mods = []
 		} = data;
 
-		const { action, character, stats, dicePool } = await getRollData(data);
+		const {
+			action,
+			character,
+			stats,
+			dicePool,
+			successModifier,
+			botchModifier
+		} = await getRollData(data);
 
 		let success = {};
 		let result;
@@ -98,7 +142,7 @@ export const triggerAction = async ({ socket, io, data = {}, callback }) => {
 		} else {
 			result = rollDice(dicePool);
 
-			success = getSuccesses(result, difficulty);
+			success = getSuccesses(result, difficulty, successModifier, botchModifier);
 		}
 
 		const characterName = get(character.sheet, "details.info.name", null);
