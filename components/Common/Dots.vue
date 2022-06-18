@@ -116,7 +116,7 @@ export default {
 	}
 
 	&--overspend {
-		.dots__dot--filled {
+		.dots__dot.dots__dot--filled {
 			.dots__dotInner {
 				background: darken($danger, 10%);
 				border-color: darken($danger, 10%);
@@ -141,7 +141,7 @@ export default {
 				opacity: 0.2;
 			}
 
-			&--buff {
+			&--buff:not(&--filled) {
 				.dots__dotInner {
 					background: $special-alt;
 					border-color: darken($special-alt, 15%);
