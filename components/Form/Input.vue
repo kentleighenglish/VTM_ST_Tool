@@ -28,11 +28,12 @@
 						:disabled="disabled"
 						:multiple="!!multiple"
 						:options="parsedOptions"
-						:searchable="true"
+						:searchable="searchable"
 						:close-on-select="true"
 						:clear-on-select="true"
 						track-by="key"
 						label="label"
+						:placeholder="`Select Modifiers (${parsedOptions.length} Available)`"
 						@input="updateValue"
 						@remove="removeOption"
 					>
@@ -95,6 +96,10 @@ export default {
 			default: null
 		},
 		multiple: {
+			type: Boolean,
+			default: false
+		},
+		searchable: {
 			type: Boolean,
 			default: false
 		},
