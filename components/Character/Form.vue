@@ -15,11 +15,13 @@
 	</div>
 </template>
 <script>
-import { sheetSkeleton } from "@/data/chardata";
-
 export default {
 	name: "CharacterForm",
 	props: {
+		skeleton: {
+			type: Object,
+			default: () => ({})
+		},
 		value: {
 			type: Object,
 			default: () => ({})
@@ -128,7 +130,7 @@ export default {
 				}, {});
 			}
 
-			this.sheetData = parseObject(sheetSkeleton);
+			this.sheetData = parseObject(this.skeleton);
 		}
 	}
 }

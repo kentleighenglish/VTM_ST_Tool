@@ -1,7 +1,7 @@
 <template>
 	<div class="characterSheet">
 		<h1 class="characterSheet__title">
-			Character Sheet
+			<slot name="title" />
 		</h1>
 		<div class="characterSheet__fields">
 			<CharacterForm
@@ -14,11 +14,12 @@
 				:xp-spend-reset="xpSpendReset"
 				:original-value="originalValue.sheet"
 				:active-mods="activeMods"
+				:skeleton="skeleton"
 				@input="updateValue('sheet', $event)"
 			/>
 		</div>
 		<div class="characterSheet__xp">
-			<CommonSticky :offset-top="80">
+			<CommonSticky :offset-top="80" v-if="!xpDisabled">
 				<CharacterXpPoints :data="model.xp" />
 				<CharacterXpHistory :data="model.xp" />
 			</CommonSticky>
@@ -59,6 +60,14 @@ export default {
 		activeMods: {
 			type: Object,
 			default: () => ({})
+		},
+		skeleton: {
+			type: Object,
+			default: () => ({})
+		},
+		xpDisabled: {
+			type: Boolean,
+			default: false
 		}
 	},
 	data: () => ({

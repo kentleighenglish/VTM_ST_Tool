@@ -40,8 +40,7 @@ export default {
 		extendRoutes (routes, resolve) {
 			routes.push({
 				path: "/characters/create",
-				component: resolve(__dirname, "pages/charactersView.vue"),
-				props: { createMode: true }
+				component: resolve(__dirname, "pages/characterCreate.vue")
 			})
 			routes.push({
 				path: "/characters/:id",

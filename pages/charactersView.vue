@@ -12,7 +12,12 @@
 					:xp-spend-update="xpSpendUpdate"
 					:xp-spend-reset="xpSpendReset"
 					:active-mods="activeMods"
-				/>
+					:skeleton="skeleton"
+				>
+					<template #title>
+						{{ charName || 'Character Sheet' }}
+					</template>
+				</CharacterSheet>
 			</template>
 			<template #powers>
 				<CharacterPowers :data="formData.sheet" />
@@ -30,6 +35,7 @@
 <script>
 import { mapActions, mapState } from "vuex";
 import { uniqBy, set } from "lodash";
+import { sheetSkeleton } from "@/data/chardata";
 
 const flattenObject = (object, path = []) => {
 	const parseProp = (prop, path) => {
@@ -65,18 +71,19 @@ export default {
 		characterId: null,
 		formData: {},
 		modifiedData: {},
-		avatar: {}
+		avatar: {},
+		skeleton: Object.assign({}, { ...sheetSkeleton })
 	}),
 	head () {
-		const charName = this.loadedCharacter?.sheet?.details?.info?.name;
-		const createMode = this.createMode;
-
 		return {
-			title: createMode ? "New Character" : charName
+			title: this.charName
 		}
 	},
 	computed: {
 		...mapState({
+			charName () {
+				return this.loadedCharacter?.sheet?.details?.info?.name;
+			},
 			adminMode ({ adminMode }) {
 				return !!adminMode;
 			},
