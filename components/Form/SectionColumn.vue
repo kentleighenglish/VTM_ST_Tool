@@ -1,6 +1,6 @@
 <template>
 	<div class="formSectionColumn">
-		<h4 v-if="label" class="formSectionColumn__title">
+		<h4 v-if="!createMode && label" class="formSectionColumn__title">
 			{{ label }}
 		</h4>
 		<FormFields

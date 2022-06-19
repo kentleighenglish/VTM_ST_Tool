@@ -16,7 +16,7 @@
 					Read More
 				</CommonButton>
 			</div>
-			<div v-if="meta.xp" class="metaContainer__xp">
+			<div v-if="!xpDisabled && meta.xp" class="metaContainer__xp">
 				<div v-if="meta.xp.cost" class="metaContainer__xpCost">
 					{{ meta.xp.cost }}xp
 				</div>
@@ -51,6 +51,12 @@ export default {
 		baseClass: "metaContainer",
 		modifiers: {
 			locked: vm => vm.isLocked
+		}
+	},
+	props: {
+		xpDisabled: {
+			type: Boolean,
+			default: false
 		}
 	},
 	computed: {

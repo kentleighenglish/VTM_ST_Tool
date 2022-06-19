@@ -62,6 +62,9 @@ export default {
 			this.model = v;
 
 			this.updateCharacterFormData();
+		},
+		skeleton () {
+			this.updateCharacterFormData();
 		}
 	},
 	created () {

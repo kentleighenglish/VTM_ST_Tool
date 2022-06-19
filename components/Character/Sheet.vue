@@ -31,7 +31,7 @@
 		</div>
 		<div class="characterSheet__meta">
 			<CommonSticky :offset-top="80" :overflow-scroll="true">
-				<CharacterMetaContainer />
+				<CharacterMetaContainer :xp-disabled="xpDisabled" />
 			</CommonSticky>
 		</div>
 	</div>

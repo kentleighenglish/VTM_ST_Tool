@@ -49,6 +49,7 @@
 </template>
 <script>
 import Multiselect from "vue-multiselect";
+import { differenceBy } from "lodash";
 import classModsMixin from "@/mixins/classModsMixin";
 
 export default {
@@ -160,9 +161,10 @@ export default {
 		value (v) {
 			this.model = this.parseValue(v);
 		},
-		parsedOptions (newOpts) {
-			if (this.model && this.model.length) {
-				this.updateValue(this.model.filter((key) => {
+		parsedOptions (newOpts, oldOpts) {
+			const diff = differenceBy(newOpts, oldOpts, "key");
+			if (diff.length && this.model && this.model.length) {
+				this.updateValue(this.model.filter(({ key }) => {
 					return newOpts.find(opt => opt.key === key);
 				}));
 			}
@@ -184,7 +186,7 @@ export default {
 			case "select": {
 				let parsedModel = Array.isArray(value) ? value : [value];
 				parsedModel = parsedModel.filter(v => !!v).map(v => v.key);
-				this.$emit("input", parsedModel);
+				this.$emit("input", this.multiple ? parsedModel : parsedModel[0]);
 				break;
 			}
 			case "number": {
