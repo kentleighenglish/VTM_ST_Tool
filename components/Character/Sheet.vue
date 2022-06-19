@@ -1,8 +1,13 @@
 <template>
 	<div class="characterSheet">
-		<h1 class="characterSheet__title">
-			<slot name="title" />
-		</h1>
+		<div class="characterSheet__title">
+			<h1>
+				<slot name="title" />
+			</h1>
+			<h4 v-if="$slots.subtitle" class="characterSheet__subtitle">
+				<slot name="subtitle" />
+			</h4>
+		</div>
 		<div class="characterSheet__fields">
 			<CharacterForm
 				v-model="model.sheet"
@@ -19,7 +24,7 @@
 			/>
 		</div>
 		<div class="characterSheet__xp">
-			<CommonSticky :offset-top="80" v-if="!xpDisabled">
+			<CommonSticky v-if="!xpDisabled" :offset-top="80">
 				<CharacterXpPoints :data="model.xp" />
 				<CharacterXpHistory :data="model.xp" />
 			</CommonSticky>
@@ -108,8 +113,13 @@ export default {
 	// max-width: 900px;
 	// margin: 0 auto;
 
-	h1 {
+	&__title {
 		grid-area: title;
+		padding: math.div($gap, 2) $gap;
+
+		h1, h4 {
+			margin: 0;
+		}
 	}
 
 	&__fields {

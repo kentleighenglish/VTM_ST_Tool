@@ -24,3 +24,14 @@ body {
 #__nuxt, #__layout {
   min-height: 100vmin;
 }
+
+hr {
+	border: 1px solid $grey-light;
+	border-width: 1px 0 0 0;
+	margin: math.div($gap, 2) 0;
+}
+
+.contentContainer {
+	max-width: 900px;
+	margin: 0 auto;
+}

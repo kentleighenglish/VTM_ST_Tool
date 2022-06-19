@@ -273,6 +273,7 @@ export default {
 			.multiselect {
 				min-height: $inputHeight;
 				height: $inputHeight;
+				position: relative;
 			}
 
 			.multiselect__select {
@@ -291,6 +292,7 @@ export default {
 				padding: math.div($gap, 4) math.div($gap, 2);
 				font-size: 1em;
 				color: $grey-darker;
+				z-index: 1;
 
 				input {
 					margin-top: -4px;
@@ -307,6 +309,10 @@ export default {
 
 			.multiselect__content-wrapper {
 				background: lighten($grey-lighter, 5%);
+				z-index: -1;
+				overflow-x: hidden;
+
+				@include realShadow();
 			}
 
 			.multiselect__placeholder {

@@ -127,6 +127,14 @@ export default {
 				border-color: $color;
 			}
 
+			&.button--disabled {
+				button {
+					&:hover {
+						background: $grey-lighter;
+					}
+				}
+			}
+
 			&.button--gradient {
 				button {
 					position: relative;
