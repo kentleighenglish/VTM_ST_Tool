@@ -1,5 +1,4 @@
 import humanize from "@/filters/humanize";
-// import { sheetSkeleton } from "@/data/chardata";
 
 export const title = "Character Attributes";
 
@@ -46,3 +45,11 @@ export const stageComplete = ({ sheet }, { attributePriority = {} }) => {
 		attributePriority.tertiary
 	);
 }
+
+export const definitionChanged = form => ({
+	...form,
+	sheet: {
+		...form.sheet,
+		attributes: {}
+	}
+})

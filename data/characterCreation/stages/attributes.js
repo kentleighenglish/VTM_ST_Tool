@@ -2,7 +2,7 @@ import { sheetSkeleton } from "@/data/chardata";
 
 export const title = "Character Attributes";
 
-export const subtitle = "Please select your primary, secondary, and tertiary attributes";
+export const subtitle = "Please allocate dots into your primary, secondary, and tertiary attributes";
 
 export const fields = sheetSkeleton.attributes;
 

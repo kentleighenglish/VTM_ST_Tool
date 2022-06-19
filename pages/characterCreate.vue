@@ -4,7 +4,7 @@
 			<FormFields
 				v-model="characterDefinition"
 				:fields="parsedDefinitionFields"
-				@input="updateForm"
+				@input="updateDefinition"
 			/>
 		</div>
 		<div v-if="stage.fields" class="characterCreate__sheet">
@@ -120,6 +120,13 @@ export default {
 			}
 
 			this.updateStore();
+		},
+		updateDefinition () {
+			this.updateForm();
+
+			if (this.stage.definitionChanged) {
+				this.stage.definitionChanged();
+			}
 		},
 		updateStore () {
 			sessionStorage.setItem("createCharacterStore", JSON.stringify({
