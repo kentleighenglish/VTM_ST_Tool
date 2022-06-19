@@ -1,10 +1,9 @@
 <template>
 	<div class="characterCreate">
-		<div v-if="stage.defineFields" class="characterCreate__defineFields contentContainer">
+		<div v-if="parsedDefinitionFields" class="characterCreate__definitionFields contentContainer">
 			<FormFields
-				v-if="stage.defineFields"
 				v-model="characterDefinition"
-				:fields="stage.defineFields"
+				:fields="parsedDefinitionFields"
 				@input="updateForm"
 			/>
 		</div>
@@ -31,7 +30,6 @@
 				<CommonButton
 					v-if="currentStage > 0"
 					state="primary"
-					:disabled="!stageComplete"
 					@click="prevStage"
 				>
 					Previous Stage
@@ -79,6 +77,12 @@ export default {
 				};
 			}
 
+			return null;
+		},
+		parsedDefinitionFields () {
+			if (this.stage && this.stage?.definitionFields) {
+				return this.stage.definitionFields(this.characterDefinition);
+			}
 			return null;
 		}
 	},

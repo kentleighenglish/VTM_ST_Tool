@@ -11,6 +11,11 @@ export const stageComplete = ({ sheet }, { characterType }) => {
 
 	return (
 		!!sheet?.details?.info?.name &&
+		!!sheet?.details?.info?.player &&
+		!!sheet?.details?.info?.chronicle &&
+		!!sheet?.details?.character?.nature &&
+		!!sheet?.details?.character?.demeanor &&
+		!!sheet?.details?.character?.concept &&
 		(!isVampire || sheet?.details?.vampire?.clan) &&
 		(!isVampire || sheet?.details?.vampire?.generation)
 	)

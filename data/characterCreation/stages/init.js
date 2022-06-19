@@ -2,7 +2,7 @@ export const title = "Initial Definition";
 
 export const subtitle = "Please add the character's general details and concept.";
 
-export const defineFields = {
+export const definitionFields = () => ({
 	characterType: {
 		label: "Character Type",
 		type: "select",
@@ -15,7 +15,7 @@ export const defineFields = {
 			gargoyle: "Gargoyle"
 		}
 	}
-}
+});
 
 export const stageComplete = (form, { characterType }) => {
 	return (
