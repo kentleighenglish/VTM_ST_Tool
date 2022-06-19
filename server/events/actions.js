@@ -9,7 +9,12 @@ import { rollDice } from "@/data/actions/_utils";
 import * as disciplines from "@/data/advantages/disciplines";
 import * as merits from "@/data/status/merits";
 import * as flaws from "@/data/status/flaws";
+import * as skills from "@/data/abilities/skills";
+import * as knowledges from "@/data/abilities/knowledges";
 import actions from "@/data/actions";
+
+const skillsList = Object.keys(skills);
+const knowledgesList = Object.keys(knowledges);
 
 const modsList = {
 	...disciplines,
@@ -70,8 +75,20 @@ const getRollData = async ({
 		});
 	}
 
+	if (skillsList.includes(stat1) || skillsList.includes(stat2)) {
+		if (stats[stat1] === 0 || stats[stat2] === 0) {
+			difficulty++;
+		}
+	}
+
 	dicePool = Math.max(dicePool + healthMod, 1);
-	difficulty = Math.max(difficulty, 1);
+	difficulty = Math.min(Math.max(difficulty, 1), 10);
+
+	if (knowledgesList.includes(stat1) || knowledgesList.includes(stat2)) {
+		if (stats[stat1] === 0 || stats[stat2] === 0) {
+			throw new Error("You do not possess the knowledges required to make this roll.");
+		}
+	}
 
 	return {
 		character,
