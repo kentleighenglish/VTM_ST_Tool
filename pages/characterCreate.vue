@@ -141,7 +141,7 @@ export default {
 			this.updateForm();
 
 			if (this.stage.definitionChanged) {
-				this.stage.definitionChanged();
+				this.characterForm = this.stage.definitionChanged(this.characterForm);
 			}
 		},
 		updateStore () {
@@ -151,7 +151,10 @@ export default {
 				currentStage: this.currentStage
 			}));
 		},
-		xpCheck () {
+		xpCheck ({ name, cost }) {
+			if (this.stage.xpCheck) {
+				return this.stage.xpCheck({ name, cost, form: this.characterForm, definition: this.characterDefinition });
+			}
 			return true;
 		}
 	}

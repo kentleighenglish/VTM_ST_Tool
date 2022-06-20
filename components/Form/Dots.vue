@@ -132,7 +132,7 @@ export default {
 				xpCost = getXpCost({ current: this.model || 0, target: value, propPath: [this.name] });
 			}
 
-			if (this.adminMode || (this.xpCheck(xpCost) && (this.createMode || this.model < value))) {
+			if (this.adminMode || (this.xpCheck({ name: this.name, cost: xpCost }) && (this.createMode || this.model < value))) {
 				if (value === 1 && this.model === 1) {
 					this.$emit("input", 0);
 				} else {
@@ -142,7 +142,7 @@ export default {
 				if (!this.createMode) {
 					this.xpSpendUpdate(this.name, this.label || this.name, value, xpCost);
 				}
-			} else if (!this.xpCheck(xpCost)) {
+			} else if (!this.xpCheck({ name: this.name, cost: xpCost })) {
 				this.pushToastMessage({
 					type: "warning",
 					body: `Not enough XP, you need ${xpCost}xp`

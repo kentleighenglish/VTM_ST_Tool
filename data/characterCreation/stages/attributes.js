@@ -82,10 +82,23 @@ export const overrideField = (field, name, form, { attributePriority = {} }) => 
 					...field.meta.params,
 					maxSpendDots: () => maxSpendDots
 				},
-				getXpCost: () => 0
+				getXpCost: ({ target }) => target
 			}
 		}
 	}
 
 	return field;
+}
+
+export const xpCheck = ({ name, cost, form, definition }) => {
+	const { attributePriority = {} } = definition;
+
+	if (attributes.includes(name)) {
+		const { type, priority } = getPriority(name, attributePriority);
+		const maxSpendDots = getMaxSpend(form, type, priority);
+
+		return cost <= maxSpendDots;
+	}
+
+	return false;
 }

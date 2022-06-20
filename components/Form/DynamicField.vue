@@ -88,7 +88,7 @@ export default {
 			return getAdd ? getAdd() : 0;
 		},
 		isAddDisabled () {
-			return !this.xpCheck(this.addCost) || !this.customAdd
+			return !this.xpCheck({ name: this.name, cost: this.addCost }) || !this.customAdd
 		},
 		fieldType () {
 			return this.meta.fieldType;
@@ -193,7 +193,7 @@ export default {
 		},
 		addCustomFailed (e) {
 			const xpCost = this.addCost;
-			if (!this.xpCheck(xpCost)) {
+			if (!this.xpCheck({ name: this.name, cost: xpCost })) {
 				this.pushToastMessage({
 					type: "warning",
 					body: `You need ${xpCost}xp to add this`

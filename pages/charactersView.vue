@@ -234,7 +234,7 @@ export default {
 			this.formData = { ...(this.loadedCharacter || {}) };
 			this.modifiedData = {};
 		},
-		xpCheck (cost) {
+		xpCheck ({ cost }) {
 			if (this.adminMode) {
 				return true;
 			}
