@@ -14,6 +14,7 @@
 				:create-mode="true"
 				:skeleton="currentSkeleton"
 				:xp-disabled="true"
+				:xp-check="xpCheck"
 				@input="updateForm"
 			>
 				<template #title>
@@ -71,10 +72,25 @@ export default {
 			return (stages[this.stageKey] || {});
 		},
 		currentSkeleton () {
-			if (this.stageKey && this.stage) {
+			const { overrideField = f => f } = this.stage;
+
+			const parseFields = fields => Object.keys(fields).reduce((acc, key) => {
+				const field = fields[key];
+
+				if (field.fields) {
+					field.fields = parseFields(field.fields);
+				}
+
 				return {
+					...acc,
+					[key]: overrideField(field, key, this.characterForm, this.characterDefinition)
+				}
+			}, {});
+
+			if (this.stageKey && this.stage) {
+				return parseFields({
 					[this.stageKey]: this.stage.fields
-				};
+				});
 			}
 
 			return null;
@@ -134,6 +150,9 @@ export default {
 				definition: this.characterDefinition,
 				currentStage: this.currentStage
 			}));
+		},
+		xpCheck () {
+			return true;
 		}
 	}
 }
