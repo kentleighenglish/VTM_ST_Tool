@@ -34,9 +34,9 @@ const initialVirtues = Object.keys(characterTypes).reduce((acc, key) => ({
 }), {});
 
 const getType = (name) => {
-	if (disciplinesKeys.includes(name)) {
+	if (name === "disciplines" || disciplinesKeys.includes(name)) {
 		return "disciplines";
-	} else if (backgroundsKeys.includes(name)) {
+	} else if (name === "backgrounds" || backgroundsKeys.includes(name)) {
 		return "backgrounds";
 	} else if (virtuesKeys.includes(name)) {
 		return "virtues";
@@ -57,8 +57,8 @@ const getMaxSpend = (form, type, characterType) => {
 		baseDots = virtuesBase || 0;
 	}
 
-	const fields = (form.sheet?.advantages?.[type] || {});
-	console.log(fields);
+	const fields = (form.sheet?.advantages || {});
+	console.log(fields, type, baseDots);
 
 	// Object.values(abilities).forEach((val) => {
 	// 	baseDots = baseDots - (val || 0);
@@ -68,7 +68,38 @@ const getMaxSpend = (form, type, characterType) => {
 }
 
 export const overrideField = (field, name, form, { characterType }) => {
-	if (advantages.includes(name)) {
+	if (["disciplines", "backgrounds"].includes(name)) {
+		const listField = field.fields.list;
+		const maxSpendDots = getMaxSpend(form, name, characterType);
+
+		return {
+			...field,
+			fields: {
+				list: {
+					...listField,
+					meta: {
+						...listField.meta,
+						params: {
+							...listField.meta.params,
+							fieldMeta: (data = {}, { propPath, ...additional } = { propPath: [] }) => () => ({
+								params: {
+									...field.meta.params,
+									maxSpendDots: (model, { propPath }) => {
+										const value = get(model, propPath, 0);
+										return Math.min(3, value + maxSpendDots);
+									}
+								},
+								getXpCost: ({ current, target }) => {
+									return target - current
+								}
+							})
+						},
+						disableAdd: name === "disciplines"
+					}
+				}
+			}
+		}
+	} else if (virtuesKeys.includes(name)) {
 		const type = getType(name);
 		const maxSpendDots = getMaxSpend(form, type, characterType);
 
@@ -107,13 +138,13 @@ export const xpCheck = ({ name, cost, form, definition }) => {
 }
 
 export const stageComplete = (form, { characterType, abilityPriority }) => {
-	const talentsSpend = getMaxSpend(form, "talents", abilityPriority, characterType);
-	const skillsSpend = getMaxSpend(form, "skills", abilityPriority, characterType);
-	const knowledgesSpend = getMaxSpend(form, "knowledges", abilityPriority, characterType);
+	const disciplinesSpend = getMaxSpend(form, "disciplines", characterType);
+	const backgroundsSpend = getMaxSpend(form, "backgrounds", characterType);
+	const virtuesSpend = getMaxSpend(form, "virtues", characterType);
 
 	return (
-		talentsSpend === 0 &&
-		skillsSpend === 0 &&
-		knowledgesSpend === 0
+		disciplinesSpend === 0 &&
+		backgroundsSpend === 0 &&
+		virtuesSpend === 0
 	);
 }

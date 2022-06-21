@@ -14,7 +14,7 @@
 			:xp-spend-reset="xpSpendReset"
 			@input="handleChange($event)"
 		/>
-		<div class="dynamicField__customAdd">
+		<div v-if="!meta.disableAdd" class="dynamicField__customAdd">
 			<FormInput
 				v-if="keyOptions"
 				v-model="customAdd"
