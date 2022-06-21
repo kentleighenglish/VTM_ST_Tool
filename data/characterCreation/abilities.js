@@ -57,7 +57,7 @@ const getMaxSpend = (form, type, priority, characterType) => {
 		baseDots = initial[0] || 0;
 	} else if (priority === "secondary") {
 		baseDots = initial[1] || 0;
-	} else {
+	} else if (priority === "tertiary") {
 		baseDots = initial[2] || 0;
 	}
 
@@ -110,9 +110,11 @@ export const xpCheck = ({ name, cost, form, definition }) => {
 }
 
 export const stageComplete = (form, { characterType, abilityPriority }) => {
-	const talentsSpend = getMaxSpend(form, "talents", abilityPriority, characterType);
-	const skillsSpend = getMaxSpend(form, "skills", abilityPriority, characterType);
-	const knowledgesSpend = getMaxSpend(form, "knowledges", abilityPriority, characterType);
+	const priority = type => Object.keys(abilityPriority).find(key => abilityPriority[key] === type);
+
+	const talentsSpend = getMaxSpend(form, "talents", priority("talents"), characterType);
+	const skillsSpend = getMaxSpend(form, "skills", priority("skills"), characterType);
+	const knowledgesSpend = getMaxSpend(form, "knowledges", priority("knowledges"), characterType);
 
 	return (
 		talentsSpend === 0 &&
