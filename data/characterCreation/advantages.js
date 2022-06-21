@@ -1,4 +1,4 @@
-import { get } from "lodash";
+import { set, get, merge } from "lodash";
 import * as characterTypes from "./characterTypes";
 import { sheetSkeleton } from "@/data/chardata";
 import * as disciplines from "@/data/advantages/disciplines";
@@ -45,9 +45,9 @@ const getType = (name) => {
 
 const getMaxSpend = (form, type, characterType) => {
 	let baseDots = 0;
-	const disciplineBase = initialDisciplines[characterType] || {};
-	const backgroundsBase = initialBackgrounds[characterType] || {};
-	const virtuesBase = initialVirtues[characterType] || {};
+	const disciplineBase = initialDisciplines[characterType] || 0;
+	const backgroundsBase = initialBackgrounds[characterType] || 0;
+	const virtuesBase = initialVirtues[characterType] || 0;
 
 	if (type === "disciplines") {
 		baseDots = disciplineBase || 0;
@@ -57,48 +57,62 @@ const getMaxSpend = (form, type, characterType) => {
 		baseDots = virtuesBase || 0;
 	}
 
-	const fields = (form.sheet?.advantages || {});
-	console.log(fields, type, baseDots);
+	let fields;
+	if (type === "virtues") {
+		fields = (form.sheet?.advantages?.[type] || {});
+	} else {
+		const { _custom, ...listFields } = (form.sheet?.advantages?.[type].list || {});
+		fields = listFields;
+	}
 
-	// Object.values(abilities).forEach((val) => {
-	// 	baseDots = baseDots - (val || 0);
-	// });
+	Object.values(fields).forEach((val) => {
+		if (type === "virtues") {
+			val--;
+		}
 
-	return Math.min(3, baseDots);
+		baseDots = baseDots - Math.max(val || 0, 0);
+	});
+
+	return baseDots;
 }
 
 export const overrideField = (field, name, form, { characterType }) => {
 	if (["disciplines", "backgrounds"].includes(name)) {
 		const listField = field.fields.list;
 		const maxSpendDots = getMaxSpend(form, name, characterType);
+		const { meta: { params: { fieldsMeta: oldFieldsMeta } } } = listField;
 
-		return {
-			...field,
-			fields: {
-				list: {
-					...listField,
-					meta: {
-						...listField.meta,
-						params: {
-							...listField.meta.params,
-							fieldMeta: (data = {}, { propPath, ...additional } = { propPath: [] }) => () => ({
-								params: {
-									...field.meta.params,
-									maxSpendDots: (model, { propPath }) => {
-										const value = get(model, propPath, 0);
-										return Math.min(3, value + maxSpendDots);
-									}
-								},
-								getXpCost: ({ current, target }) => {
-									return target - current
-								}
-							})
-						},
-						disableAdd: name === "disciplines"
+		const fieldsMeta = (data = {}, { propPath, ...additional } = { propPath: [] }) => (fieldName) => {
+			const newPropPath = [...propPath];
+			newPropPath.push(fieldName);
+
+			const oldMeta = oldFieldsMeta(data, { propPath, ...additional })(fieldName);
+
+			const value = get(data, newPropPath, 0);
+			let maxSpend = value + maxSpendDots;
+
+			if (name === "disicplines") {
+				maxSpend = Math.min(3, maxSpend);
+			}
+
+			return merge(
+				oldMeta,
+				{
+					params: {
+						maxSpendDots: maxSpend
+					},
+					getXpCost: ({ current, target }) => {
+						return target - current
 					}
 				}
-			}
+			);
 		}
+
+		field = set(field, "fields.list.meta.disableAdd", name === "disciplines");
+		field = set(field, "fields.list.meta.getXpAddCost", () => 0);
+		field = set(field, "fields.list.meta.params.fieldsMeta", fieldsMeta);
+
+		return field;
 	} else if (virtuesKeys.includes(name)) {
 		const type = getType(name);
 		const maxSpendDots = getMaxSpend(form, type, characterType);
@@ -111,7 +125,7 @@ export const overrideField = (field, name, form, { characterType }) => {
 					...field.meta.params,
 					maxSpendDots: (model, { propPath }) => {
 						const value = get(model, propPath, 0);
-						return Math.min(3, value + maxSpendDots);
+						return value + maxSpendDots;
 					}
 				},
 				getXpCost: ({ current, target }) => {
@@ -126,6 +140,10 @@ export const overrideField = (field, name, form, { characterType }) => {
 
 export const xpCheck = ({ name, cost, form, definition }) => {
 	const { characterType } = definition;
+
+	if (name === "list" && cost === 0) {
+		return true;
+	}
 
 	if (advantages.includes(name)) {
 		const type = getType(name);

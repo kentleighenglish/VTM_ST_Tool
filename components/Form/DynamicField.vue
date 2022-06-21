@@ -180,7 +180,7 @@ export default {
 			if (this.customAdd && this.customAdd.length) {
 				const _custom = {
 					...(this?.model?._custom || {}),
-					[this.customAdd[0]]: 1
+					[this.customAdd]: 1
 				};
 
 				this.updateValue({
