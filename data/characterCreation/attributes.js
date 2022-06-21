@@ -1,3 +1,5 @@
+import { get } from "lodash";
+import * as characterTypes from "./characterTypes";
 import { sheetSkeleton } from "@/data/chardata";
 import * as physical from "@/data/attributes/physical";
 import * as social from "@/data/attributes/social";
@@ -17,12 +19,6 @@ export const title = "Character Attributes";
 export const subtitle = "Please allocate dots into your primary, secondary, and tertiary attributes";
 
 export const fields = sheetSkeleton.attributes;
-
-export const stageComplete = ({ sheet }) => {
-	return (
-		true
-	)
-}
 
 const getPriority = (name, priorities) => {
 	let type;
@@ -48,14 +44,21 @@ const getPriority = (name, priorities) => {
 	};
 }
 
-const getMaxSpend = (form, type, priority) => {
+const initialAttributes = Object.keys(characterTypes).reduce((acc, key) => ({
+	...acc,
+	[key]: characterTypes[key].initialAttributes
+}), {});
+
+const getMaxSpend = (form, type, priority, characterType) => {
 	let baseDots = 0;
+	const initial = initialAttributes[characterType] || {};
+
 	if (priority === "primary") {
-		baseDots = 7;
+		baseDots = initial[0] || 0;
 	} else if (priority === "secondary") {
-		baseDots = 5;
+		baseDots = initial[1] || 0;
 	} else {
-		baseDots = 3;
+		baseDots = initial[2] || 0;
 	}
 
 	const attributes = (form.sheet?.attributes?.[type] || {});
@@ -66,13 +69,13 @@ const getMaxSpend = (form, type, priority) => {
 		}
 	});
 
-	return baseDots + 1;
+	return baseDots;
 }
 
-export const overrideField = (field, name, form, { attributePriority = {} }) => {
+export const overrideField = (field, name, form, { characterType, attributePriority = {} }) => {
 	if (attributes.includes(name)) {
 		const { type, priority } = getPriority(name, attributePriority);
-		const maxSpendDots = getMaxSpend(form, type, priority);
+		const maxSpendDots = getMaxSpend(form, type, priority, characterType);
 
 		return {
 			...field,
@@ -80,9 +83,14 @@ export const overrideField = (field, name, form, { attributePriority = {} }) => 
 				...field.meta,
 				params: {
 					...field.meta.params,
-					maxSpendDots: () => maxSpendDots
+					maxSpendDots: (model, { propPath }) => {
+						const value = get(model, propPath, 0);
+						return Math.max(1, value + maxSpendDots);
+					}
 				},
-				getXpCost: ({ target }) => target
+				getXpCost: ({ current, target }) => {
+					return target - current
+				}
 			}
 		}
 	}
@@ -91,14 +99,26 @@ export const overrideField = (field, name, form, { attributePriority = {} }) => 
 }
 
 export const xpCheck = ({ name, cost, form, definition }) => {
-	const { attributePriority = {} } = definition;
+	const { attributePriority = {}, characterType } = definition;
 
 	if (attributes.includes(name)) {
 		const { type, priority } = getPriority(name, attributePriority);
-		const maxSpendDots = getMaxSpend(form, type, priority);
+		const maxSpendDots = getMaxSpend(form, type, priority, characterType);
 
 		return cost <= maxSpendDots;
 	}
 
 	return false;
+}
+
+export const stageComplete = (form, { characterType, attributePriority }) => {
+	const physicalSpend = getMaxSpend(form, "physical", attributePriority, characterType);
+	const socialSpend = getMaxSpend(form, "social", attributePriority, characterType);
+	const mentalSpend = getMaxSpend(form, "mental", attributePriority, characterType);
+
+	return (
+		physicalSpend === 0 &&
+		socialSpend === 0 &&
+		mentalSpend === 0
+	);
 }

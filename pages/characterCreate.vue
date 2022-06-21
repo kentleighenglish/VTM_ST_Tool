@@ -48,7 +48,7 @@
 	</div>
 </template>
 <script>
-import * as stages from "@/data/characterCreation/stages";
+import * as stages from "@/data/characterCreation";
 
 export default {
 	name: "CharacterCreatePage",
