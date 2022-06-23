@@ -142,7 +142,15 @@ export const fetchAll = async () => {
 			return hit;
 		}
 
-		const response = await run(db => db.collection(MERGED_COLLECTION).find({}).toArray());
+		const response = await run(db => db.collection(MERGED_COLLECTION)
+			.find({})
+			.project({
+				id: 1,
+				sheet: 1,
+				xp: 1,
+			})
+			.toArray()
+		);
 
 		if (response && response.length) {
 			await cache.set(CACHE_NAME, "characters", response);
