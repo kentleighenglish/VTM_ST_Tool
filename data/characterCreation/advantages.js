@@ -3,6 +3,7 @@ import * as characterTypes from "./characterTypes";
 import { sheetSkeleton } from "@/data/chardata";
 import * as disciplines from "@/data/advantages/disciplines";
 import * as backgrounds from "@/data/advantages/backgrounds";
+import { setDefault } from "@/utils/tools";
 
 export const title = "Character Advantages";
 
@@ -61,7 +62,7 @@ const getMaxSpend = (form, type, characterType) => {
 	if (type === "virtues") {
 		fields = (form.sheet?.advantages?.[type] || {});
 	} else {
-		const { _custom, ...listFields } = (form.sheet?.advantages?.[type].list || {});
+		const { _custom, ...listFields } = get(form, `sheet.advantages.${type}.list`, {});
 		fields = listFields;
 	}
 
@@ -165,4 +166,12 @@ export const stageComplete = (form, { characterType, abilityPriority }) => {
 		backgroundsSpend === 0 &&
 		virtuesSpend === 0
 	);
+}
+
+export const stageEvents = {
+	enter: (form) => {
+		setDefault(form, "sheet.advantages.virtues.conscienceConviction", 1);
+		setDefault(form, "sheet.advantages.virtues.selfControl", 1);
+		setDefault(form, "sheet.advantages.virtues.courage", 1);
+	}
 }

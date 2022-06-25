@@ -4,6 +4,7 @@ import { sheetSkeleton } from "@/data/chardata";
 import * as physical from "@/data/attributes/physical";
 import * as social from "@/data/attributes/social";
 import * as mental from "@/data/attributes/mental";
+import { setDefault } from "@/utils/tools";
 
 const physicalAttributes = Object.keys(physical);
 const socialAttributes = Object.keys(social);
@@ -121,4 +122,12 @@ export const stageComplete = (form, { characterType, attributePriority }) => {
 		socialSpend === 0 &&
 		mentalSpend === 0
 	);
+}
+
+export const stageEvents = {
+	enter: (form) => {
+		physicalAttributes.forEach(key => setDefault(form, `sheet.attributes.physical.${key}`, 1))
+		socialAttributes.forEach(key => setDefault(form, `sheet.attributes.social.${key}`, 1))
+		mentalAttributes.forEach(key => setDefault(form, `sheet.attributes.mental.${key}`, 1))
+	}
 }

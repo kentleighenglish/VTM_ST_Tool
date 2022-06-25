@@ -119,22 +119,22 @@ export default {
 	},
 	methods: {
 		prevStage () {
+			this.stageEvent("leave");
 			if (this.currentStage > 0) {
 				this.currentStage--;
+				this.stageEvent("enter");
 				this.updateStore();
 			}
 		},
 		nextStage () {
+			this.stageEvent("leave");
 			if (this.currentStage < this.stages.length) {
 				this.currentStage++;
+				this.stageEvent("enter");
 				this.updateStore();
 			}
 		},
 		updateForm () {
-			if (this.stage.stageComplete) {
-				this.stageComplete = this.stage.stageComplete(this.characterForm, this.characterDefinition);
-			}
-
 			this.updateStore();
 		},
 		updateDefinition () {
@@ -150,12 +150,23 @@ export default {
 				definition: this.characterDefinition,
 				currentStage: this.currentStage
 			}));
+
+			if (this.stage.stageComplete) {
+				this.stageComplete = this.stage.stageComplete(this.characterForm, this.characterDefinition);
+			}
 		},
 		xpCheck ({ name, cost }) {
 			if (this.stage.xpCheck) {
 				return this.stage.xpCheck({ name, cost, form: this.characterForm, definition: this.characterDefinition });
 			}
 			return true;
+		},
+		stageEvent (type) {
+			const { stageEvents = {} } = (this.stage || {});
+
+			if (stageEvents[type]) {
+				stageEvents[type](this.characterForm);
+			}
 		}
 	}
 }
