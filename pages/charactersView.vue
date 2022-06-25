@@ -27,7 +27,7 @@
 			</template>
 		</CharacterTabs>
 		<CommonModal name="uploadAvatarModal" :confirm="onUploadAvatar" confirm-label="Upload">
-			<img :src="avatar.preview" />
+			<img :src="avatar.preview" style="max-width: 450px;margin: 0 auto;" />
 			<FormInput type="file" accept="image/*" disable-meta-display @change="addAvatarImage" />
 		</CommonModal>
 	</div>

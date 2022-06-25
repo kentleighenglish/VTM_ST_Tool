@@ -1,5 +1,6 @@
 import { v4 as uuidv4 } from "uuid";
 import { merge } from "lodash";
+import sharp from "sharp";
 import debug from "../debug";
 import * as cache from "../cache";
 import { run } from "./_utils";
@@ -10,6 +11,15 @@ const AVATAR_COLLECTION = "characterAvatars";
 const CACHE_NAME = "characters";
 
 cache.createCache(CACHE_NAME);
+
+const reduceImageSize = async (base64image) => {
+	const img = Buffer.from(base64image, "base64");
+	const resizedBuffer = await sharp(img).resize(256, 256).toBuffer();
+
+	const resizedImageData = resizedBuffer.toString("base64");
+
+	return resizedImageData;
+}
 
 const groupRevisions = (items = []) => items.reduce((acc, item) => ({
 	...acc,
@@ -205,12 +215,14 @@ export const uploadAvatar = async ({ id, image }) => {
 	try {
 		await cache.del(CACHE_NAME, `avatar_${id}`);
 
+		const reducedImage = await reduceImageSize(image);
+
 		await run(
 			db =>
 				new Promise((resolve, reject) =>
 					db.collection(AVATAR_COLLECTION).updateOne(
 						{ id },
-						{ $set: { id, image } },
+						{ $set: { id, image: reducedImage } },
 						{ upsert: true }
 					)
 				)
