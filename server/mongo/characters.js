@@ -6,6 +6,7 @@ import { run } from "./_utils";
 
 const COLLECTION = "characters";
 const MERGED_COLLECTION = "charactersMerged";
+const AVATAR_COLLECTION = "characterAvatars";
 const CACHE_NAME = "characters";
 
 cache.createCache(CACHE_NAME);
@@ -113,7 +114,7 @@ export const fetch = async ({ id }, retry = true) => {
 			db.collection(MERGED_COLLECTION).findOne({ id })
 		);
 
-		if (false && mergedResponse) {
+		if (mergedResponse) {
 			await cache.set(CACHE_NAME, cacheKey, mergedResponse);
 
 			return mergedResponse;
@@ -147,7 +148,7 @@ export const fetchAll = async () => {
 			.project({
 				id: 1,
 				sheet: 1,
-				xp: 1,
+				xp: 1
 			})
 			.toArray()
 		);
@@ -202,8 +203,20 @@ export const removeXp = async ({ id, amount }) => {
 
 export const uploadAvatar = async ({ id, image }) => {
 	try {
-		const response = await update({ id, image });
 		await cache.del(CACHE_NAME, `avatar_${id}`);
+
+		await run(
+			db =>
+				new Promise((resolve, reject) =>
+					db.collection(AVATAR_COLLECTION).updateOne(
+						{ id },
+						{ $set: { id, image } },
+						{ upsert: true }
+					)
+				)
+		);
+
+		const response = await getAvatar({ id });
 
 		if (response) {
 			return response;
@@ -211,6 +224,7 @@ export const uploadAvatar = async ({ id, image }) => {
 
 		return null;
 	} catch (e) {
+		debug("db:characters", true)("ERROR", e);
 		return null;
 	}
 };
@@ -222,7 +236,9 @@ export const getAvatar = async ({ id }) => {
 			return hit;
 		}
 
-		const response = await fetch({ id });
+		const response = await run(db =>
+			db.collection(AVATAR_COLLECTION).findOne({ id })
+		);
 
 		if (response) {
 			await cache.set(CACHE_NAME, `avatar_${id}`, response.image);
