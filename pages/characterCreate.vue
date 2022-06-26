@@ -1,6 +1,9 @@
 <template>
 	<div class="characterCreate">
 		<div v-if="parsedDefinitionFields" class="characterCreate__definitionFields contentContainer">
+			<h1>
+				{{ stage.title || "Create Character" }} ({{ stageProgress }})
+			</h1>
 			<FormFields
 				v-model="characterDefinition"
 				:fields="parsedDefinitionFields"
@@ -10,7 +13,8 @@
 		<div v-if="stage.fields" class="characterCreate__sheet">
 			<CharacterSheet
 				v-if="currentSkeleton"
-				v-model="characterForm"
+				:value="formValue"
+				:original-value="originalFormValue"
 				:create-mode="true"
 				:skeleton="currentSkeleton"
 				:xp-disabled="true"
@@ -18,7 +22,7 @@
 				@input="updateForm"
 			>
 				<template #title>
-					{{ stage.title || "Create Character" }}
+					{{ stage.title || "Create Character" }} ({{ stageProgress }})
 				</template>
 				<template #subtitle>
 					{{ stage.subtitle }}
@@ -71,6 +75,12 @@ export default {
 		stage () {
 			return (stages[this.stageKey] || {});
 		},
+		formValue () {
+			return { ...this.characterForm };
+		},
+		originalFormValue () {
+			return {};
+		},
 		currentSkeleton () {
 			const { overrideField = f => f } = this.stage;
 
@@ -89,7 +99,7 @@ export default {
 
 			if (this.stageKey && this.stage) {
 				return parseFields({
-					[this.stageKey]: this.stage.fields
+					...this.stage.fields
 				});
 			}
 
@@ -100,6 +110,9 @@ export default {
 				return this.stage.definitionFields(this.characterDefinition);
 			}
 			return null;
+		},
+		stageProgress () {
+			return `${this.stages.indexOf(this.stageKey) + 1}/${this.stages.length}`;
 		}
 	},
 	mounted () {
@@ -134,7 +147,11 @@ export default {
 				this.updateStore();
 			}
 		},
-		updateForm () {
+		updateForm (updatedForm) {
+			if (updatedForm) {
+				this.characterForm = { ...updatedForm }
+			}
+
 			this.updateStore();
 		},
 		updateDefinition () {

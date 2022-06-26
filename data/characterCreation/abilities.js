@@ -18,7 +18,9 @@ export const title = "Character Abilities";
 
 export const subtitle = "Please allocate dots into your primary, secondary, and tertiary abilities";
 
-export const fields = sheetSkeleton.abilities;
+export const fields = {
+	abilities: sheetSkeleton.abilities
+};
 
 const getPriority = (name, priorities) => {
 	let type;

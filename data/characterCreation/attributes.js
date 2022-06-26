@@ -19,7 +19,9 @@ export const title = "Character Attributes";
 
 export const subtitle = "Please allocate dots into your primary, secondary, and tertiary attributes";
 
-export const fields = sheetSkeleton.attributes;
+export const fields = {
+	attributes: sheetSkeleton.attributes
+};
 
 const getPriority = (name, priorities) => {
 	let type;
@@ -126,8 +128,10 @@ export const stageComplete = (form, { characterType, attributePriority }) => {
 
 export const stageEvents = {
 	enter: (form) => {
-		physicalAttributes.forEach(key => setDefault(form, `sheet.attributes.physical.${key}`, 1))
-		socialAttributes.forEach(key => setDefault(form, `sheet.attributes.social.${key}`, 1))
-		mentalAttributes.forEach(key => setDefault(form, `sheet.attributes.mental.${key}`, 1))
+		physicalAttributes.forEach(key => setDefault(form, `sheet.attributes.physical.${key}`, 1));
+		socialAttributes.forEach(key => setDefault(form, `sheet.attributes.social.${key}`, 1));
+		mentalAttributes.forEach(key => setDefault(form, `sheet.attributes.mental.${key}`, 1));
+
+		return { updatedForm: form };
 	}
 }

@@ -5,3 +5,4 @@ export * as attributes from "./attributes";
 export * as abilitiesDefinition from "./abilitiesDefinition";
 export * as abilities from "./abilities";
 export * as advantages from "./advantages";
+export * as freebies from "./freebies";

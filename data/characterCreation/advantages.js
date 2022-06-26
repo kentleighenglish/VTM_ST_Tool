@@ -9,7 +9,9 @@ export const title = "Character Advantages";
 
 export const subtitle = "Please allocate dots into your disciplines, background, and virtues";
 
-export const fields = sheetSkeleton.advantages;
+export const fields = {
+	advantages: sheetSkeleton.advantages
+};
 
 const disciplinesKeys = Object.keys(disciplines);
 const backgroundsKeys = Object.keys(backgrounds);
@@ -173,5 +175,7 @@ export const stageEvents = {
 		setDefault(form, "sheet.advantages.virtues.conscienceConviction", 1);
 		setDefault(form, "sheet.advantages.virtues.selfControl", 1);
 		setDefault(form, "sheet.advantages.virtues.courage", 1);
+
+		return { updatedForm: form };
 	}
 }

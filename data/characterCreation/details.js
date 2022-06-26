@@ -4,7 +4,9 @@ export const title = "Character Details";
 
 export const subtitle = "Please add the character's general details and concept.";
 
-export const fields = sheetSkeleton.details;
+export const fields = {
+	details: sheetSkeleton.details
+};
 
 export const stageComplete = ({ sheet }, { characterType }) => {
 	const isVampire = characterType === "vampire";
