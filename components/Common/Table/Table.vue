@@ -136,6 +136,7 @@ table.table {
 		color: $primary;
 		font-weight: 600;
 		cursor: pointer;
+		text-decoration: none;
 	}
 
 	td {

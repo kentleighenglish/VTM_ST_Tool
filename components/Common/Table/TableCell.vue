@@ -26,8 +26,14 @@ export default {
 		},
 		generateActions (h) {
 			return this.column.actions(this.row).map(action => h(
-				"span",
-				{ class: "table__action", on: { click: () => this.triggerAction(action.func) } },
+				action.to ? "router-link" : "span",
+				{
+					class: "table__action",
+					on: !action.to && { click: () => this.triggerAction(action.func) },
+					props: {
+						to: action.to
+					}
+				},
 				action.label
 			));
 		},
