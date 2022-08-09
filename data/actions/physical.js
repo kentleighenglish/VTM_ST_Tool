@@ -43,7 +43,7 @@ export const soak = {
 
 export const dodge = {
 	type: "diceRoll",
-	rollStats: ["stamina", "athletics"]
+	rollStats: ["dexterity", "athletics"]
 }
 
 export const climbing = {
@@ -132,6 +132,35 @@ export const swimming = {
 }
 
 export const throwing = {
+	type: "diceRoll",
+	rollStats: ["dexterity", "athletics"]
+}
+
+export const rollToHit = {
+	type: "diceRoll",
+	label: "Roll To Hit (Melee)",
+	rollStats: ["dexterity", "melee"]
+}
+
+export const rollToHitFists = {
+	type: "diceRoll",
+	label: "Roll To Hit (Fists)",
+	rollStats: ["dexterity", "brawl"]
+}
+
+export const rollDamage = {
+	type: "diceRoll",
+	label: "Roll Damage (Melee)",
+	rollStats: ["strength", "melee"]
+}
+
+export const rollDamageFists = {
+	type: "diceRoll",
+	label: "Roll Damage (Fists)",
+	rollStats: ["strength", "brawl"]
+}
+
+export const athleticFeat = {
 	type: "diceRoll",
 	rollStats: ["dexterity", "athletics"]
 }

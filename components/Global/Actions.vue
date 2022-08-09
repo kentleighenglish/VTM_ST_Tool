@@ -167,7 +167,7 @@ export default {
 
 			return reduce(actions, (acc, actionGroup, key) => {
 				let groupActions = reduce(actionGroup, (acc2, action, actionKey) => {
-					let label = humanize(actionKey);
+					let label = action.label || humanize(actionKey);
 					let highlight = true;
 
 					if (this.actionFilter) {

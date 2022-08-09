@@ -20,10 +20,8 @@
 				<div v-for="field in activeModsFields" :key="field.key">
 					<span>{{ field.label }}</span>
 					<CommonDots
-						v-for="subField in activeModsFields"
-						:key="subField.key"
 						read-only
-						v-bind="subField"
+						v-bind="field"
 					/>
 				</div>
 			</div>
