@@ -4,6 +4,7 @@ import { run } from "./_utils";
 const COLLECTION = "rooms";
 const defaultSession = {
 	characters: [],
+	initiative: {},
 	activeMods: {}
 }
 

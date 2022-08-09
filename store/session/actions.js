@@ -43,6 +43,23 @@ export const removeSessionCharacter = async ({ commit, dispatch, rootState }, { 
 	});
 }
 
+export const rollSceneInitiative = async ({ commit, dispatch, rootState }) => {
+	const { socket, events } = rootState.socket;
+
+	await new Promise((resolve) => {
+		socket().emit(events.rooms.rollSceneInitiative, {}, (error) => {
+			if (error) {
+				globalPushMessage(dispatch)({
+					type: "error",
+					body: error.message || error
+				});
+			}
+
+			resolve();
+		});
+	});
+}
+
 export const fetchSession = async ({ commit, dispatch, rootState }) => {
 	const { socket, events } = rootState.socket;
 

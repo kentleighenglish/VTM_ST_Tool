@@ -137,9 +137,10 @@ export const triggerAction = async ({ socket, io, data = {}, callback }) => {
 		const {
 			characterId,
 			name,
-			type,
-			difficulty,
-			mods = []
+			type = "diceRoll",
+			difficulty = 6,
+			mods = [],
+			returnMode = false
 		} = data;
 
 		const {
@@ -160,6 +161,13 @@ export const triggerAction = async ({ socket, io, data = {}, callback }) => {
 			result = rollDice(dicePool);
 
 			success = getSuccesses(result, difficulty, successModifier, botchModifier);
+		}
+
+		if (returnMode) {
+			return {
+				result,
+				success
+			}
 		}
 
 		const characterName = get(character.sheet, "details.info.name", null);
@@ -217,7 +225,9 @@ export const triggerAction = async ({ socket, io, data = {}, callback }) => {
 		callback(null, { action: actionResponse });
 	} catch (e) {
 		debug("events:actions", true)("ERROR", e);
-		callback(e.message, null);
+		if (!data?.returnMode) {
+			callback(e.message, null);
+		}
 	}
 }
 

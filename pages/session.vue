@@ -16,6 +16,9 @@
 				<div class="character__name">
 					<span>{{ c.name }}</span>
 				</div>
+				<span v-if="typeof c.initiative === 'number'" class="character__initiative">
+					({{ c.initiative }})
+				</span>
 				<div class="character__remove" @click.stop="removeCharacter(c.id)">
 					<CommonIcon>cancel</CommonIcon>
 				</div>
@@ -32,6 +35,9 @@
 			</CommonButton>
 			<CommonButton state="primary" @click="resetScene">
 				Reset Scene
+			</CommonButton>
+			<CommonButton state="primary" @click="rollSceneInitiative">
+				Roll Initiative
 			</CommonButton>
 		</div>
 		<div class="sessionPage__actions">
@@ -63,7 +69,7 @@
 	</div>
 </template>
 <script>
-import { get } from "lodash";
+import { get, sortBy } from "lodash";
 import { mapState, mapActions } from "vuex";
 import { makeClassMods } from "@/mixins/classModsMixin";
 
@@ -84,15 +90,18 @@ export default {
 			}
 		}),
 		parsedCharacters () {
-			return (this.characters || []).reduce((acc, { id, ...character }) => ([
+			const chars = (this.characters || []).reduce((acc, { id, ...character }) => ([
 				...acc,
 				{
 					...character,
 					id,
 					image: `/image/${id}`,
-					name: get(character, "sheet.details.info.name", null)
+					name: get(character, "sheet.details.info.name", null),
+					initiative: get(this.session.initiative, id, null)
 				}
 			]), []);
+
+			return sortBy(chars, ["initiative"]).reverse();
 		},
 		selectedCharacter () {
 			return this.parsedCharacters.find(c => c.id === this.selectedCharacterId);
@@ -130,6 +139,7 @@ export default {
 			loadSession: "session/fetchSession",
 			addSessionCharacter: "session/addSessionCharacter",
 			removeSessionCharacter: "session/removeSessionCharacter",
+			rollSceneInitiative: "session/rollSceneInitiative",
 			resetScene: "session/resetScene"
 		}),
 		onLoad () {
@@ -217,10 +227,17 @@ export default {
 			margin-left: math.div($gap, 2);
 		}
 
+		.character__initiative {
+			font-weight: 600;
+			font-size: 1.1em;
+			margin-right: math.div($gap, 4);
+		}
+
 		.character__remove {
 			cursor: pointer;
 			opacity: 0;
 			pointer-events: none;
+			line-height: 0;
 
 			.icon {
 				z-index: 10;

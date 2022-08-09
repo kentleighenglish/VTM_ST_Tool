@@ -1,5 +1,6 @@
 import { get, set } from "lodash";
 import * as m from "../mongo";
+import { triggerAction } from "./actions";
 
 const roomId = id => `sheet_${id}`;
 
@@ -72,6 +73,38 @@ export const removeSessionCharacter = async ({ socket, io, data = {}, callback }
 	callback(null, {});
 }
 
+export const rollSceneInitiative = async ({ socket, io, callback }) => {
+	const session = await m.rooms.fetchSession();
+
+	const characters = (session.characters || []);
+
+	const initiative = {};
+
+	await Promise.all(characters.map(async (id) => {
+		const { result } = await triggerAction({
+			data: {
+				characterId: id,
+				group: "other",
+				name: "initiative",
+				stat1: "wits",
+				stat2: "alertness",
+				returnMode: true
+			}
+		});
+
+		if (result) {
+			initiative[id] = result.reduce((acc, num) => acc + num, 0);
+		} else {
+			initiative[id] = 0;
+		}
+	}));
+
+	const updatedSession = await m.rooms.updateSession({ ...session, initiative });
+
+	io.to("global").emit("sessionUpdated", { session: updatedSession });
+	callback(null, {});
+}
+
 export const fetchSession = async ({ callback }) => {
 	const session = await m.rooms.fetchSession();
 
@@ -81,7 +114,7 @@ export const fetchSession = async ({ callback }) => {
 export const resetScene = async ({ io, callback }) => {
 	const session = await m.rooms.fetchSession();
 
-	const updatedSession = await m.rooms.updateSession({ ...session, activeMods: {} });
+	const updatedSession = await m.rooms.updateSession({ ...session, activeMods: {}, initiative: {} });
 
 	io.to("global").emit("sessionUpdated", { session: updatedSession });
 	callback(null, {});
