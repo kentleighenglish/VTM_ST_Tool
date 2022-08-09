@@ -74,6 +74,10 @@ export const create = async ({ sheet, xp }) => {
 		);
 
 		if (response) {
+			await cache.del(CACHE_NAME, "characters");
+			await updateMergedCharacter({ id });
+			await cache.del(CACHE_NAME, `character_${id}}`);
+
 			return id;
 		}
 

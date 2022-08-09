@@ -216,7 +216,8 @@ export default {
 			}
 		},
 		async onCharacterSubmit () {
-			const { id } = await this.createCharacter(this.characteForm);
+			const { sheet } = this.characterForm;
+			const { id } = await this.createCharacter({ sheet, xp: {} });
 
 			if (id) {
 				sessionStorage.removeItem("createCharacterStore");
