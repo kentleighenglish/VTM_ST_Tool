@@ -75,12 +75,10 @@ export default {
 				actions: {
 					label: "",
 					key: null,
-					actions: () => ([
+					actions: item => ([
 						{
 							label: "View",
-							func (item, component) {
-								component.$router.push(`/characters/${item.id}`);
-							}
+							to: `/characters/${item.id}`
 						}
 					])
 				}

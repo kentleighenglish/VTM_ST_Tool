@@ -75,7 +75,7 @@ const getMaxSpend = (form, type, priority, characterType) => {
 	return baseDots;
 }
 
-export const overrideField = (field, name, form, { characterType, attributePriority = {} }) => {
+export const overrideField = ({ field, name, form, definition: { characterType, attributePriority = {} } }) => {
 	if (attributes.includes(name)) {
 		const { type, priority } = getPriority(name, attributePriority);
 		const maxSpendDots = getMaxSpend(form, type, priority, characterType);

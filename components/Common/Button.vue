@@ -125,6 +125,10 @@ export default {
 		@include generateStateModifiers() using ($color) {
 			button {
 				border-color: $color;
+
+				&:hover {
+					color: $color;
+				}
 			}
 
 			&.button--disabled {

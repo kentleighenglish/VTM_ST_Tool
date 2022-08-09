@@ -79,7 +79,7 @@ const getMaxSpend = (form, type, characterType) => {
 	return baseDots;
 }
 
-export const overrideField = (field, name, form, { characterType }) => {
+export const overrideField = ({ field, name, form, definition: { characterType } }) => {
 	if (["disciplines", "backgrounds"].includes(name)) {
 		const listField = field.fields.list;
 		const maxSpendDots = getMaxSpend(form, name, characterType);

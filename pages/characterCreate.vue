@@ -49,15 +49,25 @@
 				</CommonButton>
 			</div>
 		</div>
+		<div class="contentContainer">
+			<div class="st-flex st-align-end">
+				<CommonButton state="special" @click="onCharacterSubmit">
+					Create Character
+				</CommonButton>
+			</div>
+		</div>
 	</div>
 </template>
 <script>
+import { mapActions } from "vuex";
+import { merge } from "lodash";
 import * as stages from "@/data/characterCreation";
 
 export default {
 	name: "CharacterCreatePage",
 	data: () => ({
 		characterForm: {},
+		freebiesForm: {},
 		characterDefinition: {},
 		currentStage: 0,
 		stageComplete: false
@@ -76,24 +86,33 @@ export default {
 			return (stages[this.stageKey] || {});
 		},
 		formValue () {
-			return { ...this.characterForm };
+			return this.stage.freebiesMode
+				? merge(this.characterForm, this.freebiesForm)
+				: { ...this.characterForm };
 		},
 		originalFormValue () {
-			return {};
+			return this.stage.freebiesMode ? this.characterForm : {};
 		},
 		currentSkeleton () {
 			const { overrideField = f => f } = this.stage;
 
-			const parseFields = fields => Object.keys(fields).reduce((acc, key) => {
+			const parseFields = (fields, path = []) => Object.keys(fields).reduce((acc, key) => {
 				const field = fields[key];
+				const newPath = [...path];
 
 				if (field.fields) {
-					field.fields = parseFields(field.fields);
+					field.fields = parseFields(field.fields, [...newPath, key]);
 				}
 
 				return {
 					...acc,
-					[key]: overrideField(field, key, this.characterForm, this.characterDefinition)
+					[key]: overrideField({
+						field,
+						name: key,
+						form: this.characterForm,
+						definition: this.characterDefinition,
+						path: newPath
+					})
 				}
 			}, {});
 
@@ -121,6 +140,9 @@ export default {
 		if (restoredCharacter.form) {
 			this.characterForm = restoredCharacter.form;
 		}
+		if (restoredCharacter.freebiesForm) {
+			this.freebiesForm = restoredCharacter.freebiesForm;
+		}
 		if (restoredCharacter.definition) {
 			this.characterDefinition = restoredCharacter.definition;
 		}
@@ -131,6 +153,9 @@ export default {
 		this.updateForm();
 	},
 	methods: {
+		...mapActions({
+			createCharacter: "characters/create"
+		}),
 		prevStage () {
 			this.stageEvent("leave");
 			if (this.currentStage > 0) {
@@ -149,7 +174,11 @@ export default {
 		},
 		updateForm (updatedForm) {
 			if (updatedForm) {
-				this.characterForm = { ...updatedForm }
+				if (this.stage.freebiesMode) {
+					this.freebiesForm = { ...updatedForm }
+				} else {
+					this.characterForm = { ...updatedForm }
+				}
 			}
 
 			this.updateStore();
@@ -164,6 +193,7 @@ export default {
 		updateStore () {
 			sessionStorage.setItem("createCharacterStore", JSON.stringify({
 				form: this.characterForm,
+				freebiesForm: this.freebiesForm,
 				definition: this.characterDefinition,
 				currentStage: this.currentStage
 			}));
@@ -183,6 +213,14 @@ export default {
 
 			if (stageEvents[type]) {
 				stageEvents[type](this.characterForm);
+			}
+		},
+		async onCharacterSubmit () {
+			const { id } = await this.createCharacter(this.characteForm);
+
+			if (id) {
+				sessionStorage.removeItem("createCharacterStore");
+				this.$router.push(`/characters/${id}`);
 			}
 		}
 	}
