@@ -149,6 +149,11 @@ export default {
 			border-color: $color;
 			color: darken($color, 15%);
 
+			&.characterTabs__item--active {
+				background: $color;
+				color: white;
+			}
+
 			&:before {
 				background: $color;
 			}

@@ -110,11 +110,11 @@ export default {
 			default: undefined
 		},
 		value: {
-			type: [Number, String, Array],
+			type: [Number, String, Array, Boolean],
 			default: null
 		},
 		originalValue: {
-			type: [Number, String, Array],
+			type: [Number, String, Array, Boolean],
 			default: null
 		},
 		disabled: {

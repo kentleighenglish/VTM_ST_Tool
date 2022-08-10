@@ -28,6 +28,7 @@ const groupRevisions = (items = []) => items.reduce((acc, item) => ({
 		revisionNumber: item.revisionNumber,
 		sheet: merge(acc[item.id]?.sheet || {}, item.sheet),
 		xp: merge(acc[item.id]?.xp || {}, item.xp),
+		chronicle: merge(acc[item.id]?.chronicle || {}, item.chronicle),
 		image: item?.image || acc[item.id]?.image
 	}
 }), {});
@@ -59,7 +60,7 @@ const updateMergedCharacter = async ({ id }) => {
 	);
 }
 
-export const create = async ({ sheet, xp }) => {
+export const create = async ({ sheet, xp, chronicle }) => {
 	try {
 		const id = uuidv4();
 
@@ -67,7 +68,7 @@ export const create = async ({ sheet, xp }) => {
 			db =>
 				new Promise((resolve, reject) =>
 					db.collection(COLLECTION).insertOne(
-						{ id, sheet, xp, revisionNumber: 1 },
+						{ id, sheet, xp, chronicle, revisionNumber: 1 },
 						(err, result) => (err ? reject(err) : resolve(id))
 					)
 				)
@@ -88,7 +89,7 @@ export const create = async ({ sheet, xp }) => {
 	}
 };
 
-export const update = async ({ id, sheet, xp, image }) => {
+export const update = async ({ id, sheet, xp, chronicle, image }) => {
 	try {
 		const { revisionNumber } = await fetch({ id });
 
@@ -96,7 +97,7 @@ export const update = async ({ id, sheet, xp, image }) => {
 			db =>
 				new Promise((resolve, reject) =>
 					db.collection(COLLECTION).insertOne(
-						{ id, sheet, xp, image, revisionNumber: revisionNumber + 1 },
+						{ id, sheet, xp, chronicle, image, revisionNumber: revisionNumber + 1 },
 						(err, result) => (err ? reject(err) : resolve(result.insertedId))
 					)
 				)
@@ -162,7 +163,8 @@ export const fetchAll = async (filter = {}) => {
 			.project({
 				id: 1,
 				sheet: 1,
-				xp: 1
+				xp: 1,
+				chronicle: 1
 			})
 			.toArray()
 		);

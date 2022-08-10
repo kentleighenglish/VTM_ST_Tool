@@ -2,6 +2,7 @@ import { get, set, sortBy } from "lodash";
 import * as discord from "../discord";
 import * as m from "../mongo";
 import { triggerAction } from "./actions";
+import { getCharacterName } from "@/utils/parsers";
 
 const roomId = id => `sheet_${id}`;
 
@@ -114,7 +115,7 @@ export const rollSceneInitiative = async ({ socket, io, callback }) => {
 		{ id, initiative: initiative[id] }
 	]), []), "initiative").reverse().reduce((acc, item) => {
 		const char = characters.find(c => c.id === item.id);
-		const name = char.sheet?.details?.info?.name;
+		const name = getCharacterName(char);
 
 		acc.push({
 			name,
@@ -123,6 +124,7 @@ export const rollSceneInitiative = async ({ socket, io, callback }) => {
 
 		return acc;
 	}, []);
+	console.log(messagePayload);
 
 	await discord.sendMessage({
 		embeds: [{

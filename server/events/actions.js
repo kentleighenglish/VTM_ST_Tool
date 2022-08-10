@@ -4,7 +4,7 @@ import humanize from "../../filters/humanize";
 import * as m from "../mongo";
 import debug from "../debug";
 
-import { getHealthMod, getStats } from "@/utils/parsers";
+import { getHealthMod, getStats, getCharacterName } from "@/utils/parsers";
 import { rollDice } from "@/data/actions/_utils";
 import * as disciplines from "@/data/advantages/disciplines";
 import * as merits from "@/data/status/merits";
@@ -170,7 +170,7 @@ export const triggerAction = async ({ socket, io, data = {}, callback }) => {
 			}
 		}
 
-		const characterName = get(character.sheet, "details.info.name", null);
+		const characterName = getCharacterName(character);
 
 		const actionName = humanize(name);
 
@@ -181,12 +181,15 @@ export const triggerAction = async ({ socket, io, data = {}, callback }) => {
 			]), []).join(" + ")
 			: result;
 
-		let successOutput = "```\n" + success.output + "```";
+		let successOutput;
+		if (type === "diceRoll") {
+			successOutput = "```\n" + success.output + "```";
 
-		if (success.status === "botch") {
-			successOutput = "```arm\n" + success.output + "```";
-		} else if (success.status === "crit") {
-			successOutput = "```yaml\n" + success.output + "```";
+			if (success.status === "botch") {
+				successOutput = "```arm\n" + success.output + "```";
+			} else if (success.status === "crit") {
+				successOutput = "```yaml\n" + success.output + "```";
+			}
 		}
 
 		const thumbnailUrl = `https://vtm.ikengainnovations.com/image/${characterId}`;
@@ -201,10 +204,12 @@ export const triggerAction = async ({ socket, io, data = {}, callback }) => {
 				thumbnail: {
 					url: thumbnailUrl
 				},
-				fields: [{
-					name: "Result",
-					value: `**${successOutput}**`
-				}],
+				fields: successOutput
+					? [{
+						name: "Result",
+						value: `**${successOutput}**`
+					}]
+					: [],
 				description,
 				timestamp
 			}]

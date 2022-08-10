@@ -2,6 +2,14 @@ import { get } from "lodash";
 import * as disciplines from "@/data/advantages/disciplines";
 import { healthLevels } from "@/data/status";
 
+export const getCharacterName = (character) => {
+	const characterName = character.sheet?.details?.info?.name;
+	const showName = character.chronicle?.showName || false;
+	const altName = character.chronicle?.altName;
+
+	return showName ? characterName : (altName || "Stranger");
+}
+
 export const decodeHealthValue = (value) => {
 	const splitVal = String(value || 0).split("").reverse();
 

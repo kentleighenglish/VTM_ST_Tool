@@ -25,6 +25,11 @@
 			<template #actions>
 				<CharacterActions :character-id="characterId" :data="formData.sheet" />
 			</template>
+			<template #chronicle>
+				<CharacterChronicle
+					v-model="formData.chronicle"
+				/>
+			</template>
 		</CharacterTabs>
 		<CommonModal name="uploadAvatarModal" :confirm="onUploadAvatar" confirm-label="Upload">
 			<img :src="avatar.preview" style="max-width: 450px;margin: 0 auto;" />
@@ -107,7 +112,7 @@ export default {
 			return (!this.characterId || this.createMode);
 		},
 		tabs () {
-			const tabs = [
+			let tabs = [
 				{
 					key: "saveCharacter",
 					label: this.createMode ? "Create Character" : "Save Character",
@@ -135,27 +140,35 @@ export default {
 			];
 
 			if (this.adminMode) {
-				tabs.push({
-					key: "removeXp",
-					label: "-1 XP",
-					action: () => this.onRemoveXp(1),
-					state: "special",
-					weight: -2
-				});
-				tabs.push({
-					key: "rewardXp",
-					label: "+1 XP",
-					action: () => this.onGiveXp(1),
-					state: "special",
-					weight: -3
-				});
-				tabs.push({
-					key: "uploadAvatar",
-					label: "Upload Avatar",
-					action: () => this.openUploadAvatarModal(),
-					state: "special",
-					weight: -1
-				})
+				tabs = tabs.concat([
+					{
+						key: "removeXp",
+						label: "-1 XP",
+						action: () => this.onRemoveXp(1),
+						state: "special",
+						weight: -2
+					},
+					{
+						key: "rewardXp",
+						label: "+1 XP",
+						action: () => this.onGiveXp(1),
+						state: "special",
+						weight: -3
+					},
+					{
+						key: "uploadAvatar",
+						label: "Upload Avatar",
+						action: () => this.openUploadAvatarModal(),
+						state: "special",
+						weight: -1
+					},
+					{
+						key: "chronicle",
+						label: "Chronicle",
+						state: "special",
+						weight: 7
+					}
+				]);
 			}
 
 			if (this.formData?.sheet?.details?.vampire?.clan) {
@@ -290,7 +303,7 @@ export default {
 			}
 		},
 		async onSaveCharacter () {
-			if (!this.createMode && this.characterId) {
+			if (this.characterId) {
 				const existingSheet = flattenObject(this.loadedCharacter.sheet);
 				const updatedSheet = flattenObject(this.formData.sheet);
 				const payloadSheet = {};
@@ -303,11 +316,12 @@ export default {
 					}
 				});
 
-				await this.updateCharacter({ id: this.characterId, sheet: payloadSheet, xp: this.formData.xp });
-			} else {
-				const { id } = await this.createCharacter({ ...this.formData });
-
-				this.$router.replace(`/characters/${id}`);
+				await this.updateCharacter({
+					id: this.characterId,
+					sheet: payloadSheet,
+					xp: this.formData.xp,
+					chronicle: this.formData.chronicle
+				});
 			}
 		},
 		async onGiveXp (amount) {
