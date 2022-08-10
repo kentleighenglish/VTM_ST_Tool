@@ -1,4 +1,5 @@
-import { get, set } from "lodash";
+import { get, set, sortBy } from "lodash";
+import * as discord from "../discord";
 import * as m from "../mongo";
 import { triggerAction } from "./actions";
 
@@ -76,11 +77,14 @@ export const removeSessionCharacter = async ({ socket, io, data = {}, callback }
 export const rollSceneInitiative = async ({ socket, io, callback }) => {
 	const session = await m.rooms.fetchSession();
 
-	const characters = (session.characters || []);
+	const characterIds = (session.characters || []);
+	const characters = await m.characters.fetchAll({
+		id: { $in: characterIds }
+	});
 
 	const initiative = {};
 
-	await Promise.all(characters.map(async (id) => {
+	await Promise.all(characterIds.map(async (id) => {
 		try {
 			const { result } = await triggerAction({
 				data: {
@@ -104,6 +108,30 @@ export const rollSceneInitiative = async ({ socket, io, callback }) => {
 			initiative[id] = 0;
 		}
 	}));
+
+	const messagePayload = sortBy(Object.keys(initiative).reduce((acc, id) => ([
+		...acc,
+		{ id, initiative: initiative[id] }
+	]), []), "initiative").reverse().reduce((acc, item) => {
+		const char = characters.find(c => c.id === item.id);
+		const name = char.sheet?.details?.info?.name;
+
+		acc.push({
+			name,
+			value: `**${item.initiative}**`
+		});
+
+		return acc;
+	}, []);
+
+	await discord.sendMessage({
+		embeds: [{
+			title: "Initiative",
+			fields: messagePayload,
+			description: "",
+			timestamp: ""
+		}]
+	});
 
 	const updatedSession = await m.rooms.updateSession({ ...session, initiative });
 

@@ -150,7 +150,7 @@ export const fetch = async ({ id }, retry = true) => {
 	}
 }
 
-export const fetchAll = async () => {
+export const fetchAll = async (filter = {}) => {
 	try {
 		const hit = await cache.get(CACHE_NAME, "characters");
 		if (hit) {
@@ -158,7 +158,7 @@ export const fetchAll = async () => {
 		}
 
 		const response = await run(db => db.collection(MERGED_COLLECTION)
-			.find({})
+			.find(filter)
 			.project({
 				id: 1,
 				sheet: 1,
@@ -203,7 +203,7 @@ export const removeXp = async ({ id, amount }) => {
 
 		const availablePoints = current?.xp?.availablePoints || 0;
 
-		const response = await update({ id, xp: { availablePoints: Math.max(availablePoints - 0, 0) } });
+		const response = await update({ id, xp: { availablePoints: Math.max(availablePoints - 1, 0) } });
 
 		if (response) {
 			return response;
