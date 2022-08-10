@@ -81,20 +81,26 @@ export const rollSceneInitiative = async ({ socket, io, callback }) => {
 	const initiative = {};
 
 	await Promise.all(characters.map(async (id) => {
-		const { result } = await triggerAction({
-			data: {
-				characterId: id,
-				group: "other",
-				name: "initiative",
-				stat1: "wits",
-				stat2: "alertness",
-				returnMode: true
-			}
-		});
+		try {
+			const { result } = await triggerAction({
+				data: {
+					characterId: id,
+					group: "other",
+					name: "initiative",
+					stat1: "wits",
+					stat2: "alertness",
+					returnMode: true
+				}
+			});
 
-		if (result) {
-			initiative[id] = result.reduce((acc, num) => acc + num, 0);
-		} else {
+			if (result) {
+				initiative[id] = result.reduce((acc, num) => acc + num, 0);
+			} else {
+				initiative[id] = 0;
+			}
+		} catch (e) {
+			// eslint-disable-next-line no-console
+			console.error(e);
 			initiative[id] = 0;
 		}
 	}));
