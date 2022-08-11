@@ -1,7 +1,7 @@
 ###########################
 ####### VTM-ST-TOOL #######
 ###########################
-FROM node:16-alpine AS vtm-st-tool
+FROM node:16.16-alpine AS vtm-st-tool
 
 RUN mkdir -p /home/node/app/node_modules/ && chown -R node:node /home/node/app
 
