@@ -55,6 +55,7 @@ export default {
 					label: "Nature",
 					type: "select",
 					default: null,
+					searchable: true,
 					options: Object.keys(archetypes).reduce((acc, key) => ({
 						...acc,
 						[key]: archetypes[key].label
@@ -70,6 +71,7 @@ export default {
 					label: "Demeanor",
 					type: "select",
 					default: null,
+					searchable: true,
 					options: Object.keys(archetypes).reduce((acc, key) => ({
 						...acc,
 						[key]: archetypes[key].label

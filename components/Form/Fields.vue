@@ -6,6 +6,7 @@
 			:key="field.data.name"
 			v-bind="field.data"
 			v-model="field.value"
+			:searchable="field.searchable"
 			:original-value="field.originalValue"
 			:disable-meta-display="disableMetaDisplay"
 			:create-mode="createMode"
@@ -83,6 +84,10 @@ export default {
 		activeMods: {
 			type: Object,
 			default: () => ({})
+		},
+		searchable: {
+			type: Boolean,
+			default: false
 		}
 	},
 	data: () => ({
@@ -96,6 +101,7 @@ export default {
 					component: types[this.fields[key].type],
 					value: this.model ? this.model[key] : null,
 					originalValue: this.originalValue ? this.originalValue[key] : null,
+					searchable: this.fields[key].searchable,
 					data: {
 						name: key,
 						...this.fields[key]

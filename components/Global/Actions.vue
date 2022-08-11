@@ -52,6 +52,7 @@
 						label="Stat 1"
 						type="select"
 						:options="statsOptions"
+						:searchable="true"
 						disable-reset
 						disable-meta-display
 						@input="updateRollCalc"
@@ -63,6 +64,7 @@
 						label="Stat 2"
 						type="select"
 						:options="statsOptions"
+						:searchable="true"
 						disable-reset
 						disable-meta-display
 						@input="updateRollCalc"
