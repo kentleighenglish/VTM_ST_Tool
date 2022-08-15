@@ -11,6 +11,7 @@ export const initiative = {
 		return initiativeResult;
 	},
 	afterTrigger: async ({ characterId, result, mongo, io }) => {
+		// updates the session with the users initiative value
 		const session = await mongo.rooms.fetchSession();
 
 		const { initiative = {} } = session;
