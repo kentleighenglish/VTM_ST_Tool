@@ -29,7 +29,7 @@ const getRollData = async ({
 	type,
 	stat1,
 	stat2,
-	difficulty,
+	difficulty = 6,
 	mods = []
 }) => {
 	const session = await m.rooms.fetchSession();
@@ -138,7 +138,6 @@ export const triggerAction = async ({ socket, io, data = {}, callback }) => {
 			characterId,
 			name,
 			type = "diceRoll",
-			difficulty = 6,
 			mods = [],
 			returnMode = false
 		} = data;
@@ -149,7 +148,8 @@ export const triggerAction = async ({ socket, io, data = {}, callback }) => {
 			stats,
 			dicePool,
 			successModifier,
-			botchModifier
+			botchModifier,
+			difficulty
 		} = await getRollData(data);
 
 		let success = {};
