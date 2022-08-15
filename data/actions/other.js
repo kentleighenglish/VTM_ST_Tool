@@ -30,7 +30,7 @@ export const customRoll = {
 
 export const rotschreck = {
 	type: "diceRoll",
-	rollStats: ["willpower"]
+	rollStats: ["courage"]
 };
 
 export const frenzy = {
