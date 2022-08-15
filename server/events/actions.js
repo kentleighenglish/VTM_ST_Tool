@@ -156,7 +156,7 @@ export const triggerAction = async ({ socket, io, data = {}, callback }) => {
 		let result;
 
 		if (type === "custom") {
-			result = action.getOutput({ sheet: character.sheet, stats, mods });
+			result = action.getOutput({ sheet: character.sheet, stats, dicePool, mods });
 		} else {
 			result = rollDice(dicePool);
 
@@ -226,6 +226,10 @@ export const triggerAction = async ({ socket, io, data = {}, callback }) => {
 			successOutput: success.output,
 			timestamp
 		};
+
+		if (action.afterTrigger) {
+			await action.afterTrigger({ ...actionResponse, mongo: m, io, socket });
+		}
 
 		callback(null, { action: actionResponse });
 	} catch (e) {

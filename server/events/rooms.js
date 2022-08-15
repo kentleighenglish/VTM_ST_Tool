@@ -124,7 +124,6 @@ export const rollSceneInitiative = async ({ socket, io, callback }) => {
 
 		return acc;
 	}, []);
-	console.log(messagePayload);
 
 	await discord.sendMessage({
 		embeds: [{

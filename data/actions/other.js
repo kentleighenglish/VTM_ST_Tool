@@ -1,6 +1,25 @@
+import { rollDice } from "@/data/actions/_utils";
+
 export const initiative = {
-	type: "diceRoll",
-	rollStats: ["wits", "alertness"]
+	type: "custom",
+	rollStats: ["wits", "alertness"],
+	getOutput: ({ stats, sheet, dicePool, mods }) => {
+		const result = rollDice(dicePool);
+
+		const initiativeResult = result.reduce((acc, dice) => acc + dice, 0);
+
+		return initiativeResult;
+	},
+	afterTrigger: async ({ characterId, result, mongo, io }) => {
+		const session = await mongo.rooms.fetchSession();
+
+		const { initiative = {} } = session;
+
+		initiative[characterId] = result;
+
+		const updatedSession = await mongo.rooms.updateSession({ ...session, initiative });
+		io.to("global").emit("sessionUpdated", { session: updatedSession });
+	}
 };
 
 export const customRoll = {
