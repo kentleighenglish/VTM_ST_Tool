@@ -1,7 +1,7 @@
 <template>
 	<FormRootModel>
 		<div :class="componentClass">
-			<label :for="name">
+			<label :for="type === 'select' ? `select_${name}` : name">
 				<span v-if="label" class="formInput__label">{{ label }}</span>
 				<div class="formInput__field">
 					<input
