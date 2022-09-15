@@ -5,6 +5,7 @@
 				v-model.trim="actionFilter"
 				name="actionFilter"
 				label="Filter"
+				@keydown.enter="onFilterTrigger"
 				:original-value="null"
 				:disable-meta-display="true"
 			/>
@@ -45,6 +46,9 @@
 			:close="onRollCancel"
 			:confirm-disabled="!(rollConfig.stat1 || rollConfig.stat2) || !rollConfig.difficulty"
 		>
+			<div v-if="rollConfig.action" class="st-flex st-padding-h">
+				<h3 class="nomargin">{{rollConfig.action.label}}</h3>
+			</div>
 			<div class="st-flex">
 				<div class="st-flex st-padding-h">
 					<FormInput
@@ -164,6 +168,12 @@ export default {
 				return {};
 			}
 		}),
+		highlighted () {
+			return Object.values(this.actions).reduce((acc, actions = []) => ([
+				...acc,
+				...Object.values(actions).filter(action => action.highlight)
+			]), []);
+		},
 		actions () {
 			const filterRegex = new RegExp(this.actionFilter, "i");
 
@@ -186,6 +196,8 @@ export default {
 							actionKey,
 							{
 								...action,
+								group: key,
+								name: actionKey,
 								label,
 								highlight
 							}
@@ -193,7 +205,7 @@ export default {
 					];
 				}, []);
 
-				groupActions = sortBy(groupActions.reverse(), ["[1].highlight"]).reverse();
+				groupActions = sortBy(groupActions.reverse(), ["[1].highlight", "-[1].label"]).reverse();
 
 				return { ...acc, [key]: fromPairs(groupActions) };
 			}, {});
@@ -295,6 +307,12 @@ export default {
 				pool: calc.dicePool,
 				difficulty: calc.difficulty
 			};
+		},
+		onFilterTrigger () {
+			if (this.highlighted && this.highlighted.length === 1) {
+				const action = this.highlighted[0];
+				this.onActionClick(action.name, action.group, action);
+			}
 		},
 		onActionClick (name, group, action) {
 			const difficulty = (action.difficulty || defaultRollConfig.difficulty);

@@ -123,7 +123,7 @@ export const vehicleShadowing = {
 
 export const sneaking = {
 	type: "diceRoll",
-	rollStats: ["stamina", "stealth"]
+	rollStats: ["dexterity", "stealth"]
 }
 
 export const swimming = {

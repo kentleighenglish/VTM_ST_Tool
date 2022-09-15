@@ -14,12 +14,14 @@
 						:min="min"
 						:placeholder="placeholder"
 						@input="updateValue($event.target.value)"
+						@keydown="handleKeyDown($event)"
 						@change="handleChange($event)"
 					></input>
 					<textarea
 						v-if="type === 'textarea'"
 						v-model="model"
 						:disabled="isDisabled"
+						@keydown="handleKeyDown($event)"
 						@input="updateValue($event.target.value)"
 						@change="handleChange($event)"
 					/>
@@ -35,6 +37,7 @@
 						:placeholder="placeholder"
 						track-by="key"
 						label="label"
+						@keydown="handleKeyDown($event)"
 						@input="updateValue"
 						@remove="removeOption"
 					>
@@ -207,6 +210,9 @@ export default {
 		},
 		handleChange (e) {
 			this.$emit("change", e);
+		},
+		handleKeyDown (e) {
+			this.$emit("keydown", e);
 		},
 		parseValue (value) {
 			if (this.type === "select" && value) {
