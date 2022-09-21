@@ -1,3 +1,4 @@
+import { set } from "lodash";
 import * as m from "../mongo";
 import { updateRoom } from "./rooms";
 
@@ -25,6 +26,32 @@ export const update = async ({ data: { id, sheet, xp, chronicle }, socket, io, c
 			updateRoom({ socket, io, data: { id, updateAvailable: true } });
 		} else {
 			callback(new Error("Could not update character sheet").message, {});
+		}
+	} catch (e) {
+		callback(e);
+	}
+}
+
+export const duplicate = async ({ data, socket, io, callback }) => {
+	try {
+		const character = await m.characters.fetch({ id: data.id });
+
+		if (character) {
+			const { sheet, image, chronicle } = character;
+
+			const name = sheet?.details?.info?.name;
+
+			const newName = name.trim() + " (Copy)";
+
+			set(sheet, "details.info.name", newName);
+			const id = await m.characters.create({ sheet, image, xp: {}, chronicle });
+
+			character.id = id;
+			character.sheet = sheet;
+
+			if (id) {
+				callback(null, { character });
+			}
 		}
 	} catch (e) {
 		callback(e);

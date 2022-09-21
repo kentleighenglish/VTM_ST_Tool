@@ -46,6 +46,25 @@ export const update = ({ dispatch, commit, rootState }, { id, ...fields }) => {
 	});
 };
 
+export const duplicate = ({ dispatch, commit, rootState }, { id, ...fields }) => {
+	const { socket, events } = rootState.socket;
+
+	return new Promise((resolve, reject) => {
+		socket().emit(events.characters.duplicate, { id }, (error, { character }) => {
+			if (error) {
+				globalPushMessage(dispatch)({
+					type: "error",
+					body: error.message || error
+				});
+				resolve({ id: null });
+			} else if (id) {
+				resolve({ id });
+				commit(loadCompleteType, { id: character.id, character });
+			}
+		});
+	});
+};
+
 export const load = async ({ dispatch, commit, rootState }, { id }) => {
 	const { socket, events } = rootState.socket;
 	commit(loadType, { id });

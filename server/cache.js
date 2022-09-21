@@ -3,19 +3,19 @@ import Cache from "file-system-cache";
 
 const caches = {};
 
-export const createCache = name => {
+export const createCache = (name) => {
 	caches[name] = Cache({
 		basePath: path.resolve("./.cache"),
 		ns: name
 	});
 }
 
-export const getCache = name => {
+export const getCache = (name) => {
 	if (caches[name]) {
 		return caches[name];
 	}
 
-	throw `Cache not found ${name}`;
+	throw new Error(`Cache not found ${name}`);
 }
 
 export const get = async (cacheName, key) => {

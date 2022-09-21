@@ -156,6 +156,17 @@ export default {
 						weight: -3
 					},
 					{
+						key: "duplicate",
+						label: "Duplicate",
+						action: async () => {
+							const { id } = await this.duplicate({ id: this.characterId });
+							console.log(id);
+							this.$router.push(`/characters/${id}`);
+						},
+						state: "warning",
+						weight: 4
+					},
+					{
 						key: "uploadAvatar",
 						label: "Upload Avatar",
 						action: () => this.openUploadAvatarModal(),
@@ -210,6 +221,7 @@ export default {
 			loadSession: "session/fetchSession",
 			rewardXp: "characters/rewardXp",
 			removeXp: "characters/removeXp",
+			duplicate: "characters/duplicate",
 			uploadAvatar: "characters/uploadAvatar",
 			joinRoom: "socket/joinRoom",
 			leaveRoom: "socket/leaveRoom",
