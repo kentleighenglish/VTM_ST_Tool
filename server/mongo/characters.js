@@ -119,6 +119,47 @@ export const update = async ({ id, sheet, xp, chronicle, image }) => {
 	}
 };
 
+export const remove = async ({ id }) => {
+	try {
+		const response = await run(
+			db => new Promise((resolve, reject) => {
+				db.collection(COLLECTION).deleteMany({ id }, (err) => {
+					if (err) {
+						reject(err);
+					} else {
+						db.collection(MERGED_COLLECTION).deleteMany({ id }, (err) => {
+							if (err) {
+								reject(err);
+							} else {
+								db.collection(AVATAR_COLLECTION).deleteMany({ id }, (err) => {
+									if (err) {
+										reject(err);
+									} else {
+										resolve(true);
+									}
+								});
+							}
+						});
+					}
+				});
+			})
+		);
+
+		if (response) {
+			await cache.del(CHARACTER_CACHE, `character_${id}}`);
+			await cache.del(CHARACTER_CACHE, "characters");
+			await cache.del(AVATAR_CACHE, `avatar_${id}`);
+
+			return true;
+		}
+
+		return false;
+	} catch (e) {
+		console.error(e);
+		throw new Error(e);
+	}
+};
+
 export const fetch = async ({ id }, retry = true) => {
 	try {
 		const cacheKey = `character_${id}}`;

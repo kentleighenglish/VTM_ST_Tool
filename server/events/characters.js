@@ -58,6 +58,18 @@ export const duplicate = async ({ data, socket, io, callback }) => {
 	}
 }
 
+export const remove = async ({ data, socket, io, callback }) => {
+	try {
+		const result = await m.characters.remove({ id: data.id });
+
+		if (result && data.id) {
+			callback(null, { id: data.id });
+		}
+	} catch (e) {
+		callback(e);
+	}
+}
+
 export const fetch = async ({ data, callback }) => {
 	const character = await m.characters.fetch({ id: data.id });
 

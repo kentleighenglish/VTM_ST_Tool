@@ -46,6 +46,25 @@ export const update = ({ dispatch, commit, rootState }, { id, ...fields }) => {
 	});
 };
 
+export const remove = ({ dispatch, commit, rootState }, { id }) => {
+	const { socket, events } = rootState.socket;
+
+	return new Promise((resolve, reject) => {
+		socket().emit(events.characters.remove, { id }, (error, result) => {
+			if (error) {
+				globalPushMessage(dispatch)({
+					type: "error",
+					body: error.message || error
+				});
+				resolve({ id: null });
+			} else if (result) {
+				resolve({ id });
+				dispatch("loadAll", {});
+			}
+		});
+	});
+};
+
 export const duplicate = ({ dispatch, commit, rootState }, { id, ...fields }) => {
 	const { socket, events } = rootState.socket;
 
@@ -57,8 +76,8 @@ export const duplicate = ({ dispatch, commit, rootState }, { id, ...fields }) =>
 					body: error.message || error
 				});
 				resolve({ id: null });
-			} else if (id) {
-				resolve({ id });
+			} else if (character && character.id) {
+				resolve({ id: character.id });
 				commit(loadCompleteType, { id: character.id, character });
 			}
 		});

@@ -160,11 +160,22 @@ export default {
 						label: "Duplicate",
 						action: async () => {
 							const { id } = await this.duplicate({ id: this.characterId });
-							console.log(id);
 							this.$router.push(`/characters/${id}`);
 						},
 						state: "warning",
 						weight: 4
+					},
+					{
+						key: "remove",
+						label: "Remove",
+						action: async () => {
+							const { id } = await this.remove({ id: this.characterId });
+							if (this.$route.params.id === id) {
+								this.$router.replace("/characters");
+							}
+						},
+						state: "danger",
+						weight: -5
 					},
 					{
 						key: "uploadAvatar",
@@ -222,6 +233,7 @@ export default {
 			rewardXp: "characters/rewardXp",
 			removeXp: "characters/removeXp",
 			duplicate: "characters/duplicate",
+			remove: "characters/remove",
 			uploadAvatar: "characters/uploadAvatar",
 			joinRoom: "socket/joinRoom",
 			leaveRoom: "socket/leaveRoom",
