@@ -102,6 +102,21 @@
 			</div>
 			<div v-if="rollCalc.pool && rollCalc.difficulty" class="st-padding-h">
 				<hr class="st-margin-v">
+				<div class="rollSummary">
+					<div
+						v-for="(d, i) in rollCalc.summary"
+						:key="i"
+						class="rollSummary__item"
+						:class="{
+							'rollSummary__item--negative': d.pool < 0 || d.difficulty > 0,
+							'rollSummary__item--superNegative': d.pool < -3 || d.difficulty > 3
+						}"
+					>
+						<strong>{{d.label}}: </strong>
+						<span v-if="d.difficulty !== undefined">{{ d.difficulty | signed }} Difficulty</span>
+						<span v-if="d.pool !== undefined">{{ d.pool | signed }}d</span>
+					</div>
+				</div>
 				<span>Rolling <strong>{{ rollCalc.pool }}d10</strong></span>&nbsp;
 				<span>(Difficulty: <strong>{{ rollCalc.difficulty }}</strong>)</span>
 			</div>
@@ -115,6 +130,7 @@ import * as merits from "@/data/status/merits";
 import * as flaws from "@/data/status/flaws";
 import * as disciplines from "@/data/advantages/disciplines";
 import humanize from "@/filters/humanize";
+import signed from "@/filters/signed";
 import actions from "@/data/actions";
 import { getStats } from "@/utils/parsers";
 
@@ -136,7 +152,8 @@ const defaultRollConfig = {
 export default {
 	name: "GlobalActions",
 	filters: {
-		humanize
+		humanize,
+		signed
 	},
 	props: {
 		characterId: {
@@ -241,16 +258,14 @@ export default {
 								sheet: this.characterSheet
 							});
 
-							const addPlus = num => num > 0 ? `+${num}` : num;
-
 							if (difficulty) {
-								mods.push(`${addPlus(difficulty)} Difficulty`);
+								mods.push(`${signed(difficulty)} Difficulty`);
 							}
 							if (pool) {
-								mods.push(`${addPlus(pool)} Dice Pool`);
+								mods.push(`${signed(pool)} Dice Pool`);
 							}
 							if (success) {
-								mods.push(`${addPlus(success)} Success`);
+								mods.push(`${signed(success)} Success`);
 							}
 							if (botch) {
 								mods.push(`Remove ${botch} Botch`);
@@ -305,7 +320,8 @@ export default {
 
 			this.rollCalc = {
 				pool: calc.dicePool,
-				difficulty: calc.difficulty
+				difficulty: calc.difficulty,
+				summary: calc.summary
 			};
 		},
 		onFilterTrigger () {
@@ -406,6 +422,27 @@ export default {
 
 	&__action {
 		display: inline-block;
+	}
+}
+
+.rollSummary {
+	display: grid;
+	grid-template-columns: min-content;
+	grid-template-rows: auto;
+	margin: 0 0 math.div($gap, 2);
+
+	&__item {
+		display: inline-block;
+		white-space: nowrap;
+
+		margin: math.div($gap, 4) 0;
+
+		&--negative {
+			color: $warning;
+		}
+		&--superNegative {
+			color: $danger;
+		}
 	}
 }
 </style>

@@ -37,6 +37,7 @@ const getRollData = async ({
 	const action = get(actions, `${group}.${name}`, null);
 	let successModifier = 0;
 	let botchModifier = 0;
+	const calculationSummary = [];
 
 	const activeMods = get(session.activeMods, characterId, {});
 
@@ -47,14 +48,44 @@ const getRollData = async ({
 
 	let dicePool = get(stats, stat1, 0) + get(stats, stat2, 0);
 
+	if (stat1) {
+		calculationSummary.push({
+			label: humanize(stat1),
+			pool: get(stats, stat1, 0)
+		});
+	}
+	if (stat2) {
+		calculationSummary.push({
+			label: humanize(stat2),
+			pool: get(stats, stat2, 0)
+		});
+	}
+
 	if (activeMods[stat1]) {
-		dicePool += (activeMods[stat1] || 0);
+		dicePool += get(activeMods, stat1, 0);
+
+		calculationSummary.push({
+			label: `Buff: ${humanize(stat1)}`,
+			pool: get(activeMods, stat1, 0)
+		});
 	}
 	if (activeMods[stat2]) {
-		dicePool += (activeMods[stat2] || 0);
+		dicePool += get(activeMods, stat2, 0);
+
+		calculationSummary.push({
+			label: `Buff: ${humanize(stat2)}`,
+			pool: get(activeMods, stat2, 0)
+		});
 	}
 
 	const healthMod = getHealthMod(character.sheet);
+
+	if (healthMod !== 0) {
+		calculationSummary.push({
+			label: "Health Condition",
+			pool: healthMod
+		});
+	}
 
 	if (mods && mods.length) {
 		mods.forEach((modKey) => {
@@ -71,13 +102,38 @@ const getRollData = async ({
 				difficulty += diffMod;
 				successModifier += successMod;
 				botchModifier += botchMod;
+
+				if (poolMod !== 0) {
+					calculationSummary.push({
+						label: humanize(modKey),
+						pool: poolMod
+					});
+				} else if (difficulty !== 0) {
+					calculationSummary.push({
+						label: humanize(modKey),
+						difficulty: diffMod
+					});
+				}
 			}
 		});
 	}
 
 	if (skillsList.includes(stat1) || skillsList.includes(stat2)) {
-		if (stats[stat1] === 0 || stats[stat2] === 0) {
+		if (stats[stat1] === 0) {
 			difficulty++;
+
+			calculationSummary.push({
+				label: `Lacking Skill: ${humanize(stat1)}`,
+				difficulty: 1
+			});
+		}
+		if (stats[stat2] === 0) {
+			difficulty++;
+
+			calculationSummary.push({
+				label: `Lacking Skill: ${humanize(stat2)}`,
+				difficulty: 1
+			});
 		}
 	}
 
@@ -98,7 +154,8 @@ const getRollData = async ({
 		dicePool,
 		difficulty,
 		successModifier,
-		botchModifier
+		botchModifier,
+		summary: calculationSummary
 	};
 }
 
@@ -242,11 +299,12 @@ export const triggerAction = async ({ socket, io, data = {}, callback }) => {
 
 export const getActionCalc = async ({ socket, io, data = {}, callback }) => {
 	try {
-		const { dicePool, difficulty } = await getRollData(data) || {};
+		const { dicePool, difficulty, summary } = await getRollData(data) || {};
 
 		callback(null, {
 			dicePool,
-			difficulty
+			difficulty,
+			summary
 		});
 	} catch (e) {
 		debug("events:actions", true)("ERROR", e);
