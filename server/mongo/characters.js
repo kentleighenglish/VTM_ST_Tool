@@ -8,9 +8,11 @@ import { run } from "./_utils";
 const COLLECTION = "characters";
 const MERGED_COLLECTION = "charactersMerged";
 const AVATAR_COLLECTION = "characterAvatars";
-const CACHE_NAME = "characters";
+const CHARACTER_CACHE = "characters";
+const AVATAR_CACHE = "avatars";
 
-cache.createCache(CACHE_NAME);
+cache.createCache(CHARACTER_CACHE);
+cache.createCache(AVATAR_CACHE);
 
 const reduceImageSize = async (base64image) => {
 	const img = Buffer.from(base64image, "base64");
@@ -75,9 +77,9 @@ export const create = async ({ sheet, xp, chronicle }) => {
 		);
 
 		if (response) {
-			await cache.del(CACHE_NAME, "characters");
+			await cache.del(CHARACTER_CACHE, "characters");
 			await updateMergedCharacter({ id });
-			await cache.del(CACHE_NAME, `character_${id}}`);
+			await cache.del(CHARACTER_CACHE, `character_${id}}`);
 
 			return id;
 		}
@@ -105,8 +107,8 @@ export const update = async ({ id, sheet, xp, chronicle, image }) => {
 
 		if (response) {
 			await updateMergedCharacter({ id });
-			await cache.del(CACHE_NAME, `character_${id}}`);
-			await cache.del(CACHE_NAME, "characters");
+			await cache.del(CHARACTER_CACHE, `character_${id}}`);
+			await cache.del(CHARACTER_CACHE, "characters");
 
 			return await fetch({ id });
 		}
@@ -120,7 +122,7 @@ export const update = async ({ id, sheet, xp, chronicle, image }) => {
 export const fetch = async ({ id }, retry = true) => {
 	try {
 		const cacheKey = `character_${id}}`;
-		const hit = await cache.get(CACHE_NAME, cacheKey);
+		const hit = await cache.get(CHARACTER_CACHE, cacheKey);
 		if (hit) {
 			return hit;
 		}
@@ -130,14 +132,14 @@ export const fetch = async ({ id }, retry = true) => {
 		);
 
 		if (mergedResponse) {
-			await cache.set(CACHE_NAME, cacheKey, mergedResponse);
+			await cache.set(CHARACTER_CACHE, cacheKey, mergedResponse);
 
 			return mergedResponse;
 		} else {
 			await updateMergedCharacter({ id });
 			const response = await run(db => db.collection(MERGED_COLLECTION).findOne({ id }));
 
-			await cache.set(CACHE_NAME, cacheKey, response);
+			await cache.set(CHARACTER_CACHE, cacheKey, response);
 
 			if (response) {
 				return response
@@ -153,7 +155,7 @@ export const fetch = async ({ id }, retry = true) => {
 
 export const fetchAll = async (filter = {}) => {
 	try {
-		const hit = await cache.get(CACHE_NAME, "characters");
+		const hit = await cache.get(CHARACTER_CACHE, "characters");
 		if (hit) {
 			return hit;
 		}
@@ -170,7 +172,7 @@ export const fetchAll = async (filter = {}) => {
 		);
 
 		if (response && response.length) {
-			await cache.set(CACHE_NAME, "characters", response);
+			await cache.set(CHARACTER_CACHE, "characters", response);
 
 			return response;
 		}
@@ -219,7 +221,7 @@ export const removeXp = async ({ id, amount }) => {
 
 export const uploadAvatar = async ({ id, image }) => {
 	try {
-		await cache.del(CACHE_NAME, `avatar_${id}`);
+		await cache.del(AVATAR_CACHE, `avatar_${id}`);
 
 		const reducedImage = await reduceImageSize(image);
 
@@ -249,7 +251,7 @@ export const uploadAvatar = async ({ id, image }) => {
 
 export const getAvatar = async ({ id }) => {
 	try {
-		const hit = await cache.get(CACHE_NAME, `avatar_${id}`);
+		const hit = await cache.get(AVATAR_CACHE, `avatar_${id}`);
 		if (hit) {
 			return hit;
 		}
@@ -259,7 +261,7 @@ export const getAvatar = async ({ id }) => {
 		);
 
 		if (response) {
-			await cache.set(CACHE_NAME, `avatar_${id}`, response.image);
+			await cache.set(AVATAR_CACHE, `avatar_${id}`, response.image);
 
 			return response.image;
 		}

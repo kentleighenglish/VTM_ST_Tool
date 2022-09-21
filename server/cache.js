@@ -29,3 +29,7 @@ export const set = async (cacheName, key, val) => {
 export const del = async (cacheName, key) => {
 	return await getCache(cacheName).remove(key);
 }
+
+export const clear = async (cacheName) => {
+	return await getCache(cacheName).clear();
+}

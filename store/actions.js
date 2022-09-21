@@ -5,10 +5,29 @@ import {
 	updateMetaDisplayType,
 	setMetaDisplayLockType
 } from "./mutations";
+import {
+	globalPushMessage
+} from "@/store/toast/actions";
 
 export const setAdminMode = ({ commit }, mode) => {
 	commit(setAdminModeType, { mode });
 }
+
+export const clearCache = ({ dispatch, commit, rootState }, { name }) => {
+	const { socket, events } = rootState.socket;
+
+	return new Promise((resolve, reject) => {
+		socket().emit(events.admin.clearCache, { name }, (error) => {
+			if (error) {
+				globalPushMessage(dispatch)({
+					type: "error",
+					body: error.message || error
+				});
+				resolve({ id: null });
+			}
+		});
+	});
+};
 
 export const openModal = ({ commit, state }, modal) => {
 	const payload = typeof modal === "string"
