@@ -8,7 +8,7 @@
 			v-model="field.value"
 			:searchable="field.searchable"
 			:original-value="field.originalValue"
-			:disable-meta-display="disableMetaDisplay"
+			:disable-meta-display="field.disableMetaDisplay || disableMetaDisplay"
 			:create-mode="createMode"
 			:admin-mode="adminMode"
 			:xp-check="xpCheck"
@@ -39,6 +39,7 @@ const types = {
 	statusDots: "FormStatusDots",
 	healthDots: "FormHealthDots",
 	dynamicField: "FormDynamicField",
+	table: "FormTable",
 	static: "FormStatic",
 	...inputTypes.reduce((acc, k) => ({ ...acc, [k]: "FormInput" }), {})
 }
@@ -101,6 +102,7 @@ export default {
 					component: types[this.fields[key].type],
 					value: this.model ? this.model[key] : null,
 					originalValue: this.originalValue ? this.originalValue[key] : null,
+					disableMetaDisplay: this.fields[key].disableMetaDisplay,
 					searchable: this.fields[key].searchable,
 					data: {
 						name: key,

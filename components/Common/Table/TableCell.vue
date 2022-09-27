@@ -12,6 +12,10 @@ export default {
 		row: {
 			type: Object,
 			default: () => ({})
+		},
+		triggers: {
+			type: Object,
+			default: () => ({})
 		}
 	},
 	methods: {
@@ -19,7 +23,7 @@ export default {
 			const val = this.row[this.column.key || this.colKey];
 
 			if (this.column.parser) {
-				return this.column.parser(val, this.row, h);
+				return this.column.parser(val, this.row, h, this.triggers);
 			}
 
 			return val;
@@ -29,16 +33,16 @@ export default {
 				action.to ? "router-link" : "span",
 				{
 					class: "table__action",
-					on: !action.to && { click: () => this.triggerAction(action.func) },
+					on: !action.to && { click: () => this.triggerAction(action.func, action.key) },
 					props: {
 						to: action.to
 					}
 				},
-				action.label
+				[typeof action.label === "function" ? action.label(h) : action.label]
 			));
 		},
-		triggerAction (func) {
-			this.$emit("actionTrigger", { func, row: this.row });
+		triggerAction (func, key) {
+			this.$emit("actionTrigger", { func, key, row: this.row });
 		}
 	},
 	render (h) {

@@ -1,5 +1,10 @@
 <template>
-	<div class="formSection">
+	<div
+		class="formSection"
+		:class="{
+			'formSection--singleColumn': meta.singleColumn
+		}"
+	>
 		<h3 v-if="!createMode && label" class="formSection__title">
 			{{ label }}
 		</h3>
@@ -31,6 +36,10 @@ export default {
 		label: {
 			type: String,
 			default: null
+		},
+		meta: {
+			type: Object,
+			default: () => ({})
 		},
 		fields: {
 			type: Object,
@@ -101,6 +110,13 @@ export default {
 			display: grid;
 			grid-template-areas: ". . .";
 			grid-template-columns: repeat(3, minmax(0, 1fr));
+		}
+
+		&--singleColumn {
+			.formSection__content {
+				grid-template-areas: ".";
+				grid-template-columns: minmax(0, 1fr);
+			}
 		}
 	}
 </style>

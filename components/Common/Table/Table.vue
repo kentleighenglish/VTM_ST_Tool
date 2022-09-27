@@ -23,6 +23,7 @@
 						:column="col"
 						:col-key="key"
 						:row="row"
+						:triggers="triggers"
 						@actionTrigger="triggerAction"
 					/>
 				</tr>
@@ -49,6 +50,10 @@ export default {
 		rowMods: {
 			type: Function,
 			default: () => ([])
+		},
+		triggers: {
+			type: Object,
+			default: () => ({})
 		}
 	},
 	data: () => ({
@@ -79,7 +84,12 @@ export default {
 
 			this.$emit("onSort", { column: key, ascending: this.sortAsc });
 		},
-		triggerAction ({ func, row }) {
+		triggerAction ({ key, func, row }) {
+			if (!func && key) {
+				this.triggers[key](row);
+				return;
+			}
+
 			func(row, this);
 		},
 		getRowClass (row) {

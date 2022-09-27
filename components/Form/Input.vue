@@ -277,6 +277,30 @@ export default {
 			}
 		}
 
+		&--checkbox {
+			.formInput__field {
+				background: none;
+				border-bottom: none;
+
+				input {
+					width: $inputHeight;
+					height: $inputHeight;
+					position: relative;
+					// opacity: 0;
+
+					// &:before {
+					// 	content: "";
+					// 	display: block;
+					//
+					// 	width: $inputHeight;
+					// 	height: $inputHeight;
+					//
+					// 	background: $grey-dark;
+					// }
+				}
+			}
+		}
+
 		&--select {
 			.multiselect {
 				min-height: $inputHeight;
