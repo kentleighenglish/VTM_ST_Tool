@@ -1,5 +1,25 @@
+import humanize from "@/filters/humanize";
 import { getHealthStatus } from "@/utils/parsers";
 import { rollDice } from "@/data/actions/_utils";
+
+const rollAgainCheck = (result, weapon) => {
+	if (!weapon.rollAgain) {
+		return [result];
+	}
+
+	const eligibleDie = result.filter(d => d >= weapon.rollAgain);
+
+	const newDie = rollDice(eligibleDie.length);
+
+	if (!eligibleDie.length) {
+		return [result];
+	}
+
+	return [
+		result,
+		...rollAgainCheck(newDie, weapon)
+	];
+}
 
 export const movement = {
 	type: "custom",
@@ -167,10 +187,32 @@ export const rollToHitFists = {
 }
 
 export const rollDamage = {
-	type: "diceRoll",
+	type: "custom",
 	difficulty: 6,
 	label: "Roll Damage (Melee)",
-	rollStats: ["strength", "melee"]
+	rollStats: ["strength", "melee"],
+	getOutput: ({ stats, dicePool, weapons }) => {
+		let output = "";
+
+		for (const weapon of weapons) {
+			const weaponStats = weapon.stats(stats);
+			const damageStats = Object.entries(weaponStats.damage);
+			const damageType = humanize(damageStats[0][0]);
+			const damage = damageStats[0][1];
+
+			const result = rollAgainCheck(rollDice(dicePool), weapon);
+			const concatResult = [].concat(...result);
+
+			const successes = concatResult.filter(d => d >= 6).length;
+
+			const damageOutput = successes + damage;
+
+			output += `${weapon.label}: ${damageOutput} ${damageType} Damage
+			${result.map(d => "(" + d.join(", ") + ")").join("\n")} + ${damage} ${damageType} Damage`;
+		}
+
+		return output;
+	}
 }
 
 export const rollDamageFists = {

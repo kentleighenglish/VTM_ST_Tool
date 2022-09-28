@@ -12,6 +12,7 @@ import * as flaws from "@/data/status/flaws";
 import * as skills from "@/data/abilities/skills";
 import * as knowledges from "@/data/abilities/knowledges";
 import * as equipmentData from "@/data/inventory/equipment";
+import * as weaponData from "@/data/inventory/weapons";
 import actions from "@/data/actions";
 
 const skillsList = Object.keys(skills);
@@ -143,6 +144,10 @@ const getRollData = async ({
 		i => (i.equipped && !!equipmentData[i.key])
 	).map(({ key }) => equipmentData[key]);
 
+	const weapons = Object.values(character?.sheet?.inventory?.inventory || {}).filter(
+		i => (i.equipped && !!weaponData[i.key])
+	).map(({ key }) => weaponData[key]);
+
 	for (const item of equipment) {
 		const { statModifier = {} } = item.mods(stats) || {};
 
@@ -174,6 +179,7 @@ const getRollData = async ({
 		dicePool,
 		difficulty,
 		equipment,
+		weapons,
 		successModifier,
 		botchModifier,
 		summary: calculationSummary
@@ -228,14 +234,22 @@ export const triggerAction = async ({ socket, io, data = {}, callback }) => {
 			successModifier,
 			botchModifier,
 			difficulty,
-			equipment
+			equipment,
+			weapons
 		} = await getRollData(data);
 
 		let success = {};
 		let result;
 
 		if (type === "custom") {
-			result = action.getOutput({ sheet: character.sheet, stats, dicePool, mods, equipment });
+			result = action.getOutput({
+				sheet: character.sheet,
+				stats,
+				dicePool,
+				mods,
+				equipment,
+				weapons
+			});
 		} else {
 			result = rollDice(dicePool);
 
