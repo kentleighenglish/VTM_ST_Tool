@@ -1,4 +1,5 @@
 import { getHealthStatus } from "@/utils/parsers";
+import { rollDice } from "@/data/actions/_utils";
 
 export const movement = {
 	type: "custom",
@@ -37,8 +38,25 @@ export const movement = {
 }
 
 export const soak = {
-	type: "diceRoll",
-	rollStats: ["stamina"]
+	type: "custom",
+	rollStats: ["stamina"],
+	difficulty: 6,
+	getOutput: ({ sheet, stats, dicePool, equipment }) => {
+		const result = rollDice(dicePool + (stats.fortitude || 0));
+
+		const successes = result.filter(d => d >= 6).length;
+		let bashing = successes;
+		let lethal = successes;
+
+		for (const item of equipment) {
+			const { soak = {} } = item.mods(stats);
+
+			bashing = bashing + (soak.bashing || 0);
+			lethal = lethal + (soak.lethal || 0);
+		}
+
+		return `${bashing} Bashing damage, ${lethal} Lethal damage`;
+	}
 }
 
 export const dodge = {
@@ -150,12 +168,14 @@ export const rollToHitFists = {
 
 export const rollDamage = {
 	type: "diceRoll",
+	difficulty: 6,
 	label: "Roll Damage (Melee)",
 	rollStats: ["strength", "melee"]
 }
 
 export const rollDamageFists = {
 	type: "diceRoll",
+	difficulty: 6,
 	label: "Roll Damage (Fists)",
 	rollStats: ["strength", "brawl"]
 }

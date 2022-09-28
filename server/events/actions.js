@@ -11,6 +11,7 @@ import * as merits from "@/data/status/merits";
 import * as flaws from "@/data/status/flaws";
 import * as skills from "@/data/abilities/skills";
 import * as knowledges from "@/data/abilities/knowledges";
+import * as equipmentData from "@/data/inventory/equipment";
 import actions from "@/data/actions";
 
 const skillsList = Object.keys(skills);
@@ -29,7 +30,7 @@ const getRollData = async ({
 	type,
 	stat1,
 	stat2,
-	difficulty = 6,
+	difficulty: originalDifficulty = 6,
 	mods = []
 }) => {
 	const session = await m.rooms.fetchSession();
@@ -38,6 +39,7 @@ const getRollData = async ({
 	let successModifier = 0;
 	let botchModifier = 0;
 	const calculationSummary = [];
+	let difficulty = action.difficulty || originalDifficulty;
 
 	const activeMods = get(session.activeMods, characterId, {});
 
@@ -137,6 +139,24 @@ const getRollData = async ({
 		}
 	}
 
+	const equipment = Object.values(character?.sheet?.inventory?.inventory || {}).filter(
+		i => (i.equipped && !!equipmentData[i.key])
+	).map(({ key }) => equipmentData[key]);
+
+	for (const item of equipment) {
+		const { statModifier = {} } = item.mods(stats) || {};
+
+		for (const [key, statMod] of Object.entries(statModifier)) {
+			if ([stat1, stat2].includes(key)) {
+				dicePool += statMod;
+				calculationSummary.push({
+					label: `${item.label} Penalty`,
+					pool: statMod
+				});
+			}
+		}
+	}
+
 	dicePool = Math.max(dicePool + healthMod, 1);
 	difficulty = Math.min(Math.max(difficulty, 1), 10);
 
@@ -153,6 +173,7 @@ const getRollData = async ({
 		stats,
 		dicePool,
 		difficulty,
+		equipment,
 		successModifier,
 		botchModifier,
 		summary: calculationSummary
@@ -206,14 +227,15 @@ export const triggerAction = async ({ socket, io, data = {}, callback }) => {
 			dicePool,
 			successModifier,
 			botchModifier,
-			difficulty
+			difficulty,
+			equipment
 		} = await getRollData(data);
 
 		let success = {};
 		let result;
 
 		if (type === "custom") {
-			result = action.getOutput({ sheet: character.sheet, stats, dicePool, mods });
+			result = action.getOutput({ sheet: character.sheet, stats, dicePool, mods, equipment });
 		} else {
 			result = rollDice(dicePool);
 

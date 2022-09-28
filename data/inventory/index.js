@@ -1,5 +1,3 @@
-// import { getMaxSpend } from "../_utils";
-// import humanize from "@/filters/humanize";
 import { v4 as uuidv4 } from "uuid";
 import * as weapons from "./weapons";
 import * as equipment from "./equipment";
@@ -16,7 +14,7 @@ export default {
 		singleColumn: true
 	},
 	fields: {
-		equipment: {
+		inventory: {
 			label: null,
 			type: "table",
 			disableMetaDisplay: true,

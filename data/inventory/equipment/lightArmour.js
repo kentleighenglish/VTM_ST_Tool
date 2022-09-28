@@ -15,12 +15,12 @@ leaves them behind as a kind of calling card. Some of the
 Pure known as the Ivory Claws plunge them into the murdered bodies of their Forsaken prey, presumably because the
 Uratha werewolves are considered bastards by the Pure.`;
 
-export const stats = () => ({
-	defence: {
+export const mods = () => ({
+	soak: {
 		bashing: 2,
 		lethal: 1
 	},
-	penalties: {
-		dexterity: 1
+	statModifier: {
+		dexterity: -1
 	}
 });
