@@ -31,5 +31,6 @@ export const del = async (cacheName, key) => {
 }
 
 export const clear = async (cacheName) => {
+	console.log("clearing cache: ", cacheName);
 	return await getCache(cacheName).clear();
 }

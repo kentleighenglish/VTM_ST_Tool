@@ -44,11 +44,11 @@ export default {
 			default: null
 		},
 		value: {
-			type: Array,
+			type: Object,
 			default: null
 		},
 		originalValue: {
-			type: Array,
+			type: Object,
 			default: null
 		},
 		meta: {
@@ -102,26 +102,24 @@ export default {
 			return {};
 		},
 		parsedItems () {
-			if (!this.model || !Array.isArray(this.model)) {
-				return [];
-			}
+			const items = Object.values(this.model || {}).filter(i => !i._deleted);
 
-			return this.model;
+			return items;
 		},
 		tableTriggers () {
 			return {
 				updateItem: (updatedItem) => {
-					const model = (this.model || []).map(item =>
-						item.id === updatedItem.id ? updatedItem : item
-					);
+					const model = {
+						...(this.model || {}),
+						[updatedItem.id]: { ...updatedItem }
+					}
 
 					this.updateValue(model);
 				},
 				removeItem: (item) => {
-					const model = [...this.model];
-					const index = model.findIndex(i => i.id === item.id);
+					const model = { ...this.model };
 
-					model.splice(index, 1);
+					model[item.id] = { _deleted: true };
 
 					this.updateValue(model);
 				}
@@ -130,7 +128,7 @@ export default {
 	},
 	watch: {
 		value (v) {
-			this.model = [...v];
+			this.model = { ...v };
 		}
 	},
 	created () {
@@ -144,7 +142,9 @@ export default {
 			pushToastMessage: "toast/pushMessage"
 		}),
 		updateValue (value) {
-			this.$emit("input", [...value]);
+			this.$emit("input", {
+				...value
+			});
 		},
 		handleChange (e) {
 			this.$emit("change", e);
@@ -155,10 +155,10 @@ export default {
 			if (this.add && this.add.length) {
 				const item = this.meta.createItem(this.add);
 
-				this.updateValue([
-					...(this.model || []),
-					item
-				]);
+				this.updateValue({
+					...(this.model || {}),
+					[item.id]: item
+				});
 			}
 		},
 		addItemFailed (e) {

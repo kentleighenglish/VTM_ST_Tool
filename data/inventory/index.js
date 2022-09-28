@@ -1,8 +1,10 @@
 // import { getMaxSpend } from "../_utils";
 // import humanize from "@/filters/humanize";
 import { v4 as uuidv4 } from "uuid";
+import * as weapons from "./weapons";
 
 const options = {
+	...weapons,
 	leatherArmor: {
 		label: "Leather Armor"
 	}
@@ -48,7 +50,7 @@ export default {
 						parser: (val, row) => {
 							const option = options[row.key] || {};
 
-							return option.description;
+							return (option.description || "").substring(0, 50);
 						}
 					},
 					additional: {

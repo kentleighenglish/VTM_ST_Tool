@@ -23,12 +23,28 @@ const reduceImageSize = async (base64image) => {
 	return resizedImageData;
 }
 
+const removeDeleted = object => Object.keys(object).reduce((acc, key) => {
+	const prop = object[key];
+
+	if (typeof prop === "object" && !Array.isArray(prop)) {
+		if (prop._deleted) {
+			return acc;
+		} else {
+			acc[key] = removeDeleted(prop);
+		}
+	} else {
+		acc[key] = prop;
+	}
+
+	return acc;
+}, {});
+
 const groupRevisions = (items = []) => items.reduce((acc, item) => ({
 	...acc,
 	[item.id]: {
 		id: item.id,
 		revisionNumber: item.revisionNumber,
-		sheet: merge(acc[item.id]?.sheet || {}, item.sheet),
+		sheet: removeDeleted(merge(acc[item.id]?.sheet || {}, item.sheet)),
 		xp: merge(acc[item.id]?.xp || {}, item.xp),
 		chronicle: merge(acc[item.id]?.chronicle || {}, item.chronicle),
 		image: item?.image || acc[item.id]?.image
