@@ -2,12 +2,11 @@
 // import humanize from "@/filters/humanize";
 import { v4 as uuidv4 } from "uuid";
 import * as weapons from "./weapons";
+import * as equipment from "./equipment";
 
 const options = {
 	...weapons,
-	leatherArmor: {
-		label: "Leather Armor"
-	}
+	...equipment
 };
 
 export default {
