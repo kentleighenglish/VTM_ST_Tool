@@ -1,5 +1,5 @@
 import humanize from "@/filters/humanize";
-import { getHealthStatus } from "@/utils/parsers";
+import { getHealthStatus, getSuccesses } from "@/utils/parsers";
 import { rollDice } from "@/data/actions/_utils";
 
 const rollAgainCheck = (result, weapon) => {
@@ -203,9 +203,9 @@ export const rollDamage = {
 			const result = rollAgainCheck(rollDice(dicePool), weapon);
 			const concatResult = [].concat(...result);
 
-			const successes = concatResult.filter(d => d >= 6).length;
+			const { count } = getSuccesses(concatResult);
 
-			const damageOutput = successes + damage;
+			const damageOutput = count + damage;
 
 			output += `${weapon.label}: ${damageOutput} ${damageType} Damage
 			${result.map(d => "(" + d.join(", ") + ")").join("\n")} + ${damage} ${damageType} Damage`;

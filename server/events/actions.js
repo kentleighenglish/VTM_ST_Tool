@@ -4,7 +4,7 @@ import humanize from "../../filters/humanize";
 import * as m from "../mongo";
 import debug from "../debug";
 
-import { getHealthMod, getStats, getCharacterName } from "@/utils/parsers";
+import { getHealthMod, getStats, getCharacterName, getSuccesses } from "@/utils/parsers";
 import { rollDice } from "@/data/actions/_utils";
 import * as disciplines from "@/data/advantages/disciplines";
 import * as merits from "@/data/status/merits";
@@ -185,36 +185,6 @@ const getRollData = async ({
 		summary: calculationSummary
 	};
 }
-
-const getSuccesses = (diceResult, difficulty = 6, successModifier = 0, botchModifier = 0) => {
-	const successes = diceResult.reduce((acc, roll) => {
-		if (roll === 10) {
-			acc += 2;
-		} else if (roll === 1) {
-			if (botchModifier > 0) {
-				botchModifier--;
-			} else {
-				acc--;
-			}
-		} else if (roll >= difficulty) {
-			acc++;
-		} else if (roll < difficulty && successModifier > 0) {
-			successModifier--;
-			acc++;
-		}
-
-		return acc;
-	}, 0);
-
-	const crit = successes > 5;
-	const botch = successes < 0;
-
-	return {
-		count: successes,
-		status: (!crit && !botch) ? null : (crit ? "crit" : "botch"),
-		output: successes < 0 ? "Botch" : `${successes} Success${successes === 1 ? "" : "es"}`
-	};
-};
 
 export const triggerAction = async ({ socket, io, data = {}, callback }) => {
 	try {

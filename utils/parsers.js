@@ -44,6 +44,36 @@ export const getHealthStatus = (sheet) => {
 
 export const getHealthMod = sheet => getHealthStatus(sheet).dicePoolMod || 0;
 
+export const getSuccesses = (diceResult, difficulty = 6, successModifier = 0, botchModifier = 0) => {
+	const successes = diceResult.reduce((acc, roll) => {
+		if (roll === 10) {
+			acc += 2;
+		} else if (roll === 1) {
+			if (botchModifier > 0) {
+				botchModifier--;
+			} else {
+				acc--;
+			}
+		} else if (roll >= difficulty) {
+			acc++;
+		} else if (roll < difficulty && successModifier > 0) {
+			successModifier--;
+			acc++;
+		}
+
+		return acc;
+	}, 0);
+
+	const crit = successes > 5;
+	const botch = successes < 0;
+
+	return {
+		count: successes,
+		status: (!crit && !botch) ? null : (crit ? "crit" : "botch"),
+		output: successes < 0 ? "Botch" : `${successes} Success${successes === 1 ? "" : "es"}`
+	};
+};
+
 export const getStats = charSheet => ({
 	strength: get(charSheet, "attributes.physical.strength", 0),
 	dexterity: get(charSheet, "attributes.physical.dexterity", 0),
