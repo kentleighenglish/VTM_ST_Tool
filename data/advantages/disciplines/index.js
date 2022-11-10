@@ -15,6 +15,7 @@ import * as protean from "./protean";
 import * as quietus from "./quietus";
 import * as serpentis from "./serpentis";
 import * as thaumaturgy from "./thaumaturgy";
+import * as trueFaith from "./trueFaith";
 import * as valeren from "./valeren";
 import * as vicissitude from "./vicissitude";
 
@@ -36,6 +37,7 @@ export {
 	quietus,
 	serpentis,
 	thaumaturgy,
+	trueFaith,
 	valeren,
 	vicissitude
 }
